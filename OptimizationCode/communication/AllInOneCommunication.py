@@ -17,24 +17,22 @@ class AllInOneCommunication:
         ----------
         comm_dict
         """
-        ## Signals
+        # Signals
         # Communication signals
         if comm_signal_list is None:
             self.message_signal, self.plot_signal, self.parameters_update_signal = None, None, None
         else:
-            self.message_signal, self.plot_signal, self.parameters_update_signal= comm_signal_list
+            self.message_signal, self.plot_signal, self.parameters_update_signal = comm_signal_list
         # Pre job name
         pre_job_name = client_job_name
         # Datetime for 1-1 association
         date_time = str(time.strftime("%Y%m%d_%H%M%S"))
         # Client job name to send to the Server
         self.client_job_name = date_time + "_" + pre_job_name
-        # Shared folder for communication
-        self.shared_folder = os.path.join(os.getcwd(),"shared_folder", self.client_job_name)
-        # Create folder
-        os.mkdir(self.shared_folder)
-        # Results directory path
-        self.res_path=os.path.join(os.getcwd(), "dCRAB", self.client_job_name)
+        ###
+        # Logging, Results ...
+        ###
+        self.res_path = os.path.join(os.getcwd(), "dCRAB", self.client_job_name)
         date_time = str(time.strftime("%Y%m%d_%H%M%S"))
         self.job_name = date_time + "_" + "test_job_optimal_code"
         ## Check folder of the control algorithm
@@ -50,20 +48,20 @@ class AllInOneCommunication:
         self.logger = self._create_logger()
 
         ## FoM object
-        self.rf_obj=RF(fom_dict)
+        self.rf_obj = RF(fom_dict)
 
         ## Dumping data object
-        self.dr_obj=DR(self.client_job_name)
+        self.dr_obj = DR(self.client_job_name)
 
         ## Initialization of the handle exit object
-        self.he_obj=handle_exit_obj
+        self.he_obj = handle_exit_obj
 
         ## Controls dict
         self.controls_dict = {}
 
 
     def _create_logger(self):
-
+        """Logger creation for console, log file, and debug log file"""
         log_format = '%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s'
         date_format = '%m/%d/%Y %I:%M:%S'
         print_format = '%(levelname)-8s %(name)-12s %(message)s'
