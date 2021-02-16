@@ -1,0 +1,58 @@
+{
+  "opti_dict": {
+    "opti_name": "direct_search_1",
+    "options": {
+      "stp_criteria": {
+        "max_iter": 100,
+        "xatol": 1e-14,
+        "frtol": 1e-15
+      },
+      "general_settings": {
+        "is_adaptive": true
+      },
+      "pulses": [],
+      "paras": [
+        {
+          "Name": "parameter_1",
+          "AmpLimits": [
+            -5.0,
+            5.0
+          ],
+          "GuessPara": 0.5,
+          "AmplVar": 0.5
+        },
+        {
+          "Name": "parameter_2",
+          "AmpLimits": [
+            -5.0,
+            5.0
+          ],
+          "GuessPara": 0.5,
+          "AmplVar": 0.5
+        },
+        {
+          "Name": "parameter_3",
+          "AmpLimits": [
+            -5.0,
+            5.0
+          ],
+          "GuessPara": 0.5,
+          "AmplVar": 0.5
+        },
+        {
+          "Name": "parameter_4",
+          "AmpLimits": [
+            -5.0,
+            5.0
+          ],
+          "GuessPara": 0.5,
+          "AmplVar": 0.5
+        }
+      ],
+      "times": []
+    },
+    "comm_dict": {
+      "client_job_name": "Rosenbrock_Optimization_Test"
+    }
+  }
+}

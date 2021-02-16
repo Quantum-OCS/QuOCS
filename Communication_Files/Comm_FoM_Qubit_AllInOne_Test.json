@@ -1,0 +1,18 @@
+{
+  "comm_dict": {
+    "type": "AllInOneCommunication",
+    "communication_folder": "incoming_jobs",
+    "is_debug": false
+    },
+  "fom_dict": {
+    "ProgramType": "TestClass",
+    "PythonModule": "OptimalControlProblems.OneQubitClass",
+    "PythonClass": "OneQubit",
+    "FurtherArgs": {
+      "delta1": 0.1,
+      "delta2": 0.1,
+      "initial_state": "[1.0 , 0.0]",
+      "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"
+    }
+  }
+}

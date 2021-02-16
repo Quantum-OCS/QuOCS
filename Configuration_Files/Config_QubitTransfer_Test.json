@@ -1,0 +1,46 @@
+{
+  "opti_dict": {
+    "opti_name": "dCRAB",
+    "algorithm_parameters":{
+      "SI_number": 2,
+      "Fun_Evaluations1": 100,
+      "Fun_Evaluations2": 50
+    },
+    "options": {
+      "stp_criteria": {
+        "maxiter": 200,
+        "xatol" : 1e-6,
+        "frtol" : 1e-7
+      },
+      "dsm_options": {
+        "option2": []
+      },
+    "pulses": [
+      {
+            "Name": "u1",
+            "AmpLimits": [-15.0, 15.0],
+            "BinNumber": 1025,
+            "Time": "Time1",
+            "GuessScaleType": "abs",
+            "GuessAmplTime": "lambda t: np.pi/3.0 + 0.0*t",
+            "BasisChoice": "FourierBasis",
+            "FreqRange": [0.0, 5.0],
+            "NumberFreq": 10,
+            "Wdistr": "Uniform_Distribution",
+            "AmplVar": 3.0
+      }
+    ],
+    "times": [
+      {
+        "Name": "Time1",
+        "TT": 3.0
+      }
+    ],
+    "paras":[
+	]
+    },
+    "comm_dict": {
+      "client_job_name": "Qubit_Optimization_Test"
+    }
+  }
+}
