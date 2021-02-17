@@ -18,11 +18,14 @@ from qtpy import QtWidgets
 from qtpy import uic
 import os
 
+from QuOCSConstants import GuiConstants
+
+
 class DropOutSummary(QtWidgets.QDialog):
     """Drop out dialogue for the summary"""
     def __init__(self, close_signal, summary_list, parent=None):
         # Get the path to the *.ui file
-        ui_file=os.path.join(os.getcwd(), "bin", "gui", "DropOutSummary.ui")
+        ui_file=os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "DropOutSummary.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -41,11 +44,12 @@ class DropOutSummary(QtWidgets.QDialog):
         # Close the window
         event.accept()
 
+
 class DropOutPlotter(QtWidgets.QDialog):
     """Drop out dialogue for the plotter"""
     def __init__(self, id_window, remove_window_signal, parent=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "DropOutPlotter.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "DropOutPlotter.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)

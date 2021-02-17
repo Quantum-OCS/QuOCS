@@ -72,7 +72,7 @@ class LocalCommForm(QtWidgets.QWidget):
     """Widget for the Local communication"""
     def __init__(self, parent=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "LocalCommunication.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "LocalCommunication.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -91,7 +91,7 @@ class LocalCommForm(QtWidgets.QWidget):
 class AllInOneCommForm(QtWidgets.QWidget):
     def __init__(self, parent=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "AllInOneCommunication.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "AllInOneCommunication.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -107,7 +107,7 @@ class PythonClassForm(QtWidgets.QWidget):
     curr_tab_index = 0
     def __init__(self, parent=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "PythonEvaluation.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "PythonEvaluation.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -174,7 +174,7 @@ class NewPythonArgument(QtWidgets.QWidget):
     """Create the new python argument for the python script"""
     def __init__(self,  parent=None, argument=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "NewPythonArgument.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "NewPythonArgument.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -195,7 +195,7 @@ class FilesUpdateForm(QtWidgets.QWidget):
     """Widget for the Files Update Communication"""
     def __init__(self, parent=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "FilesUpdate.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "FilesUpdate.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -211,7 +211,7 @@ class CommFom(QtWidgets.QDialog):
     """Dialogue for the Communication - Figure of merit evaluation"""
     def __init__(self, parent=None, comm_fom_dict_signal = None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "ExchangeCommunication.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "ExchangeCommunication.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -292,7 +292,7 @@ class CommFom(QtWidgets.QDialog):
         fom_widget = self.fom_scroll_area.widget()
         comm_dictionary = comm_widget.get_dictionary()
         fom_dictionary = fom_widget.get_dictionary()
-        comm_fom_dictionary =  {"comm_dict": comm_dictionary, "fom_dict": fom_dictionary}
+        comm_fom_dictionary = {"comm_dict": comm_dictionary, "fom_dict": fom_dictionary}
         comm_list = comm_widget.get_summary_list()
         fom_list = fom_widget.get_summary_list()
         comm_fom_list = comm_list + fom_list

@@ -18,11 +18,13 @@ from qtpy import QtWidgets
 from qtpy import uic
 import os
 
+from QuOCSConstants import GuiConstants
+
 
 class StoppingCriteriaNM(QtWidgets.QWidget):
     def __init__(self):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "StoppingCriteriaNM.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "StoppingCriteriaNM.ui")
         # Load it
         super().__init__()
         uic.loadUi(ui_file, self)
@@ -31,7 +33,7 @@ class StoppingCriteriaNM(QtWidgets.QWidget):
 class GeneralSettingsNM(QtWidgets.QWidget):
     def __init__(self):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "GeneralSettingsNM.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "GeneralSettingsNM.ui")
         # Load it
         super().__init__()
         uic.loadUi(ui_file, self)

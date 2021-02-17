@@ -15,87 +15,89 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import os
-import pyqtgraph as pg
 
 from qtpy import QtCore
 from qtpy import QtWidgets
 from qtpy import uic
 
-
-import time
-
-from ClientInterface.logic.OptimizationLogic import OptimizationLogic as OL
 from ClientInterface.gui.DropOutDialogues import DropOutPlotter
 from ClientInterface.gui.DirectSearchSettingsDialog import DirectSearchSettingsDialog
+
+from QuOCSConstants import GuiConstants
 
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "MainWindow.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "MainWindow.ui")
         # Load it
         super().__init__()
         uic.loadUi(ui_file, self)
         self.show()
 
 
-class OptimizationSuiteGUI(QtWidgets.QMainWindow):
+class OptimizationBasicGUI:
     """"""
 
-    optimization_obj = OL()
+    optimizationlogic = None
 
-
-    ## Signals to logic classes
-    # Start count
-    # start_count_signal = QtCore.pyqtSignal(str)
+    ########################
+    # Signal to logic class
+    ########################
     # Start optimization
     start_optimization_signal = QtCore.Signal(dict, dict)
-    # Update count
-    update_is_running_signal = QtCore.Signal(bool)
     # Stop Optimization
     stop_optimization_signal = QtCore.Signal(bool)
     # Update dictionary fom plotter
     update_plotter_dictionary_signal = QtCore.Signal(int)
-
     # Dictionary signal
     load_dictionaries_signal = QtCore.Signal(dict, dict)
 
-    ## Items to plot
+    ##################################
+    # Items to plot
+    ##################################
     # Logo
     logo_item = None
     # Pulse
     pulse_item = None
 
-    ## Other variables
+    ###################################
+    # Windows
+    ###################################
+    _mw = None
+
+    ###################################
+    # Other variables
+    ###################################
     # parameters list
     parameters_list = [""]
     # Current fom plotter dictionary
     fom_plotter_dict = {}
+    # Optimization dictionary
+    opti_dict = None
+    # Communication dictionary
+    comm_dict = None
 
-    def __init__(self, parent=None):
-        super().__init__(parent)
+    def handle_ui_elements(self):
 
-        # QTab definition
-        #self._mw = MWS()
+        ###################################
+        # Windows
+        ###################################
         self._mw = MainWindow()
-        self._mw.closeEvent=self.closeEvent
 
-        # Create the layout
-        # self.layout = QtWidgets.QVBoxLayout()
-        # self.layout.addWidget(self._mw)
+        if self.optimizationlogic is None:
+            print("This is a very strange error")
+            return
 
-        ## Handle some widgets stuff
+        ########################################################################
+        #                            Configure widgets                         #
+        ########################################################################
+
         self._mw.stop_optimization_button.setEnabled(False)
 
-        ## Put the logo in the plotter
-        # filename = os.path.join("bin", "RedCRAB_logo.png")
-        # self.logo_item = pg.QtGui.QGraphicsPixmapItem(pg.QtGui.QPixmap(filename))
-        # self.logo_item.scale(1, -1)
-        # self._mw.fom_plotter.addItem(self.logo_item)
-        # self._mw.fom_plotter.autoRange()
-        # self._mw.fom_plotter.setImage(self.logo_item)
-
-        ## Connect buttons with function
+        #########################################################################
+        # Connect buttons with functions
+        #########################################################################
         # Start Button
         self._mw.start_optimization_button.clicked.connect(self.start_optimization)
         # Stop Button
@@ -103,53 +105,37 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
         # Drop out plotter
         self._mw.drop_out_button.clicked.connect(self.drop_out_plotter)
 
-        ## Connect spinbox with function
+        # Connect spinbox with function
         self._mw.select_parameter_spinbox.setMinimum(1)
         self._mw.select_parameter_spinbox.valueChanged.connect(self._update_parameter_choice)
 
-        ## Connect file menu action
+        # Connect file menu action
         self._mw.new_action.triggered.connect(self._get_pure_parameters_optimization_dialog)
 
-
-        ## Other operations
+        # Other operations
         self.fom_plotter_dict["0"] = self._mw.fom_plotter
 
-
-        ## Handle Threads
-        # Thread to count
-        self.thread_optimization = QtCore.QThread(self)
-        self.optimization_obj.moveToThread(self.thread_optimization)
-        self.thread_optimization.start()
-        # Thread to check
-        self.thread_check=QtCore.QThread(self)
-        self.is_running_obj.moveToThread(self.thread_check)
-        self.thread_check.start()
-
-        ## Connect signals from the logic part
+        #########################################################################
+        # Signals
+        #########################################################################
         # Start optimization signal
-        self.start_optimization_signal.connect(self.optimization_obj.start_optimization)
-        # Update status optimization signal from GUI
-        self.update_is_running_signal.connect(self.is_running_obj.update_running)
+        self.start_optimization_signal.connect(self.optimizationlogic.start_optimization)
         # Update status optimization signal from is_running logic to the optimization logic
         # TODO
         # Update status optimization signal from Optimization logic to GUI
-        self.optimization_obj.is_running_signal.connect(self.finished_optimization)
+        self.optimizationlogic.is_running_signal.connect(self.finished_optimization)
         # Update fom plotter dictionary
         self.update_plotter_dictionary_signal.connect(self.update_fom_plotter_dictionary)
         # Stop signal
-        self.stop_optimization_signal.connect(self.optimization_obj.handle_exit_obj.set_is_user_running)
+        self.stop_optimization_signal.connect(self.optimizationlogic.handle_exit_obj.set_is_user_running)
 
-        # Update the count signal
-        self.optimization_obj.message_label_signal.connect(self.label_messages)
+        # Update message signal
+        self.optimizationlogic.message_label_signal.connect(self.label_messages)
         # Update the plot data signal
-        self.optimization_obj.fom_plot_signal.connect(self.update_fom_graph)
+        self.optimizationlogic.fom_plot_signal.connect(self.update_fom_graph)
         # Update the parameters array
-        self.optimization_obj.parameters_update_signal.connect(self.update_parameters_list)
-        #self.logic_obj.update_plot_data.connect(self.update_plot_graph)
-        # Finished and close the thread
-        #self.logic_obj.finished_signal.connect(self.thread_counter.quit)
-
-        ## Dictionaries signal
+        self.optimizationlogic.parameters_update_signal.connect(self.update_parameters_list)
+        # Dictionaries signal
         self.load_dictionaries_signal.connect(self.update_optimization_dictionary)
 
     @QtCore.Slot(int)
@@ -159,7 +145,7 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
 
     def _get_pure_parameters_optimization_dialog(self):
         print("Try to open pure parametrization settings")
-        pure_parameter_optimization_dialog = DirectSearchSettingsDialog(load_dictionaries_signal = self.load_dictionaries_signal)
+        pure_parameter_optimization_dialog = DirectSearchSettingsDialog(load_dictionaries_signal=self.load_dictionaries_signal)
         pure_parameter_optimization_dialog.exec_()
 
     def drop_out_plotter(self):
@@ -178,7 +164,6 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
         # Update parameter also in the label
         self._update_parameter_choice()
 
-
     def _update_parameter_choice(self):
         """display in the parameter label the parameter you choose"""
         parameter_value = str(self.parameters_list[self._mw.select_parameter_spinbox.value() - 1])
@@ -189,18 +174,15 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
         """The optimization is finished. Update buttons"""
         # Disable the stop button
         self._mw.stop_optimization_button.setEnabled(False)
-        # Set is running equal to false
-        self.update_is_running_signal.emit(False)
         # Enable the start button
         self._mw.start_optimization_button.setEnabled(True)
-
 
     @QtCore.Slot(int, float)
     def update_fom_graph(self, iteration_number, fom):
         """update all the current fom plotters"""
+        # TODO Substitute scatter plot with fom plotter
         for plotter_id in self.fom_plotter_dict:
             self.fom_plotter_dict[plotter_id].plot([iteration_number], [fom], pen=None, symbol='o')
-        # self.pulse_item = self._mw.fom_plotter.plot([iteration_number], [fom], pen=None, symbol='o')
 
     @QtCore.Slot(dict, dict)
     def update_optimization_dictionary(self, opti_dict, comm_dict):
@@ -216,16 +198,14 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
         """Emit the start optimization signal"""
         # Disable the start button
         self._mw.start_optimization_button.setEnabled(False)
-        # Update the is_running to true
-        self.update_is_running_signal.emit(True)
         # Send the signal to the handle exit obj
         self.stop_optimization_signal.emit(True)
         # Remove the logo from the canvas
         if self.logo_item is not None:
             self._mw.fom_plotter.removeItem(self.logo_item)
         # Start the optimization
-        ## Get the dictionary and emit the signal
         self.clear_fom_graph()
+        # Send the optimization and communication dictionaries to the login part
         self.start_optimization_signal.emit(self.opti_dict, self.comm_dict)
         # Enable stop optimization button
         self._mw.stop_optimization_button.setEnabled(True)
@@ -243,24 +223,3 @@ class OptimizationSuiteGUI(QtWidgets.QMainWindow):
     def label_messages(self, message):
         """Update the label with the message"""
         self._mw.main_operations_label.setText(message)
-
-    def closeEvent(self, event):
-        print("The user decided to stop the optimization")
-        # Send the signal to the handle exit obj
-        self.stop_optimization_signal.emit(False)
-        print("I am closing the Main Window ...")
-        # Set is running equal to false
-        # self.update_is_running_signal.emit(False)
-        print("Emitted signal to stop the optimization")
-        # Close the optimization thread
-        self.thread_optimization.quit()
-        print("I am quitting the optimization thread")
-        while self.thread_optimization.isRunning():
-            time.sleep(0.05)
-        # Close the check thread
-        self.thread_check.quit()
-        print("I am quitting the check thread")
-        while self.thread_check.isRunning():
-            time.sleep(0.05)
-        print("Bye Bye Optimal control suite")
-        event.accept()

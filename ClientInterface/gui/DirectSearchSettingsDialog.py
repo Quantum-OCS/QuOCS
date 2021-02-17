@@ -25,6 +25,8 @@ from ClientInterface.gui.NMOptions import GeneralSettingsNM, StoppingCriteriaNM
 from ClientInterface.gui.DropOutDialogues import DropOutSummary
 from ClientInterface.gui.CommunicationFoMSettings import CommFom
 
+from QuOCSConstants import GuiConstants
+
 
 class DirectSearchSettingsDialog(QtWidgets.QDialog):
     """Dialogue for PureParametrization optimization"""
@@ -41,7 +43,7 @@ class DirectSearchSettingsDialog(QtWidgets.QDialog):
 
     def __init__(self, parent=None, load_dictionaries_signal=None):
         # Get the path to the *.ui file
-        ui_file = os.path.join(os.getcwd(), "bin", "gui", "PureParametersOptimizationDialog.ui")
+        ui_file = os.path.join(os.getcwd(), GuiConstants.GUI_PATH, "PureParametersOptimizationDialog.ui")
         # Load it
         super().__init__(parent)
         uic.loadUi(ui_file, self)
@@ -70,9 +72,11 @@ class DirectSearchSettingsDialog(QtWidgets.QDialog):
         self.remove_parameter_button.clicked.connect(self.remove_parameter)
         self.update_summary_button.clicked.connect(self.update_summary)
         self.drop_out_summary_button.clicked.connect(self.drop_out_summary)
-        ## TODO
+        # TODO
         self.comm_fom_settings_button.clicked.connect(self.open_fom_comm_settings)
-        ## Trigger Checks
+        ###########################
+        # Trigger Checks
+        ###########################
         # Optimization name
         self.optimization_name_edit_line.textEdited.connect(self.optimization_name_edited)
         # Iteration number
