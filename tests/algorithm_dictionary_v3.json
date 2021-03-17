@@ -1,0 +1,39 @@
+{
+  "Comment": "This is test dictionary for the controls: Direct Search Method Algorithm 1 parameter",
+  "Disclaimer": "Do not use this json file for optimization",
+  "opti_algorithm_attribute": null,
+  "opti_algorithm_module": "quocs_optlib.optimalalgorithms.DirectSearchAlgorithm",
+  "opti_algorithm_class": "DirectSearchAlgorithm",
+  "optimization_client_name": "Optimization_directSearchMethod_Test",
+  "algorithm_settings": {
+            "super_iteration_number": 5,
+            "maximum_function_evaluations_number": 16
+  },
+  "dsm_settings": {
+      "general_settings": {
+          "dsm_name": "nelder_mead",
+          "is_adaptive": true
+      },
+      "stopping_criteria": {
+          "iterations_number": 100,
+          "xatol": 1e-14,
+          "frtol": 1e-14
+      }
+  },
+  "pulses": [],
+  "times": [],
+  "parameters": [{
+                "parameter_name": "Parameter111",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter1121",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            }]
+}
