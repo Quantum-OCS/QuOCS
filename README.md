@@ -1,5 +1,5 @@
 # QuOCS
-QuOCS (Quantum Optimal Control Suite) is python software for theoretical and experimenthal optimizations. 
+QuOCS (Quantum Optimal Control Suite) is a python software package for theoretical and experimenthal optimizations. 
 ## Create a virtual environment
 Create a virtual environment:
 ```bash
