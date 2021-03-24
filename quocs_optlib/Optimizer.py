@@ -29,21 +29,14 @@ class Optimizer:
     iteration_number: int
     fom_dict: dict
 
-    def __init__(self, interface_job_name: str = None, fom_obj: AbstractFom = None,
-                 handle_exit_obj: AbstractHandleExit = None,
-                 comm_signals_list: [list, list, list] = None):
+    def __init__(self, communication_obj=None):
         """
         The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
         in that class.
-        :param str interface_job_name: Job name from the interface
-        :param AbstractFom fom_obj: Figure of merit object.
-        :param AbstractHandleExit handle_exit_obj: Handle exit object
-        :param [list, list, list] comm_signals_list: Signals for the communication with the main interface
         """
-        # Create the communication object
-        self.comm_obj = AllInOneCommunication(interface_job_name, fom_obj, handle_exit_obj, comm_signals_list)
-        # Initialize the total iteration number
+        self.comm_obj = communication_obj
+        # Initialize the total iteration number, i.e. the total function evaluations of the algorithm
         self.iteration_number = 0
         # Update status
         self.init_status = True
