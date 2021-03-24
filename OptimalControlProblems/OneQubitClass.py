@@ -17,9 +17,10 @@
 from OptimalControlProblems.su2 import hamiltonian_d1_d2
 import numpy as np
 from scipy.linalg import expm, norm
+from quocs_optlib.figureofmeritevaluation.AbstractFom import AbstractFom
 
 
-class OneQubit:
+class OneQubit(AbstractFom):
     def __init__(self, args_dict=None):
         self.psi_target = np.asarray(eval(args_dict["target_state"]), dtype="complex")
         self.psi_0 = np.asarray(eval(args_dict["initial_state"]), dtype="complex")
