@@ -8,8 +8,8 @@ from quocs_optlib.tools.logger import create_logger
 
 class AllInOneCommunication:
 
-    def __init__(self, interface_job_name: str, fom_obj: AbstractFom, handle_exit_obj: AbstractHandleExit,
-                 comm_signals_list: [list, list, list]):
+    def __init__(self, interface_job_name: str = "OptimizationTest", fom_obj: AbstractFom = None,
+                 handle_exit_obj: AbstractHandleExit = None, comm_signals_list: [list, list, list] = None):
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
         The objects to dump the results, calculate the figure of merit, and the logger are created here.
