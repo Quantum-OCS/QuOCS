@@ -27,17 +27,12 @@ class DirectSearchAlgorithm(Optimizer):
     initStatus = 0
     terminate_reason = "-1"
 
-    def __init__(self, optimization_dict=None, fom_obj=None, handle_exit_obj=None, communication_signals_list=None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
-
         :param optimization_dict:
-        :param fom_obj:
-        :param handle_exit_obj:
-        :param communication_signals_list:
+        :param communication_obj:
         """
-        interface_job_name = optimization_dict["optimization_client_name"]
-        super().__init__(interface_job_name, fom_obj=fom_obj, handle_exit_obj=handle_exit_obj,
-                         comm_signals_list=communication_signals_list)
+        super().__init__(communication_obj=communication_obj)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################

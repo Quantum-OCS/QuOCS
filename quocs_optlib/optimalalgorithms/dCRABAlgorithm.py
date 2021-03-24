@@ -25,19 +25,12 @@ from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 class DCrabAlgorithm(Optimizer):
 
-    def __init__(self, optimization_dict: dict = None, fom_obj: AbstractFom = None,
-                 handle_exit_obj: AbstractHandleExit = None, communication_signals_list: list = None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
-        :param dict optimization_dict: The dictionary with the dCRAB settings and controls
-        :param AbstractFom fom_obj: Figure of merit object. Have a look at the Optimizer for more info
-        :param AbstractHandleExit handle_exit_obj: Handle exit object. Have a look at the Optimizer for more info
-        :param list communication_signals_list: Communication signals list
         """
-        interface_job_name = optimization_dict["optimization_client_name"]
-        super().__init__(interface_job_name, fom_obj=fom_obj, handle_exit_obj=handle_exit_obj,
-                         comm_signals_list=communication_signals_list)
+        super().__init__(communication_obj=communication_obj)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
