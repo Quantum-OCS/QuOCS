@@ -30,7 +30,8 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # Call to the super class constructor
         super().__init__()
         # Maximum iteration number
-        max_iterations_number = stopping_criteria.setdefault("max_iter", 100)
+        print(stopping_criteria)
+        max_iterations_number = stopping_criteria.setdefault("iterations_number", 100)
         self.max_iterations_number = max_iterations_number
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
