@@ -12,6 +12,8 @@ def create_logger(results_path, is_debug=False):
     log_debug_filename = os.path.join(results_path, "logging_debug.log")
 
     logger = logging.getLogger("oc_logger")
+    # Remove previous handlers
+    logger.handlers = []
     # Default level for logger
     logger.setLevel(logging.DEBUG)
     # Console handler
