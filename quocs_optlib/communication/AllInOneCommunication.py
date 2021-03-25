@@ -23,9 +23,9 @@ class AllInOneCommunication:
         """
         # Communication signals
         if comm_signals_list is None:
-            self.message_signal, self.plot_signal, self.parameters_update_signal = None, None, None
+            self.message_signal, self.fom_plot_signal, self.controls_update_signal = None, None, None
         else:
-            self.message_signal, self.plot_signal, self.parameters_update_signal = comm_signals_list
+            self.message_signal, self.fom_plot_signal, self.controls_update_signal = comm_signals_list
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
@@ -51,10 +51,12 @@ class AllInOneCommunication:
         # self.dr_obj = DR(self.client_job_name)
         # Handle exit object
         self.he_obj = handle_exit_obj
-        #
-        self.is_running = True
         # Initialize the control dictionary
         self.controls_dict = {}
+
+    def get_user_running(self) -> bool:
+        """ Check if the user stopped the optimization """
+        return self.he_obj.is_user_running
 
     def send_controls(self, controls_dict: dict) -> None:
         """
@@ -63,9 +65,9 @@ class AllInOneCommunication:
         :return:
         """
         self.controls_dict = controls_dict
-        # TODO extend for all the controls ...
-        if self.parameters_update_signal is not None:
-            self.parameters_update_signal.emit(controls_dict["paras"])
+        if self.controls_update_signal is not None:
+            self.controls_update_signal.emit(
+                controls_dict["pulses"], controls_dict["timegrids"], controls_dict["parameters"])
 
     def get_data(self) -> dict:
         """
@@ -83,8 +85,8 @@ class AllInOneCommunication:
         """
         iteration_number, fom = response_for_client["iteration_number"], response_for_client["FoM"]
         self.logger.info("Iteration number: {0}, FoM: {1}".format(iteration_number, fom))
-        if self.plot_signal is not None:
-            self.plot_signal.emit(iteration_number, fom)
+        if self.fom_plot_signal is not None:
+            self.fom_plot_signal.emit(iteration_number, fom)
 
     def end_communication(self, results_dict: dict) -> None:
         """
