@@ -147,7 +147,8 @@ class NelderMead(DirectSearchMethod):
             # self.sc_obj.fnc_evals = calls_number[0]
             # Check for error in the communication method
             if self.callback is not None:
-                if self.callback():
+                if not self.callback():
+                    self.sc_obj.is_converged = True
                     self.sc_obj.terminate_reason = "User stopped the optimization"
             # Check stopping criteria
             self.sc_obj.check_stopping_criteria(sim, fsim, calls_number[0])
