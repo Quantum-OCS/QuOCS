@@ -74,6 +74,9 @@ class DCrabAlgorithm(Optimizer):
     def run(self) -> None:
         """ Main loop of the dCRAB method"""
         for super_it in range(1, self.max_num_si + 1):
+            # Check if the optimization was stopped by the user
+            if not self.is_optimization_running():
+                return
             # Initialize the random frequencies
             self.controls.select_basis()
             # Direct search method
