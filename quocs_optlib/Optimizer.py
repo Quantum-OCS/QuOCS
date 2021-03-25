@@ -73,7 +73,7 @@ class Optimizer:
         # Check for interface response
         self.comm_obj.check_msg_client()
         # Check if the optimization is still running
-        if not self.comm_obj.is_running:
+        if not self.comm_obj.get_user_running:
             return self.fom_maximum
         # Get the figure of merit and update it to the main algorithm
         self.fom_dict = self.comm_obj.get_data()["fom_values"]
@@ -110,7 +110,7 @@ class Optimizer:
 
     def is_optimization_running(self) -> bool:
         """ Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode """
-        return self.comm_obj.is_running
+        return self.comm_obj.get_user_running()
 
     def end(self) -> None:
         """ Finalize the transmission with  the client """
