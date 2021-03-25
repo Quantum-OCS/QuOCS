@@ -38,7 +38,7 @@ class DirectSearchAlgorithm(Optimizer):
         ###########################################################################################
         stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
         direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
-        self.dsm_obj = NelderMead(stopping_criteria, direct_search_method_settings,
+        self.dsm_obj = NelderMead(direct_search_method_settings, stopping_criteria,
                                   callback=self.is_optimization_running)
         ###########################################################################################
         # Optimal algorithm variables ###########################################################
