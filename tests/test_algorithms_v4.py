@@ -16,7 +16,7 @@
 
 import os
 
-from OptimalControlProblems.OneQubitClass import OneQubit
+from quocs_optlib.optimalcontrolproblems.OneQubitProblem import OneQubit
 from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocs_optlib.tools.dynamicimport import dynamic_import
 from quocs_optlib.tools.inputoutput import readjson
