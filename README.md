@@ -10,7 +10,7 @@ Activate your virtual environment:
 ```bash
 source ../quocs_optlib/bin/activate
 ```
-Install basics packages
+Install basic packages
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 ```
