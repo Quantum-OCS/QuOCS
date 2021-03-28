@@ -1,0 +1,7 @@
+README.md
+setup.py
+quocs_optlib.egg-info/PKG-INFO
+quocs_optlib.egg-info/SOURCES.txt
+quocs_optlib.egg-info/dependency_links.txt
+quocs_optlib.egg-info/requires.txt
+quocs_optlib.egg-info/top_level.txt
