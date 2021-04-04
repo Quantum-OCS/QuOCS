@@ -27,4 +27,3 @@ class FrequencyDistribution:
     @abstractmethod
     def set_random_frequencies(self):
         """Spend some words here"""
-        pass
