@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import json
+import numpy as np
 
 
 def readjson(filename: str) -> [int, dict]:
@@ -32,3 +33,24 @@ def readjson(filename: str) -> [int, dict]:
         err_stat = 1
     finally:
         return err_stat, user_data
+
+
+class NumpyEncoder(json.JSONEncoder):
+    """Convert numpy array to list"""
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
+
+
+def writejsonfile(json_file: str, kwargs_bib: dict) -> int:
+    """ A wrapper to the json dump file with error code as return"""
+    err_stat = 0
+    try:
+        with open(json_file, 'w') as fp:
+            json.dump(kwargs_bib, fp, indent=4, cls=NumpyEncoder)
+    except Exception as ex:
+        print("It is not possible to write the json file")
+        err_stat = 1
+    finally:
+        return err_stat
