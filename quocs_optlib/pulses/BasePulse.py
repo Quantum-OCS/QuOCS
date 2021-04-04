@@ -28,8 +28,8 @@ class BasePulse:
     optimized_control_parameters: np.ndarray
     final_time: float
 
-    def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0, upper_limit=1.0,
-                 amplitude_variation=0.1, initial_guess=None, scaling_function=None, **kwargs):
+    def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0,
+                 upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
         :param int map_index: index number for pulse control parameters association
@@ -140,4 +140,3 @@ class BasePulse:
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:
         """ Just an abstract method to get the optimized shape pulse"""
-        pass
