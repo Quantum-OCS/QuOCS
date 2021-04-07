@@ -15,7 +15,7 @@
           "is_adaptive": true
       },
       "stopping_criteria": {
-          "iterations_number": 100,
+          "iterations_number": 10000,
           "xatol": 1e-14,
           "frtol": 1e-14
       }
@@ -23,14 +23,84 @@
   "pulses": [],
   "times": [],
   "parameters": [{
-                "parameter_name": "Parameter111",
+                "parameter_name": "Parameter1",
                 "lower_limit": -2.0,
                 "upper_limit": 2.0,
                 "initial_value": 0.4,
                 "amplitude_variation": 0.5
             },
             {
-                "parameter_name": "Parameter1121",
+                "parameter_name": "Parameter2",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter3",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter4",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter5",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter6",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter7",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter8",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter9",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter10",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+              {
+                "parameter_name": "Parameter11",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.4,
+                "amplitude_variation": 0.5
+            },
+            {
+                "parameter_name": "Parameter12",
                 "lower_limit": -2.0,
                 "upper_limit": 2.0,
                 "initial_value": 0.4,
