@@ -39,8 +39,8 @@ class Wrap:
 class DirectSearchMethod:
 
     def __init__(self):
-        # Set the initial wrapper function with the target function and the optional arguments
-        # Integrate here the callback function for user interruption
+        # TODO Set the initial wrapper function with the target function and the optional arguments
+        # TODO Integrate here the callback function for user interruption
         pass
 
     @staticmethod
