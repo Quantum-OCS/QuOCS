@@ -17,7 +17,7 @@ import numpy as np
 
 from quocs_optlib.parameters.Parameter import Parameter
 from quocs_optlib.parameters.TimeParameter import TimeParameter
-from quocs_optlib.tools.dynamicimport import dynamic_import
+from quocs_tools.dynamicimport import dynamic_import
 
 
 class Controls:
