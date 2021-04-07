@@ -39,7 +39,7 @@ class NelderMead(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None):
+    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
