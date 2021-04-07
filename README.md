@@ -14,6 +14,12 @@ Install basic packages
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 ```
+Install the QuOCS-tools
+```bash
+git clone git@github.com:Quantum-OCS/QuOCS-tools.git
+cd QuOCS-tools
+python -m pip install -e .
+```
 ## Installation
 Install quocs_optlib in your virtual environment
 ```bash
