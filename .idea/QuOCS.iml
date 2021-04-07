@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/tests/QuOCS_Results" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.6 (qudi)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (quocs-venv)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
