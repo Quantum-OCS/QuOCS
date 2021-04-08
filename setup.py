@@ -21,4 +21,4 @@ requirements = [
     "scipy"
 ]
 
-setup(name="quocs_optlib", packages=find_packages(), version="dev", install_requires=requirements)
+setup(name="quocs_optlib", packages=find_packages(), version="0.0.1", install_requires=requirements)
