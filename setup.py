@@ -17,8 +17,9 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    "numpy>=1.19.2",
-    "scipy>=1.5.4"
+    "setuptools",
+    "numpy",
+    "scipy"
 ]
 
 setup(name="quocs_optlib", packages=find_packages(), version="dev", install_requires=requirements)
