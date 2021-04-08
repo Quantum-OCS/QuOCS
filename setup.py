@@ -17,7 +17,6 @@
 from setuptools import setup, find_packages
 
 requirements = [
-    "setuptools",
     "numpy",
     "scipy"
 ]
