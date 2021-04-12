@@ -62,7 +62,7 @@ class DCrabAlgorithm(Optimizer):
                                  optimization_dict["parameters"])
 
     def _get_response_for_client(self) -> dict:
-        """ Return useful information for th interface """
+        """ Return useful information for the client interface """
         is_record = False
         fom = self.fom_dict["FoM"]
         if fom < self.best_fom:

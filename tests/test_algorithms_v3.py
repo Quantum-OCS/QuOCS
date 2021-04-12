@@ -23,6 +23,7 @@ from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocs_tools.dynamicimport import dynamic_import
 from quocs_optlib.tools.inputoutput import readjson
 from quocs_optlib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
+from quocs_tools.BestDump import BestDump
 
 
 class HandleExit(AbstractHandleExit):
@@ -33,7 +34,7 @@ def main(optimization_dictionary: dict):
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name, fom_obj=Rosenbrock(),
-                                              handle_exit_obj=HandleExit())
+                                              handle_exit_obj=HandleExit(), dump_attribute=BestDump)
     # Get the optimizer attribute
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),

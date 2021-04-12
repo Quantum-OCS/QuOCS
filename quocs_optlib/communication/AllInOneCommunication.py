@@ -17,7 +17,8 @@
 import os
 import time
 
-from quocs_optlib.figureofmeritevaluation.AbstractFom import AbstractFom
+from quocs_tools.AbstractFom import AbstractFom
+from quocs_tools.DummyDump import DummyDump
 from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocs_optlib.tools.logger import create_logger
 
@@ -25,7 +26,8 @@ from quocs_optlib.tools.logger import create_logger
 class AllInOneCommunication:
 
     def __init__(self, interface_job_name: str = "OptimizationTest", fom_obj: AbstractFom = None,
-                 handle_exit_obj: AbstractHandleExit = None, comm_signals_list: [list, list, list] = None):
+                 handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump,
+                 comm_signals_list: [list, list, list] = None):
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
         The objects to dump the results, calculate the figure of merit, and the logger are created here.
@@ -64,7 +66,7 @@ class AllInOneCommunication:
         self.fom_obj = fom_obj
         # TODO Thinks whether it is a good idea dumping the results
         # Dumping data object
-        # self.dr_obj = DR(self.client_job_name)
+        self.dump_obj = dump_attribute(self.results_path)
         # Handle exit object
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary
@@ -95,12 +97,13 @@ class AllInOneCommunication:
 
     def send_fom_response(self, response_for_client: dict) -> None:
         """
-        Emit signal to the Client Interface
+        Emit signal to the Client Interface and dump the results in case any
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
         iteration_number, fom = response_for_client["iteration_number"], response_for_client["FoM"]
         self.logger.info("Iteration number: {0}, FoM: {1}".format(iteration_number, fom))
+        self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)
         if self.fom_plot_signal is not None:
             self.fom_plot_signal.emit(iteration_number, fom)
 
