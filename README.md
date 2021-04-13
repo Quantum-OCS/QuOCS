@@ -4,11 +4,11 @@ You can find here the core of the optimization algorithms used in the QuOCS - su
 ## Create a virtual environment
 Create a virtual environment:
 ```bash
-python3 -m venv ../quocs_optlib
+python3 -m venv ../quocslib
 ```
 Activate your virtual environment:
 ```bash
-source ../quocs_optlib/bin/activate
+source ../quocslib/bin/activate
 ```
 Install basic packages
 ```bash

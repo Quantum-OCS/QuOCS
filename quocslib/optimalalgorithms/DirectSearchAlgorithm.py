@@ -14,10 +14,10 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocs_optlib.Optimizer import Optimizer
-from quocs_optlib.Controls import Controls
-from quocs_optlib.freegradientmethods.NelderMead import NelderMead
-from quocs_optlib.tools.linearalgebra import simplex_creation
+from quocslib.Optimizer import Optimizer
+from quocslib.Controls import Controls
+from quocslib.freegradientmethods.NelderMead import NelderMead
+from quocslib.tools.linearalgebra import simplex_creation
 
 
 class DirectSearchAlgorithm(Optimizer):

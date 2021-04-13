@@ -17,10 +17,10 @@
 import os
 import time
 
-from quocs_tools.AbstractFom import AbstractFom
-from quocs_tools.DummyDump import DummyDump
-from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
-from quocs_optlib.tools.logger import create_logger
+from quocstools.AbstractFom import AbstractFom
+from quocstools.DummyDump import DummyDump
+from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocslib.tools.logger import create_logger
 
 
 class AllInOneCommunication:

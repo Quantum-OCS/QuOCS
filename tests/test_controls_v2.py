@@ -16,10 +16,10 @@
 
 import os
 
-from quocs_optlib.Controls import Controls
-from quocs_optlib.tools.inputoutput import readjson
-from quocs_optlib.pulses.basis.Fourier import Fourier
-from quocs_optlib.pulses.frequency.Uniform import Uniform
+from quocslib.Controls import Controls
+from quocslib.tools.inputoutput import readjson
+from quocslib.pulses.basis.Fourier import Fourier
+from quocslib.pulses.frequency.Uniform import Uniform
 
 """
 Test for controls initialization using an external basis and control distribution

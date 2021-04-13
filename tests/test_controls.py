@@ -16,8 +16,8 @@
 
 import os
 
-from quocs_optlib.Controls import Controls
-from quocs_optlib.tools.inputoutput import readjson
+from quocslib.Controls import Controls
+from quocslib.tools.inputoutput import readjson
 """
 Script to check controls initialization, basis vector (random frequencies), getting sigma variation and
 mean value for the start simplex generation.

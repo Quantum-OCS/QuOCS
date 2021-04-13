@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocs_optlib.stoppingcriteria.StoppingCriteria import StoppingCriteria
+from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class NelderMeadStoppingCriteria(StoppingCriteria):

@@ -16,8 +16,8 @@
 
 import numpy as np
 
-from quocs_optlib.pulses.BasePulse import BasePulse
-from quocs_optlib.pulses.basis.ChoppedBasis import ChoppedBasis
+from quocslib.pulses.BasePulse import BasePulse
+from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 
 
 class Fourier(BasePulse, ChoppedBasis):

@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocs_optlib.pulses.frequency.FrequencyDistribution import FrequencyDistribution
+from quocslib.pulses.frequency.FrequencyDistribution import FrequencyDistribution
 
 
 class Uniform(FrequencyDistribution):

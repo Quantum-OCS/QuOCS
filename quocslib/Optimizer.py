@@ -16,9 +16,9 @@
 from abc import abstractmethod
 import numpy as np
 
-from quocs_optlib.communication.AllInOneCommunication import AllInOneCommunication
-from quocs_optlib.figureofmeritevaluation.AbstractFom import AbstractFom
-from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocslib.communication.AllInOneCommunication import AllInOneCommunication
+from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
+from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 
 class Optimizer:

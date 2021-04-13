@@ -17,8 +17,8 @@ import numpy as np
 
 np.seterr(all="raise")
 
-from quocs_optlib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
-from quocs_optlib.stoppingcriteria.NelderMeadStoppingCriteria import NelderMeadStoppingCriteria
+from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
+from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import NelderMeadStoppingCriteria
 
 
 class NelderMead(DirectSearchMethod):

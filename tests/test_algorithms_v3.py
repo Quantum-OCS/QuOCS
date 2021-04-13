@@ -18,12 +18,12 @@ import os
 from scipy import optimize
 import numpy as np
 
-from quocs_optlib.communication.AllInOneCommunication import AllInOneCommunication
-from quocs_optlib.handleexit.AbstractHandleExit import AbstractHandleExit
-from quocs_tools.dynamicimport import dynamic_import
-from quocs_optlib.tools.inputoutput import readjson
-from quocs_optlib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
-from quocs_tools.BestDump import BestDump
+from quocslib.communication.AllInOneCommunication import AllInOneCommunication
+from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocstools.dynamicimport import dynamic_import
+from quocslib.tools.inputoutput import readjson
+from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
+from quocstools.BestDump import BestDump
 
 
 class HandleExit(AbstractHandleExit):

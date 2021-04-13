@@ -13,12 +13,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-from quocs_optlib.parameters.BaseParameter import BaseParameter
+
+from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
+from scipy import optimize
+import numpy as np
 
 
-class Parameter(BaseParameter):
-    """
-    Class for parameters. Inherits completely the base parameter without any change
-    """
-    def __init__(self, map_index, parameter):
-        super().__init__(map_index, **parameter)
+class Rosenbrock(AbstractFom):
+    """A figure of merit class for optimization of the Rosenbrock function given an arbitrary
+    number of parameters"""
+
+    def __init__(self, args_dict:dict = None):
+        pass
+
+    def get_FoM(self, pulses: list, parameters: list, timegrids: list):
+        return {"FoM": optimize.rosen(np.asarray(parameters))}

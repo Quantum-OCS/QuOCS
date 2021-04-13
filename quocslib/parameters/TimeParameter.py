@@ -14,7 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocs_optlib.parameters.BaseParameter import BaseParameter
+from quocslib.parameters.BaseParameter import BaseParameter
 
 
 class TimeParameter(BaseParameter):

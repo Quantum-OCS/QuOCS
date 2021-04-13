@@ -15,9 +15,9 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocs_optlib.parameters.Parameter import Parameter
-from quocs_optlib.parameters.TimeParameter import TimeParameter
-from quocs_tools.dynamicimport import dynamic_import
+from quocslib.parameters.Parameter import Parameter
+from quocslib.parameters.TimeParameter import TimeParameter
+from quocstools.dynamicimport import dynamic_import
 
 
 class Controls:
