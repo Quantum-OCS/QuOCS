@@ -1,14 +1,15 @@
 import os
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
+from quocstools.inputoutput import readjson
 import numpy as np
 import time
 from datetime import datetime
 
-max_counter = 50
+max_counter = 1000
 sleep_time = 0.2
 qubit_obj = OneQubit()
 fom_path = "fom.txt"
-controls_path = "controls.npz"
+controls_path = "controls.json"
 
 
 def main1():
@@ -27,20 +28,22 @@ def main():
 
 def read_pulses_file() -> bool:
     counter = 0
-    controls_filename = "controls.npz"
     is_running = True
     while counter < max_counter:
-        if os.path.isfile(controls_filename):
+        if os.path.isfile(controls_path):
+            # Wait before read it
+            time.sleep(0.1)
             # Load the controls
-            controls = np.load(controls_filename)
+            # controls = np.load(controls_path, allow_pickle=True, fix_imports=True, encoding='latin1')
+            controls = readjson(controls_path)[1]
             # Remove controls file
-            os.remove(controls_filename)
+            os.remove(controls_path)
             # Calculate the figure of merit
             # pulses, parameters, timegrids)
             fom = qubit_obj.get_FoM([controls["pulse1"]], [], [controls["time_grid1"]])
             # Return the figure of merit in the fom file
             with open(fom_path, "w+") as fom_file:
-                fom_file.write(str(fom))
+                fom_file.write(str(fom["FoM"]))
                 fom_file.close()
             break
         else:
