@@ -16,10 +16,6 @@
 from abc import abstractmethod
 import numpy as np
 
-from quocslib.communication.AllInOneCommunication import AllInOneCommunication
-from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
-from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
-
 
 class Optimizer:
     init_status: bool = False
