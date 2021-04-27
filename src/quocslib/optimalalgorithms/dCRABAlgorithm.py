@@ -19,8 +19,6 @@ from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
 from quocslib.freegradientmethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
-from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
-from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 
 class DCrabAlgorithm(Optimizer):
