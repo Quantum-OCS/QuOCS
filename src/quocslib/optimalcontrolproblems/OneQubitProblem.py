@@ -17,7 +17,7 @@
 from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2
 import numpy as np
 from scipy.linalg import expm, norm
-from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
+from quocstools.AbstractFom import AbstractFom
 
 
 class OneQubit(AbstractFom):
@@ -29,7 +29,7 @@ class OneQubit(AbstractFom):
         self.delta1 = args_dict.setdefault("delta1", 0.1)
         self.delta2 = args_dict.setdefault("delta2", 0.1)
 
-    def get_FoM(self, pulses, parameters, timegrids):
+    def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         f = np.asarray(pulses[0])
         timegrid = np.asarray(timegrids[0])
         dt = timegrid[1] - timegrid[0]

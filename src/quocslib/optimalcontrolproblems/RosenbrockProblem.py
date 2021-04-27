@@ -14,7 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocslib.figureofmeritevaluation.AbstractFom import AbstractFom
+from quocstools.AbstractFom import AbstractFom
 from scipy import optimize
 import numpy as np
 
@@ -26,5 +26,5 @@ class Rosenbrock(AbstractFom):
     def __init__(self, args_dict:dict = None):
         pass
 
-    def get_FoM(self, pulses: list, parameters: list, timegrids: list):
+    def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         return {"FoM": optimize.rosen(np.asarray(parameters))}
