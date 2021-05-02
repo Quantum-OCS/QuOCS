@@ -54,6 +54,6 @@ class Fourier(BasePulse, ChoppedBasis):
         w = self.frequency_distribution_obj.w
         t = self.time_grid
         for ii in range(self.frequencies_number):
-            pulse += xx[ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + \
-                     xx[ii + 1] * np.cos(2 * np.pi * w[ii] * t / final_time)
+            pulse += xx[2*ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + \
+                     xx[2*ii + 1] * np.cos(2 * np.pi * w[ii] * t / final_time)
         return pulse
