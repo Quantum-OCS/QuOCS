@@ -58,6 +58,11 @@ class DCrabAlgorithm(Optimizer):
         # Initialize the control object
         self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
                                  optimization_dict["parameters"])
+        ###########################################################################################
+        # Other useful variables
+        ###########################################################################################
+        self.dcrab_parameters_list = []
+        self.dcrab_frequencies_list = []
 
     def _get_response_for_client(self) -> dict:
         """ Return useful information for the client interface """
@@ -88,6 +93,9 @@ class DCrabAlgorithm(Optimizer):
     def _update_base_pulses(self) -> None:
         """Update the base dCRAB pulse"""
         self.controls.update_base_controls(self.xx)
+        # Add the best parameters and dcrab frequencies of the current super-iteration
+        self.dcrab_parameters_list.append(self.xx)
+        self.dcrab_frequencies_list.append(self.controls.get_random_frequencies())
 
     def _dsm_build(self, max_iteration_number: int) -> None:
         """Build the direct search method and run it """
@@ -110,5 +118,6 @@ class DCrabAlgorithm(Optimizer):
 
     def _get_final_results(self) -> dict:
         """ Return a dictionary with final results to put into a dictionary """
-        final_dict = {"Figure of merit": self.best_fom, "total number of function evaluations": self.iteration_number}
+        final_dict = {"Figure of merit": self.best_fom, "total number of function evaluations": self.iteration_number,
+                      "dcrab_freq_list": self.dcrab_frequencies_list, "dcrab_para_list": self.dcrab_parameters_list}
         return final_dict
