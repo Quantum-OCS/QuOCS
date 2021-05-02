@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
+from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 from quocslib.parameters.Parameter import Parameter
 from quocslib.parameters.TimeParameter import TimeParameter
 from quocstools.dynamicimport import dynamic_import
@@ -78,6 +79,14 @@ class Controls:
         """ Initialize the frequency basis """
         for pulse in self.pulse_objs_list:
             pulse.frequency_distribution_obj.set_random_frequencies()
+
+    def get_random_frequencies(self) -> list:
+        """ Return list with dcrab current frequencies"""
+        frequency_list = []
+        for pulse in self.pulse_objs_list:
+            if isinstance(pulse, ChoppedBasis):
+                frequency_list.append(pulse.frequency_distribution_obj.w)
+        return frequency_list
 
     def get_sigma_variation(self) -> np.array:
         """ Return a vector with the maximum sigma in the parameters choice for the start simplex """
