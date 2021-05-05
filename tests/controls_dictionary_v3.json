@@ -22,11 +22,11 @@
                 },
                 "scaling_function": {
                     "function_type": "list_function",
-                    "list_function": "np.ones((101, 0))"
+                    "list_function": "np.ones((101, ))"
                 },
                 "initial_guess": {
                     "function_type": "list_function",
-                    "list_function": "np.zeros((101, 0))"
+                    "list_function": "np.zeros((101, ))"
                 }
               }],
   "parameters": [{

@@ -48,4 +48,47 @@ def main(controls_dict):
 
 
 if __name__ == '__main__':
-    main(readjson(os.path.join(os.getcwd(), "controls_dictionary_v3.json"))[1])
+    control_dict = {
+        "Comment": "This is test dictionary for the controls: dCRAB, Fourier, Uniform Distribution. 1 pulse, 1 time, 1 parameter",
+        "Disclaimer": "Do not use this json file for optimization",
+        "pulses": [{"pulse_name": "Pulse111",
+                    "upper_limit": 1.0,
+                    "lower_limit": -1.0,
+                    "bins_number": 101,
+                    "time_name": "time111",
+                    "amplitude_variation": 0.12,
+                    "basis": {
+                        "basis_class": None,
+                        "basis_module": None,
+                        "basis_attribute": None,
+                        "basis_vector_number": 2,
+                        "random_frequencies_distribution": {
+                            "distribution_class": None,
+                            "distribution_module": None,
+                            "distribution_attribute": None,
+                            "lower_limit": 0.1,
+                            "upper_limit": 5.0
+                        }
+                    },
+                    "scaling_function": {
+                        "function_type": "list_function",
+                        "list_function": [1.0 for _ in range(101)]
+                    },
+                    "initial_guess": {
+                        "function_type": "list_function",
+                        "list_function": [0.0 for _ in range(101)]
+                    }
+                    }],
+        "parameters": [{
+            "parameter_name": "Parameter111",
+            "lower_limit": -2.0,
+            "upper_limit": 2.0,
+            "initial_value": 0.0,
+            "amplitude_variation": 0.5
+        }],
+        "times": [{
+            "time_name": "time111",
+            "initial_value": 5.0
+        }]
+    }
+    main(control_dict)
