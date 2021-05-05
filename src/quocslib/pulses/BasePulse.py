@@ -68,7 +68,7 @@ class BasePulse:
         if function_type == "lambda_function":
             initial_guess_pulse = eval(initial_guess["lambda_function"])
         elif function_type == "list_function":
-            initial_guess_pulse = eval(initial_guess["list_function"])
+            initial_guess_pulse = np.asarray(initial_guess["list_function"])
         else:
             initial_guess_pulse = lambda t: 0.0 * t
         self.initial_guess_pulse = initial_guess_pulse
@@ -77,7 +77,7 @@ class BasePulse:
         if function_type == "lambda_function":
             scaling_function = eval(scaling_function["lambda_function"])
         elif function_type == "list_function":
-            scaling_function = eval(scaling_function["list_function"])
+            scaling_function = np.asarray(scaling_function["list_function"])
         else:
             scaling_function = lambda t: 1.0 * t
         self.scaling_function = scaling_function
