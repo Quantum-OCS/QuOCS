@@ -121,3 +121,5 @@ class DCrabAlgorithm(Optimizer):
         final_dict = {"Figure of merit": self.best_fom, "total number of function evaluations": self.iteration_number,
                       "dcrab_freq_list": self.dcrab_frequencies_list, "dcrab_para_list": self.dcrab_parameters_list}
         return final_dict
+    # TODO Add a function to return the best controls obtained so far
+    # Something like return self.controls.get_controls_lists(self.xx)
