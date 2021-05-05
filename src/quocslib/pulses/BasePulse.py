@@ -116,9 +116,11 @@ class BasePulse:
         """ Get the array scaling function """
         if isinstance(self.scaling_function, Callable):
             scaling_function_t = self.scaling_function(self.time_grid)
-        elif self.scaling_function is np.ndarray:
+        elif isinstance(self.scaling_function, np.ndarray):
             scaling_function_t = self.scaling_function
         else:
+            # TODO Handle here
+            print("Warning: scaling function not good. do with 1.0")
             scaling_function_t = (lambda t: 1.0)(self.time_grid)
         return scaling_function_t
 
@@ -126,10 +128,12 @@ class BasePulse:
         """ Get the initial guess pulse """
         if isinstance(self.initial_guess_pulse, Callable):
             initial_guess_t = self.initial_guess_pulse(self.time_grid)
-        elif self.initial_guess_pulse is np.ndarray:
+        elif isinstance(self.initial_guess_pulse, np.ndarray):
             initial_guess_t = self.initial_guess_pulse
         else:
-            initial_guess_t = (lambda t: 1.0)(self.time_grid)
+            # TODO Handle here
+            print("Warning: initial guess function not good. do with 0.0")
+            initial_guess_t = (lambda t: 0.0)(self.time_grid)
         return initial_guess_t
 
     def _get_limited_pulse(self, optimal_total_pulse):
