@@ -12,14 +12,14 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('./src/quocslib/'))
+sys.path.insert(0, os.path.abspath('../src/quocslib'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'QuOCS'
-copyright = '2021, QuOCS'
-author = 'QuOCS'
+project = 'QuoCS'
+copyright = '2021, QuoCS'
+author = 'QuoCS'
 
 # The full version, including alpha/beta/rc tags
 release = '1'
@@ -30,7 +30,8 @@ release = '1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
+extensions = [
+    'sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
@@ -46,7 +47,7 @@ templates_path = ['_templates']
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = 'english'
+language = 'python'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -58,10 +59,18 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
-html_theme = 'alabaster'
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# -- GITHUB implementation ------------------------
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "Quantum-OCS", # Username
+    "github_repo": "QuOCS", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "docs/", # Path in the checkout to the docs root
+}
