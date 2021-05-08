@@ -86,7 +86,8 @@ class Controls:
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
                 frequency_list.append(pulse.frequency_distribution_obj.w)
-        return frequency_list
+        frequency_array = np.asarray(frequency_list)
+        return frequency_array
 
     def get_sigma_variation(self) -> np.array:
         """ Return a vector with the maximum sigma in the parameters choice for the start simplex """
@@ -129,6 +130,9 @@ class Controls:
             time_name = pulse.time_name
             pulse.set_base_pulse(optimized_parameters_vector[pulse.control_parameters_list],
                                  final_time=self.times_obj_dictionary[time_name].get_time())
+        # Set the parameteres
+        for parameter in self.parameter_objs_list:
+            parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
     def get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
         """
