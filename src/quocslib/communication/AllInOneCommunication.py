@@ -31,6 +31,7 @@ class AllInOneCommunication:
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
         The objects to dump the results, calculate the figure of merit, and the logger are created here.
+
         :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current
         time to ensure univocity
         :param AbstractFom fom_obj: object for the figure of merit evaluation. Have a look to the abstract class for
@@ -79,6 +80,7 @@ class AllInOneCommunication:
     def send_controls(self, controls_dict: dict) -> None:
         """
         Set the controls for FoM calculation and notify the gui
+
         :param dict controls_dict:
         :return:
         """
@@ -90,6 +92,7 @@ class AllInOneCommunication:
     def get_data(self) -> dict:
         """
         Calculate the figure of merit and return a dictionary with all the arguments
+
         :return dict: {"fom_values": {"FoM": float, ...}}
         """
         fom_dict = self.fom_obj.get_FoM(**self.controls_dict)
@@ -98,6 +101,7 @@ class AllInOneCommunication:
     def send_fom_response(self, response_for_client: dict) -> None:
         """
         Emit signal to the Client Interface and dump the results in case any
+
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
@@ -110,6 +114,7 @@ class AllInOneCommunication:
     def end_communication(self, results_dict: dict) -> None:
         """
         Report the final results
+
         :param dict results_dict: It is a dictionary defined in the optimal algorithm with all the data to display at
         the end of the optimization process
         :return:

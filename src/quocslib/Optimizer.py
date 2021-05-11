@@ -30,6 +30,8 @@ class Optimizer:
         The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
         in that class.
+
+        :param dict communication_obj: Object fo the communication class
         """
         self.comm_obj = communication_obj
         # Initialize the total iteration number, i.e. the total function evaluations of the algorithm
@@ -50,6 +52,7 @@ class Optimizer:
         """
         General routine for any control algorithm. It has to be given as the argument of the inner free gradient control
         methods
+
         :param np.array optimized_control_parameters: The vector with all the optimized control parameters
         :param int iterations: Iteration number of the inner free gradient method
         :return: float: Return the figure of merit to the inner free gradient method

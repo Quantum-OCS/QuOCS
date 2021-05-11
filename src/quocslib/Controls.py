@@ -29,9 +29,11 @@ class Controls:
 
     def __init__(self, pulses_list, times_list, parameters_list):
         """
-        :param pulses_list: Pulses List
-        :param times_list: Times List
-        :param parameters_list: Parameters List
+        Constructor of the general class contaning all the controls used during the optimization
+
+        :param pulses_list: List containing the settings for each pulse
+        :param times_list: List containing the settings for each time
+        :param parameters_list: List containing the setting for each parameter
         """
         # Map index
         map_index = -1
@@ -80,7 +82,7 @@ class Controls:
         for pulse in self.pulse_objs_list:
             pulse.frequency_distribution_obj.set_random_frequencies()
 
-    def get_random_frequencies(self) -> list:
+    def get_random_frequencies(self) -> np.array:
         """ Return list with dcrab current frequencies"""
         frequency_list = []
         for pulse in self.pulse_objs_list:
@@ -90,7 +92,10 @@ class Controls:
         return frequency_array
 
     def get_sigma_variation(self) -> np.array:
-        """ Return a vector with the maximum sigma in the parameters choice for the start simplex """
+        """ Return a numpy array with the maximum sigma in the parameters choice for the start simplex
+
+        :return np.array
+        """
         sigma_variation_coefficients = np.zeros(self.control_parameters_number, dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
@@ -106,7 +111,10 @@ class Controls:
         return sigma_variation_coefficients
 
     def get_mean_value(self) -> np.array:
-        """ Return the mean value """
+        """ Return a numpy array the mean value
+
+        :return np.array:
+        """
         mean_value_coefficients = np.zeros(self.control_parameters_number, dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
@@ -137,6 +145,7 @@ class Controls:
     def get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
         """
         Set the optimized control parameters and get the controls
+
         :param np.array optimized_parameters_vector:
         :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
         """
