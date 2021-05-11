@@ -134,7 +134,7 @@ class BasePulse:
             # TODO Handle here
             print("Warning: initial guess function not good. do with 0.0")
             initial_guess_t = (lambda t: 0.0)(self.time_grid)
-        return initial_guess_t
+        return self._get_limited_pulse(initial_guess_t)
 
     def _get_limited_pulse(self, optimal_total_pulse):
         """ Cut the pulse with the amplitude limits constraints """
