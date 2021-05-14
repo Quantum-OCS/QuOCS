@@ -21,7 +21,7 @@ cd QuOCS-tools
 python -m pip install -e .
 ```
 ## Installation
-Install quocs_optlib in your virtual environment
+Install quocslib in your virtual environment
 ```bash
 python -m pip install -e .
 ```

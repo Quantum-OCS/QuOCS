@@ -2,7 +2,7 @@
   "Comment": "This is test dictionary for the controls: dCRAB, Fourier, Uniform Distribution. 1 pulse, 1 time, 1 parameter",
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
-  "opti_algorithm_module": "quocs_optlib.optimalalgorithms.dCRABAlgorithm",
+  "opti_algorithm_module": "quocslib.optimalalgorithms.dCRABAlgorithm",
   "opti_algorithm_class": "DCrabAlgorithm",
   "optimization_client_name": "Optimization_dCRAB_Test",
   "algorithm_settings": {
@@ -28,12 +28,12 @@
                 "amplitude_variation": 0.12,
                 "basis": {
                     "basis_class": "Fourier",
-                    "basis_module": "quocs_optlib.pulses.basis.Fourier",
+                    "basis_module": "quocslib.pulses.basis.Fourier",
                     "basis_attribute": null,
                     "basis_vector_number": 2,
                     "random_frequencies_distribution": {
                         "distribution_class": "Uniform",
-                        "distribution_module": "quocs_optlib.pulses.frequency.Uniform",
+                        "distribution_module": "quocslib.pulses.frequency.Uniform",
                         "distribution_attribute": null,
                         "lower_limit": 0.1,
                         "upper_limit": 5.0
