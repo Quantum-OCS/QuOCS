@@ -24,7 +24,7 @@ from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 class Sigmoid(BasePulse, ChoppedBasis):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
-    optimized_frequencies: np.ndarray
+    optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
     def __init__(self, map_index: int, pulse_dictionary: dict):
@@ -35,12 +35,12 @@ class Sigmoid(BasePulse, ChoppedBasis):
         """
         basis_dict = pulse_dictionary["basis"]
         # Frequencies number i.e. the basis vector number in the pulse parametrization
-        self.frequencies_number = basis_dict.setdefault("basis_vector_number", 1)
+        self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
         # define basis specific stuff
         self.offset = basis_dict.setdefault("offset", 0.1)
         self.sigma = basis_dict.setdefault("sigma", 0.1)
         # Number of control parameters to be optimized
-        self.control_parameters_number = self.frequencies_number + 1
+        self.control_parameters_number = self.super_parameter_number + 1
         # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
@@ -58,9 +58,9 @@ class Sigmoid(BasePulse, ChoppedBasis):
         #offset = sigma*(self.amplitude_upper-self.amplitude_lower)/10  # NEEDS TO BE SET IN CONFIG
         # Pulse creation
         Aopti = self.optimized_control_parameters  # amplitudes
-        taus = self.frequency_distribution_obj.w  # times
+        taus = self.super_parameter_distribution_obj.w  # times
         t = self.time_grid
-        for ii in range(self.frequencies_number):
+        for ii in range(self.super_parameter_number):
             pulse += Aopti[ii+1] / 2 * (erf((t - taus[ii])/(np.sqrt(2) * self.sigma)) + 1)
         pulse += Aopti[0] / 2 * (erf((t - self.offset)/(np.sqrt(2) * self.sigma)) + 1)
         pulse += -np.sum(Aopti) / 2 * (erf((t - (final_time-self.offset))/(np.sqrt(2) * self.sigma)) + 1)

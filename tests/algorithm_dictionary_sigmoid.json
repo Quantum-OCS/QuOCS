@@ -33,9 +33,9 @@
                     "basis_vector_number": 2,
                     "offset": 0.1,
                     "sigma": 0.1,
-                    "random_frequencies_distribution": {
+                    "random_super_parameter_distribution": {
                         "distribution_class": "Uniform",
-                        "distribution_module": "quocslib.pulses.frequency.Uniform",
+                        "distribution_module": "quocslib.pulses.super_parameter.Uniform",
                         "distribution_attribute": null,
                         "lower_limit": 0.5,
                         "upper_limit": 2.5

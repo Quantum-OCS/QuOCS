@@ -20,7 +20,7 @@ class ChoppedBasis:
     """
     General class for chopped basis. All the chopped basis has to inherit this class.
     """
-    frequencies_number: int
+    super_parameter_number: int
 
     def __init__(self, basis: dict = None, **kwargs):
         """
@@ -29,12 +29,12 @@ class ChoppedBasis:
         :param kwargs:
         """
         super().__init__(**kwargs)
-        frequency_distribution_dict = basis["random_frequencies_distribution"]
+        super_parameter_distribution_dict = basis["random_super_parameter_distribution"]
         # Distribution attribute
         distribution_attribute = dynamic_import(
-            attribute=frequency_distribution_dict.setdefault("distribution_attribute", None),
-            module_name=frequency_distribution_dict.setdefault("distribution_module", None),
-            class_name=frequency_distribution_dict.setdefault("distribution_class", None))
-        self.frequency_distribution_obj = distribution_attribute(self.frequencies_number, frequency_distribution_dict)
+            attribute=super_parameter_distribution_dict.setdefault("distribution_attribute", None),
+            module_name=super_parameter_distribution_dict.setdefault("distribution_module", None),
+            class_name=super_parameter_distribution_dict.setdefault("distribution_class", None))
+        self.super_parameter_distribution_obj = distribution_attribute(self.super_parameter_number, super_parameter_distribution_dict)
 
     # Implement here other modules for Chopped Random Basis

@@ -23,7 +23,7 @@ from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 class Fourier(BasePulse, ChoppedBasis):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
-    optimized_frequencies: np.ndarray
+    optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
     def __init__(self, map_index: int, pulse_dictionary: dict):
@@ -34,9 +34,9 @@ class Fourier(BasePulse, ChoppedBasis):
         """
         basis_dict = pulse_dictionary["basis"]
         # Frequencies number i.e. the basis vector number in the pulse parametrization
-        self.frequencies_number = basis_dict.setdefault("basis_vector_number", 1)
+        self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
         # Number of control parameters to be optimized
-        self.control_parameters_number = 2 * self.frequencies_number
+        self.control_parameters_number = 2 * self.super_parameter_number
         # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
@@ -51,9 +51,9 @@ class Fourier(BasePulse, ChoppedBasis):
         final_time = self.final_time
         # Pulse creation
         xx = self.optimized_control_parameters
-        w = self.frequency_distribution_obj.w
+        w = self.super_parameter_distribution_obj.w
         t = self.time_grid
-        for ii in range(self.frequencies_number):
+        for ii in range(self.super_parameter_number):
             pulse += xx[2*ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + \
                      xx[2*ii + 1] * np.cos(2 * np.pi * w[ii] * t / final_time)
         return pulse

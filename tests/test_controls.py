@@ -19,7 +19,7 @@ import os
 from quocslib.Controls import Controls
 from quocslib.tools.inputoutput import readjson
 """
-Script to check controls initialization, basis vector (random frequencies), getting sigma variation and
+Script to check controls initialization, basis vector (random super_parameters), getting sigma variation and
 mean value for the start simplex generation.
 """
 
@@ -27,7 +27,7 @@ mean value for the start simplex generation.
 def main(controls_dict):
     # Initialize controls
     controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"])
-    # Set random frequencies
+    # Set random super_parameters
     controls_obj.select_basis()
     # Sigma variation
     print("sigma_variation = {0}".format(controls_obj.get_sigma_variation()))

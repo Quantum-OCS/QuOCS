@@ -76,7 +76,7 @@ class AlgorithmTemplate(Optimizer):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
                 return
-            # Initialize the random frequencies
+            # Initialize the random super_parameters
             self.controls.select_basis()
             # Direct search method
             if super_it == 1:

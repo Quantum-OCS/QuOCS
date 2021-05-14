@@ -17,13 +17,13 @@ from abc import abstractmethod
 import numpy as np
 
 
-class FrequencyDistribution:
+class SuperParameterDistribution:
     basis_vectors_number: int
 
     def __init__(self, **kwargs):
-        # Create the array to store the basis vector frequencies
+        # Create the array to store the basis vector super_parameters
         self.w = np.zeros((self.basis_vectors_number, ), dtype="float")
 
     @abstractmethod
-    def set_random_frequencies(self):
+    def set_random_super_parameter(self):
         """Spend some words here"""

@@ -19,7 +19,7 @@ import os
 from quocslib.Controls import Controls
 from quocslib.tools.inputoutput import readjson
 from quocslib.pulses.basis.Fourier import Fourier
-from quocslib.pulses.frequency.Uniform import Uniform
+from quocslib.pulses.super_parameter.Uniform import Uniform
 
 """
 Test for controls initialization using an external basis and control distribution
@@ -29,10 +29,10 @@ Test for controls initialization using an external basis and control distributio
 def main(controls_dict):
     # Modify the controls with the attribute field
     controls_dict["pulses"][0]["basis"]["basis_attribute"] = Fourier
-    controls_dict["pulses"][0]["basis"]["random_frequencies_distribution"]["distribution_attribute"] = Uniform
+    controls_dict["pulses"][0]["basis"]["random_super_parameter_distribution"]["distribution_attribute"] = Uniform
     # Initialize controls
     controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"])
-    # Set random frequencies
+    # Set random super_parameters
     controls_obj.select_basis()
     # Sigma variation
     print("sigma_variation = {0}".format(controls_obj.get_sigma_variation()))

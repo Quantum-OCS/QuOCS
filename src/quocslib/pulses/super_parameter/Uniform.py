@@ -15,27 +15,27 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocslib.pulses.frequency.FrequencyDistribution import FrequencyDistribution
+from quocslib.pulses.super_parameter.SuperParameterDistribution import SuperParameterDistribution
 
 
-class Uniform(FrequencyDistribution):
+class Uniform(SuperParameterDistribution):
 
-    def __init__(self, basis_vectors_number, frequency_distribution_dictionary):
+    def __init__(self, basis_vectors_number, super_parameter_distribution_dictionary):
         """Spend here few words, compulsory arguments for the parent class"""
         self.basis_vectors_number = basis_vectors_number
-        super().__init__(**frequency_distribution_dictionary)
-        self.lower_limit_w = frequency_distribution_dictionary["lower_limit"]
-        self.upper_limit_w = frequency_distribution_dictionary["upper_limit"]
+        super().__init__(**super_parameter_distribution_dictionary)
+        self.lower_limit_w = super_parameter_distribution_dictionary["lower_limit"]
+        self.upper_limit_w = super_parameter_distribution_dictionary["upper_limit"]
 
-    def set_random_frequencies(self):
+    def set_random_super_parameter(self):
         """Spend here few words here"""
-        # Number of random frequencies
+        # Number of random super_parameters
         k = self.basis_vectors_number
-        # Limits on the frequencies
+        # Limits on the super_parameters
         a = self.lower_limit_w
         b = self.upper_limit_w
         # number of bins to be used in the calculation
         k_bins = (b-a)/k
-        # generation of random frequencies
+        # generation of random super_parameters
         for i in range(k):
             self.w[i] = a + i*k_bins + k_bins*np.random.rand()

@@ -12,7 +12,7 @@
                     "basis_module": null,
                     "basis_attribute": null,
                     "basis_vector_number": 2,
-                    "random_frequencies_distribution": {
+                    "random_super_parameter_distribution": {
                         "distribution_class": null,
                         "distribution_module": null,
                         "distribution_attribute": null,

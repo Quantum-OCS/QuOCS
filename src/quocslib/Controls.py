@@ -78,18 +78,18 @@ class Controls:
             # TODO Implement the time optimization here
 
     def select_basis(self) -> None:
-        """ Initialize the frequency basis """
+        """ Initialize the super_parameter basis """
         for pulse in self.pulse_objs_list:
-            pulse.frequency_distribution_obj.set_random_frequencies()
+            pulse.super_parameter_distribution_obj.set_random_super_parameter()
 
-    def get_random_frequencies(self) -> np.array:
-        """ Return list with dcrab current frequencies"""
-        frequency_list = []
+    def get_random_super_parameter(self) -> np.array:
+        """ Return list with dcrab current super_parameters"""
+        super_parameter_list = []
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
-                frequency_list.append(pulse.frequency_distribution_obj.w)
-        frequency_array = np.asarray(frequency_list)
-        return frequency_array
+                super_parameter_list.append(pulse.super_parameter_distribution_obj.w)
+        super_parameter_array = np.asarray(super_parameter_list)
+        return super_parameter_array
 
     def get_sigma_variation(self) -> np.array:
         """ Return a numpy array with the maximum sigma in the parameters choice for the start simplex
