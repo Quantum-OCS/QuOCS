@@ -15,13 +15,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import os
-from scipy import optimize
-import numpy as np
+
 
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocstools.dynamicimport import dynamic_import
-from quocslib.tools.inputoutput import readjson
+from quocstools.inputoutput import readjson
 from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
 from quocstools.BestDump import BestDump
 
