@@ -17,7 +17,6 @@
 import os
 
 from quocslib.Controls import Controls
-from quocstools.inputoutput import readjson
 from quocslib.pulses.basis.Fourier import Fourier
 from quocslib.pulses.super_parameter.Uniform import Uniform
 
