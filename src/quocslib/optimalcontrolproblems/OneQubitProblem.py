@@ -17,7 +17,7 @@
 from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2
 import numpy as np
 from scipy.linalg import expm, norm
-from quocstools.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFom import AbstractFom
 
 
 class OneQubit(AbstractFom):

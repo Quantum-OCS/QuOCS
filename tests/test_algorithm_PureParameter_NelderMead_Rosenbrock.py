@@ -19,10 +19,10 @@ import os
 
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
-from quocstools.dynamicimport import dynamic_import
-from quocstools.inputoutput import readjson
+from quocslib.utils.dynamicimport import dynamic_import
+from quocslib.utils.inputoutput import readjson
 from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
-from quocstools.BestDump import BestDump
+from quocslib.utils.BestDump import BestDump
 
 
 class HandleExit(AbstractHandleExit):

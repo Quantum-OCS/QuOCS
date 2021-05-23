@@ -17,8 +17,8 @@
 import os
 import time
 
-from quocstools.AbstractFom import AbstractFom
-from quocstools.DummyDump import DummyDump
+from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
 

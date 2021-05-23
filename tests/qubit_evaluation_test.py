@@ -1,6 +1,6 @@
 import os
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
-from quocstools.inputoutput import readjson
+from quocslib.utils.inputoutput import readjson
 import numpy as np
 import time
 from datetime import datetime

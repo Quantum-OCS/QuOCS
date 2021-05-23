@@ -18,7 +18,7 @@ import numpy as np
 from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 from quocslib.parameters.Parameter import Parameter
 from quocslib.parameters.TimeParameter import TimeParameter
-from quocstools.dynamicimport import dynamic_import
+from quocslib.utils.dynamicimport import dynamic_import
 
 
 class Controls:

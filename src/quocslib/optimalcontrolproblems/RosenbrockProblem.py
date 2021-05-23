@@ -14,7 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocstools.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFom import AbstractFom
 from scipy import optimize
 import numpy as np
 

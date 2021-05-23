@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-from quocstools.dynamicimport import dynamic_import
+from quocslib.utils.dynamicimport import dynamic_import
 
 
 class ChoppedBasis:
