@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from abc import abstractmethod
 import numpy as np
-
+from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 
 class Optimizer:
     init_status: bool = False
@@ -25,7 +25,7 @@ class Optimizer:
     iteration_number: int
     fom_dict: dict
 
-    def __init__(self, communication_obj=None):
+    def __init__(self, communication_obj: AllInOneCommunication = None, optimization_dict: dict = None):
         """
         The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
@@ -34,6 +34,8 @@ class Optimizer:
         :param dict communication_obj: Object fo the communication class
         """
         self.comm_obj = communication_obj
+        # Print optimization dictionary into a file
+        self.comm_obj.print_optimization_dictionary(optimization_dict)
         # Initialize the total iteration number, i.e. the total function evaluations of the algorithm
         self.iteration_number = 0
         # Update status

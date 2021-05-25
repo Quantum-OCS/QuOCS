@@ -21,13 +21,12 @@ from quocslib.utils.AbstractFom import AbstractFom
 from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
-
+from quocslib.utils.inputoutput import writejsonfile
 
 class AllInOneCommunication:
 
-    def __init__(self, interface_job_name: str = "OptimizationTest", fom_obj: AbstractFom = None,
-                 handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump,
-                 comm_signals_list: [list, list, list] = None):
+    def __init__(self, interface_job_name: str = "OptimizationTest", optimization_dictionary: dict = None, fom_obj: AbstractFom = None, handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump, comm_signals_list: [list, list, list] = None):
+
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
         The objects to dump the results, calculate the figure of merit, and the logger are created here.
@@ -72,6 +71,10 @@ class AllInOneCommunication:
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary
         self.controls_dict = {}
+        
+    def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
+        """ Print optimization dictionary into a file """
+        writejsonfile(os.path.join(self.results_path,'optimization_dictionary.json'),optimization_dictionary)
 
     def get_user_running(self) -> bool:
         """ Check if the user stopped the optimization """

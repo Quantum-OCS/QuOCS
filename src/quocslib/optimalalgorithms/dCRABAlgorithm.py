@@ -28,7 +28,7 @@ class DCrabAlgorithm(Optimizer):
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
         """
-        super().__init__(communication_obj=communication_obj)
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
