@@ -3,6 +3,7 @@ from scipy import interpolate
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 def visualise_pulse(dt, n_slices, optimised_pulse, n_pulses):
     # this can only run if we have something in the optimised_pulse really
 
