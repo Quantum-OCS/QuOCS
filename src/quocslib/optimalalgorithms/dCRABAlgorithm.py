@@ -22,23 +22,29 @@ from quocslib.tools.linearalgebra import simplex_creation
 
 
 class DCrabAlgorithm(Optimizer):
-
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
         """
-        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
+        super().__init__(
+            communication_obj=communication_obj, optimization_dict=optimization_dict
+        )
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
         stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
+        direct_search_method_settings = optimization_dict["dsm_settings"][
+            "general_settings"
+        ]
         # TODO Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
-        self.dsm_obj = NelderMead(direct_search_method_settings, stopping_criteria,
-                                  callback=self.is_optimization_running)
+        self.dsm_obj = NelderMead(
+            direct_search_method_settings,
+            stopping_criteria,
+            callback=self.is_optimization_running,
+        )
         ###########################################################################################
         # Optimal algorithm variables
         ###########################################################################################
@@ -47,17 +53,24 @@ class DCrabAlgorithm(Optimizer):
         self.max_num_si = int(alg_parameters["super_iteration_number"])
         # TODO change evaluation number for the first and second super iteration
         # Max number of iterations at SI1
-        self.max_num_function_ev = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev = int(
+            alg_parameters["maximum_function_evaluations_number"]
+        )
         # Max number of iterations from SI2
-        self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev2 = int(
+            alg_parameters["maximum_function_evaluations_number"]
+        )
         # Starting fom
         self.best_fom = 1e10
         ###########################################################################################
         # Pulses, Parameters object
         ###########################################################################################
         # Initialize the control object
-        self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
-                                 optimization_dict["parameters"])
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+        )
         ###########################################################################################
         # Other useful variables
         ###########################################################################################
@@ -65,17 +78,21 @@ class DCrabAlgorithm(Optimizer):
         self.dcrab_super_parameter_list = []
 
     def _get_response_for_client(self) -> dict:
-        """ Return useful information for the client interface """
+        """Return useful information for the client interface"""
         is_record = False
         fom = self.fom_dict["FoM"]
         if fom < self.best_fom:
             self.best_fom = fom
             is_record = True
-        response_dict = {"is_record": is_record, "FoM": fom, "iteration_number": self.iteration_number}
+        response_dict = {
+            "is_record": is_record,
+            "FoM": fom,
+            "iteration_number": self.iteration_number,
+        }
         return response_dict
 
     def run(self) -> None:
-        """ Main loop of the dCRAB method"""
+        """Main loop of the dCRAB method"""
         for super_it in range(1, self.max_num_si + 1):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
@@ -95,31 +112,51 @@ class DCrabAlgorithm(Optimizer):
         self.controls.update_base_controls(self.xx)
         # Add the best parameters and dcrab super_parameters of the current super-iteration
         self.dcrab_parameters_list.append(self.xx)
-        self.dcrab_super_parameter_list.append(self.controls.get_random_super_parameter())
+        self.dcrab_super_parameter_list.append(
+            self.controls.get_random_super_parameter()
+        )
 
     def _dsm_build(self, max_iteration_number: int) -> None:
-        """Build the direct search method and run it """
-        start_simplex = simplex_creation(self.controls.get_mean_value(), self.controls.get_sigma_variation())
+        """Build the direct search method and run it"""
+        start_simplex = simplex_creation(
+            self.controls.get_mean_value(), self.controls.get_sigma_variation()
+        )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
-                                        max_iterations_number=max_iteration_number)
+        result_l = self.dsm_obj.run_dsm(
+            self._routine_call,
+            x0,
+            initial_simplex=start_simplex,
+            max_iterations_number=max_iteration_number,
+        )
         # Update the results
-        [fom, self.xx, self.terminate_reason] = \
-            [result_l['F_min_val'], result_l['X_opti_vec'], result_l["terminate_reason"]]
+        [fom, self.xx, self.terminate_reason] = [
+            result_l["F_min_val"],
+            result_l["X_opti_vec"],
+            result_l["terminate_reason"],
+        ]
 
     def _get_controls(self, xx: np.array) -> dict:
-        """ Get the controls dictionary from the optimized control parameters"""
+        """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
         #
-        controls_dict = {"pulses": pulses, "parameters": parameters, "timegrids": timegrids}
+        controls_dict = {
+            "pulses": pulses,
+            "parameters": parameters,
+            "timegrids": timegrids,
+        }
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """ Return a dictionary with final results to put into a dictionary """
-        final_dict = {"Figure of merit": self.best_fom, "total number of function evaluations": self.iteration_number,
-                      "dcrab_freq_list": self.dcrab_super_parameter_list, "dcrab_para_list": self.dcrab_parameters_list}
+        """Return a dictionary with final results to put into a dictionary"""
+        final_dict = {
+            "Figure of merit": self.best_fom,
+            "total number of function evaluations": self.iteration_number,
+            "dcrab_freq_list": self.dcrab_super_parameter_list,
+            "dcrab_para_list": self.dcrab_parameters_list,
+        }
         return final_dict
+
     # TODO Add a function to return the best controls obtained so far
     # Something like return self.controls.get_controls_lists(self.xx)

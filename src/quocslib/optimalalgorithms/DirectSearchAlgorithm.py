@@ -21,9 +21,8 @@ from quocslib.tools.linearalgebra import simplex_creation
 
 
 class DirectSearchAlgorithm(Optimizer):
-    """
+    """ """
 
-    """
     initStatus = 0
     terminate_reason = "-1"
 
@@ -37,9 +36,14 @@ class DirectSearchAlgorithm(Optimizer):
         # Direct Search method
         ###########################################################################################
         stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
-        self.dsm_obj = NelderMead(direct_search_method_settings, stopping_criteria,
-                                  callback=self.is_optimization_running)
+        direct_search_method_settings = optimization_dict["dsm_settings"][
+            "general_settings"
+        ]
+        self.dsm_obj = NelderMead(
+            direct_search_method_settings,
+            stopping_criteria,
+            callback=self.is_optimization_running,
+        )
         ###########################################################################################
         # Optimal algorithm variables ###########################################################
         ###########################################################################################
@@ -48,8 +52,11 @@ class DirectSearchAlgorithm(Optimizer):
         ###########################################################################################
         # Pulses, Parameters object ###########################################################
         ###########################################################################################
-        self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
-                                 optimization_dict["parameters"])
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+        )
 
     def _get_response_for_client(self):
         """
@@ -61,7 +68,11 @@ class DirectSearchAlgorithm(Optimizer):
         is_record = False
         if self.fom_dict["FoM"] < self.best_fom:
             is_record = True
-        response_dict = {"is_record": is_record, "FoM": self.fom_dict["FoM"], "iteration_number": self.iteration_number}
+        response_dict = {
+            "is_record": is_record,
+            "FoM": self.fom_dict["FoM"],
+            "iteration_number": self.iteration_number,
+        }
         return response_dict
 
     def run(self):
@@ -81,14 +92,21 @@ class DirectSearchAlgorithm(Optimizer):
         -------
 
         """
-        start_simplex = simplex_creation(self.controls.get_mean_value(), self.controls.get_sigma_variation())
+        start_simplex = simplex_creation(
+            self.controls.get_mean_value(), self.controls.get_sigma_variation()
+        )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex)
+        result_l = self.dsm_obj.run_dsm(
+            self._routine_call, x0, initial_simplex=start_simplex
+        )
         # Update the results
-        [self.best_fom, self.xx, self.terminate_reason] = \
-            [result_l['F_min_val'], result_l['X_opti_vec'], result_l["terminate_reason"]]
+        [self.best_fom, self.xx, self.terminate_reason] = [
+            result_l["F_min_val"],
+            result_l["X_opti_vec"],
+            result_l["terminate_reason"],
+        ]
 
     def _get_controls(self, xx):
         # pulses_list, time_grids_list, parameters_list
@@ -98,6 +116,9 @@ class DirectSearchAlgorithm(Optimizer):
         return controls_dict
 
     def _get_final_results(self):
-        final_dict = {"Figure of merit": self.best_fom, "parameters": self.xx,
-                      "terminate_reason": self.terminate_reason}
+        final_dict = {
+            "Figure of merit": self.best_fom,
+            "parameters": self.xx,
+            "terminate_reason": self.terminate_reason,
+        }
         return final_dict

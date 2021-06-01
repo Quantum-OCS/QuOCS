@@ -42,11 +42,18 @@ class AlgorithmTemplate(Optimizer):
         # Inner free gradient method
         ###########################################################################################
         stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
-        dsm_attribute = dynamic_import(class_name="FreeGradientTemplate",
-                                       module_name="quocslib.freegradientmethods.FreeGradientTemplate")
-        self.dsm_obj = dsm_attribute(direct_search_method_settings, stopping_criteria,
-                                     callback=self.is_optimization_running)
+        direct_search_method_settings = optimization_dict["dsm_settings"][
+            "general_settings"
+        ]
+        dsm_attribute = dynamic_import(
+            class_name="FreeGradientTemplate",
+            module_name="quocslib.freegradientmethods.FreeGradientTemplate",
+        )
+        self.dsm_obj = dsm_attribute(
+            direct_search_method_settings,
+            stopping_criteria,
+            callback=self.is_optimization_running,
+        )
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
@@ -57,21 +64,28 @@ class AlgorithmTemplate(Optimizer):
         # Pulses, Parameters, Times object
         ###########################################################################################
         # Initialize the control object
-        self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
-                                 optimization_dict["parameters"])
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+        )
 
     def _get_response_for_client(self) -> dict:
-        """ Return useful information for th interface """
+        """Return useful information for th interface"""
         is_record = False
         fom = self.fom_dict["FoM"]
         if fom < self.best_fom:
             self.best_fom = fom
             is_record = True
-        response_dict = {"is_record": is_record, "FoM": fom, "iteration_number": self.iteration_number}
+        response_dict = {
+            "is_record": is_record,
+            "FoM": fom,
+            "iteration_number": self.iteration_number,
+        }
         return response_dict
 
     def run(self) -> None:
-        """ Main loop of the optimization """
+        """Main loop of the optimization"""
         for super_it in range(1, 2):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
@@ -91,25 +105,41 @@ class AlgorithmTemplate(Optimizer):
         self.controls.update_base_controls(self.xx)
 
     def _dsm_build(self, max_iteration_number: int) -> None:
-        """Build the direct search method and run it """
-        start_simplex = simplex_creation(self.controls.get_mean_value(), self.controls.get_sigma_variation())
+        """Build the direct search method and run it"""
+        start_simplex = simplex_creation(
+            self.controls.get_mean_value(), self.controls.get_sigma_variation()
+        )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
-                                        max_iterations_number=max_iteration_number)
+        result_l = self.dsm_obj.run_dsm(
+            self._routine_call,
+            x0,
+            initial_simplex=start_simplex,
+            max_iterations_number=max_iteration_number,
+        )
         # Update the results
-        [fom, self.xx, self.terminate_reason] = \
-            [result_l['F_min_val'], result_l['X_opti_vec'], result_l["terminate_reason"]]
+        [fom, self.xx, self.terminate_reason] = [
+            result_l["F_min_val"],
+            result_l["X_opti_vec"],
+            result_l["terminate_reason"],
+        ]
 
     def _get_controls(self, xx: np.array) -> dict:
-        """ Get the controls dictionary from the optimized control parameters"""
+        """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
         #
-        controls_dict = {"pulses": pulses, "parameters": parameters, "timegrids": timegrids}
+        controls_dict = {
+            "pulses": pulses,
+            "parameters": parameters,
+            "timegrids": timegrids,
+        }
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """ Return a dictionary with final results to put into a dictionary """
-        final_dict = {"Figure of merit": self.best_fom, "total number of function evaluations": self.iteration_number}
+        """Return a dictionary with final results to put into a dictionary"""
+        final_dict = {
+            "Figure of merit": self.best_fom,
+            "total number of function evaluations": self.iteration_number,
+        }
         return final_dict
