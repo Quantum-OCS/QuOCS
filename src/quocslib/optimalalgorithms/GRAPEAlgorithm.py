@@ -1,11 +1,9 @@
 import numpy as np
 from scipy.optimize import minimize
-from numba import njit
 from scipy.linalg import expm
-from dataclasses import dataclass
+import matplotlib.pyplot as plt
 
 
-#
 def pw_evolution_save(drive, n_slices, dt, H_ctrl, H_drift, store):
     """
     Compute and save the propagator in each timestep, and update them in store
@@ -23,21 +21,21 @@ def commutator(A, B):
     return A @ B - B @ A
 
 
-@dataclass
-class StateTransfer:
-    system_type = "closed"
-    H0: np.ndarray
-    H_ctrl: any
-    n_slices: int
-    rho_init: any
-    rho_target: any
-    dt: float
-    initial_guess: np.ndarray
-    optimised_pulse: np.ndarray
+class StateTransfer():
+
+    def __init__(self, system_type, H0, H_ctrl, n_slices, rho_init, rho_target, dt, initial_guess, optimised_pulse):
+        self.system_type = system_type
+        self.H0 = H0
+        self.H_ctrl = H_ctrl
+        self.n_slices = n_slices
+        self.rho_init = rho_init
+        self.rho_target = rho_target
+        self.dt = dt
+        self.initial_guess = initial_guess
+        self.optimised_pulse = optimised_pulse
 
     def __init_solver__(self):
         # creates a function (x) that we can call
-        @njit
         def fn_to_optimise(x, n_slices, dt, H_ctrl, H_drift, rho0, rho1):
             n_ctrls = len(H_ctrl)
 
@@ -102,32 +100,4 @@ class StateTransfer:
         self.optimised_pulse = oo.x.reshape((self.n_slices, len(self.H_ctrl)))
         self.optim_result = oo
 
-    def visualise_pulse(self):
-        # this can only run if we have something in the optimised_pulse really
-
-        tArray = np.array([self.dt] * self.n_slices).cumsum() - self.dt
-
-        f, ax = plt.subplots()
-        for i in range(len(self.H_ctrl)):
-            ax.bar(tArray, self.optimised_pulse[:, i], label=str(i), width=dt / 2)
-        ax.set_xlabel("Time")
-        ax.legend()
-        plt.show()
-        return f
-
-    def resample_pulse(self, time_axis):
-        # interpolate pulse onto time axis given by
-        ret = np.zeros((len(time_axis), len(H_ctrl)))
-        original_time = np.array([self.dt] * self.n_slices).cumsum() - self.dt
-        for i in range(len(H_ctrl)):
-            e0 = self.optimised_pulse[0, i]
-            e1 = self.optimised_pulse[-1, i]
-            f = interpolate.interp1d(
-                original_time,
-                self.optimised_pulse[:, i],
-                kind="nearest",
-                fill_value=(e0, e1),
-                bounds_error=False,
-            )
-            ret[:, i] = f(time_axis)
-        return ret
+    
