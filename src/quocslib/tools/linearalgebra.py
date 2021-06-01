@@ -16,6 +16,18 @@
 
 import numpy as np
 
+def ptrace(rho, dimensions):
+    """
+    Useful to have this implementation of the partial trace which uses einsums
+
+    TODO implement this in Python again
+    """
+
+    return rho
+
+
+def commutator(A, B):
+    return A @ B - B @ A
 
 def gram_schmidt(A, n_l):
     # Get the number of vectors.
