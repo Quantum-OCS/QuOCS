@@ -18,7 +18,7 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 class ChoppedBasis:
     """
-    General class for chopped basis. All the chopped bases have to inherit this class.
+    General class for chopped basis. All the chopped basis has to inherit this class.
     """
     super_parameter_number: int
 
