@@ -23,6 +23,7 @@ from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
 from quocslib.utils.inputoutput import writejsonfile
 
+
 class AllInOneCommunication:
 
     def __init__(self, interface_job_name: str = "OptimizationTest", optimization_dictionary: dict = None, fom_obj: AbstractFom = None, handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump, comm_signals_list: [list, list, list] = None):
@@ -74,7 +75,7 @@ class AllInOneCommunication:
         
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
         """ Print optimization dictionary into a file """
-        writejsonfile(os.path.join(self.results_path,'optimization_dictionary.json'),optimization_dictionary)
+        writejsonfile(os.path.join(self.results_path, 'optimization_dictionary.json'), optimization_dictionary)
 
     def get_user_running(self) -> bool:
         """ Check if the user stopped the optimization """
