@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 from scipy.optimize import minimize
+import scipy
 
 from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
@@ -63,27 +64,65 @@ class GRAPEAlgorithm(Optimizer):
         self.rho_init = optimization_dict["rho_init"]
         self.rho_target = optimization_dict["rho_target"]
         self.dt = optimization_dict["dt"]
+        self.sys_type = optimization_dict["sys_type"]
+        self.dim = np.size(self.A, 1)
 
 
-        # create some storage arrays for the forward propagated state
-        self.rho_storage = np.array([self.rho_init for i in range(self.n_slices)])
-        # also save the larger matrix ready for the aux matrix method
-        self.aaa = None
+        # create some storage arrays for the forward and backward propagated state
+        self.rho_storage = np.array([self.rho_init for i in range(self.n_slices+1)])
+        self.rho_storage[0] = self.rho_init
+        self.corho_storage = np.array([self.rho_target for i in range(self.n_slices+1)])
+        self.corho_storage[-1] = self.rho_target
+        self.propagator_storage = np.array([self.A for i in range(self.n_slices)])
+        
+    def functional(self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type):
+        K = len(B)
+        drive = drive.reshape((K, n_slices))
+        pw_evolution(U_store, drive, A, B, n_slices, dt)
 
+
+        for t in range(n_slices):
+            U = U_store[t]
+            # depending on system type do different evolution
+            if sys_type == "StateTransfer":
+                rho_store[t+1] = U @ rho_store[t] @ U.T.conj()
+            else:
+                rho_store[t+1] = U @ rho_store[t]
+        for t in reversed(range(n_slices)):
+            U = U_store[t]
+            if sys_type == "StateTransfer":
+                corho_store[t] = U.T.conj() @ corho_store[t+1] @ U
+            else:
+                corho_store[t] = corho_store[t+1] @ U.T.conj()
+
+        # then compute the gradients
+        grads = np.zeros((K, n_slices))
+        for k in range(K):
+            for t in range(n_slices):
+                if sys_type == "StateTransfer":
+                    g = 1j * dt * corho_store[t].T.conj() @ commutator(B[k], rho_store[t])
+                    grads[k, t] = np.real(np.trace(g))
+                else:
+                    grads[k,t] = 0.0
+        grads = grads.flatten()
+        if sys_type == "StateTransfer":
+            fid = 1 - np.abs(np.trace(corho_store[-1].T.conj() @ rho_store[-1]))
+        else:
+            fid = 0.0
+            
+        return (fid, grads)
+
+    def _get_functional(self):
+        return lambda x: self.functional(x, self.A, self.B, self.n_slices, self.dt, self.propagator_storage, self.rho_storage, self.corho_storage, self.sys_type)
 
     def run(self) -> None:
         """Main loop of the optimization"""
-        # for super_it in range(1, 2):
-        #     # Check if the optimization was stopped by the user
-        #     if not self.is_optimization_running():
-        #         return
-        #     # Initialize the random super_parameters
-        #     self.controls.select_basis()
-        #     # Direct search method
-        #     if super_it == 1:
-        #         self._dsm_build(self.max_num_function_ev)
-        #     else:
-        #         self._dsm_build(self.max_num_function_ev2)
+
+        func_topt = self._get_functional()
+
+        # now we can optimize
+
+
         #     # Update the base current pulses
         #     self._update_base_pulses()
 
@@ -125,91 +164,16 @@ def to_vec(rho):
     """
     return rho.flatten()
 
-class StateTransfer:
-    def __init__(
-        self,
-        system_type,
-        H0,
-        H_ctrl,
-        n_slices,
-        rho_init,
-        rho_target,
-        dt,
-        initial_guess,
-        optimised_pulse,
-    ):
-        self.system_type = system_type
-        self.H0 = H0
-        self.H_ctrl = H_ctrl
-        self.n_slices = n_slices
-        self.rho_init = rho_init
-        self.rho_target = rho_target
-        self.dt = dt
-        self.initial_guess = initial_guess
-        self.optimised_pulse = optimised_pulse
 
-    def __init_solver__(self):
-        # creates a function (x) that we can call
-        def fn_to_optimise(x, n_slices, dt, H_ctrl, H_drift, rho0, rho1):
-            n_ctrls = len(H_ctrl)
+# x, n_slices, dt, H_ctrl, H_drift, propagators)
+def pw_evolution(U_store, drive, A, B, n_slices, dt):
+    K = len(B)
+    for i in range(n_slices):
+        H = A
+        for k in range(K):
+            H = H + drive[k, i] * B[k]
+        U_store[i] = scipy.linalg.expm(-1j * dt * H)
+    return None
 
-            x = x.reshape((n_slices, n_ctrls))
-            fwd_state_store = np.array([rho0] * (n_slices + 1))
-            co_state_store = np.array([rho1] * (n_slices + 1))
-            propagators = np.array([rho1] * (n_slices + 1))
-
-            pw_evolution_save(x, n_slices, dt, H_ctrl, H_drift, propagators)
-
-            # evolve one state forwards in time and the other backwards
-            for t in range(n_slices):
-                U = propagators[t]
-                ev = U @ fwd_state_store[t] @ U.T.conj()
-                fwd_state_store[t + 1] = ev
-
-            for t in reversed(range(n_slices)):
-                U = propagators[t]
-                ev = U.T.conj() @ co_state_store[t + 1] @ U
-                co_state_store[t] = ev
-
-            # then compute the gradient
-            grads = np.zeros((n_ctrls, n_slices))
-            for c in range(n_ctrls):
-                for t in range(n_slices):
-                    g = (
-                        1j
-                        * dt
-                        * (
-                            co_state_store[t].T.conj()
-                            @ commutator(H_ctrl[c], fwd_state_store[t])
-                        )
-                    )
-
-                    grads[c, t] = np.real(np.trace(g))
-            grads = grads.flatten()
-
-            s1 = fwd_state_store[n_slices]
-            s2 = co_state_store[n_slices]
-            out = 1 - np.abs(np.trace(s2.T.conj() @ s1))
-            return (out, grads)
-
-        return lambda x: fn_to_optimise(
-            x,
-            self.n_slices,
-            self.dt,
-            self.H_ctrl,
-            self.H0,
-            self.rho_init,
-            self.rho_target,
-        )
-
-    def solve(self):
-        # open this up to allow params passed to the solver
-        print("solving self")
-        fn = self.__init_solver__()
-        print("set up complete")
-        init = self.initial_guess.flatten()
-        print("begin solving")
-        oo = minimize(fn, init, method="L-BFGS-B", jac=True)
-        print("solve complete")
-        self.optimised_pulse = oo.x.reshape((self.n_slices, len(self.H_ctrl)))
-        self.optim_result = oo
+def commutator(A, B):
+    return A @ B - B @ A
