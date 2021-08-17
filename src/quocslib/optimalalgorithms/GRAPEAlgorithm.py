@@ -119,8 +119,15 @@ class GRAPEAlgorithm(Optimizer):
         """Main loop of the optimization"""
 
         func_topt = self._get_functional()
-
+        init = self.controls
         # now we can optimize
+        # need to be able to include things
+        oo = scipy.optimize.minimize(func_topt, init, method = "L-BFGS-B", jac = True)
+
+        # need to be able to implement pulses in Marco's way, ask him later
+        self.best_fom = oo.minimum
+        self.optimized_pulses = oo.x
+        self.opt_res = oo
 
 
         #     # Update the base current pulses
