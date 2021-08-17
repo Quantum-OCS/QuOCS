@@ -1,15 +1,11 @@
 import numpy as np
 from scipy.linalg import expm
 
-
-def pw_evolution_save(drive, n_slices, dt, H_ctrl, H_drift, store):
-    """
-    Compute and save the propagator in each timestep, and update them in store
-    """
-    # loop over each timestep
+def pw_evolution(U_store, drive, A, B, n_slices, dt):
+    K = len(B)
     for i in range(n_slices):
-        H = H_drift
-        for k in range(len(H_ctrl)):
-            H = H + H_ctrl[k] * drive[i, k]
-        U = expm(-1j * H * dt)
-        store[i] = U
+        H = A
+        for k in range(K):
+            H = H + drive[k, i] * B[k]
+        U_store[i] = expm(-1j * dt * H)
+    return None

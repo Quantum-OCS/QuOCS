@@ -150,30 +150,4 @@ class GRAPEAlgorithm(Optimizer):
         return final_dict
 
 
-def to_sup_op(H):
-    """
-    Function to convert a Hamiltonian into a Liouvillian
-    """
-    dim = np.size(H, 1)
-    idm = np.eye(dim)
-    return np.kron(idm, H) - np.kron(H.T.conj(), idm)
 
-def to_vec(rho):
-    """
-    Take an input rho vector and flatten it into a column
-    """
-    return rho.flatten()
-
-
-# x, n_slices, dt, H_ctrl, H_drift, propagators)
-def pw_evolution(U_store, drive, A, B, n_slices, dt):
-    K = len(B)
-    for i in range(n_slices):
-        H = A
-        for k in range(K):
-            H = H + drive[k, i] * B[k]
-        U_store[i] = scipy.linalg.expm(-1j * dt * H)
-    return None
-
-def commutator(A, B):
-    return A @ B - B @ A

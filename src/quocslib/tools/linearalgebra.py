@@ -92,3 +92,20 @@ if __name__ == '__main__':
     x_t_norm = np.append(x0_scale, simplex_m_r, axis=0)
 
     print(x_t_norm)
+
+
+def to_sup_op(H):
+    """
+    Function to convert a Hamiltonian into a Liouvillian
+    """
+    dim = np.size(H, 1)
+    idm = np.eye(dim)
+    return np.kron(idm, H) - np.kron(H.T.conj(), idm)
+
+def to_vec(rho):
+    """
+    Take an input rho vector and flatten it into a column
+    """
+    return rho.flatten()
+
+
