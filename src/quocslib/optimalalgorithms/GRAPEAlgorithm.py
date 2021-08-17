@@ -35,26 +35,10 @@ class GRAPEAlgorithm(Optimizer):
 
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
-        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
-        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
+        This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
+        Optimizer class except the optimization dictionary where the GRAPE settings and the controls are defined.
         """
         super().__init__(communication_obj=communication_obj)
-        ###########################################################################################
-        # Inner free gradient method
-        ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"][
-            "general_settings"
-        ]
-        dsm_attribute = dynamic_import(
-            class_name="FreeGradientTemplate",
-            module_name="quocslib.freegradientmethods.FreeGradientTemplate",
-        )
-        self.dsm_obj = dsm_attribute(
-            direct_search_method_settings,
-            stopping_criteria,
-            callback=self.is_optimization_running,
-        )
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
@@ -71,61 +55,41 @@ class GRAPEAlgorithm(Optimizer):
             optimization_dict["parameters"],
         )
 
-    # I think this doesnt make sense
-    # def _get_response_for_client(self) -> dict:
-    #     """Return useful information for th interface"""
-    #     is_record = False
-    #     fom = self.fom_dict["FoM"]
-    #     if fom < self.best_fom:
-    #         self.best_fom = fom
-    #         is_record = True
-    #     response_dict = {
-    #         "is_record": is_record,
-    #         "FoM": fom,
-    #         "iteration_number": self.iteration_number,
-    #     }
-    #     return response_dict
+        # might need to control if you change something
+        
+        self.A = optimization_dict["A"]
+        self.B = optimization_dict["B"]
+        self.n_slices = optimization_dict["n_slices"]
+        self.rho_init = optimization_dict["rho_init"]
+        self.rho_target = optimization_dict["rho_target"]
+        self.dt = optimization_dict["dt"]
+
+
+        # create some storage arrays for the forward propagated state
+        self.rho_storage = np.array([self.rho_init for i in range(self.n_slices)])
+        # also save the larger matrix ready for the aux matrix method
+        self.aaa = None
+
 
     def run(self) -> None:
         """Main loop of the optimization"""
-        for super_it in range(1, 2):
-            # Check if the optimization was stopped by the user
-            if not self.is_optimization_running():
-                return
-            # Initialize the random super_parameters
-            self.controls.select_basis()
-            # Direct search method
-            if super_it == 1:
-                self._dsm_build(self.max_num_function_ev)
-            else:
-                self._dsm_build(self.max_num_function_ev2)
-            # Update the base current pulses
-            self._update_base_pulses()
+        # for super_it in range(1, 2):
+        #     # Check if the optimization was stopped by the user
+        #     if not self.is_optimization_running():
+        #         return
+        #     # Initialize the random super_parameters
+        #     self.controls.select_basis()
+        #     # Direct search method
+        #     if super_it == 1:
+        #         self._dsm_build(self.max_num_function_ev)
+        #     else:
+        #         self._dsm_build(self.max_num_function_ev2)
+        #     # Update the base current pulses
+        #     self._update_base_pulses()
 
-    def _update_base_pulses(self) -> None:
-        """Update the base dCRAB pulse"""
-        self.controls.update_base_controls(self.xx)
-
-    def _dsm_build(self, max_iteration_number: int) -> None:
-        """Build the direct search method and run it"""
-        start_simplex = simplex_creation(
-            self.controls.get_mean_value(), self.controls.get_sigma_variation()
-        )
-        # Initial point for the Start Simplex
-        x0 = self.controls.get_mean_value()
-        # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(
-            self._routine_call,
-            x0,
-            initial_simplex=start_simplex,
-            max_iterations_number=max_iteration_number,
-        )
-        # Update the results
-        [fom, self.xx, self.terminate_reason] = [
-            result_l["F_min_val"],
-            result_l["X_opti_vec"],
-            result_l["terminate_reason"],
-        ]
+    # def _update_base_pulses(self) -> None:
+    #     """Update the base dCRAB pulse"""
+    #     self.controls.update_base_controls(self.xx)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
@@ -146,6 +110,20 @@ class GRAPEAlgorithm(Optimizer):
         }
         return final_dict
 
+
+def to_sup_op(H):
+    """
+    Function to convert a Hamiltonian into a Liouvillian
+    """
+    dim = np.size(H, 1)
+    idm = np.eye(dim)
+    return np.kron(idm, H) - np.kron(H.T.conj(), idm)
+
+def to_vec(rho):
+    """
+    Take an input rho vector and flatten it into a column
+    """
+    return rho.flatten()
 
 class StateTransfer:
     def __init__(
