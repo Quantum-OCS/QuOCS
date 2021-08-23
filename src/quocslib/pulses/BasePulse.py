@@ -29,8 +29,8 @@ class BasePulse:
     final_time: float
 
     def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0,
-                 upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None, is_shrinked:bool = False,
-                 shaping_options: list = None, **kwargs):
+                 upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None,
+                 is_shrinked:bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
         :param int map_index: index number for pulse control parameters association
@@ -98,6 +98,8 @@ class BasePulse:
         self.scaling_function = scaling_function
         # Shrink option
         self.is_shrinked = is_shrinked
+        # Overwrite the base pulse at the end of the superiteration
+        self.overwrite_base_pulse = overwrite_base_pulse
 
     def _set_time_grid(self, final_time: float) -> None:
         """Set the time grid"""
@@ -174,7 +176,10 @@ class BasePulse:
         """ Set the base optimal pulse pulse """
         self._set_control_parameters(optimized_control_parameters)
         self._set_time_grid(final_time)
-        self.base_pulse += self._get_shaped_pulse()
+        if self.overwrite_base_pulse:
+            self.base_pulse = self._get_shaped_pulse()
+        else:
+            self.base_pulse += self._get_shaped_pulse()
 
     def _set_control_parameters(self, optimized_control_parameters: np.ndarray) -> None:
         """ Set the optimized control parameters vector """
