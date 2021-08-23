@@ -45,7 +45,7 @@ class BasePulse:
         :param kwargs: Other arguments
         """
         # The arguments did not use here, use for the other class
-        super().__init__(**kwargs)
+         # super().__init__(**kwargs)
         # Pulse name
         self.pulse_name = pulse_name
         # Bins number
