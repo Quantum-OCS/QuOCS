@@ -72,6 +72,15 @@ class AllInOneCommunication:
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary
         self.controls_dict = {}
+
+    def print_logger(self, message: str = "", level: int = 10):
+        """ Print a message in the log """
+        self.logger.log(level, message)
+
+    def send_message(self, message):
+        """ Send a message to the interface """
+        if self.message_signal is not None:
+            self.message_signal.emit(message)
         
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
         """ Print optimization dictionary into a file """
@@ -79,6 +88,7 @@ class AllInOneCommunication:
 
     def get_user_running(self) -> bool:
         """ Check if the user stopped the optimization """
+        self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         return self.he_obj.is_user_running
 
     def send_controls(self, controls_dict: dict) -> None:
@@ -99,6 +109,7 @@ class AllInOneCommunication:
 
         :return dict: {"fom_values": {"FoM": float, ...}}
         """
+        self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         fom_dict = self.fom_obj.get_FoM(**self.controls_dict)
         return {"fom_values": fom_dict}
 
@@ -110,6 +121,14 @@ class AllInOneCommunication:
         :return:
         """
         iteration_number, fom = response_for_client["iteration_number"], response_for_client["FoM"]
+        status_code = response_for_client.setdefault("status_code", 0)
+        # Check for interrupting signals
+        if status_code != 0:
+            self.logger.info("The optimization was interrupted with status code: {0}"
+                             " at iteration {1}".format(status_code, iteration_number))
+            # Set the user running to False in order to not continue with the next iteration
+            self.he_obj.is_user_running = False
+            return
         self.logger.info("Iteration number: {0}, FoM: {1}".format(iteration_number, fom))
         self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)
         if self.fom_plot_signal is not None:
