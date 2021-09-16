@@ -17,16 +17,11 @@
 import os
 
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
-from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.utils.inputoutput import readjson
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
-
-
-class HandleExit(AbstractHandleExit):
-    pass
-
 
 def main(optimization_dictionary: dict):
     args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
