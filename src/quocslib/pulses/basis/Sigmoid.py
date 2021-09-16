@@ -21,7 +21,7 @@ from quocslib.pulses.BasePulse import BasePulse
 from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 
 
-class Sigmoid(BasePulse, ChoppedBasis):
+class Sigmoid(ChoppedBasis):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray
