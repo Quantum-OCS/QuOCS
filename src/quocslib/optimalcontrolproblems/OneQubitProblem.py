@@ -24,6 +24,7 @@ class OneQubit(AbstractFom):
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
+
         self.psi_target = np.asarray(eval(args_dict.setdefault("target_state", "[1.0/np.sqrt(2), -1j/np.sqrt(2)]")), dtype="complex")
         self.psi_0 = np.asarray(eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex")
         self.delta1 = args_dict.setdefault("delta1", 0.1)
