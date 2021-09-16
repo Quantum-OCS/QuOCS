@@ -123,7 +123,6 @@ class FilesUpdateFom(AbstractFom):
 
             np.savetxt(controls_file, parameters_list, fmt="%f")
 
-
     def _put_controls_json(self, pulses_list: list, time_grids_list: list, parameters_list: list):
         """ Save into a json file """
         # Save the pulses and the respective timegrids into a dictionary
