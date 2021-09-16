@@ -45,6 +45,7 @@ class DCrabAlgorithm(Optimizer):
             stopping_criteria,
             callback=self.is_optimization_running,
         )
+        self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables
         ###########################################################################################
@@ -88,6 +89,7 @@ class DCrabAlgorithm(Optimizer):
             "is_record": is_record,
             "FoM": fom,
             "iteration_number": self.iteration_number,
+            "status_code": self.fom_dict.setdefault("status_code", 0)
         }
         return response_dict
 
@@ -155,6 +157,7 @@ class DCrabAlgorithm(Optimizer):
             "total number of function evaluations": self.iteration_number,
             "dcrab_freq_list": self.dcrab_super_parameter_list,
             "dcrab_para_list": self.dcrab_parameters_list,
+            "terminate_reason": self.terminate_reason
         }
         return final_dict
 
