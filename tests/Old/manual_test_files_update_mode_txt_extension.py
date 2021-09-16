@@ -25,7 +25,7 @@ from quocslib.utils.BestDump import BestDump
 def main(optimization_dictionary: dict):
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
-    fom_obj = FilesUpdateFom(controls_folder=".", fom_folder=".")
+    fom_obj = FilesUpdateFom(controls_folder=".", fom_folder=".", file_extension="txt")
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
                                               fom_obj=fom_obj, handle_exit_obj=HandleExit(), dump_attribute=BestDump)
     optimizer_attribute = dynamic_import(
