@@ -29,7 +29,8 @@ class BasePulse:
     final_time: float
 
     def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0,
-                 upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None, **kwargs):
+                 upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None,
+                 is_shrinked:bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
         :param int map_index: index number for pulse control parameters association
@@ -44,7 +45,7 @@ class BasePulse:
         :param kwargs: Other arguments
         """
         # The arguments did not use here, use for the other class
-        super().__init__(**kwargs)
+         # super().__init__(**kwargs)
         # Pulse name
         self.pulse_name = pulse_name
         # Bins number
@@ -56,6 +57,7 @@ class BasePulse:
         # Time
         self.time_name = time_name
         # Amplitude Limits
+        # TODO Implement check amplitude lower < amplitude upper
         (self.amplitude_lower, self.amplitude_upper) = (lower_limit, upper_limit)
         # Amplitude variation
         self.amplitude_variation = amplitude_variation
@@ -63,6 +65,19 @@ class BasePulse:
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
+        # Shaping options
+        print("Testing shaping option list mode")
+        shaping_option_dict = {"add_base_pulse": self.add_base_pulse, "add_initial_guess": self.add_initial_guess,
+                               "limit_pulse": self.limit_pulse, "scale_pulse": self.scale_pulse}
+        if shaping_options is None:
+            self.shaping_options = [self.add_base_pulse, self.add_initial_guess, self.limit_pulse, self.scale_pulse]
+        else:
+            self.shaping_options = []
+            for op_str in shaping_options:
+                if op_str in shaping_option_dict:
+                    self.shaping_options.append(shaping_option_dict[op_str])
+                else:
+                    print("Warning: {0} pulse option is not implemented".format(op_str))
         # Initial guess function
         function_type = initial_guess["function_type"]
         if function_type == "lambda_function":
@@ -81,6 +96,10 @@ class BasePulse:
         else:
             scaling_function = lambda t: 1.0 * t
         self.scaling_function = scaling_function
+        # Shrink option
+        self.is_shrinked = is_shrinked
+        # Overwrite the base pulse at the end of the superiteration
+        self.overwrite_base_pulse = overwrite_base_pulse
 
     def _set_time_grid(self, final_time: float) -> None:
         """Set the time grid"""
@@ -89,10 +108,63 @@ class BasePulse:
 
     def _get_build_pulse(self) -> np.ndarray:
         """ Build the pulse with all the constraints"""
-        optimal_pulse = self.base_pulse + self._get_shaped_pulse()
-        optimal_total_pulse = self._get_initial_guess() + optimal_pulse
-        optimal_scaled_pulse = optimal_total_pulse * self._get_scaling_function()
-        return self._get_limited_pulse(optimal_scaled_pulse)
+        optimal_pulse = self._get_shaped_pulse()
+        for op in self.shaping_options:
+            optimal_pulse = op(optimal_pulse)
+        # Pulse operations
+        # Make a loop with all the operation that the users wants to apply to the pulse shaping
+        # optimal_pulse_total = self._get_initial_guess() + self._constrained_pulse(optimal_pulse)
+        return optimal_pulse
+
+    def _constrained_pulse(self, optimal_pulse: np.ndarray) -> np.ndarray:
+        """ Apply further constraints to the final pulse """
+        # Shrink the optimal pulse
+        optimal_limited_pulse = self._get_limited_pulse(optimal_pulse)
+        optimal_scaled_pulse = optimal_limited_pulse * self._get_scaling_function()
+        return optimal_scaled_pulse
+
+    def _shrink_pulse(self, optimal_pulse: np.ndarray) -> np.ndarray:
+        """ Shrink the optimal pulse to respect the amplitude limits"""
+        # Upper - lower bounds
+        u_bound = self.amplitude_upper
+        l_bound = self.amplitude_lower
+        # Upper - lower values of the optimal pulse
+        u_value = np.max(optimal_pulse)
+        l_value = np.min(optimal_pulse)
+        # Distances to the bounds
+        u_distance = u_value - u_bound
+        l_distance = l_bound - l_value
+        # Check if the bounds are not respect by the optimal pulse
+        if u_distance > 0.0 or l_distance > 0.0:
+            # Move the pulse to the center of the axis
+            distance_u_l_value = (u_value + l_value) / 2.0
+            v_optimal_pulse = optimal_pulse - distance_u_l_value
+            # Move the bounds to the center of the axis respect the optimal pulses
+            distance_u_l_bound = (u_bound + l_bound) / 2.0
+            v_u_bound, v_l_bound = [u_bound - distance_u_l_value, l_bound - distance_u_l_value]
+            # Check which is the greatest virtual distance
+            v_u_value = np.max(v_optimal_pulse)
+            v_l_value = np.min(v_optimal_pulse)
+            # The distance is preserved under this transformation
+            v_l_distance = l_distance
+            v_u_distance = u_distance
+            # Calculate the max distance and assign the max bound in the virtual frame
+            if v_u_distance >= v_l_distance:
+                max_value = v_u_value
+                max_bound = v_u_bound
+            else:
+                max_value = v_l_value
+                max_bound = v_l_bound
+            # Calculate the shrink factor (< 1.0)
+            shrink_factor = max_bound / max_value
+            # rescale the virtual pulse
+            shrinked_v_optimal_pulse = shrink_factor * v_optimal_pulse
+            # Go back to the non virtual pulse, i.e. a transformation + distance_u_l_value
+            shrinked_pulse = shrinked_v_optimal_pulse + distance_u_l_value
+            # Re-assign the optimal pulse
+            optimal_pulse = shrinked_pulse
+
+        return optimal_pulse
 
     def get_pulse(self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0) -> np.ndarray:
         """ Set the optimized control parameters, the time grid, and return the pulse"""
@@ -104,7 +176,10 @@ class BasePulse:
         """ Set the base optimal pulse pulse """
         self._set_control_parameters(optimized_control_parameters)
         self._set_time_grid(final_time)
-        self.base_pulse += self._get_shaped_pulse()
+        if self.overwrite_base_pulse:
+            self.base_pulse = self._get_shaped_pulse()
+        else:
+            self.base_pulse += self._get_shaped_pulse()
 
     def _set_control_parameters(self, optimized_control_parameters: np.ndarray) -> None:
         """ Set the optimized control parameters vector """
@@ -120,7 +195,7 @@ class BasePulse:
             scaling_function_t = self.scaling_function
         else:
             # TODO Handle here
-            print("Warning: scaling function not good. do with 1.0")
+            print("Warning: scaling function not good. Do with 1.0")
             scaling_function_t = (lambda t: 1.0)(self.time_grid)
         return scaling_function_t
 
@@ -132,14 +207,32 @@ class BasePulse:
             initial_guess_t = self.initial_guess_pulse
         else:
             # TODO Handle here
-            print("Warning: initial guess function not good. do with 0.0")
+            print("Warning: initial guess function not good. Do with 0.0")
             initial_guess_t = (lambda t: 0.0)(self.time_grid)
         return self._get_limited_pulse(initial_guess_t)
 
-    def _get_limited_pulse(self, optimal_total_pulse):
+    def add_base_pulse(self, pulse: np.ndarray):
+        """ Add the base pulse """
+        return pulse + self.base_pulse
+
+    def add_initial_guess(self, pulse: np.ndarray):
+        """ Add the initial pulse to the optimal pulse"""
+        return self._get_initial_guess() + pulse
+
+    def limit_pulse(self, pulse: np.ndarray):
+        """ Apply the constraints to the optimal pulse"""
+        return self._get_limited_pulse(pulse)
+
+    def scale_pulse(self, pulse: np.ndarray):
+        """ Scale the optimal pulse accordingly to the scaling function"""
+        return self._get_scaling_function() * pulse
+
+    def _get_limited_pulse(self, optimal_pulse: np.ndarray):
         """ Cut the pulse with the amplitude limits constraints """
-        # TODO Implement the possibility to shrink the pulse instead
-        return np.maximum(np.minimum(optimal_total_pulse, self.amplitude_upper), self.amplitude_lower)
+        if self.is_shrinked:
+            return self._shrink_pulse(optimal_pulse)
+        else:
+            return np.maximum(np.minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
 
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:

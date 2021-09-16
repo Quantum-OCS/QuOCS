@@ -18,15 +18,11 @@ import os
 
 
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
-from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.utils.inputoutput import readjson
 from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
 from quocslib.utils.BestDump import BestDump
-
-
-class HandleExit(AbstractHandleExit):
-    pass
 
 
 def main(optimization_dictionary: dict):

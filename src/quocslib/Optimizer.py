@@ -17,6 +17,7 @@ from abc import abstractmethod
 import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 
+
 class Optimizer:
     init_status: bool = False
     fom_maximum: float = 1e10
@@ -43,6 +44,8 @@ class Optimizer:
 
     def begin(self) -> None:
         """ Initialize the communication with the client"""
+        # Send starting message to the interface
+        self.comm_obj.send_message("start")
         # Assign new job number to the client
         self.comm_obj.assign_job()
         # Send the new data for the communication to the client
@@ -59,6 +62,10 @@ class Optimizer:
         :param int iterations: Iteration number of the inner free gradient method
         :return: float: Return the figure of merit to the inner free gradient method
         """
+        # Check if the optimization is still running
+        is_running = self.comm_obj.get_user_running()
+        if not is_running:
+            return self.fom_maximum
         # Update parameter array and iteration number
         self.xx, self.alg_iteration_number = optimized_control_parameters, iterations
         # Update iteration number
@@ -74,7 +81,8 @@ class Optimizer:
         # Check for interface response
         self.comm_obj.check_msg_client()
         # Check if the optimization is still running
-        if not self.comm_obj.get_user_running:
+        is_running = self.comm_obj.get_user_running()
+        if not is_running:
             return self.fom_maximum
         # Get the figure of merit and update it to the main algorithm
         self.fom_dict = self.comm_obj.get_data()["fom_values"]

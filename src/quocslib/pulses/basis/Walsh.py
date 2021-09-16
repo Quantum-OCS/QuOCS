@@ -15,13 +15,12 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
-from scipy.special import erf
 
 from quocslib.pulses.BasePulse import BasePulse
 from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 
 
-class Sigmoid(ChoppedBasis):
+class Walsh(ChoppedBasis):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray
@@ -33,35 +32,56 @@ class Sigmoid(ChoppedBasis):
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
         :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
         """
+        #################
+        # Basis dependent settings
+        #################
         basis_dict = pulse_dictionary["basis"]
-        # Frequencies number i.e. the basis vector number in the pulse parametrization
+        # Super Parameter number i.e. the basis vector number in the pulse parametrization
         self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
-        # define basis specific stuff
-        self.offset = basis_dict.setdefault("offset", 0.1)
-        self.sigma = basis_dict.setdefault("sigma", 0.1)
         # Number of control parameters to be optimized
-        self.control_parameters_number = self.super_parameter_number + 1
+        self.control_parameters_number = 2 * self.super_parameter_number
+        #################
+        # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
+        # distribution of super parameters, etc ...
+        ################
         # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
-        # Define scale and offset coefficients
-        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number,))
+        #################
+        # Basis dependent settings
+        #################
+        # Scale coefficients: average distance of the points in the intial simplex
+        self.scale_coefficients = self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number,))
+        # Initial value of the parameters in the pulse parametrization
         self.offset_coefficients = np.zeros((self.control_parameters_number,))
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """
-        # Pulse definition
+        #################
+        # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
+        # distribution of super parameters, etc ...
+        ################
+        # Pulse initialization
         pulse = np.zeros(self.bins_number)
         # Final time definition
         final_time = self.final_time
-        # basis specific definitions
-        #sigma = final_time/100  # NEEDS TO BE SET IN CONFIG
-        #offset = sigma*(self.amplitude_upper-self.amplitude_lower)/10  # NEEDS TO BE SET IN CONFIG
         # Pulse creation
-        Aopti = self.optimized_control_parameters  # amplitudes
-        taus = self.super_parameter_distribution_obj.w  # times
+        xx = self.optimized_control_parameters
+        w = self.super_parameter_distribution_obj.w
         t = self.time_grid
+        #################
+        # Basis dependent settings
+        #################
         for ii in range(self.super_parameter_number):
-            pulse += Aopti[ii+1] / 2 * (erf((t - taus[ii])/(np.sqrt(2) * self.sigma)) + 1)
-        pulse += Aopti[0] / 2 * (erf((t - self.offset)/(np.sqrt(2) * self.sigma)) + 1)
-        pulse += -np.sum(Aopti) / 2 * (erf((t - (final_time-self.offset))/(np.sqrt(2) * self.sigma)) + 1)
-        return pulse
+            pulse += xx[2*ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + \
+                     xx[2*ii + 1] * np.cos(2 * np.pi * w[ii] * t / final_time)
+        return self._limit_constraints(pulse)
+
+    def _limit_constraints(self, pulse: np.ndarray) -> np.ndarray:
+        """ Limit the dCRAB pulse accordingly to the system constraints"""
+        # Add the initial guess
+        optimal_pulse = self.add_initial_guess(pulse)
+        # Constraint the pulse
+        optimal_pulse = self.limit_pulse(optimal_pulse)
+        # Substract the initial guess pulse
+        optimal_pulse = optimal_pulse - self._get_initial_guess()
+        return optimal_pulse
