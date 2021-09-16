@@ -14,9 +14,10 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from abc import ABCMeta
+from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 
-class AbstractHandleExit(metaclass=ABCMeta):
-    """Abstract to handle the program exit"""
-    is_user_running: bool
+class HandleExit(AbstractHandleExit):
+
+    def __init__(self):
+        self.is_user_running = True
