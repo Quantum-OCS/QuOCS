@@ -77,6 +77,8 @@ class DCrabAlgorithm(Optimizer):
         ###########################################################################################
         self.dcrab_parameters_list = []
         self.dcrab_super_parameter_list = []
+        self.fom_list = []
+        self.iteration_number_list = []
 
     def _get_response_for_client(self) -> dict:
         """Return useful information for the client interface"""
@@ -85,12 +87,17 @@ class DCrabAlgorithm(Optimizer):
         if fom < self.best_fom:
             self.best_fom = fom
             is_record = True
+        status_code = self.fom_dict.setdefault("status_code", 0)
         response_dict = {
             "is_record": is_record,
             "FoM": fom,
             "iteration_number": self.iteration_number,
-            "status_code": self.fom_dict.setdefault("status_code", 0)
+            "status_code": status_code
         }
+        # Load the current parameters
+        if status_code == 0:
+            self.fom_list.append(fom)
+            self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
     def run(self) -> None:
@@ -161,5 +168,6 @@ class DCrabAlgorithm(Optimizer):
         }
         return final_dict
 
-    # TODO Add a function to return the best controls obtained so far
-    # Something like return self.controls.get_controls_lists(self.xx)
+    def get_best_controls(self):
+        """ Return the best pulses_list, time_grids_list, and parameters_list found so far"""
+        return self.controls.get_controls_lists(self.controls.get_mean_value())
