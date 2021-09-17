@@ -138,7 +138,7 @@ class Controls:
             time_name = pulse.time_name
             pulse.set_base_pulse(optimized_parameters_vector[pulse.control_parameters_list],
                                  final_time=self.times_obj_dictionary[time_name].get_time())
-        # Set the parameteres
+        # Set the parameters
         for parameter in self.parameter_objs_list:
             parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
