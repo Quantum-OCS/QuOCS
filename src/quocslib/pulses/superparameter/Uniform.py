@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocslib.pulses.super_parameter.SuperParameterDistribution import SuperParameterDistribution
+from quocslib.pulses.superparameter.SuperParameterDistribution import SuperParameterDistribution
 
 
 class Uniform(SuperParameterDistribution):

@@ -14,20 +14,23 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import os
+
+from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
 from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.utils.inputoutput import readjson
-from quocslib.utils.FilesUpdateFom import FilesUpdateFom
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
 
 
 def main(optimization_dictionary: dict):
+    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
-    fom_obj = FilesUpdateFom(controls_folder=".", fom_folder=".")
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              fom_obj=fom_obj, handle_exit_obj=HandleExit(), dump_attribute=BestDump)
+                                              fom_obj=OneQubit(args_dict=args_dict), handle_exit_obj=HandleExit(),
+                                              dump_attribute=BestDump)
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
@@ -44,15 +47,4 @@ def main(optimization_dictionary: dict):
 
 
 if __name__ == '__main__':
-    import sys
-    args_number = len(sys.argv)
-    if len(sys.argv) == 2:
-        filename = sys.argv[1]
-        err_stat, user_data = readjson(filename)
-        if err_stat == 0:
-            main(user_data)
-        else:
-            print("File {0} does not exist".format(filename))
-    else:
-        print("{0} are {1} arguments".format(sys.argv, args_number))
-        print("Only 2 arguments are allowed")
+    main(readjson(os.path.join(os.getcwd(), "algorithm_dictionary_v4_shaping_option_list_mode.json"))[1])

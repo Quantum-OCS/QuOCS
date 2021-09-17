@@ -14,13 +14,13 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2
+from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2_2fields
 import numpy as np
 from scipy.linalg import expm, norm
 from quocslib.utils.AbstractFom import AbstractFom
 
 
-class OneQubit(AbstractFom):
+class OneQubit2Fields(AbstractFom):
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
@@ -31,19 +31,21 @@ class OneQubit(AbstractFom):
         self.delta2 = args_dict.setdefault("delta2", 0.1)
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
-        f = np.asarray(pulses[0])
+        amplitude = np.asarray(pulses[0])
+        phase = np.asarray(pulses[1])
         timegrid = np.asarray(timegrids[0])
         dt = timegrid[1] - timegrid[0]
-        U = self._time_evolution(f, dt)
+        U = self._time_evolution(amplitude, phase, dt, self.delta1, self.delta2)
         psi_f = np.matmul(U, self.psi_0)
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
         return {"FoM": infidelity}
 
     @staticmethod
-    def _time_evolution(fc, dt):
+    def _time_evolution(amplitude, phase, dt, delta1=0.0, delta2=0.0):
         U = np.identity(2)
-        for ii in range(fc.size - 1):
-            ham_t = hamiltonian_d1_d2((fc[ii + 1] + fc[ii]) / 2)
+        for ii in range(amplitude.size - 1):
+            ham_t = hamiltonian_d1_d2_2fields((amplitude[ii + 1] + amplitude[ii]) / 2,
+                                              (phase[ii + 1] + phase[ii]) / 2, delta1, delta2)
             U_temp = U
             U = np.matmul(expm(-1j * ham_t * dt), U_temp)
         return U

@@ -20,7 +20,7 @@ from quocslib.pulses.BasePulse import BasePulse
 from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 
 
-class Fourier(BasePulse, ChoppedBasis):
+class DummyBasis(ChoppedBasis):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray

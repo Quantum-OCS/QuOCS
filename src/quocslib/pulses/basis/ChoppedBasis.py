@@ -14,9 +14,10 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.utils.dynamicimport import dynamic_import
+from quocslib.pulses.BasePulse import BasePulse
 
 
-class ChoppedBasis:
+class ChoppedBasis(BasePulse):
     """
     General class for chopped basis. All the chopped basis has to inherit this class.
     """

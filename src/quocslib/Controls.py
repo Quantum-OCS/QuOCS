@@ -78,7 +78,7 @@ class Controls:
             # TODO Implement the time optimization here
 
     def select_basis(self) -> None:
-        """ Initialize the super_parameter basis """
+        """ Initialize the superparameter basis """
         for pulse in self.pulse_objs_list:
             pulse.super_parameter_distribution_obj.set_random_super_parameter()
 
