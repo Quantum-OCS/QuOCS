@@ -29,7 +29,13 @@ def ptrace(rho, dimensions):
 def commutator(A, B):
     return A @ B - B @ A
 
-def gram_schmidt(A, n_l):
+def gram_schmidt(A):
+    """
+    Orthonormalize a set of linear independent vectors
+
+    :param A: Square matrix with linear independent vectors
+    :return A: Square matrix with orthonormalize vectors
+    """
     # Get the number of vectors.
     n = A.shape[1]
     for j in range(n):
@@ -39,12 +45,13 @@ def gram_schmidt(A, n_l):
         for k in range(j):
             u_k = A[:, k]
             A[:, j] -= np.dot(u_k, A[:, j]) * u_k / np.linalg.norm(u_k)**2
-        A[:, j] = A[:, j] / np.linalg.norm(A[:, j]) * n_l[j]
+        A[:, j] = A[:, j] / np.linalg.norm(A[:, j])
     return A
 
 
 def simplex_creation(mean_value: np.array, sigma_variation: np.array) -> np.array:
     """
+    Creation of the simplex
 
     @return:
     """
@@ -56,12 +63,14 @@ def simplex_creation(mean_value: np.array, sigma_variation: np.array) -> np.arra
     # First row
     x0_scale = np.zeros((1, ctrl_par_number))
     # Simplex matrix ( without first row )
-    simplex_matrix = np.diag(sigma_variation)
-    # Add random number
-    simplex_matrix[0, :] += sigma_variation[0] * np.sqrt(3) * (np.random.rand(ctrl_par_number, ) - 0.5) * 2
+    simplex_matrix = np.diag(np.ones_like(sigma_variation))
+    # Add random number in the first column
+    simplex_matrix[0, :] += np.sqrt(3) * (np.random.rand(ctrl_par_number, ) - 0.5) * 2
     # Orthogonalize set of vectors with gram_schmidt, and rescale with the normalization length
-    simplex_matrix_orthogonal_rescaled = gram_schmidt(simplex_matrix.T, sigma_variation).T
-    # Add first row
+    simplex_matrix_orthonormal = gram_schmidt(simplex_matrix.T)
+    # Rescale the vector with the sigma variation
+    simplex_matrix_orthogonal_rescaled = simplex_matrix_orthonormal @ np.diag(sigma_variation)
+    # Add the first row containing only zeros
     x_t_norm = np.append(x0_scale, simplex_matrix_orthogonal_rescaled, axis=0)
     # Offset matrix
     x_offset = np.outer(np.ones((1, ctrl_par_number + 1)), mean_value)
@@ -71,6 +80,7 @@ def simplex_creation(mean_value: np.array, sigma_variation: np.array) -> np.arra
 
 
 if __name__ == '__main__':
+    # TODO Move this main script to a test script
     Nc = 4
     ampl_var_1 = 2.0
     ampl_var_2 = 0.7

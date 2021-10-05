@@ -33,6 +33,7 @@ class BasePulse:
                  is_shrinked:bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
+
         :param int map_index: index number for pulse control parameters association
         :param str pulse_name: Pulse name
         :param int bins_number: Number of bins
