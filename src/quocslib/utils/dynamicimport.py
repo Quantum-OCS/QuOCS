@@ -28,10 +28,13 @@ def dynamic_import(attribute=None, module_name: str = None, class_name: str = No
     # If the attribute is already given, then just return the attribute
     if attribute is not None:
         return attribute
-    # Get the attribute
-    import_conditions = [module_name is not None, class_name is not None]
+    # Get the attribute       
+    import_conditions = [module_name is not None, class_name is not None]    
     if all(import_conditions):
         try:
+            # provide backward - compatibility after renaming
+            module_name = module_name.replace("quocslib.pulses.super_parameter.", "quocslib.pulses.superparameter.")
+            
             attribute = getattr(importlib.import_module(module_name), class_name)
         except Exception as ex:
             print("{0}.py module does not exist or {1} is not the class in that module".format(module_name, class_name))
