@@ -28,8 +28,8 @@ def dynamic_import(attribute=None, module_name: str = None, class_name: str = No
     # If the attribute is already given, then just return the attribute
     if attribute is not None:
         return attribute
-    # Get the attribute       
-    import_conditions = [module_name is not None, class_name is not None]    
+    # Get the attribute
+    import_conditions = [module_name is not None, class_name is not None]
     if all(import_conditions):
         try:
             # provide backward - compatibility after renaming
