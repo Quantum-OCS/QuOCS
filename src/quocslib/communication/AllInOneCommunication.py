@@ -111,6 +111,11 @@ class AllInOneCommunication:
         """
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         fom_dict = self.fom_obj.get_FoM(**self.controls_dict)
+        # set the status of the fom to 0 if it does not exist already
+        status_code = fom_dict.setdefault("status_code", 0)
+        # if the user passes a different status code than zero, stop the optimization
+        if status_code != 0:
+            self.he_obj.is_user_running = False 
         return {"fom_values": fom_dict}
 
     def send_fom_response(self, response_for_client: dict) -> None:
