@@ -102,6 +102,12 @@ class BasePulse:
         # Overwrite the base pulse at the end of the superiteration
         self.overwrite_base_pulse = overwrite_base_pulse
 
+    def set_control_parameters_list(self, map_index):
+        """ Set the control parameters list. It is used when the """
+        self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
+        print("Set control parameters list. Control parameters nmber: {0}, control_parameters_list{1}"
+              .format(self.control_parameters_number, self.control_parameters_list))
+
     def _set_time_grid(self, final_time: float) -> None:
         """Set the time grid"""
         self.final_time = final_time
@@ -137,11 +143,12 @@ class BasePulse:
         l_distance = l_bound - l_value
         # Check if the bounds are not respect by the optimal pulse
         if u_distance > 0.0 or l_distance > 0.0:
-            # Move the pulse to the center of the axis
+            # Calculate the middle position between the max and min amplitude
             distance_u_l_value = (u_value + l_value) / 2.0
+            # Move the pulse to the center of the axis
             v_optimal_pulse = optimal_pulse - distance_u_l_value
             # Move the bounds to the center of the axis respect the optimal pulses
-            distance_u_l_bound = (u_bound + l_bound) / 2.0
+            # distance_u_l_bound = (u_bound + l_bound) / 2.0
             v_u_bound, v_l_bound = [u_bound - distance_u_l_value, l_bound - distance_u_l_value]
             # Check which is the greatest virtual distance
             v_u_value = np.max(v_optimal_pulse)
