@@ -103,10 +103,8 @@ class BasePulse:
         self.overwrite_base_pulse = overwrite_base_pulse
 
     def set_control_parameters_list(self, map_index):
-        """ Set the control parameters list. It is used when the """
+        """ Set the control parameters list. It is used when the Chopped Basis changes during SIs"""
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
-        print("Set control parameters list. Control parameters nmber: {0}, control_parameters_list{1}"
-              .format(self.control_parameters_number, self.control_parameters_list))
 
     def _set_time_grid(self, final_time: float) -> None:
         """Set the time grid"""
@@ -181,7 +179,7 @@ class BasePulse:
         return self._get_build_pulse()
 
     def set_base_pulse(self, optimized_control_parameters: np.ndarray, final_time: float = 1.0) -> None:
-        """ Set the base optimal pulse pulse """
+        """ Set the base optimal pulse """
         self._set_control_parameters(optimized_control_parameters)
         self._set_time_grid(final_time)
         if self.overwrite_base_pulse:
