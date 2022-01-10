@@ -73,9 +73,17 @@ class AllInOneCommunication:
         # Initialize the control dictionary
         self.controls_dict = {}
 
-    def print_logger(self, message: str = "", level: int = 10):
+    def print_logger(self, message: str = "", level: int = 20):
         """ Print a message in the log """
-        self.logger.log(level, message)
+        if level <= 10:
+            self.logger.debug(message)
+        elif 10 < level <= 20:
+            self.logger.info(message)
+        elif 20 < level <= 30:
+            self.logger.warning(message)
+        else:
+            self.logger.error(message)
+
 
     def send_message(self, message):
         """ Send a message to the interface """
