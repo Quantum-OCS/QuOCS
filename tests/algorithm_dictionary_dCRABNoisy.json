@@ -2,24 +2,30 @@
   "Comment": "This is test dictionary for the controls: dCRAB, Fourier, Uniform Distribution. 1 pulse, 1 time, 1 parameter",
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
-  "opti_algorithm_module": "quocslib.optimalalgorithms.dCRABAlgorithm",
-  "opti_algorithm_class": "DCrabAlgorithm",
-  "optimization_client_name": "Optimization_dCRAB_Test",
+  "opti_algorithm_module": "quocslib.optimalalgorithms.dCRABNoisyAlgorithm",
+  "opti_algorithm_class": "DCrabNoisyAlgorithm",
+  "optimization_client_name": "Optimization_dCRABNoisy_Test",
   "algorithm_settings": {
-            "super_iteration_number": 5,
-            "maximum_function_evaluations_number": 200
-        },
-        "dsm_settings": {
-            "general_settings": {
-                "dsm_name": "nelder_mead",
-                "is_adaptive": true
-            },
-            "stopping_criteria": {
-                "iterations_number": 100,
-                "xatol": 1e-2,
-                "frtol": 1e-2
-            }
-        },
+    "super_iteration_number": 5,
+    "maximum_function_evaluations_number": 200,
+    "is_compensated_drift": true,
+    "re_evaluation": {
+      "re_evaluation_steps": [
+        0.3,
+        0.5,
+        0.51
+      ]}
+  },
+  "dsm_settings": {
+    "general_settings": {
+      "dsm_name": "nelder_mead",
+      "is_adaptive": true
+    },
+    "stopping_criteria": {
+      "xatol": 1e-2,
+      "frtol": 1e-2
+    }
+  },
   "pulses": [{"pulse_name": "Pulse111",
                 "upper_limit": 15.0,
                 "lower_limit": -15.0,
@@ -53,6 +59,4 @@
     "time_name": "time111",
     "initial_value": 3.0
   }]
-
-
 }

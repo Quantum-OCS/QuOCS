@@ -33,7 +33,7 @@
                     "basis_vector_number": 2,
                     "random_super_parameter_distribution": {
                         "distribution_class": "Uniform",
-                        "distribution_module": "quocslib.pulses.super_parameter.Uniform",
+                        "distribution_module": "quocslib.pulses.superparameter.Uniform",
                         "distribution_attribute": null,
                         "lower_limit": 0.1,
                         "upper_limit": 5.0

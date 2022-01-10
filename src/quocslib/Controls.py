@@ -41,9 +41,6 @@ class Controls:
         self.pulse_objs_list = []
         self.parameter_objs_list = []
         self.times_obj_dictionary = {}
-        # Number of control objects and control parameters
-        self.controls_number = 0
-        self.control_parameters_number = 0
         ###############################################
         # Pulses
         ###############################################
@@ -58,8 +55,6 @@ class Controls:
             self.pulse_objs_list.append(basis_attribute(map_index, pulse))
             # Update the map index for the next control
             map_index = self.pulse_objs_list[-1].last_index
-            # Update number control parameters
-            self.control_parameters_number += self.pulse_objs_list[-1].control_parameters_number
         ###############################################
         # Parameters
         ###############################################
@@ -68,7 +63,6 @@ class Controls:
             self.parameter_objs_list.append(Parameter(map_index, parameter))
             # Update the map index for the next control
             map_index = self.parameter_objs_list[-1].last_index
-            self.control_parameters_number += self.parameter_objs_list[-1].control_parameters_number
         ###############################################
         # Times
         ###############################################
@@ -77,10 +71,60 @@ class Controls:
             self.times_obj_dictionary[time["time_name"]] = TimeParameter(**time)
             # TODO Implement the time optimization here
 
+    def get_control_parameters_number(self) -> int:
+        """ Return the control parameter number """
+        ###############################################
+        # Pulses
+        ###############################################
+        control_parameters_number = 0
+        for pulse_obj in self.pulse_objs_list:
+            # Update number control parameters
+            control_parameters_number += pulse_obj.control_parameters_number
+        ###############################################
+        # Parameters
+        ###############################################
+        for parameter_obj in self.parameter_objs_list:
+            # Update number control parameters
+            control_parameters_number += parameter_obj.control_parameters_number
+        ###############################################
+        # Times
+        ###############################################
+        # TODO Implement the time optimization here
+        # Return the control parameters number
+        return control_parameters_number
+
     def select_basis(self) -> None:
         """ Initialize the superparameter basis """
         for pulse in self.pulse_objs_list:
             pulse.super_parameter_distribution_obj.set_random_super_parameter()
+            # Update the base pulse parameters and functions
+            pulse.update_chopped_basis()
+            # Update the control parameter indexes
+            self._update_control_parameter_indexes()
+
+    def _update_control_parameter_indexes(self) -> None:
+        """ Update the control parameter indexes """
+        # Map index
+        map_index = -1
+        ###############################################
+        # Pulses
+        ###############################################
+        for pulse_obj in self.pulse_objs_list:
+            pulse_obj.set_control_parameters_list(map_index)
+            # Update the map index for the next control
+            map_index = pulse_obj.last_index
+        ###############################################
+        # Parameters
+        ###############################################
+        for parameter_obj in self.parameter_objs_list:
+            parameter_obj.set_control_parameters_list(map_index)
+            # Update the map index for the next control
+            map_index = parameter_obj.last_index
+        ###############################################
+        # Times
+        ###############################################
+        # TODO Implement the time optimization here
+        # Return the control parameters number
 
     def get_random_super_parameter(self) -> np.array:
         """ Return list with dcrab current super_parameters"""
@@ -96,7 +140,7 @@ class Controls:
 
         :return np.array
         """
-        sigma_variation_coefficients = np.zeros(self.control_parameters_number, dtype="float")
+        sigma_variation_coefficients = np.zeros(self.get_control_parameters_number(), dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
             sigma_variation_coefficients[pulse.control_parameters_list] = pulse.scale_coefficients
@@ -115,7 +159,7 @@ class Controls:
 
         :return np.array:
         """
-        mean_value_coefficients = np.zeros(self.control_parameters_number, dtype="float")
+        mean_value_coefficients = np.zeros(self.get_control_parameters_number(), dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
             mean_value_coefficients[pulse.control_parameters_list] = pulse.offset_coefficients

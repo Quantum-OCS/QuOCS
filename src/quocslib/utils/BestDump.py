@@ -42,3 +42,10 @@ class BestDump(AbstractDump):
             parameter_index += 1
         controls_path = os.path.join(self.best_controls_path, "best_controls.npz")
         np.savez(controls_path, **controls_dict)
+
+    def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
+        """ Save other results into a txt numpy file """
+        # Create the path
+        path = os.path.join(self.best_controls_path, filename)
+        # Save the data in a txt file
+        np.savetxt(path, data)

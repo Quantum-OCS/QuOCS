@@ -39,3 +39,8 @@ class ChoppedBasis(BasePulse):
         self.super_parameter_distribution_obj = distribution_attribute(self.super_parameter_number, super_parameter_distribution_dict)
 
     # Implement here other modules for Chopped Random Basis
+
+    def update_chopped_basis(self) -> None:
+        """ Update chopped basis parameter. This function has to be implemented in the Basis class in case it needs, and
+        used in the algorithm whenever at the begin of the new super iteration
+        """
