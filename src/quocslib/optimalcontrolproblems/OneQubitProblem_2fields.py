@@ -29,6 +29,11 @@ class OneQubit2Fields(AbstractFom):
         self.psi_0 = np.asarray(eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex")
         self.delta1 = args_dict.setdefault("delta1", 0.1)
         self.delta2 = args_dict.setdefault("delta2", 0.1)
+        # Noise in the figure of merit
+        self.is_noisy = args_dict.setdefault("is_noisy", False)
+        self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
+        self.std_factor = args_dict.setdefault("std_factor", 0.01)
+        print("Is noise? : {0}".format(self.is_noisy))
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         amplitude = np.asarray(pulses[0])
@@ -38,7 +43,14 @@ class OneQubit2Fields(AbstractFom):
         U = self._time_evolution(amplitude, phase, dt, self.delta1, self.delta2)
         psi_f = np.matmul(U, self.psi_0)
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
-        return {"FoM": infidelity}
+
+        std = 0.0
+        if self.is_noisy:
+            noise = self.noise_factor * 2 * (0.5 - np.random.rand(1, )[0])
+            infidelity += noise
+            std = self.std_factor * np.random.rand(1, )[0]
+
+        return {"FoM": np.abs(infidelity), "std": std}
 
     @staticmethod
     def _time_evolution(amplitude, phase, dt, delta1=0.0, delta2=0.0):
