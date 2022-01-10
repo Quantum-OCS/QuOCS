@@ -71,7 +71,7 @@ class BasePulse:
         shaping_option_dict = {"add_base_pulse": self.add_base_pulse, "add_initial_guess": self.add_initial_guess,
                                "limit_pulse": self.limit_pulse, "scale_pulse": self.scale_pulse}
         if shaping_options is None:
-            self.shaping_options = [self.add_base_pulse, self.add_initial_guess, self.limit_pulse, self.scale_pulse]
+            self.shaping_options = [self.add_base_pulse, self.add_initial_guess, self.scale_pulse, self.limit_pulse]
         else:
             self.shaping_options = []
             for op_str in shaping_options:
