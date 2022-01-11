@@ -35,8 +35,8 @@ def _check_simplex_criterion(sim: np.array, x_atol: float) -> [bool, str]:
     return [is_converged, terminate_reason]
 
 
-def _check_f_size(f_sim: np.array, fr_tol) -> [bool, str]:
-    # Adapt the variable for stopping criteria
+def _check_f_size(f_sim: np.array, fr_tol: float) -> [bool, str]:
+    # Convergence fom criterion
     terminate_reason = "Convergence of the FoM"
     is_converged = False
     try:

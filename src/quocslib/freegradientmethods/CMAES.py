@@ -21,7 +21,7 @@ import numpy as np
 from scipy import linalg
 
 from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
-# from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import NelderMeadStoppingCriteria
+from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteria
 
 
 class CMAES(DirectSearchMethod):
@@ -36,14 +36,14 @@ class CMAES(DirectSearchMethod):
         if callback is not None:
             self.callback = callback
         # Active the parallelization for the firsts evaluations
-        # self.is_parallelized = settings.setdefault("parallelization", False)
-        # self.is_adaptive = settings.setdefault("is_adaptive", False)
+        self.is_parallelized = settings.setdefault("parallelization", False)
+        self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
-        # self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
+        self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
     def run_dsm(self, func, x0, args=(), sigma_v: np.array = None, initial_simplex=None,
-                max_iterations_number: int = None) -> dict:
+                max_iterations_number: int = None, **kwargs) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
@@ -57,7 +57,8 @@ class CMAES(DirectSearchMethod):
         # Creation of the communication function for the Optimizer object
         calls_number, func = self._get_wrapper(args, func)
 
-        terminateReason = "default"
+        # Set to false is_converged
+        self.sc_obj.is_converged = False
 
         N = len(x0)
 
@@ -117,10 +118,10 @@ class CMAES(DirectSearchMethod):
         is_terminated = False
 
         # figure of merit array
-        fsim = np.zeros(l_pop)
-        ind = np.zeros(l_pop)
+        fsim = np.zeros(l_pop, dtype=float)
+        ind = np.zeros(l_pop, dtype=int)
 
-        while not is_terminated:
+        while not self.sc_obj.is_converged:
 
             for k in range(l_pop):
                 # TR 2020_04_15: Hansen (2016) here also has arz: arz[:,k] = randn(N,)  standard normally
@@ -180,21 +181,27 @@ class CMAES(DirectSearchMethod):
                     D = np.sqrt(lv)
                     invsqrtC = B.dot(np.diag(1 / D).dot(B.T))
 
-                # CMAES criterium
-                if np.amax(D) > 1e7 * np.amin(D):
-                    fom_best = fsim[0]
-                    is_terminated = True
-                    terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?
-                if iterations > max_iterations_number:
-                    is_terminated = True
-                    terminateReason = "Reached maximum iterations number"
+                if self.callback is not None:
+                    if not self.callback():
+                        self.sc_obj.is_converged = True
+                        self.sc_obj.terminate_reason = "User stopped the optimization"
+                # Check stopping criteria
+                self.sc_obj.check_stopping_criteria(fsim, calls_number[0])
+                # # CMAES criterium
+                # if np.amax(D) > 1e7 * np.amin(D):
+                #     fom_best = fsim[0]
+                #     is_terminated = True
+                #     terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?
+                # if iterations > max_iterations_number:
+                #     is_terminated = True
+                #     terminateReason = "Reached maximum iterations number"
 
         # Return the best point
         print("Best Result: {0} ,  in {1} evaluations.".format(fsim[0], counteval))
         fval = fsim[0]
         x = arx[:, ind[0]]
         result_custom = {'F_min_val': fval, 'X_opti_vec': x, 'NitUsed': iterations,
-                         'NfunevalsUsed': calls_number[0], 'TerminationReason': terminateReason}
+                         'NfunevalsUsed': calls_number[0], 'terminate_reason': self.sc_obj.terminate_reason}
 
         return result_custom
 

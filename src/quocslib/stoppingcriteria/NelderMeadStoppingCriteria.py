@@ -36,8 +36,12 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
+        self.is_converged = False
 
-    def check_stopping_criteria(self, sim: np.array, fsim: np.array, function_evaluations: int) -> None:
+    def check_stopping_criteria(self,
+                                sim: np.array = None,
+                                fsim: np.array = None,
+                                function_evaluations: int = None) -> None:
         """
 
         :param sim:
@@ -45,6 +49,8 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         :param function_evaluations:
         :return:
         """
+        if self.is_converged:
+            return
         # Trivial stopping criterion
         self.function_evaluations = function_evaluations
         max_iter = self.max_iterations_number

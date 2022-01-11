@@ -21,10 +21,6 @@ class StoppingCriteria:
     """
 
     """
-    is_running: bool = True
-    is_converged: bool = False
-    function_evaluations: int = 0
-    terminate_reason: int = 0
 
     def __init__(self):
         """
@@ -33,12 +29,9 @@ class StoppingCriteria:
         pass
 
     @abstractmethod
-    def check_stopping_criteria(self, sim: np.array, fsim: np.array, function_evaluations: int) -> None:
+    def check_stopping_criteria(self, **kwargs) -> None:
         """
 
-        :param function_evaluations:
-        :param sim:
-        :param fsim:
         :return:
         """
         raise ValueError("Must be implemented in the custom stopping criteria")

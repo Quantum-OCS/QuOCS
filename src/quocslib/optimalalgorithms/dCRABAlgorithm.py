@@ -19,6 +19,7 @@ from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
 from quocslib.freegradientmethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
+from quocslib.utils.dynamicimport import dynamic_import
 
 
 class DCrabAlgorithm(Optimizer):
@@ -34,17 +35,25 @@ class DCrabAlgorithm(Optimizer):
         # Direct Search method
         ###########################################################################################
         stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"][
-            "general_settings"
-        ]
+        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
         # TODO Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
-        self.dsm_obj = NelderMead(
-            direct_search_method_settings,
-            stopping_criteria,
-            callback=self.is_optimization_running,
-        )
+        if "dsm_name" in direct_search_method_settings:
+            print("dsm_name is used direct search methods. This option is deprecated. Use \n"
+                  "dsm_algorithm_module: quocslib.freegradients.NelderMead\n"
+                  "dsm_algorithm_class: NelderMead")
+            self.dsm_obj = NelderMead(
+                direct_search_method_settings,
+                stopping_criteria,
+                callback=self.is_optimization_running)
+        else:
+            dsm_attribute = dynamic_import(module_name=direct_search_method_settings["dsm_algorithm_module"],
+                                          class_name=direct_search_method_settings["dsm_algorithm_class"])
+            self.dsm_obj = dsm_attribute(
+                direct_search_method_settings,
+                stopping_criteria,
+                callback=self.is_optimization_running)
         self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables
@@ -72,20 +81,27 @@ class DCrabAlgorithm(Optimizer):
             optimization_dict["times"],
             optimization_dict["parameters"],
         )
+        # Initialize the optimized control vector
+        self.best_xx = self.controls.get_mean_value()
         ###########################################################################################
         # Other useful variables
         ###########################################################################################
+        self.super_it: int = 1
         self.dcrab_parameters_list = []
         self.dcrab_super_parameter_list = []
         self.fom_list = []
         self.iteration_number_list = []
 
     def _get_response_for_client(self) -> dict:
-        """Return useful information for the client interface"""
+        """ Return useful information for the client interface """
         is_record = False
         fom = self.fom_dict["FoM"]
         if fom < self.best_fom:
+            message = "Found a record. Previous fom: {fom}, new best fom : {best_fom}"\
+                .format(fom=self.best_fom, best_fom=fom)
+            self.comm_obj.print_logger(message=message, level=20)
             self.best_fom = fom
+            self.best_xx = self.xx.copy()
             is_record = True
         status_code = self.fom_dict.setdefault("status_code", 0)
         response_dict = {
@@ -103,6 +119,7 @@ class DCrabAlgorithm(Optimizer):
     def run(self) -> None:
         """Main loop of the dCRAB method"""
         for super_it in range(1, self.max_num_si + 1):
+            self.super_it = super_it
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
                 return
@@ -118,9 +135,9 @@ class DCrabAlgorithm(Optimizer):
 
     def _update_base_pulses(self) -> None:
         """Update the base dCRAB pulse"""
-        self.controls.update_base_controls(self.xx)
+        self.controls.update_base_controls(self.best_xx)
         # Add the best parameters and dcrab super_parameters of the current super-iteration
-        self.dcrab_parameters_list.append(self.xx)
+        self.dcrab_parameters_list.append(self.best_xx)
         self.dcrab_super_parameter_list.append(
             self.controls.get_random_super_parameter()
         )
@@ -132,19 +149,30 @@ class DCrabAlgorithm(Optimizer):
         )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
+        # Initialize the best xx vector for this SI
+        self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
         result_l = self.dsm_obj.run_dsm(
             self._routine_call,
             x0,
+            sigma_v=self.controls.get_sigma_variation(),
             initial_simplex=start_simplex,
             max_iterations_number=max_iteration_number,
         )
         # Update the results
-        [fom, self.xx, self.terminate_reason] = [
+        [fom, xx, self.terminate_reason, NfunevalsUsed] = [
             result_l["F_min_val"],
             result_l["X_opti_vec"],
             result_l["terminate_reason"],
+            result_l["NfunevalsUsed"]
         ]
+        message = "SI: {super_it}, Total nr fnct evaluations: {NfunevalsUsed}, \n" \
+                  "Termination Reason: {termination_reason}\n" \
+                  "Current best fom: {best_fom}"\
+            .format(super_it=self.super_it, NfunevalsUsed=NfunevalsUsed, termination_reason=self.terminate_reason,
+                    best_fom=self.best_fom)
+
+        self.comm_obj.print_logger(message=message, level=20)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
