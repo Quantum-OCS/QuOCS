@@ -174,44 +174,44 @@ class BasePulse:
 
         def _shrink_pulse_2(self, optimal_pulse: np.ndarray) -> np.ndarray:
 
-        """ Shrink the optimal pulse to respect the amplitude limits"""
+            """ Shrink the optimal pulse to respect the amplitude limits"""
 
-        uiTotal = optimal_pulse
-        lb = self.amplitude_lower
-        ub = self.amplitude_upper
-        ui = uiTotal.copy()
-        temp_max = np.amax(ui)
-        temp_min = np.amin(ui)
-
-        # if the whole pulse is higher or lower than the limits take the limits
-        if (temp_max >= ub and temp_min >= ub) or (temp_max <= lb and temp_min <= lb):
-            ui = np.maximum(np.minimum(uiTotal, ub), lb)  # cut off the pulse
-        
-        # otherwise shrink the pulse if it exceeds the limits accordingly
-        else:
-            if temp_max > ub:
-                width_current = abs(temp_max - temp_min)
-                width_aim = abs(ub - temp_min)
-                correction = width_aim / width_current
-                # safety precaution just in case
-                if correction > 1:
-                    correction = 1
-                # shift pulse down so that minimum is at zero, shrink, and move up again
-                ui = (ui-temp_min) * correction + np.full(len(ui), temp_min)
-
+            uiTotal = optimal_pulse
+            lb = self.amplitude_lower
+            ub = self.amplitude_upper
+            ui = uiTotal.copy()
             temp_max = np.amax(ui)
             temp_min = np.amin(ui)
 
-            if temp_min < lb:
-                width_current = abs(temp_max - temp_min)
-                width_aim = abs(temp_max - lb)
-                correction = width_aim / width_current
-                # safety precaution just in case
-                if correction > 1:
-                    correction = 1
-                    
-                # shift pulse down so that maximum is at zero, shrink, and move up again
-                ui = (ui - temp_max) * correction + np.full(len(ui), temp_max)
+            # if the whole pulse is higher or lower than the limits take the limits
+            if (temp_max >= ub and temp_min >= ub) or (temp_max <= lb and temp_min <= lb):
+                ui = np.maximum(np.minimum(uiTotal, ub), lb)  # cut off the pulse
+            
+            # otherwise shrink the pulse if it exceeds the limits accordingly
+            else:
+                if temp_max > ub:
+                    width_current = abs(temp_max - temp_min)
+                    width_aim = abs(ub - temp_min)
+                    correction = width_aim / width_current
+                    # safety precaution just in case
+                    if correction > 1:
+                        correction = 1
+                    # shift pulse down so that minimum is at zero, shrink, and move up again
+                    ui = (ui-temp_min) * correction + np.full(len(ui), temp_min)
+
+                temp_max = np.amax(ui)
+                temp_min = np.amin(ui)
+
+                if temp_min < lb:
+                    width_current = abs(temp_max - temp_min)
+                    width_aim = abs(temp_max - lb)
+                    correction = width_aim / width_current
+                    # safety precaution just in case
+                    if correction > 1:
+                        correction = 1
+                        
+                    # shift pulse down so that maximum is at zero, shrink, and move up again
+                    ui = (ui - temp_max) * correction + np.full(len(ui), temp_max)
 
         return ui
 
