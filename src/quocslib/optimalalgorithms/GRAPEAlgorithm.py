@@ -131,14 +131,6 @@ class GRAPEAlgorithm(Optimizer):
         self.opt_res = oo
         self.iteration_number = oo.nfev
 
-
-        #     # Update the base current pulses
-        #     self._update_base_pulses()
-
-    # def _update_base_pulses(self) -> None:
-    #     """Update the base dCRAB pulse"""
-    #     self.controls.update_base_controls(self.xx)
-
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
@@ -157,6 +149,4 @@ class GRAPEAlgorithm(Optimizer):
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict
-
-
-
+    
