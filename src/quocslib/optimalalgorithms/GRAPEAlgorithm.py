@@ -43,7 +43,7 @@ class GRAPEAlgorithm(Optimizer):
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
-        alg_parameters = optimization_dict["algorithm_settings"]
+        self.alg_parameters = optimization_dict["algorithm_settings"]
         # Starting fom
         self.best_fom = 1e10
         ###########################################################################################
@@ -123,7 +123,7 @@ class GRAPEAlgorithm(Optimizer):
         init = self.controls
         # now we can optimize
         # need to be able to include things
-        oo = scipy.optimize.minimize(func_topt, init, method = "L-BFGS-B", jac = True)
+        oo = scipy.optimize.minimize(func_topt, init, method = "L-BFGS-B", jac = True, options=self.alg_parameters)
 
         # need to be able to implement pulses in Marco's way, ask him later
         self.best_fom = oo.minimum
