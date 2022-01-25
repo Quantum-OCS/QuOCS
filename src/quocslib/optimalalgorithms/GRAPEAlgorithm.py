@@ -67,13 +67,14 @@ class GRAPEAlgorithm(Optimizer):
         self.sys_type = optimization_dict["sys_type"]
         self.dim = np.size(self.A, 1)
 
-
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices+1)])
         self.rho_storage[0] = self.rho_init
         self.corho_storage = np.array([self.rho_target for i in range(self.n_slices+1)])
         self.corho_storage[-1] = self.rho_target
         self.propagator_storage = np.array([self.A for i in range(self.n_slices)])
+        
+        self.iteration_number = None
         
     def functional(self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type):
         K = len(B)
@@ -128,6 +129,7 @@ class GRAPEAlgorithm(Optimizer):
         self.best_fom = oo.minimum
         self.optimized_pulses = oo.x
         self.opt_res = oo
+        self.iteration_number = oo.nfev
 
 
         #     # Update the base current pulses
