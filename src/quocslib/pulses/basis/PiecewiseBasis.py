@@ -24,33 +24,24 @@ class PiecewiseBasis():
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index: int, pulse_dictionary: dict):
+    def __init__(self, pulse_dictionary: dict):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
         :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
+
+        :param dict pulse_dictionary: Should contain the basis_dict under the key "basis" and should contain the number of bins and time spacing under "n_bins" and "dt"
         """
         #################
         # Basis dependent settings
         #################
-        basis_dict = pulse_dictionary["basis"]
-        # Super Parameter number i.e. the basis vector number in the pulse parametrization
-        # self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
-        # Number of control parameters to be optimized
-        # self.control_parameters_number = 2 * self.super_parameter_number
-        #################
-        # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
-        # distribution of super parameters, etc ...
-        ################
-        # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
-        # super().__init__(map_index=map_index, **pulse_dictionary)
-        #################
-        # Basis dependent settings
-        #################
-        # Scale coefficients: average distance of the points in the intial simplex
-        # self.scale_coefficients = self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number,))
-        # Initial value of the parameters in the pulse parametrization
-        # self.offset_coefficients = np.zeros((self.control_parameters_number,))
+        self.basis_dict = pulse_dictionary["basis"]
+        # then we can also create a timegrid 
+        self.n_bins = pulse_dictionary["n_bins"]
+        self.dt = pulse_dictionary["dt"]
+        self.time_grid = np.zeros(self.n_bins) * self.dt
+        self.pulse_amplitudes = pulse_dictionary["pulse_amplitudes"] # one amplitude for every bin
+
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """
@@ -58,18 +49,7 @@ class PiecewiseBasis():
         # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
         # distribution of super parameters, etc ...
         ################
-        # Pulse initialization
-        pulse = np.zeros(self.bins_number)
-        # Final time definition
-        final_time = self.final_time
-        # Pulse creation
-        xx = self.optimized_control_parameters
-        w = self.super_parameter_distribution_obj.w
-        t = self.time_grid
-        #################
-        # Basis dependent settings
-        #################
-        #         for ii in range(self.super_parameter_number):
-        #             pulse += xx[2*ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + \
-        #                      xx[2*ii + 1] * np.cos(2 * np.pi * w[ii] * t / final_time)
+        pulse = self.pulse_amplitudes
+        # in the case of a piecewise basis the pulse is defined by the amplitudes
+        
         return pulse
