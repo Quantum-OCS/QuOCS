@@ -20,8 +20,9 @@ import scipy
 from quocslib.Controls import Controls
 from quocslib.utils.dynamicimport import dynamic_import
 
-from quocslib.timeevolution import pw_evolution
+from quocslib.timeevolution.piecewise_integrator import pw_evolution
 from quocslib.tools.linearalgebra import commutator
+from quocslib.pulses.basis import PiecewiseBasis
 
 
 class GRAPEAlgorithm:
@@ -49,12 +50,8 @@ class GRAPEAlgorithm:
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
-        # Initialize the control object
-        self.controls = Controls(
-            optimization_dict["pulses"],
-            optimization_dict["times"],
-            optimization_dict["parameters"],
-        )
+        # we will sculpt this a little since you have to be careful what you pass here
+        # times are just the points we discretise at
 
         # might need to control if you change something
 
@@ -66,6 +63,7 @@ class GRAPEAlgorithm:
         self.dt = optimization_dict["dt"]
         self.sys_type = optimization_dict["sys_type"]
         self.dim = np.size(self.A, 1)
+        self.num_pulses = len(self.B)
 
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
@@ -78,10 +76,23 @@ class GRAPEAlgorithm:
 
         self.iteration_number = None
 
+        pw_basis_dict = {
+            "n_bins": self.n_slices,
+            "dt": self.dt,
+            "basis": "Piecewise",
+            "pulse_amplitudes": np.zeros(self.n_slices),
+        }
+        pulse_dict = [{"basis": PiecewiseBasis(pw_basis_dict)}] * self.num_pulses
+        time_dict = [{"time_name": ""}] * self.num_pulses
+        param_dict = [{"parameter_name": ""}] * self.num_pulses
+
+        # Initialize the control object
+        self.controls = Controls(pulse_dict, time_dict, param_dict,)
+
     def functional(
         self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type
     ):
-        K = len(B)
+        K = self.num_pulses
         drive = drive.reshape((K, n_slices))
         pw_evolution(U_store, drive, A, B, n_slices, dt)
 
