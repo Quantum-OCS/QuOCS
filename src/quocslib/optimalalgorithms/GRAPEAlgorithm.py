@@ -158,13 +158,16 @@ class GRAPEAlgorithm:
 
         # need to be able to implement pulses in Marco's way, ask him later
         self.best_fom = oo.minimum
-        self.optimized_pulses = oo.x
+        self.optimized_pulses = oo.x # TODO we might want to reshape this
         self.opt_res = oo
         self.iteration_number = oo.nfev
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
-        [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
+        # [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
+        pulses = [self.optimized_pulses]
+        timegrids = [np.ones(self.n_slices) * self.dt]
+        parameters = []
         #
         controls_dict = {
             "pulses": pulses,
