@@ -170,7 +170,7 @@ class GRAPEAlgorithm:
         )
 
         # need to be able to implement pulses in Marco's way, ask him later
-        self.best_fom = oo.minimum
+        self.best_fom = oo.fun
         self.optimized_pulses = oo.x  # TODO we might want to reshape this
         self.opt_res = oo
         self.iteration_number = oo.nfev
