@@ -22,7 +22,7 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 from quocslib.timeevolution.piecewise_integrator import pw_evolution
 from quocslib.tools.linearalgebra import commutator
-from quocslib.pulses.basis import PiecewiseBasis
+from quocslib.pulses.basis.PiecewiseBasis import PiecewiseBasis
 
 
 class GRAPEAlgorithm:
