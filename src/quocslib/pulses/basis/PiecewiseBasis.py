@@ -16,15 +16,16 @@
 
 import numpy as np
 
+from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.pulses.BasePulse import BasePulse
 
-class PiecewiseBasis():
+class PiecewiseBasis(BasePulse):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, pulse_dictionary: dict):
+    def __init__(self, basis: dict = None, **kwargs):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
@@ -32,16 +33,20 @@ class PiecewiseBasis():
 
         :param dict pulse_dictionary: Should contain the basis_dict under the key "basis" and should contain the number of bins and time spacing under "n_bins" and "dt"
         """
+        self.control_parameters_number = 1
+        super().__init__(**kwargs)
+        # basis_attribute = dynamic_import(attribute=basis.setdefault("basis_attribute", None),
+        #                                     module_name=basis.setdefault("basis_module", None),
+        #                                     class_name=basis.setdefault("basis_class", None))
+
         #################
         # Basis dependent settings
         #################
-        self.basis_dict = pulse_dictionary["basis"]
-        # then we can also create a timegrid 
-        self.n_bins = pulse_dictionary["n_bins"]
-        self.dt = pulse_dictionary["dt"]
-        self.time_grid = np.zeros(self.n_bins) * self.dt
-        self.pulse_amplitudes = pulse_dictionary["pulse_amplitudes"] # one amplitude for every bin
-
+    def setdefault(a,b,c):
+        class Skipper():
+            def __init__(self):
+                self.last_index=0
+        return lambda x, y : Skipper()
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """

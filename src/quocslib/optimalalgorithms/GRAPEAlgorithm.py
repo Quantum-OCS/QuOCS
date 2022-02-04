@@ -25,7 +25,7 @@ from quocslib.tools.linearalgebra import commutator
 from quocslib.pulses.basis.PiecewiseBasis import PiecewiseBasis
 
 
-class GRAPEAlgorithm():
+class GRAPEAlgorithm:
     """
     This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
     The three important function are:
@@ -64,6 +64,7 @@ class GRAPEAlgorithm():
         self.sys_type = optimization_dict["sys_type"]
         self.dim = np.size(self.A, 1)
         self.num_pulses = len(self.B)
+        self.initial_guess = optimization_dict["initial_guess"]
 
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
@@ -77,12 +78,25 @@ class GRAPEAlgorithm():
         self.iteration_number = None
 
         pw_basis_dict = {
-            "n_bins": self.n_slices,
-            "dt": self.dt,
-            "basis": "Piecewise",
-            "pulse_amplitudes": np.zeros(self.n_slices),
+            "map_inde": 1,
+            "pulse_name": "GRAPE",
+            "bins_number": optimization_dict["n_slices"],
+            "time_name": "",
+            "lower_limit": -np.Inf,
+            "upper_limit": np.Inf,
+            "amplitude_variation": None,
+            "initial_guess": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda x: self.initial_guess",
+            },
+            "scaling_function": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda x: x",
+            },
         }
-        pulse_dict = [{"basis": PiecewiseBasis(pw_basis_dict)}] * self.num_pulses
+        pulse_dict = [
+            {"basis": PiecewiseBasis(basis={}, **pw_basis_dict)}
+        ] * self.num_pulses
         time_dict = [{"time_name": ""}] * self.num_pulses
         param_dict = [{"parameter_name": ""}] * self.num_pulses
 
@@ -157,7 +171,7 @@ class GRAPEAlgorithm():
 
         # need to be able to implement pulses in Marco's way, ask him later
         self.best_fom = oo.minimum
-        self.optimized_pulses = oo.x # TODO we might want to reshape this
+        self.optimized_pulses = oo.x  # TODO we might want to reshape this
         self.opt_res = oo
         self.iteration_number = oo.nfev
 
