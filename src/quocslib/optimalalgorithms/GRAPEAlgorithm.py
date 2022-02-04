@@ -145,11 +145,10 @@ class GRAPEAlgorithm():
             self.sys_type,
         )
 
-    def run(self) -> None:
+    def run(self, init) -> None:
         """Main loop of the optimization"""
 
         func_topt = self._get_functional()
-        init = self.controls
         # now we can optimize
         # need to be able to include things
         oo = scipy.optimize.minimize(
@@ -179,7 +178,7 @@ class GRAPEAlgorithm():
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "Figure of merit": self.best_fom,
-            "total number of function evaluations": self.iteration_number,
+            "FoM": self.best_fom,
+            "nfev": self.iteration_number,
         }
         return final_dict
