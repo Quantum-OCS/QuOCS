@@ -25,7 +25,7 @@ from quocslib.tools.linearalgebra import commutator
 from quocslib.pulses.basis.PiecewiseBasis import PiecewiseBasis
 
 
-class GRAPEAlgorithm:
+class GRAPEAlgorithm():
     """
     This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
     The three important function are:
