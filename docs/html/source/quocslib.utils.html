@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.utils package &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">quocslib.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.AbstractDump">quocslib.utils.AbstractDump module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.AbstractFom">quocslib.utils.AbstractFom module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.AbstractHandleExit">quocslib.utils.AbstractHandleExit module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.BestDump">quocslib.utils.BestDump module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.DummyDump">quocslib.utils.DummyDump module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.FilesUpdateFom">quocslib.utils.FilesUpdateFom module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.dynamicimport">quocslib.utils.dynamicimport module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.inputoutput">quocslib.utils.inputoutput module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils.logger">quocslib.utils.logger module</a></li>
+<li><a class="reference internal" href="#module-quocslib.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>quocslib.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.utils.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quocslib-utils-package">
+<h1>quocslib.utils package<a class="headerlink" href="#quocslib-utils-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-quocslib.utils.AbstractDump">
+<span id="quocslib-utils-abstractdump-module"></span><h2>quocslib.utils.AbstractDump module<a class="headerlink" href="#module-quocslib.utils.AbstractDump" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractDump.AbstractDump">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.AbstractDump.</span></span><span class="sig-name descname"><span class="pre">AbstractDump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/AbstractDump.html#AbstractDump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractDump.AbstractDump" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for figure of merit evaluation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractDump.AbstractDump.dump_controls">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">dump_controls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_grids_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractDump.html#AbstractDump.dump_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractDump.AbstractDump.dump_controls" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Abstract method for figure of merit evaluation. It returns a dictionary with</dt><dd><p>the FoM key inside</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses_list</strong> (<em>list</em>) -- List of np.array. Every np.array is a pulse.</p></li>
+<li><p><strong>time_grids_list</strong> (<em>list</em>) -- List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
+</ul>
+</dd>
+</dl>
+<p>a pulse.
+:param list parameters_list: List of floats.
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.AbstractFom">
+<span id="quocslib-utils-abstractfom-module"></span><h2>quocslib.utils.AbstractFom module<a class="headerlink" href="#module-quocslib.utils.AbstractFom" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFom.AbstractFom">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.AbstractFom.</span></span><span class="sig-name descname"><span class="pre">AbstractFom</span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFom.html#AbstractFom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractFom.AbstractFom" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class for figure of merit evaluation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFom.AbstractFom.get_FoM">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">get_FoM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_grids_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFom.html#AbstractFom.get_FoM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractFom.AbstractFom.get_FoM" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Abstract method for figure of merit evaluation. It returns a dictionary with</dt><dd><p>the FoM key inside</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses_list</strong> (<em>list</em>) -- List of np.array. Every np.array is a pulse.</p></li>
+<li><p><strong>time_grids_list</strong> (<em>list</em>) -- List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
+</ul>
+</dd>
+</dl>
+<p>a pulse.
+:param list parameters_list: List of floats.
+:return: dict The dictionary must contain at least the &quot;FoM&quot; key with the figure of merit float. Other possible
+keys can provide useful information for errors or other.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.AbstractHandleExit">
+<span id="quocslib-utils-abstracthandleexit-module"></span><h2>quocslib.utils.AbstractHandleExit module<a class="headerlink" href="#module-quocslib.utils.AbstractHandleExit" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractHandleExit.AbstractHandleExit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.AbstractHandleExit.</span></span><span class="sig-name descname"><span class="pre">AbstractHandleExit</span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractHandleExit.html#AbstractHandleExit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractHandleExit.AbstractHandleExit" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class to handle the program exit</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractHandleExit.AbstractHandleExit.check_communication">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">check_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">communication_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractHandleExit.html#AbstractHandleExit.check_communication"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.AbstractHandleExit.AbstractHandleExit.check_communication" title="Permalink to this definition"></a></dt>
+<dd><p>Update communication status by getting information from the communication dictionary
+:param dict communication_dict:
+:return:</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractHandleExit.AbstractHandleExit.is_user_running">
+<span class="sig-name descname"><span class="pre">is_user_running</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#quocslib.utils.AbstractHandleExit.AbstractHandleExit.is_user_running" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.BestDump">
+<span id="quocslib-utils-bestdump-module"></span><h2>quocslib.utils.BestDump module<a class="headerlink" href="#module-quocslib.utils.BestDump" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.BestDump.</span></span><span class="sig-name descname"><span class="pre">BestDump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.BestDump.BestDump" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.utils.AbstractDump.AbstractDump</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump.dump_controls">
+<span class="sig-name descname"><span class="pre">dump_controls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timegrids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_record</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">FoM</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_number</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.dump_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.BestDump.BestDump.dump_controls" title="Permalink to this definition"></a></dt>
+<dd><p>Save the controls in the results folder</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump.other_dumps">
+<span class="sig-name descname"><span class="pre">other_dumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'test.txt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">array([0.])</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.other_dumps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.BestDump.BestDump.other_dumps" title="Permalink to this definition"></a></dt>
+<dd><p>Save other results into a txt numpy file</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.DummyDump">
+<span id="quocslib-utils-dummydump-module"></span><h2>quocslib.utils.DummyDump module<a class="headerlink" href="#module-quocslib.utils.DummyDump" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.DummyDump.DummyDump">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.DummyDump.</span></span><span class="sig-name descname"><span class="pre">DummyDump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/DummyDump.html#DummyDump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.DummyDump.DummyDump" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.utils.AbstractDump.AbstractDump</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.DummyDump.DummyDump.dump_controls">
+<span class="sig-name descname"><span class="pre">dump_controls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timegrids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/DummyDump.html#DummyDump.dump_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.DummyDump.DummyDump.dump_controls" title="Permalink to this definition"></a></dt>
+<dd><p>Do Nothing</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.FilesUpdateFom">
+<span id="quocslib-utils-filesupdatefom-module"></span><h2>quocslib.utils.FilesUpdateFom module<a class="headerlink" href="#module-quocslib.utils.FilesUpdateFom" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.FilesUpdateFom.FilesUpdateFom">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.FilesUpdateFom.</span></span><span class="sig-name descname"><span class="pre">FilesUpdateFom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controls_folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_splitted</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_extension</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'json'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fom_folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">120</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/FilesUpdateFom.html#FilesUpdateFom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.FilesUpdateFom.FilesUpdateFom" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractFom.AbstractFom" title="quocslib.utils.AbstractFom.AbstractFom"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.utils.AbstractFom.AbstractFom</span></code></a></p>
+<p>An evaluation method for the figure of merit via files exchange. The communication object accesses to the
+get_FoM function.
+The get_FoM removes the &quot;fom.txt&quot; file and creates a json, a txt or a npz file in the controls
+folder designed by the user.
+Finally, the read_fom_values will wait and check for the figure of merit in the folder designed by the user.
+In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or
+an error occur during the evaluation an error will set in the</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.FilesUpdateFom.FilesUpdateFom.get_FoM">
+<span class="sig-name descname"><span class="pre">get_FoM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timegrids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/FilesUpdateFom.html#FilesUpdateFom.get_FoM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.FilesUpdateFom.FilesUpdateFom.get_FoM" title="Permalink to this definition"></a></dt>
+<dd><p>Write the controls in the controls.npz file, read the figure of merit in the fom.txt file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.FilesUpdateFom.FilesUpdateFom.put_controls_into_user_path">
+<span class="sig-name descname"><span class="pre">put_controls_into_user_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_grids_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_list</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/FilesUpdateFom.html#FilesUpdateFom.put_controls_into_user_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.FilesUpdateFom.FilesUpdateFom.put_controls_into_user_path" title="Permalink to this definition"></a></dt>
+<dd><p>Save the controls in the controls.npz file
+:param list pulses_list: List of np.arrays. One np.array for each pulse
+:param list time_grids_list: List of np.arrays. One np.array for each time grid
+:param list parameters_list: List of floats. One float ofr each parameter
+:return:</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.FilesUpdateFom.FilesUpdateFom.read_fom_values">
+<span class="sig-name descname"><span class="pre">read_fom_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/FilesUpdateFom.html#FilesUpdateFom.read_fom_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.FilesUpdateFom.FilesUpdateFom.read_fom_values" title="Permalink to this definition"></a></dt>
+<dd><p>Read the figure of merit fom.txt file
+:return: dict The figure of merit dictionary</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.dynamicimport">
+<span id="quocslib-utils-dynamicimport-module"></span><h2>quocslib.utils.dynamicimport module<a class="headerlink" href="#module-quocslib.utils.dynamicimport" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="quocslib.utils.dynamicimport.dynamic_import">
+<span class="sig-prename descclassname"><span class="pre">quocslib.utils.dynamicimport.</span></span><span class="sig-name descname"><span class="pre">dynamic_import</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">callable</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/dynamicimport.html#dynamic_import"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.dynamicimport.dynamic_import" title="Permalink to this definition"></a></dt>
+<dd><p>Function for dynamic import.
+:param attribute: The attribute of the class you want to use. It is an optional argument.
+:param module_name: Relative import of the module
+:param class_name: Name of the class inside the module
+:return: The attribute to use to create the object</p>
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.inputoutput">
+<span id="quocslib-utils-inputoutput-module"></span><h2>quocslib.utils.inputoutput module<a class="headerlink" href="#module-quocslib.utils.inputoutput" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.utils.inputoutput.ObjectEncoder">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.utils.inputoutput.</span></span><span class="sig-name descname"><span class="pre">ObjectEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipkeys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_circular</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#ObjectEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.inputoutput.ObjectEncoder" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">json.encoder.JSONEncoder</span></code></p>
+<p>Convert numpy array to list</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.utils.inputoutput.ObjectEncoder.default">
+<span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#ObjectEncoder.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.inputoutput.ObjectEncoder.default" title="Permalink to this definition"></a></dt>
+<dd><p>Implement this method in a subclass such that it returns
+a serializable object for <code class="docutils literal notranslate"><span class="pre">o</span></code>, or calls the base implementation
+(to raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="c1"># Let the base class default method raise the TypeError</span>
+    <span class="k">return</span> <span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quocslib.utils.inputoutput.readjson">
+<span class="sig-prename descclassname"><span class="pre">quocslib.utils.inputoutput.</span></span><span class="sig-name descname"><span class="pre">readjson</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#readjson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.inputoutput.readjson" title="Permalink to this definition"></a></dt>
+<dd><p>Read a json file given its filename
+:param str filename: Filename of the json file
+:return list error_code, user dictionary : The error code is 1 in case an error occurs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="quocslib.utils.inputoutput.writejsonfile">
+<span class="sig-prename descclassname"><span class="pre">quocslib.utils.inputoutput.</span></span><span class="sig-name descname"><span class="pre">writejsonfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_file</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs_bib</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#writejsonfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.inputoutput.writejsonfile" title="Permalink to this definition"></a></dt>
+<dd><p>A wrapper to the json dump file with error code as return</p>
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils.logger">
+<span id="quocslib-utils-logger-module"></span><h2>quocslib.utils.logger module<a class="headerlink" href="#module-quocslib.utils.logger" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="quocslib.utils.logger.create_logger">
+<span class="sig-prename descclassname"><span class="pre">quocslib.utils.logger.</span></span><span class="sig-name descname"><span class="pre">create_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'oc_logger'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_debug</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/logger.html#create_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.utils.logger.create_logger" title="Permalink to this definition"></a></dt>
+<dd><p>Logger creation for console, log file, and debug log file</p>
+</dd></dl>
+
+</section>
+<section id="module-quocslib.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.utils" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

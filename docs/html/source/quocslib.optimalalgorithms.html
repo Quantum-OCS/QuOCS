@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.optimalalgorithms package &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">quocslib.optimalalgorithms package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#quocslib-optimalalgorithms-adalgorithm-module">quocslib.optimalalgorithms.ADAlgorithm module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms.AlgorithmTemplate">quocslib.optimalalgorithms.AlgorithmTemplate module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">quocslib.optimalalgorithms.DirectSearchAlgorithm module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms.GRAPEAlgorithm">quocslib.optimalalgorithms.GRAPEAlgorithm module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms.dCRABAlgorithm">quocslib.optimalalgorithms.dCRABAlgorithm module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">quocslib.optimalalgorithms.dCRABNoisyAlgorithm module</a></li>
+<li><a class="reference internal" href="#module-quocslib.optimalalgorithms">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>quocslib.optimalalgorithms package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.optimalalgorithms.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quocslib-optimalalgorithms-package">
+<h1>quocslib.optimalalgorithms package<a class="headerlink" href="#quocslib-optimalalgorithms-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="quocslib-optimalalgorithms-adalgorithm-module">
+<h2>quocslib.optimalalgorithms.ADAlgorithm module<a class="headerlink" href="#quocslib-optimalalgorithms-adalgorithm-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-quocslib.optimalalgorithms.AlgorithmTemplate">
+<span id="quocslib-optimalalgorithms-algorithmtemplate-module"></span><h2>quocslib.optimalalgorithms.AlgorithmTemplate module<a class="headerlink" href="#module-quocslib.optimalalgorithms.AlgorithmTemplate" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.optimalalgorithms.AlgorithmTemplate.</span></span><span class="sig-name descname"><span class="pre">AlgorithmTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">communication_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/AlgorithmTemplate.html#AlgorithmTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="quocslib.html#quocslib.Optimizer.Optimizer" title="quocslib.Optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.Optimizer.Optimizer</span></code></a></p>
+<p>This is the template for an algorithm class. The three important function are:
+* the constructor with the optimization dictionary and the communication object as parameters
+* run : The main loop for optimal control
+* _get_response_for_client : return info about the goodness of the controls and errors if any
+* _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
+* _get_final_results: return the final result of the optimization algorithm</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.alg_iteration_number">
+<span class="sig-name descname"><span class="pre">alg_iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.alg_iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.fom_dict">
+<span class="sig-name descname"><span class="pre">fom_dict</span></span><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.fom_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.iteration_number">
+<span class="sig-name descname"><span class="pre">iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/AlgorithmTemplate.html#AlgorithmTemplate.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run" title="Permalink to this definition"></a></dt>
+<dd><p>Main loop of the optimization</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx">
+<span class="sig-name descname"><span class="pre">xx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.array</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.optimalalgorithms.DirectSearchAlgorithm">
+<span id="quocslib-optimalalgorithms-directsearchalgorithm-module"></span><h2>quocslib.optimalalgorithms.DirectSearchAlgorithm module<a class="headerlink" href="#module-quocslib.optimalalgorithms.DirectSearchAlgorithm" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.optimalalgorithms.DirectSearchAlgorithm.</span></span><span class="sig-name descname"><span class="pre">DirectSearchAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">communication_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/DirectSearchAlgorithm.html#DirectSearchAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="quocslib.html#quocslib.Optimizer.Optimizer" title="quocslib.Optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.Optimizer.Optimizer</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.alg_iteration_number">
+<span class="sig-name descname"><span class="pre">alg_iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.alg_iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.fom_dict">
+<span class="sig-name descname"><span class="pre">fom_dict</span></span><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.fom_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus">
+<span class="sig-name descname"><span class="pre">initStatus</span></span><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.iteration_number">
+<span class="sig-name descname"><span class="pre">iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/DirectSearchAlgorithm.html#DirectSearchAlgorithm.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.run" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.terminate_reason">
+<span class="sig-name descname"><span class="pre">terminate_reason</span></span><em class="property"> <span class="pre">=</span> <span class="pre">'-1'</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.terminate_reason" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx">
+<span class="sig-name descname"><span class="pre">xx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.array</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.optimalalgorithms.GRAPEAlgorithm">
+<span id="quocslib-optimalalgorithms-grapealgorithm-module"></span><h2>quocslib.optimalalgorithms.GRAPEAlgorithm module<a class="headerlink" href="#module-quocslib.optimalalgorithms.GRAPEAlgorithm" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.optimalalgorithms.GRAPEAlgorithm.</span></span><span class="sig-name descname"><span class="pre">GRAPEAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
+The three important function are:
+* the constructor with the optimization dictionary and the communication object as parameters
+* run : The main loop for optimal control
+* _get_response_for_client : return info about the goodness of the controls and errors if any
+* _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
+* _get_final_results: return the final result of the optimization algorithm</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">
+<span class="sig-name descname"><span class="pre">functional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">drive</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_slices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">U_store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho_store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corho_store</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sys_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.functional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run" title="Permalink to this definition"></a></dt>
+<dd><p>Main loop of the optimization</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.optimalalgorithms.dCRABAlgorithm">
+<span id="quocslib-optimalalgorithms-dcrabalgorithm-module"></span><h2>quocslib.optimalalgorithms.dCRABAlgorithm module<a class="headerlink" href="#module-quocslib.optimalalgorithms.dCRABAlgorithm" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.optimalalgorithms.dCRABAlgorithm.</span></span><span class="sig-name descname"><span class="pre">DCrabAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">communication_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABAlgorithm.html#DCrabAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="quocslib.html#quocslib.Optimizer.Optimizer" title="quocslib.Optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.Optimizer.Optimizer</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.alg_iteration_number">
+<span class="sig-name descname"><span class="pre">alg_iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.alg_iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.fom_dict">
+<span class="sig-name descname"><span class="pre">fom_dict</span></span><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.fom_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.get_best_controls">
+<span class="sig-name descname"><span class="pre">get_best_controls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABAlgorithm.html#DCrabAlgorithm.get_best_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.get_best_controls" title="Permalink to this definition"></a></dt>
+<dd><p>Return the best pulses_list, time_grids_list, and parameters_list found so far</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.iteration_number">
+<span class="sig-name descname"><span class="pre">iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABAlgorithm.html#DCrabAlgorithm.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.run" title="Permalink to this definition"></a></dt>
+<dd><p>Main loop of the dCRAB method</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.xx">
+<span class="sig-name descname"><span class="pre">xx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.array</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.xx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">
+<span id="quocslib-optimalalgorithms-dcrabnoisyalgorithm-module"></span><h2>quocslib.optimalalgorithms.dCRABNoisyAlgorithm module<a class="headerlink" href="#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.optimalalgorithms.dCRABNoisyAlgorithm.</span></span><span class="sig-name descname"><span class="pre">DCrabNoisyAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">communication_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABNoisyAlgorithm.html#DCrabNoisyAlgorithm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="quocslib.html#quocslib.Optimizer.Optimizer" title="quocslib.Optimizer.Optimizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.Optimizer.Optimizer</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.alg_iteration_number">
+<span class="sig-name descname"><span class="pre">alg_iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.alg_iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.fom_dict">
+<span class="sig-name descname"><span class="pre">fom_dict</span></span><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.fom_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.get_best_controls">
+<span class="sig-name descname"><span class="pre">get_best_controls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABNoisyAlgorithm.html#DCrabNoisyAlgorithm.get_best_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.get_best_controls" title="Permalink to this definition"></a></dt>
+<dd><p>Return the best pulses_list, time_grids_list, and parameters_list found so far</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.iteration_number">
+<span class="sig-name descname"><span class="pre">iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.iteration_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/dCRABNoisyAlgorithm.html#DCrabNoisyAlgorithm.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.run" title="Permalink to this definition"></a></dt>
+<dd><p>Main loop of the dCRAB method</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.xx">
+<span class="sig-name descname"><span class="pre">xx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.array</span></em><a class="headerlink" href="#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.xx" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.optimalalgorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.optimalalgorithms" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
