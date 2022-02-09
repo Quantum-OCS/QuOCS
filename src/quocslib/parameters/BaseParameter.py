@@ -50,8 +50,6 @@ class BaseParameter:
     def set_control_parameters_list(self, map_index):
         """ Set the control parameters list. It is used when the """
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
-        print("Set control parameters list. Control parameters nmber: {0}, control_parameters_list{1}"
-              .format(self.control_parameters_number, self.control_parameters_list))
 
     def set_parameter(self, optimized_parameter_vector):
         """

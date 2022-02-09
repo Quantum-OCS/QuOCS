@@ -26,7 +26,7 @@ from quocslib.utils.inputoutput import writejsonfile
 
 class AllInOneCommunication:
 
-    def __init__(self, interface_job_name: str = "OptimizationTest", optimization_dictionary: dict = None, fom_obj: AbstractFom = None, handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump, comm_signals_list: [list, list, list] = None):
+    def __init__(self, interface_job_name: str = "OptimizationTest", fom_obj: AbstractFom = None, handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump, comm_signals_list: [list, list, list] = None):
 
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
@@ -35,7 +35,7 @@ class AllInOneCommunication:
         :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current
         time to ensure univocity
         :param AbstractFom fom_obj: object for the figure of merit evaluation. Have a look to the abstract class for
-        for more info
+        more info
         :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the
         communication is finished to communicate with the client interface
         :param [list, list, list] comm_signals_list: List containing the signals to the gui
@@ -83,7 +83,6 @@ class AllInOneCommunication:
             self.logger.warning(message)
         else:
             self.logger.error(message)
-
 
     def send_message(self, message):
         """ Send a message to the interface """
