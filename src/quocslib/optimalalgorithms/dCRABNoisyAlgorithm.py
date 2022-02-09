@@ -62,8 +62,9 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.max_num_function_ev2 = int(
             alg_parameters["maximum_function_evaluations_number"]
         )
-        # Starting fom
+        # Starting fom and sigma
         self.best_fom = 1e10
+        self.best_sigma = 0.0
         # Update the drift Hamiltonian
         self.is_compensate_drift = alg_parameters.setdefault("is_compensated_drift", True)
         # Re-evaluation steps option
@@ -76,16 +77,14 @@ class DCrabNoisyAlgorithm(Optimizer):
                 message = "Steps not found. The default will be used in the optimization: {0}".format(
                     self.re_evaluation_steps)
                 self.comm_obj.print_logger(message, level=30)
+            # Define the fom test and sigma test arrays, with the maximum number of steps
+            # Fom test and sigma test are arrays containing the fom and sigma at every re-evaluation step
+            self.fom_test = np.zeros((self.re_evaluation_steps.shape[0] + 1,), dtype=float)
+            self.sigma_test = np.zeros_like(self.fom_test)
         else:
-            self.re_evaluation_steps = np.array([0.5])
+            self.re_evaluation_steps = None
         # The fact a FoM is a record Fom is decided by the inner call
         self.is_record = False
-        # Define the average figure fom merit and sigma
-        self.average_fom = self.best_fom
-        self.best_sigma = 0.0
-        # Define the fom test and sigma test arrays, with the maximum number of steps
-        self.fom_test = np.zeros((self.re_evaluation_steps.shape[0] + 1,), dtype=float)
-        self.sigma_test = np.zeros_like(self.fom_test)
         # Initialize the step number used during the fom calculation
         self.step_number = 0
         ###########################################################################################
@@ -116,7 +115,7 @@ class DCrabNoisyAlgorithm(Optimizer):
             "iteration_number": self.iteration_number,
             "status_code": status_code
         }
-        message = "Step number: {0}, fom: {1}, std: {2} ".\
+        message = "Step number: {0}, fom: {1}, std: {2} ". \
             format(self.step_number, fom, std)
         self.comm_obj.print_logger(message, level=20)
         # Load the current parameters
@@ -192,27 +191,31 @@ class DCrabNoisyAlgorithm(Optimizer):
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
         """ This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
         with the same controls multiple times to take into accounts noise in the system """
+        self.is_record = False
+        # Initialize step number to 0
+        self.step_number = 0
+        ################################################################################################################
+        # Standard function evaluation - dCRAB without re-evaluation steps
+        ################################################################################################################
+        fom = self._routine_call(optimized_control_parameters, iterations)
+        if self.re_evaluation_steps is None:
+            return fom
         ################################################################################################################
         # Implement the re-evaluation step method
         ################################################################################################################
-        self.is_record = False
         # check mu-sig criterion by calculating probability of current pulses being new record
         # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
         re_evaluation_steps = self.re_evaluation_steps
         # First evaluation in whole optimization -> do not reevaluate
         if self.iteration_number == 0:
             re_evaluation_steps = np.array([0.5])
-        # Initialize step number to 0
-        self.step_number = 0
         # number of steps
         max_steps_number = re_evaluation_steps.shape[0]
-        # fom_test = np.zeros(max_steps_number + 1)
-        # sigma_test = np.zeros_like(fom_test)
         # Initialize to zero the fom_test and the sigma_test arrays
         self.fom_test = 0.0 * self.fom_test
         self.sigma_test = 0.0 * self.sigma_test
         # Get the figure of merit from the client
-        self.fom_test[0] = self._routine_call(optimized_control_parameters, iterations)
+        self.fom_test[0] = fom
         # TODO: Check if optimization_is_running is necessary here
         # Get the standard deviation
         self.sigma_test[0] = float(self.fom_dict.setdefault("std", 1.0))
@@ -223,8 +226,6 @@ class DCrabNoisyAlgorithm(Optimizer):
             p_level = re_evaluation_steps[ii]
             mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
                                                       sigma_sum=np.sum(self.sigma_test) * 1.0)
-            # mu_1 = np.mean(fom_test) * 1.0
-            # sigma_1 = np.mean(sigma_test) / np.sqrt(ii + 1.0)
             mu_2, sigma_2 = self.best_fom, self.best_sigma
             probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
             # If probability is lower than the probability in the list return the
@@ -236,13 +237,9 @@ class DCrabNoisyAlgorithm(Optimizer):
             # Increase step number after function evaluation
             self.step_number += 1
 
-        # Update the step number to the last one
-        # self.step_number += 1
         # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
         mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
                                                   sigma_sum=np.sum(self.sigma_test) * 1.0)
-        # mu_1 = np.mean(fom_test) * 1.0
-        # sigma_1 = np.mean(sigma_test) / np.sqrt(ii + 1.0)
         mu_2, sigma_2 = self.best_fom, self.best_sigma
         probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
         # TODO: Check what best fom means in this case
@@ -256,17 +253,20 @@ class DCrabNoisyAlgorithm(Optimizer):
         return mu_1
 
     def _get_average_fom_std(self, mu_sum: float = None,
-                         sigma_sum: float = None) -> np.array:
+                             sigma_sum: float = None) -> np.array:
         """ Calculate the average figure of merit and sigma """
         step_number = self.step_number
+        # For the first evaluation and in case no re-evaluation step is needed return directly
+        if step_number == 0:
+            return self.fom_dict["FoM"], self.fom_dict.setdefault("std", 1.0)
         # Call from the response for client function. Calculate the average fom based on all the previous fom stored in
         # the fom_test array and the current fom in the fom dict
         if mu_sum is None:
             curr_fom, curr_std = self.fom_dict["FoM"], self.fom_dict.setdefault("std", 1.0)
-            mu_sum = np.mean(self.fom_test[:step_number + 1]) * step_number + curr_fom
-            sigma_sum = np.mean(self.sigma_test[:step_number + 1]) * step_number + curr_std
-        # If it is called
-        average_fom, average_std = mu_sum / (step_number + 1), sigma_sum / (step_number + 1)
+            mu_sum = np.mean(self.fom_test[:step_number]) * (step_number - 1) + curr_fom
+            sigma_sum = np.mean(self.sigma_test[:step_number]) * (step_number - 1) + curr_std
+        # If it is called inside the _inner_routine_call()
+        average_fom, average_std = mu_sum / step_number, sigma_sum / step_number
         return average_fom, average_std
 
     def _probabnormx1betterx2(self, mu_1: float, sigma_1: float, mu_2: float, sigma_2: float):
