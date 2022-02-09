@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.pulses.BasePulse &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>quocslib.pulses.BasePulse</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quocslib.pulses.BasePulse</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="BasePulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse">[docs]</a><span class="k">class</span> <span class="nc">BasePulse</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the main class for Pulse. Every pulse has to inherit this class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">control_parameters_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+    <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pulse_name</span><span class="o">=</span><span class="s2">&quot;pulse&quot;</span><span class="p">,</span> <span class="n">bins_number</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">time_name</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">initial_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scaling_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_shrinked</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">shaping_options</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">overwrite_base_pulse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Here we defined all the basic features a pulse should have.</span>
+
+<span class="sd">        :param int map_index: index number for pulse control parameters association</span>
+<span class="sd">        :param str pulse_name: Pulse name</span>
+<span class="sd">        :param int bins_number: Number of bins</span>
+<span class="sd">        :param str time_name: Name of the time associated to this pulse</span>
+<span class="sd">        :param float lower_limit: Lower amplitude limit of the pulse</span>
+<span class="sd">        :param float upper_limit: Upper amplitude limit of the pulse</span>
+<span class="sd">        :param float amplitude_variation: amplitude variation of the pulse</span>
+<span class="sd">        :param dict initial_guess: dictionary with initial guess information</span>
+<span class="sd">        :param dict scaling_function: dictionary with scaling function information</span>
+<span class="sd">        :param kwargs: Other arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The arguments did not use here, use for the other class</span>
+         <span class="c1"># super().__init__(**kwargs)</span>
+        <span class="c1"># Pulse name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pulse_name</span> <span class="o">=</span> <span class="n">pulse_name</span>
+        <span class="c1"># Bins number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bins_number</span> <span class="o">=</span> <span class="n">bins_number</span>
+        <span class="c1"># Base Pulse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_pulse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins_number</span><span class="p">)</span>
+        <span class="c1"># Time grid initialization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bins_number</span><span class="p">)</span>
+        <span class="c1"># Time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_name</span> <span class="o">=</span> <span class="n">time_name</span>
+        <span class="c1"># Amplitude Limits</span>
+        <span class="c1"># TODO Implement check amplitude lower &lt; amplitude upper</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">lower_limit</span><span class="p">,</span> <span class="n">upper_limit</span><span class="p">)</span>
+        <span class="c1"># Amplitude variation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span>
+        <span class="c1"># Create the parameter indexes list. It is used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span>
+        <span class="c1"># Update the map_index number for the next pulse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># Shaping options</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing shaping option list mode&quot;</span><span class="p">)</span>
+        <span class="n">shaping_option_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;add_base_pulse&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span> <span class="s2">&quot;add_initial_guess&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span>
+                               <span class="s2">&quot;limit_pulse&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">,</span> <span class="s2">&quot;scale_pulse&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">shaping_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">op_str</span> <span class="ow">in</span> <span class="n">shaping_options</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">op_str</span> <span class="ow">in</span> <span class="n">shaping_option_dict</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shaping_option_dict</span><span class="p">[</span><span class="n">op_str</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: </span><span class="si">{0}</span><span class="s2"> pulse option is not implemented&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op_str</span><span class="p">))</span>
+        <span class="c1"># Initial guess function</span>
+        <span class="n">function_type</span> <span class="o">=</span> <span class="n">initial_guess</span><span class="p">[</span><span class="s2">&quot;function_type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">function_type</span> <span class="o">==</span> <span class="s2">&quot;lambda_function&quot;</span><span class="p">:</span>
+            <span class="n">initial_guess_pulse</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">initial_guess</span><span class="p">[</span><span class="s2">&quot;lambda_function&quot;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">function_type</span> <span class="o">==</span> <span class="s2">&quot;list_function&quot;</span><span class="p">:</span>
+            <span class="n">initial_guess_pulse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">initial_guess</span><span class="p">[</span><span class="s2">&quot;list_function&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">initial_guess_pulse</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="n">t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_guess_pulse</span> <span class="o">=</span> <span class="n">initial_guess_pulse</span>
+        <span class="c1"># Scaling function</span>
+        <span class="n">function_type</span> <span class="o">=</span> <span class="n">scaling_function</span><span class="p">[</span><span class="s2">&quot;function_type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">function_type</span> <span class="o">==</span> <span class="s2">&quot;lambda_function&quot;</span><span class="p">:</span>
+            <span class="n">scaling_function</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">scaling_function</span><span class="p">[</span><span class="s2">&quot;lambda_function&quot;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">function_type</span> <span class="o">==</span> <span class="s2">&quot;list_function&quot;</span><span class="p">:</span>
+            <span class="n">scaling_function</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">scaling_function</span><span class="p">[</span><span class="s2">&quot;list_function&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scaling_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span> <span class="o">=</span> <span class="n">scaling_function</span>
+        <span class="c1"># Shrink option</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_shrinked</span> <span class="o">=</span> <span class="n">is_shrinked</span>
+        <span class="c1"># Overwrite the base pulse at the end of the superiteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_base_pulse</span> <span class="o">=</span> <span class="n">overwrite_base_pulse</span>
+
+<div class="viewcode-block" id="BasePulse.set_control_parameters_list"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_control_parameters_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set the control parameters list. It is used when the Chopped Basis changes during SIs&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_time_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Set the time grid&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">final_time</span> <span class="o">=</span> <span class="n">final_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">final_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins_number</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_build_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Build the pulse with all the constraints&quot;&quot;&quot;</span>
+        <span class="n">optimal_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_shaped_pulse</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span><span class="p">:</span>
+            <span class="n">optimal_pulse</span> <span class="o">=</span> <span class="n">op</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+        <span class="c1"># Pulse operations</span>
+        <span class="c1"># Make a loop with all the operation that the users wants to apply to the pulse shaping</span>
+        <span class="c1"># optimal_pulse_total = self._get_initial_guess() + self._constrained_pulse(optimal_pulse)</span>
+        <span class="k">return</span> <span class="n">optimal_pulse</span>
+
+    <span class="k">def</span> <span class="nf">_constrained_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Apply further constraints to the final pulse &quot;&quot;&quot;</span>
+        <span class="c1"># Shrink the optimal pulse</span>
+        <span class="n">optimal_limited_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_limited_pulse</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+        <span class="n">optimal_scaled_pulse</span> <span class="o">=</span> <span class="n">optimal_limited_pulse</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_scaling_function</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">optimal_scaled_pulse</span>
+
+    <span class="k">def</span> <span class="nf">_shrink_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Shrink the optimal pulse to respect the amplitude limits&quot;&quot;&quot;</span>
+        <span class="c1"># Upper - lower bounds</span>
+        <span class="n">u_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span>
+        <span class="n">l_bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span>
+        <span class="c1"># Upper - lower values of the optimal pulse</span>
+        <span class="n">u_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+        <span class="n">l_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+        <span class="c1"># Distances to the bounds</span>
+        <span class="n">u_distance</span> <span class="o">=</span> <span class="n">u_value</span> <span class="o">-</span> <span class="n">u_bound</span>
+        <span class="n">l_distance</span> <span class="o">=</span> <span class="n">l_bound</span> <span class="o">-</span> <span class="n">l_value</span>
+        <span class="c1"># Check if the bounds are not respect by the optimal pulse</span>
+        <span class="k">if</span> <span class="n">u_distance</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">l_distance</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="c1"># Calculate the middle position between the max and min amplitude</span>
+            <span class="n">distance_u_l_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_value</span> <span class="o">+</span> <span class="n">l_value</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="c1"># Move the pulse to the center of the axis</span>
+            <span class="n">v_optimal_pulse</span> <span class="o">=</span> <span class="n">optimal_pulse</span> <span class="o">-</span> <span class="n">distance_u_l_value</span>
+            <span class="c1"># Move the bounds to the center of the axis respect the optimal pulses</span>
+            <span class="c1"># distance_u_l_bound = (u_bound + l_bound) / 2.0</span>
+            <span class="n">v_u_bound</span><span class="p">,</span> <span class="n">v_l_bound</span> <span class="o">=</span> <span class="p">[</span><span class="n">u_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span><span class="p">,</span> <span class="n">l_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span><span class="p">]</span>
+            <span class="c1"># Check which is the greatest virtual distance</span>
+            <span class="n">v_u_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v_optimal_pulse</span><span class="p">)</span>
+            <span class="n">v_l_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">v_optimal_pulse</span><span class="p">)</span>
+            <span class="c1"># The distance is preserved under this transformation</span>
+            <span class="n">v_l_distance</span> <span class="o">=</span> <span class="n">l_distance</span>
+            <span class="n">v_u_distance</span> <span class="o">=</span> <span class="n">u_distance</span>
+            <span class="c1"># Calculate the max distance and assign the max bound in the virtual frame</span>
+            <span class="k">if</span> <span class="n">v_u_distance</span> <span class="o">&gt;=</span> <span class="n">v_l_distance</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">v_u_value</span>
+                <span class="n">max_bound</span> <span class="o">=</span> <span class="n">v_u_bound</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">max_value</span> <span class="o">=</span> <span class="n">v_l_value</span>
+                <span class="n">max_bound</span> <span class="o">=</span> <span class="n">v_l_bound</span>
+            <span class="c1"># Calculate the shrink factor (&lt; 1.0)</span>
+            <span class="n">shrink_factor</span> <span class="o">=</span> <span class="n">max_bound</span> <span class="o">/</span> <span class="n">max_value</span>
+            <span class="c1"># rescale the virtual pulse</span>
+            <span class="n">shrinked_v_optimal_pulse</span> <span class="o">=</span> <span class="n">shrink_factor</span> <span class="o">*</span> <span class="n">v_optimal_pulse</span>
+            <span class="c1"># Go back to the non virtual pulse, i.e. a transformation + distance_u_l_value</span>
+            <span class="n">shrinked_pulse</span> <span class="o">=</span> <span class="n">shrinked_v_optimal_pulse</span> <span class="o">+</span> <span class="n">distance_u_l_value</span>
+            <span class="c1"># Re-assign the optimal pulse</span>
+            <span class="n">optimal_pulse</span> <span class="o">=</span> <span class="n">shrinked_pulse</span>
+
+        <span class="k">return</span> <span class="n">optimal_pulse</span>
+
+        <span class="k">def</span> <span class="nf">_shrink_pulse_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+            <span class="sd">&quot;&quot;&quot; Shrink the optimal pulse to respect the amplitude limits&quot;&quot;&quot;</span>
+
+            <span class="n">uiTotal</span> <span class="o">=</span> <span class="n">optimal_pulse</span>
+            <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span>
+            <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span>
+            <span class="n">ui</span> <span class="o">=</span> <span class="n">uiTotal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">temp_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+            <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+
+            <span class="c1"># if the whole pulse is higher or lower than the limits take the limits</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&gt;=</span> <span class="n">ub</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&gt;=</span> <span class="n">ub</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&lt;=</span> <span class="n">lb</span><span class="p">):</span>
+                <span class="n">ui</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">uiTotal</span><span class="p">,</span> <span class="n">ub</span><span class="p">),</span> <span class="n">lb</span><span class="p">)</span>  <span class="c1"># cut off the pulse</span>
+            
+            <span class="c1"># otherwise shrink the pulse if it exceeds the limits accordingly</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">temp_max</span> <span class="o">&gt;</span> <span class="n">ub</span><span class="p">:</span>
+                    <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                    <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ub</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                    <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
+                    <span class="c1"># safety precaution just in case</span>
+                    <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="c1"># shift pulse down so that minimum is at zero, shrink, and move up again</span>
+                    <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span><span class="o">-</span><span class="n">temp_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_min</span><span class="p">)</span>
+
+                <span class="n">temp_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+                <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">temp_min</span> <span class="o">&lt;</span> <span class="n">lb</span><span class="p">:</span>
+                    <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                    <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">lb</span><span class="p">)</span>
+                    <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
+                    <span class="c1"># safety precaution just in case</span>
+                    <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
+                        
+                    <span class="c1"># shift pulse down so that maximum is at zero, shrink, and move up again</span>
+                    <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span> <span class="o">-</span> <span class="n">temp_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_max</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ui</span>
+
+<div class="viewcode-block" id="BasePulse.get_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.get_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">get_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameters_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Set the optimized control parameters, the time grid, and return the pulse&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_control_parameters</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_time_grid</span><span class="p">(</span><span class="n">final_time</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_build_pulse</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BasePulse.set_base_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_base_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Set the base optimal pulse &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_control_parameters</span><span class="p">(</span><span class="n">optimized_control_parameters</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_time_grid</span><span class="p">(</span><span class="n">final_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_base_pulse</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_pulse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_shaped_pulse</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base_pulse</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_shaped_pulse</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_control_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Set the optimized control parameters vector &quot;&quot;&quot;</span>
+        <span class="c1"># TODO Check if the optimized control parameters vector has a size equal to the control parameters number</span>
+        <span class="c1">#  of this pulse, otherwise raise an error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimized_control_parameters</span> <span class="o">=</span> <span class="n">optimized_control_parameters</span>
+
+    <span class="k">def</span> <span class="nf">_get_scaling_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Get the array scaling function &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+            <span class="n">scaling_function_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">scaling_function_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO Handle here</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: scaling function not good. Do with 1.0&quot;</span><span class="p">)</span>
+            <span class="n">scaling_function_t</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">scaling_function_t</span>
+
+    <span class="k">def</span> <span class="nf">_get_initial_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Get the initial guess pulse &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_guess_pulse</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+            <span class="n">initial_guess_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_guess_pulse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_guess_pulse</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">initial_guess_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_guess_pulse</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO Handle here</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: initial guess function not good. Do with 0.0&quot;</span><span class="p">)</span>
+            <span class="n">initial_guess_t</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_limited_pulse</span><span class="p">(</span><span class="n">initial_guess_t</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BasePulse.add_base_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_base_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">add_base_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add the base pulse &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pulse</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_pulse</span></div>
+
+<div class="viewcode-block" id="BasePulse.add_initial_guess"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_initial_guess">[docs]</a>    <span class="k">def</span> <span class="nf">add_initial_guess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add the initial pulse to the optimal pulse&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_initial_guess</span><span class="p">()</span> <span class="o">+</span> <span class="n">pulse</span></div>
+
+<div class="viewcode-block" id="BasePulse.limit_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.limit_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">limit_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Apply the constraints to the optimal pulse&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_limited_pulse</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BasePulse.scale_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.scale_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">scale_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Scale the optimal pulse accordingly to the scaling function&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_scaling_function</span><span class="p">()</span> <span class="o">*</span> <span class="n">pulse</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_limited_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Cut the pulse with the amplitude limits constraints &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_shrinked</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shrink_pulse</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_shaped_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Just an abstract method to get the optimized shape pulse&quot;&quot;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

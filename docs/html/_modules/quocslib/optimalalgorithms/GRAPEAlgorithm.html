@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.optimalalgorithms.GRAPEAlgorithm &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>quocslib.optimalalgorithms.GRAPEAlgorithm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quocslib.optimalalgorithms.GRAPEAlgorithm</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.dynamicimport</span> <span class="kn">import</span> <span class="n">dynamic_import</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.timeevolution.piecewise_integrator</span> <span class="kn">import</span> <span class="n">pw_evolution</span>
+<span class="kn">from</span> <span class="nn">quocslib.tools.linearalgebra</span> <span class="kn">import</span> <span class="n">commutator</span>
+<span class="kn">from</span> <span class="nn">quocslib.pulses.basis.PiecewiseBasis</span> <span class="kn">import</span> <span class="n">PiecewiseBasis</span>
+
+
+<div class="viewcode-block" id="GRAPEAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">GRAPEAlgorithm</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.</span>
+<span class="sd">    The three important function are:</span>
+<span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
+<span class="sd">    * run : The main loop for optimal control</span>
+<span class="sd">    * _get_response_for_client : return info about the goodness of the controls and errors if any</span>
+<span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
+<span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the</span>
+<span class="sd">        Optimizer class except the optimization dictionary where the GRAPE settings and the controls are defined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Optimal algorithm variables if any</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;algorithm_settings&quot;</span><span class="p">]</span>
+        <span class="c1"># Starting fom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Pulses, Parameters, Times object</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># we will sculpt this a little since you have to be careful what you pass here</span>
+        <span class="c1"># times are just the points we discretise at</span>
+
+        <span class="c1"># might need to control if you change something</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;n_slices&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;rho_init&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;rho_target&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;dt&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;sys_type&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_guess</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;initial_guess&quot;</span><span class="p">]</span>
+
+        <span class="c1"># create some storage arrays for the forward and backward propagated state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_storage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_storage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corho_storage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">corho_storage</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">propagator_storage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span><span class="p">)])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">pw_basis_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;map_inde&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;pulse_name&quot;</span><span class="p">:</span> <span class="s2">&quot;GRAPE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;bins_number&quot;</span><span class="p">:</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;n_slices&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;time_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;lower_limit&quot;</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">Inf</span><span class="p">,</span>
+            <span class="s2">&quot;upper_limit&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">Inf</span><span class="p">,</span>
+            <span class="s2">&quot;amplitude_variation&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;initial_guess&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;function_type&quot;</span><span class="p">:</span> <span class="s2">&quot;lambda_function&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda_function&quot;</span><span class="p">:</span> <span class="s2">&quot;lambda x: self.initial_guess&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;scaling_function&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;function_type&quot;</span><span class="p">:</span> <span class="s2">&quot;lambda_function&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;lambda_function&quot;</span><span class="p">:</span> <span class="s2">&quot;lambda x: x&quot;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">}</span>
+        <span class="n">pulse_dict</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="n">PiecewiseBasis</span><span class="p">(</span><span class="n">basis</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">pw_basis_dict</span><span class="p">)}</span>
+        <span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span>
+        <span class="n">time_dict</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;time_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span>
+        <span class="n">param_dict</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;parameter_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">}]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span>
+
+        <span class="c1"># Initialize the control object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">(</span><span class="n">pulse_dict</span><span class="p">,</span> <span class="n">time_dict</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="GRAPEAlgorithm.functional"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">[docs]</a>    <span class="k">def</span> <span class="nf">functional</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">U_store</span><span class="p">,</span> <span class="n">rho_store</span><span class="p">,</span> <span class="n">corho_store</span><span class="p">,</span> <span class="n">sys_type</span>
+    <span class="p">):</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span>
+        <span class="n">drive</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">))</span>
+        <span class="n">pw_evolution</span><span class="p">(</span><span class="n">U_store</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_slices</span><span class="p">):</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="c1"># depending on system type do different evolution</span>
+            <span class="k">if</span> <span class="n">sys_type</span> <span class="o">==</span> <span class="s2">&quot;StateTransfer&quot;</span><span class="p">:</span>
+                <span class="n">rho_store</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">rho_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rho_store</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">rho_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_slices</span><span class="p">)):</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sys_type</span> <span class="o">==</span> <span class="s2">&quot;StateTransfer&quot;</span><span class="p">:</span>
+                <span class="n">corho_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">@</span> <span class="n">corho_store</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">corho_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">corho_store</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+
+        <span class="c1"># then compute the gradients</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_slices</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">sys_type</span> <span class="o">==</span> <span class="s2">&quot;StateTransfer&quot;</span><span class="p">:</span>
+                    <span class="n">g</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="mi">1</span><span class="n">j</span>
+                        <span class="o">*</span> <span class="n">dt</span>
+                        <span class="o">*</span> <span class="n">corho_store</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+                        <span class="o">@</span> <span class="n">commutator</span><span class="p">(</span><span class="n">B</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">rho_store</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+                    <span class="p">)</span>
+                    <span class="n">grads</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">grads</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">grads</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">sys_type</span> <span class="o">==</span> <span class="s2">&quot;StateTransfer&quot;</span><span class="p">:</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">corho_store</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">@</span> <span class="n">rho_store</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fid</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_functional</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">functional</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">propagator_storage</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho_storage</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">corho_storage</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="GRAPEAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Main loop of the optimization&quot;&quot;&quot;</span>
+
+        <span class="n">func_topt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_functional</span><span class="p">()</span>
+        <span class="c1"># now we can optimize</span>
+        <span class="c1"># need to be able to include things</span>
+        <span class="n">oo</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span>
+            <span class="n">func_topt</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;L-BFGS-B&quot;</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">alg_parameters</span>
+        <span class="p">)</span>
+
+        <span class="c1"># need to be able to implement pulses in Marco&#39;s way, ask him later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">fun</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">x</span>  <span class="c1"># TODO we might want to reshape this</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="n">oo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">nfev</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the controls dictionary from the optimized control parameters&quot;&quot;&quot;</span>
+        <span class="c1"># [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)</span>
+        <span class="n">pulses</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span><span class="p">]</span>
+        <span class="n">timegrids</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">]</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1">#</span>
+        <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;pulses&quot;</span><span class="p">:</span> <span class="n">pulses</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;timegrids&quot;</span><span class="p">:</span> <span class="n">timegrids</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">controls_dict</span>
+
+    <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dictionary with final results to put into a dictionary&quot;&quot;&quot;</span>
+        <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;FoM&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">&quot;nfev&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">final_dict</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

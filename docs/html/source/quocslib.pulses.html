@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.pulses package &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">quocslib.pulses package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-quocslib.pulses.BasePulse">quocslib.pulses.BasePulse module</a></li>
+<li><a class="reference internal" href="#module-quocslib.pulses">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>quocslib.pulses package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.pulses.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="quocslib-pulses-package">
+<h1>quocslib.pulses package<a class="headerlink" href="#quocslib-pulses-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-quocslib.pulses.BasePulse">
+<span id="quocslib-pulses-basepulse-module"></span><h2>quocslib.pulses.BasePulse module<a class="headerlink" href="#module-quocslib.pulses.BasePulse" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.pulses.BasePulse.</span></span><span class="sig-name descname"><span class="pre">BasePulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulse_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pulse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">101</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lower_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_variation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_shrinked</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shaping_options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite_base_pulse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This is the main class for Pulse. Every pulse has to inherit this class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.add_base_pulse">
+<span class="sig-name descname"><span class="pre">add_base_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.add_base_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.add_base_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Add the base pulse</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.add_initial_guess">
+<span class="sig-name descname"><span class="pre">add_initial_guess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.add_initial_guess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.add_initial_guess" title="Permalink to this definition"></a></dt>
+<dd><p>Add the initial pulse to the optimal pulse</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.control_parameters_number">
+<span class="sig-name descname"><span class="pre">control_parameters_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.control_parameters_number" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.final_time">
+<span class="sig-name descname"><span class="pre">final_time</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.final_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.get_pulse">
+<span class="sig-name descname"><span class="pre">get_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_parameters_vector</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.get_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.get_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Set the optimized control parameters, the time grid, and return the pulse</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.limit_pulse">
+<span class="sig-name descname"><span class="pre">limit_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.limit_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.limit_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Apply the constraints to the optimal pulse</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.optimized_control_parameters">
+<span class="sig-name descname"><span class="pre">optimized_control_parameters</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.ndarray</span></em><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.optimized_control_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.scale_pulse">
+<span class="sig-name descname"><span class="pre">scale_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.scale_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.scale_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Scale the optimal pulse accordingly to the scaling function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.set_base_pulse">
+<span class="sig-name descname"><span class="pre">set_base_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_control_parameters</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_time</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.set_base_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.set_base_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Set the base optimal pulse</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list">
+<span class="sig-name descname"><span class="pre">set_control_parameters_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/pulses/BasePulse.html#BasePulse.set_control_parameters_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list" title="Permalink to this definition"></a></dt>
+<dd><p>Set the control parameters list. It is used when the Chopped Basis changes during SIs</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-quocslib.pulses">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.pulses" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

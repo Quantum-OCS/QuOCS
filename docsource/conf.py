@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('../src/quocslib'))
 # -- Project information -----------------------------------------------------
 
 project = 'QuoCS'
-copyright = '2021, QuoCS'
+copyright = '2022, QuoCS'
 author = 'QuoCS'
 
 # The full version, including alpha/beta/rc tags
-release = '1'
+release = '1.0'
 
 
 # -- General configuration ---------------------------------------------------

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="python" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>quocslib.optimalalgorithms.dCRABAlgorithm &mdash; QuoCS 1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> QuoCS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">QuoCS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>quocslib.optimalalgorithms.dCRABAlgorithm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for quocslib.optimalalgorithms.dCRABAlgorithm</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.Optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
+<span class="kn">from</span> <span class="nn">quocslib.freegradientmethods.NelderMead</span> <span class="kn">import</span> <span class="n">NelderMead</span>
+<span class="kn">from</span> <span class="nn">quocslib.tools.linearalgebra</span> <span class="kn">import</span> <span class="n">simplex_creation</span>
+
+
+<div class="viewcode-block" id="DCrabAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">DCrabAlgorithm</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
+<span class="sd">        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">communication_obj</span><span class="o">=</span><span class="n">communication_obj</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="o">=</span><span class="n">optimization_dict</span>
+        <span class="p">)</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Direct Search method</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;dsm_settings&quot;</span><span class="p">][</span><span class="s2">&quot;stopping_criteria&quot;</span><span class="p">]</span>
+        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;dsm_settings&quot;</span><span class="p">][</span>
+            <span class="s2">&quot;general_settings&quot;</span>
+        <span class="p">]</span>
+        <span class="c1"># TODO Use dynamic import here to define the inner free gradient method</span>
+        <span class="c1"># The callback function is called once in a while in the inner direct search method to check</span>
+        <span class="c1">#  if the optimization is still running</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">NelderMead</span><span class="p">(</span>
+            <span class="n">direct_search_method_settings</span><span class="p">,</span>
+            <span class="n">stopping_criteria</span><span class="p">,</span>
+            <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Optimal algorithm variables</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;algorithm_settings&quot;</span><span class="p">]</span>
+        <span class="c1"># Max number of SI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_si</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">&quot;super_iteration_number&quot;</span><span class="p">])</span>
+        <span class="c1"># TODO change evaluation number for the first and second super iteration</span>
+        <span class="c1"># Max number of iterations at SI1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">&quot;maximum_function_evaluations_number&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># Max number of iterations from SI2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">&quot;maximum_function_evaluations_number&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># Starting fom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Pulses, Parameters object</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Initialize the control object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">(</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;pulses&quot;</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Other useful variables</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return useful information for the client interface&quot;&quot;&quot;</span>
+        <span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">&quot;FoM&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fom</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">fom</span>
+            <span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;status_code&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;is_record&quot;</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span>
+            <span class="s2">&quot;FoM&quot;</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span>
+            <span class="s2">&quot;iteration_number&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+            <span class="s2">&quot;status_code&quot;</span><span class="p">:</span> <span class="n">status_code</span>
+        <span class="p">}</span>
+        <span class="c1"># Load the current parameters</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fom</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response_dict</span>
+
+<div class="viewcode-block" id="DCrabAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Main loop of the dCRAB method&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">super_it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_si</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Check if the optimization was stopped by the user</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">():</span>
+                <span class="k">return</span>
+            <span class="c1"># Initialize the random super_parameters</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">select_basis</span><span class="p">()</span>
+            <span class="c1"># Direct search method</span>
+            <span class="k">if</span> <span class="n">super_it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span><span class="p">)</span>
+            <span class="c1"># Update the base current pulses</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_base_pulses</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_update_base_pulses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Update the base dCRAB pulse&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">update_base_controls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">)</span>
+        <span class="c1"># Add the best parameters and dcrab super_parameters of the current super-iteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_random_super_parameter</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Build the direct search method and run it&quot;&quot;&quot;</span>
+        <span class="n">start_simplex</span> <span class="o">=</span> <span class="n">simplex_creation</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="c1"># Initial point for the Start Simplex</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span>
+        <span class="c1"># Run the direct search algorithm</span>
+        <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span>
+            <span class="n">x0</span><span class="p">,</span>
+            <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
+            <span class="n">max_iterations_number</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># Update the results</span>
+        <span class="p">[</span><span class="n">fom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;F_min_val&quot;</span><span class="p">],</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;X_opti_vec&quot;</span><span class="p">],</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;terminate_reason&quot;</span><span class="p">],</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get the controls dictionary from the optimized control parameters&quot;&quot;&quot;</span>
+        <span class="p">[</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">,</span> <span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_controls_lists</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;pulses&quot;</span><span class="p">:</span> <span class="n">pulses</span><span class="p">,</span>
+            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">&quot;timegrids&quot;</span><span class="p">:</span> <span class="n">timegrids</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">controls_dict</span>
+
+    <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a dictionary with final results to put into a dictionary&quot;&quot;&quot;</span>
+        <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Figure of merit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">&quot;total number of function evaluations&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+            <span class="s2">&quot;dcrab_freq_list&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="p">,</span>
+            <span class="s2">&quot;dcrab_para_list&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span><span class="p">,</span>
+            <span class="s2">&quot;terminate_reason&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">final_dict</span>
+
+<div class="viewcode-block" id="DCrabAlgorithm.get_best_controls"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.get_best_controls">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Return the best pulses_list, time_grids_list, and parameters_list found so far&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_controls_lists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">())</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, QuoCS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
