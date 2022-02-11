@@ -29,7 +29,7 @@ class Controls:
 
     def __init__(self, pulses_list, times_list, parameters_list):
         """
-        Constructor of the general class contaning all the controls used during the optimization
+        Constructor of the general class containing all the controls used during the optimization
 
         :param pulses_list: List containing the settings for each pulse
         :param times_list: List containing the settings for each time
