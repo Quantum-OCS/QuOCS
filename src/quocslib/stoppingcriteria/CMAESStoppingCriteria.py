@@ -17,8 +17,10 @@ import numpy as np
 
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
+from quocslib.stoppingcriteria.generalstoppingcriteria import _check_func_eval, _check_f_size
 
-class NelderMeadStoppingCriteria(StoppingCriteria):
+
+class CMAESStoppingCriteria(StoppingCriteria):
     terminate_reason: str
     is_converged: bool
 
@@ -33,45 +35,33 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         print(stopping_criteria)
         max_iterations_number = stopping_criteria.setdefault("iterations_number", 100)
         self.max_iterations_number = max_iterations_number
-        # frtol and xatol
-        self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
-        self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
+        # f_atol and x_atol
+        self.x_atol = stopping_criteria.setdefault("xatol", 1e-6)
+        self.f_atol = stopping_criteria.setdefault("frtol", 1e-6)
         self.is_converged = False
+        self.terminate_reason = ""
 
     def check_stopping_criteria(self,
-                                sim: np.array = None,
-                                fsim: np.array = None,
+                                f_sim: np.array = None,
                                 function_evaluations: int = None) -> None:
         """
-
-        :param sim:
-        :param fsim:
+        :param f_sim:
         :param function_evaluations:
         :return:
         """
         if self.is_converged:
             return
-        # Trivial stopping criterion
-        self.function_evaluations = function_evaluations
-        max_iter = self.max_iterations_number
-        if function_evaluations >= max_iter:
-            self.terminate_reason = "Exceed number of evaluations"
+
+        # Check function evaluation
+        is_converged, terminate_reason = _check_func_eval(function_evaluations, self.max_iterations_number)
+        if is_converged:
             self.is_converged = True
+            self.terminate_reason = terminate_reason
             return
-        # 1st criterion
-        xatol = self.xatol
-        if np.max(np.ravel(np.abs(sim[1:] - sim[0]))) <= xatol:
-            self.terminate_reason = "Convergence of the simplex"
+
+        # Convergence fom criterion
+        is_converged, terminate_reason = _check_f_size(f_sim, self.f_atol)
+        if is_converged:
             self.is_converged = True
-            return
-        # 2nd criterion
-        # Adapt the variable for stopping criteria
-        frtol = self.frtol
-        try:
-            maxDeltaFomRel = np.max(np.abs(fsim[0] - fsim[1:])) / (np.abs(fsim[0]))
-        except (ZeroDivisionError, FloatingPointError):
-            maxDeltaFomRel = fsim[1]
-        if maxDeltaFomRel <= frtol:
-            self.terminate_reason = "Convergence of the FoM"
-            self.is_converged = True
+            self.terminate_reason = terminate_reason
             return
