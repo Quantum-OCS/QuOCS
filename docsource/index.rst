@@ -6,11 +6,17 @@
 Welcome to QuoCS's documentation!
 =================================
 
+Write something about QuOCs.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   chapters/user_manual
 
+License
+=======
+Insert kind of license.
 
 Indices and tables
 ==================

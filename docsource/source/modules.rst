@@ -1,5 +1,5 @@
-quocslib
-========
+src
+===
 
 .. toctree::
    :maxdepth: 4
