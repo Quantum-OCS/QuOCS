@@ -65,6 +65,7 @@ class GRAPEAlgorithm:
         self.dim = np.size(self.A, 1)
         self.num_pulses = len(self.B)
         self.initial_guess = optimization_dict["initial_guess"]
+        self.fom_list = []
 
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
@@ -143,6 +144,8 @@ class GRAPEAlgorithm:
             fid = 1 - np.abs(np.trace(corho_store[-1].T.conj() @ rho_store[-1]))
         else:
             fid = 0.0
+
+        self.fom_list.append(fid)
 
         return (fid, grads)
 
