@@ -42,7 +42,7 @@ class NelderMead(DirectSearchMethod):
     def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None, **kwargs) -> dict:
         """
 
-        :param callable func: Function tbe called at every function evaluation
+        :param callable func: Function to be called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation

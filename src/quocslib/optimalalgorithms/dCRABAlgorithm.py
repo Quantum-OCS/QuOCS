@@ -144,6 +144,7 @@ class DCrabAlgorithm(Optimizer):
 
     def _dsm_build(self, max_iteration_number: int) -> None:
         """Build the direct search method and run it"""
+        # TR: what if I don't run NM and do not have a simnplex?!?!?
         start_simplex = simplex_creation(
             self.controls.get_mean_value(), self.controls.get_sigma_variation()
         )
