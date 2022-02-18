@@ -1,0 +1,8 @@
+name: Check if version in setup.cfg has been changed
+on: [push]
+jobs:
+  simple-version-change-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: git diff HEAD HEAD^ setup.cfg | grep -q 'version =' || exit 1
