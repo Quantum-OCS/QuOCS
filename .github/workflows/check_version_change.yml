@@ -4,5 +4,9 @@ jobs:
   simple-version-change-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: git diff HEAD HEAD^ setup.cfg | grep -q 'version =' || exit 1
+      - name: Checkout repo with deeper fetch depth than usual
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Check if version has changed
+        run: git diff HEAD HEAD^ setup.cfg | grep -q '+version =' || exit 1
