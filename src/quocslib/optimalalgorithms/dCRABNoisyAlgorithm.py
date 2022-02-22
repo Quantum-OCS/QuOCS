@@ -28,6 +28,7 @@ class DCrabNoisyAlgorithm(Optimizer):
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
         """
+        # TODO Unify this algorithm with the standard dCRAB
         super().__init__(
             communication_obj=communication_obj, optimization_dict=optimization_dict
         )
@@ -97,28 +98,57 @@ class DCrabNoisyAlgorithm(Optimizer):
             optimization_dict["parameters"],
         )
         ###########################################################################################
+        # General Log message
+        ###########################################################################################
+        self.comm_obj.print_general_log = False
+        ###########################################################################################
         # Other useful variables
         ###########################################################################################
-        self.dcrab_parameters_list = []
-        self.dcrab_super_parameter_list = []
-        self.fom_list = []
-        self.iteration_number_list = []
+        self.super_it: int = 0
+        self.dcrab_parameters_list: list = []
+        self.dcrab_super_parameter_list: list = []
+        self.fom_list: list = []
+        self.iteration_number_list: list = []
 
     def _get_response_for_client(self) -> dict:
-        """Return useful information for the client interface """
+        """Return useful information for the client interface and print message in the log """
         # Get the average fom 
         fom, std = self._get_average_fom_std()
         status_code = self.fom_dict.setdefault("status_code", 0)
+        # If re-evaluation steps is not used check for current best figure of merit
+        if self.re_evaluation_steps is None:
+            if fom < self.best_fom:
+                message = "Found a record. Previous fom: {fom}, new best fom : {best_fom}" \
+                    .format(fom=self.best_fom, best_fom=fom)
+                self.comm_obj.print_logger(message=message, level=20)
+                self.best_fom = fom
+                self.best_xx = self.xx.copy()
+                self.is_record = True
         response_dict = {
             "is_record": self.is_record,
             "FoM": fom,
             "iteration_number": self.iteration_number,
+            "super_it": self.super_it,
             "status_code": status_code
         }
-        message = "Step number: {0}, fom: {1}, std: {2} ". \
-            format(self.step_number, fom, std)
+        ################################################################################################################
+        # Print message in the log
+        ################################################################################################################
+        # Iterations
+        message = "Function evaluation: {func_eval}, " \
+                  "SI: {super_it}, " \
+                  "sub-iteration number: {sub_it}".format(
+                        func_eval=self.iteration_number,
+                        super_it=self.super_it,
+                        sub_it=self.alg_iteration_number
+                        )
+        # Data
+        if self.re_evaluation_steps is not None:
+            message += " step number: {0}, Fom: {1}, Std: {2}".format(self.step_number, fom, std)
+        else:
+            message += " Fom: {0}".format(fom)
         self.comm_obj.print_logger(message, level=20)
-        # Load the current parameters
+        # Load the current figure of merit and iteration number in the summary list of dCRAB
         if status_code == 0:
             self.fom_list.append(fom)
             self.iteration_number_list.append(self.iteration_number)
@@ -130,6 +160,8 @@ class DCrabNoisyAlgorithm(Optimizer):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
                 return
+            # Set super iteration number
+            self.super_it = super_it
             # Compensate the drift Hamiltonian
             if self.is_compensate_drift and super_it >= 2:
                 self._update_fom()
@@ -145,24 +177,24 @@ class DCrabNoisyAlgorithm(Optimizer):
 
     def _update_fom(self) -> None:
         """ Update the value of the best fom using the current best controls """
-        # Info message
-        message = "Update the best fom using the best controls found so far"
-        self.comm_obj.print_logger(message=message, level=10)
-        # Get the controls value
+        previous_best_fom = self.best_fom
+        # Get the current best control optimization vector
         x0 = self.controls.get_mean_value()
-        # Evaluate the fom with the standard routine call
-        iteration = 0
-        self.is_record = True
+        # Evaluate the fom with the standard routine call and set the fom as the current record
+        iteration, self.is_record, self.step_number = 0, True, 0
         self.best_fom = self._routine_call(x0, iteration)
+        # Info message
+        message = f"Previous best fom: {previous_best_fom} , Current best fom after drift compensation: {self.best_fom}"
+        self.comm_obj.print_logger(message=message, level=20)
         # At this point is not necessary to set again is_record to False since is newly re-define at the beginning of
         # the _inner_routine_call function
         # TODO: Thinks if makes sense to update the sigma best value here
 
     def _update_base_pulses(self) -> None:
-        """Update the base dCRAB pulse"""
-        self.controls.update_base_controls(self.xx)
+        """ Update the base dCRAB pulse with the best controls found so far """
+        self.controls.update_base_controls(self.best_xx)
         # Add the best parameters and dcrab super_parameters of the current super-iteration
-        self.dcrab_parameters_list.append(self.xx)
+        self.dcrab_parameters_list.append(self.best_xx)
         self.dcrab_super_parameter_list.append(
             self.controls.get_random_super_parameter()
         )
@@ -174,6 +206,8 @@ class DCrabNoisyAlgorithm(Optimizer):
         )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
+        # Initialize the best xx vector for this SI
+        self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
         result_l = self.dsm_obj.run_dsm(
             self._inner_routine_call,
@@ -182,11 +216,21 @@ class DCrabNoisyAlgorithm(Optimizer):
             max_iterations_number=max_iteration_number,
         )
         # Update the results
-        [fom, self.xx, self.terminate_reason] = [
+        [fom, xx, self.terminate_reason, NfunevalsUsed] = [
             result_l["F_min_val"],
             result_l["X_opti_vec"],
             result_l["terminate_reason"],
+            result_l["NfunevalsUsed"]
         ]
+        # Message at the end of the SI
+        message = "SI: {super_it}, Total nr control evaluations: {NfunevalsUsed}, \n" \
+                  "Termination Reason: {termination_reason}\n" \
+                  "Current best fom: {best_fom}"\
+            .format(super_it=self.super_it,
+                    NfunevalsUsed=NfunevalsUsed,
+                    termination_reason=self.terminate_reason,
+                    best_fom=self.best_fom)
+        self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
         """ This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
@@ -194,61 +238,68 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.is_record = False
         # Initialize step number to 0
         self.step_number = 0
+        fom = self._routine_call(optimized_control_parameters, iterations)
         ################################################################################################################
         # Standard function evaluation - dCRAB without re-evaluation steps
         ################################################################################################################
-        fom = self._routine_call(optimized_control_parameters, iterations)
         if self.re_evaluation_steps is None:
-            return fom
-        ################################################################################################################
-        # Implement the re-evaluation step method
-        ################################################################################################################
-        # check mu-sig criterion by calculating probability of current pulses being new record
-        # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
-        re_evaluation_steps = self.re_evaluation_steps
-        # First evaluation in whole optimization -> do not reevaluate
-        if self.iteration_number == 0:
-            re_evaluation_steps = np.array([0.5])
-        # number of steps
-        max_steps_number = re_evaluation_steps.shape[0]
-        # Initialize to zero the fom_test and the sigma_test arrays
-        self.fom_test = 0.0 * self.fom_test
-        self.sigma_test = 0.0 * self.sigma_test
-        # Get the figure of merit from the client
-        self.fom_test[0] = fom
-        # TODO: Check if optimization_is_running is necessary here
-        # Get the standard deviation
-        self.sigma_test[0] = float(self.fom_dict.setdefault("std", 1.0))
-        # Increase step number after function evaluation
-        self.step_number += 1
-        # p level test better than current record
-        for ii in range(max_steps_number):
-            p_level = re_evaluation_steps[ii]
+            mu_1 = fom
+        else:
+            ############################################################################################################
+            # Implement the re-evaluation step method
+            ############################################################################################################
+            # check mu-sig criterion by calculating probability of current pulses being new record
+            # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
+            re_evaluation_steps = self.re_evaluation_steps
+            # First evaluation in whole optimization -> do not reevaluate
+            if self.iteration_number == 1:
+                re_evaluation_steps = np.array([0.5])
+            # number of steps
+            max_steps_number = re_evaluation_steps.shape[0]
+            # Initialize to zero the fom_test and the sigma_test arrays
+            self.fom_test = 0.0 * self.fom_test
+            self.sigma_test = 0.0 * self.sigma_test
+            # Get the figure of merit from the client
+            self.fom_test[0] = fom
+            # TODO: Check if optimization_is_running is necessary here
+            # Get the standard deviation
+            self.sigma_test[0] = float(self.fom_dict.setdefault("std", 1.0))
+            # Increase step number after function evaluation
+            self.step_number += 1
+            # p level test better than current record
+            for ii in range(max_steps_number):
+                p_level = re_evaluation_steps[ii]
+                mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
+                                                          sigma_sum=np.sum(self.sigma_test) * 1.0)
+                mu_2, sigma_2 = self.best_fom, self.best_sigma
+                probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
+                # If probability is lower than the probability in the list return the
+                if probability < p_level:
+                    return mu_1
+                # else: go on with further re-evaluations
+                self.fom_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
+                self.sigma_test[ii + 1] = float(self.fom_dict.setdefault("std", 1.0))
+                # Increase step number after function evaluation
+                self.step_number += 1
+
+            # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
             mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
                                                       sigma_sum=np.sum(self.sigma_test) * 1.0)
             mu_2, sigma_2 = self.best_fom, self.best_sigma
             probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
-            # If probability is lower than the probability in the list return the
-            if probability < p_level:
-                return mu_1
-            # else: go on with further re-evaluations
-            self.fom_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
-            self.sigma_test[ii + 1] = float(self.fom_dict.setdefault("std", 1.0))
-            # Increase step number after function evaluation
-            self.step_number += 1
-
-        # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
-        mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
-                                                  sigma_sum=np.sum(self.sigma_test) * 1.0)
-        mu_2, sigma_2 = self.best_fom, self.best_sigma
-        probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
-        # TODO: Check what best fom means in this case
-        if probability > re_evaluation_steps[-1]:  # or self.fund_updatebestfom:  # we've got a new record!!
-            self.best_sigma = sigma_1
-            self.best_fom = mu_1
-            self.is_record = True
-            message = "Found a record. fom: {0}, std: {1}".format(mu_1, sigma_1)
-            self.comm_obj.print_logger(message, level=20)
+            # TODO: Check what best fom means in this case
+            if probability > re_evaluation_steps[-1]:
+                # We have a new record
+                self.best_sigma,  self.best_fom = sigma_1, mu_1
+                self.is_record = True
+                message = "Found a record. fom: {0}, std: {1}".format(mu_1, sigma_1)
+                self.comm_obj.print_logger(message, level=20)
+                self.best_xx = self.xx.copy()
+                self.comm_obj.update_controls(is_record=True,
+                                              FoM=self.best_fom,
+                                              sigma=self.best_sigma,
+                                              super_it=self.super_it,
+                                              )
 
         return mu_1
 

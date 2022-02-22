@@ -48,6 +48,7 @@ class PiecewiseBasis(BasePulse):
                 self.last_index=0
         return lambda x, y : Skipper()
 
+    # TODO check if this function is really called by GRAPE
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """
         #################

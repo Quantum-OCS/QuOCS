@@ -17,16 +17,23 @@
 import os
 import time
 
+import numpy as np
+
 from quocslib.utils.AbstractFom import AbstractFom
 from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
 from quocslib.utils.inputoutput import writejsonfile
+from quocslib import __VERSION__ as quocslib_version
 
 
 class AllInOneCommunication:
 
-    def __init__(self, interface_job_name: str = "OptimizationTest", fom_obj: AbstractFom = None, handle_exit_obj: AbstractHandleExit = None, dump_attribute: callable = DummyDump, comm_signals_list: [list, list, list] = None):
+    def __init__(self, interface_job_name: str = "OptimizationTest",
+                 fom_obj: AbstractFom = None,
+                 handle_exit_obj: AbstractHandleExit = None,
+                 dump_attribute: callable = DummyDump,
+                 comm_signals_list: [list, list, list] = None):
 
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
@@ -61,8 +68,13 @@ class AllInOneCommunication:
             os.makedirs(os.path.join(os.getcwd(), optimization_folder))
         # Create the folder for logging and results
         os.makedirs(self.results_path)
+        # Write the current quocs lib version in the file
+        with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
+            version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
         self.logger = create_logger(self.results_path)
+        # Print function evaluation and figure of merit
+        self.print_general_log = True
         # Figure of merit object
         self.fom_obj = fom_obj
         # TODO Thinks whether it is a good idea dumping the results
@@ -141,10 +153,21 @@ class AllInOneCommunication:
             # Set the user running to False in order to not continue with the next iteration
             self.he_obj.is_user_running = False
             return
-        self.logger.info("Iteration number: {0}, FoM: {1}".format(iteration_number, fom))
-        self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)
+        self._print_general_log(iteration_number, fom)
+        self.update_controls(**response_for_client)
         if self.fom_plot_signal is not None:
             self.fom_plot_signal.emit(iteration_number, fom)
+
+    def _print_general_log(self, iteration_number: int, fom: float):
+        """ Print the general log at each function evaluation """
+        if self.print_general_log:
+            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, fom))
+
+    def update_controls(self, **response_for_client) -> None:
+        """ External call to update the controls """
+        if response_for_client is None:
+            response_for_client = {}
+        self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)
 
     def end_communication(self, results_dict: dict) -> None:
         """

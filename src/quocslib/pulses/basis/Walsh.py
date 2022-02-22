@@ -21,6 +21,7 @@ from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
 
 
 class Walsh(ChoppedBasis):
+    # TODO Complete this basis
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray

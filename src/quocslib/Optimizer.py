@@ -16,6 +16,7 @@
 from abc import abstractmethod
 import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
+from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
 
 class Optimizer:
@@ -44,6 +45,8 @@ class Optimizer:
 
     def begin(self) -> None:
         """ Initialize the communication with the client"""
+        # Open the log with the QuOCS version number
+        self.comm_obj.print_logger("QuOCS version number: {0}".format(QUOCSLIB_VERSION))
         # Send starting message to the interface
         self.comm_obj.send_message("start")
         # Assign new job number to the client
@@ -109,7 +112,7 @@ class Optimizer:
     @abstractmethod
     def _get_controls(self, optimized_control_parameters: np.array) -> [list, list, list]:
         """ Given the optimized control parameters, the control object in the optimal algorithm builds the
-         the pulses, time grids, and parameters"""
+         pulses, time grids, and parameters"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod

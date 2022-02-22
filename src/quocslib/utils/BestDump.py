@@ -24,9 +24,11 @@ class BestDump(AbstractDump):
     def __init__(self, results_path: str = ".", **kwargs):
         self.best_controls_path = results_path
 
-    def dump_controls(self, pulses: list = [], timegrids: list = [], parameters: list = [],
-                      is_record: bool = False, FoM: float = 0.0, iteration_number: int = 1, **kwargs) \
-            -> None:
+    def dump_controls(self, pulses: list = [],
+                      timegrids: list = [],
+                      parameters: list = [],
+                      is_record: bool = False,
+                      **kwargs) -> None:
         """ Save the controls in the results folder """
         if not is_record:
             return
@@ -40,8 +42,11 @@ class BestDump(AbstractDump):
         for parameter in parameters:
             controls_dict["parameter" + str(parameter_index)] = parameter
             parameter_index += 1
+        # Full dictionary
+        full_dict = {**controls_dict, **kwargs}
+        # Print in the best controls file
         controls_path = os.path.join(self.best_controls_path, "best_controls.npz")
-        np.savez(controls_path, **controls_dict)
+        np.savez(controls_path, **full_dict)
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """ Save other results into a txt numpy file """
