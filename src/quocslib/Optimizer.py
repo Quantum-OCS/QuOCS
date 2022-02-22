@@ -109,7 +109,7 @@ class Optimizer:
     @abstractmethod
     def _get_controls(self, optimized_control_parameters: np.array) -> [list, list, list]:
         """ Given the optimized control parameters, the control object in the optimal algorithm builds the
-         the pulses, time grids, and parameters"""
+         pulses, time grids, and parameters"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod
