@@ -37,7 +37,7 @@ class Chebyshev(ChoppedBasis):
         self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
         # Number of control parameters to be optimized
         self.control_parameters_number = 2 * self.super_parameter_number
-        # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
+        # Constructor of the parent class, i.e. Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
         self.scale_coefficients = self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number,))
