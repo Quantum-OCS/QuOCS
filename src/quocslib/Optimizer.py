@@ -16,6 +16,7 @@
 from abc import abstractmethod
 import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
+from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
 
 class Optimizer:
@@ -44,6 +45,8 @@ class Optimizer:
 
     def begin(self) -> None:
         """ Initialize the communication with the client"""
+        # Open the log with the QuOCS version number
+        self.comm_obj.print_logger("QuOCS version number: {0}".format(QUOCSLIB_VERSION))
         # Send starting message to the interface
         self.comm_obj.send_message("start")
         # Assign new job number to the client

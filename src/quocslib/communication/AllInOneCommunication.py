@@ -17,11 +17,14 @@
 import os
 import time
 
+import numpy as np
+
 from quocslib.utils.AbstractFom import AbstractFom
 from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
 from quocslib.utils.inputoutput import writejsonfile
+from quocslib import __VERSION__ as quocslib_version
 
 
 class AllInOneCommunication:
@@ -65,6 +68,9 @@ class AllInOneCommunication:
             os.makedirs(os.path.join(os.getcwd(), optimization_folder))
         # Create the folder for logging and results
         os.makedirs(self.results_path)
+        # Write the current quocs lib version in the file
+        with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
+            version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
         self.logger = create_logger(self.results_path)
         # Print function evaluation and figure of merit
