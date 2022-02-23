@@ -27,7 +27,7 @@ class Controls:
     All these quantities are defined in this class and can be accessed by calling the modules here.
     """
 
-    def __init__(self, pulses_list, times_list, parameters_list):
+    def __init__(self, pulses_list, times_list, parameters_list, rng: np.random.Generator = None):
         """
         Constructor of the general class containing all the controls used during the optimization
 
@@ -52,7 +52,7 @@ class Controls:
                                              module_name=basis.setdefault("basis_module", None),
                                              class_name=basis.setdefault("basis_class", None))
             # Create the pulse obj
-            self.pulse_objs_list.append(basis_attribute(map_index, pulse))
+            self.pulse_objs_list.append(basis_attribute(map_index, pulse, rng=rng))
             # Update the map index for the next control
             map_index = self.pulse_objs_list[-1].last_index
         ###############################################

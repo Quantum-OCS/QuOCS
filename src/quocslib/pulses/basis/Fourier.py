@@ -26,7 +26,7 @@ class Fourier(ChoppedBasis):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index: int, pulse_dictionary: dict):
+    def __init__(self, map_index: int, pulse_dictionary: dict, rng: np.random.Generator = None):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
@@ -38,7 +38,7 @@ class Fourier(ChoppedBasis):
         # Number of control parameters to be optimized
         self.control_parameters_number = 2 * self.super_parameter_number
         # Constructor of the parent class, i.e. Chopped Basis
-        super().__init__(map_index=map_index, **pulse_dictionary)
+        super().__init__(map_index=map_index, rng=rng, **pulse_dictionary)
         # Define scale and offset coefficients
         self.scale_coefficients = self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number,))
         self.offset_coefficients = np.zeros((self.control_parameters_number,))

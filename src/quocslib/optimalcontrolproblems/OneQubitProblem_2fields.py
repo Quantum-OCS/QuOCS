@@ -33,7 +33,6 @@ class OneQubit2Fields(AbstractFom):
         self.is_noisy = args_dict.setdefault("is_noisy", False)
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
         self.std_factor = args_dict.setdefault("std_factor", 0.01)
-        print("Is noise? : {0}".format(self.is_noisy))
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         amplitude = np.asarray(pulses[0])

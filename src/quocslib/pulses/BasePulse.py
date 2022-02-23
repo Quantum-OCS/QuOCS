@@ -30,7 +30,8 @@ class BasePulse:
 
     def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0,
                  upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None,
-                 is_shrinked:bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False, **kwargs):
+                 is_shrinked: bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False,
+                 rng: np.random.Generator = None, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
 
@@ -101,6 +102,8 @@ class BasePulse:
         self.is_shrinked = is_shrinked
         # Overwrite the base pulse at the end of the superiteration
         self.overwrite_base_pulse = overwrite_base_pulse
+        # Random number generator
+        self.rng = rng
 
     def set_control_parameters_list(self, map_index):
         """ Set the control parameters list. It is used when the Chopped Basis changes during SIs"""
