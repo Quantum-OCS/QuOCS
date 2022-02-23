@@ -41,7 +41,7 @@ class OneQubit(AbstractFom):
         U = self._time_evolution(f, dt)
         psi_f = np.matmul(U, self.psi_0)
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
-        std = 0.0
+        std = 1e-4
         if self.is_noisy:
             noise = self.noise_factor * 2 * (0.5 - np.random.rand(1, )[0])
             infidelity += noise

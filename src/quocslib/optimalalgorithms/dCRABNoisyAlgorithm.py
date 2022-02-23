@@ -84,6 +84,17 @@ class DCrabNoisyAlgorithm(Optimizer):
             self.sigma_test = np.zeros_like(self.fom_test)
         else:
             self.re_evaluation_steps = None
+        # Seed for the random number generator
+        if "random_number_generator" in alg_parameters:
+            try:
+                seed_number = alg_parameters["random_number_generator"]["seed_number"]
+                self.rng = np.random.default_rng(seed_number)
+            except (TypeError, KeyError):
+                default_seed_number = 2022
+                message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization"\
+                    .format(default_seed_number)
+                self.rng = np.random.default_rng(default_seed_number)
+                self.comm_obj.print_logger(message, level=30)
         # The fact a FoM is a record Fom is decided by the inner call
         self.is_record = False
         # Initialize the step number used during the fom calculation
@@ -95,7 +106,7 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.controls = Controls(
             optimization_dict["pulses"],
             optimization_dict["times"],
-            optimization_dict["parameters"],
+            optimization_dict["parameters"], rng=self.rng
         )
         ###########################################################################################
         # General Log message
@@ -202,7 +213,7 @@ class DCrabNoisyAlgorithm(Optimizer):
     def _dsm_build(self, max_iteration_number: int) -> None:
         """Build the direct search method and run it"""
         start_simplex = simplex_creation(
-            self.controls.get_mean_value(), self.controls.get_sigma_variation()
+            self.controls.get_mean_value(), self.controls.get_sigma_variation(), rng=self.rng
         )
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()

@@ -26,7 +26,7 @@ from quocslib.utils.BestDump import BestDump
 
 def main(optimization_dictionary: dict):
     args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
-                 "is_noisy": True}
+                 "is_noisy": False}
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
@@ -48,4 +48,4 @@ def main(optimization_dictionary: dict):
 
 
 if __name__ == '__main__':
-    main(readjson(os.path.join("algorithm_dictionary_dCRABNoisy.json"))[1])
+    main(readjson(os.path.join("..", "algorithm_dictionary_dCRABNoisy_only_compensation_Random_Generator.json"))[1])

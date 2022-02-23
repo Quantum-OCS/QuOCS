@@ -15,6 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
+from quocslib.tools.randomgenerator import get_random_numbers
+
 
 def ptrace(rho, dimensions):
     """
@@ -28,6 +30,7 @@ def ptrace(rho, dimensions):
 
 def commutator(A, B):
     return A @ B - B @ A
+
 
 def gram_schmidt(A):
     """
@@ -49,7 +52,8 @@ def gram_schmidt(A):
     return A
 
 
-def simplex_creation(mean_value: np.array, sigma_variation: np.array) -> np.array:
+def simplex_creation(mean_value: np.array, sigma_variation: np.array,
+                     rng: np.random.Generator = None) -> np.array:
     """
     Creation of the simplex
 
@@ -65,7 +69,8 @@ def simplex_creation(mean_value: np.array, sigma_variation: np.array) -> np.arra
     # Simplex matrix ( without first row )
     simplex_matrix = np.diag(np.ones_like(sigma_variation))
     # Add random number in the first column
-    simplex_matrix[0, :] += np.sqrt(3) * (np.random.rand(ctrl_par_number, ) - 0.5) * 2
+    random_array = get_random_numbers(ctrl_par_number, rng=rng).reshape(ctrl_par_number, )
+    simplex_matrix[0, :] += np.sqrt(3) * (random_array - 0.5) * 2
     # Orthogonalize set of vectors with gram_schmidt, and rescale with the normalization length
     simplex_matrix_orthonormal = gram_schmidt(simplex_matrix.T)
     # Rescale the vector with the sigma variation
@@ -111,6 +116,7 @@ def to_sup_op(H):
     dim = np.size(H, 1)
     idm = np.eye(dim)
     return np.kron(idm, H) - np.kron(H.T.conj(), idm)
+
 
 def to_vec(rho):
     """

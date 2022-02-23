@@ -16,16 +16,19 @@
 import numpy as np
 
 from quocslib.pulses.superparameter.SuperParameterDistribution import SuperParameterDistribution
+from quocslib.tools.randomgenerator import get_random_numbers
 
 
 class Uniform(SuperParameterDistribution):
 
-    def __init__(self, basis_vectors_number, super_parameter_distribution_dictionary):
+    def __init__(self, basis_vectors_number, super_parameter_distribution_dictionary,
+                 rng: np.random.Generator = None):
         """Spend here few words, compulsory arguments for the parent class"""
         self.basis_vectors_number = basis_vectors_number
         super().__init__(**super_parameter_distribution_dictionary)
         self.lower_limit_w = super_parameter_distribution_dictionary["lower_limit"]
         self.upper_limit_w = super_parameter_distribution_dictionary["upper_limit"]
+        self.rng = rng
 
     def set_random_super_parameter(self):
         """Spend here few words here"""
@@ -38,4 +41,4 @@ class Uniform(SuperParameterDistribution):
         k_bins = (b-a)/k
         # generation of random super_parameters
         for i in range(k):
-            self.w[i] = a + i*k_bins + k_bins*np.random.rand()
+            self.w[i] = a + i*k_bins + k_bins * get_random_numbers(1, rng=self.rng)[0]
