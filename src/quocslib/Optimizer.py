@@ -42,6 +42,8 @@ class Optimizer:
         self.iteration_number = 0
         # Update status
         self.init_status = True
+        # Random number generator
+        self.rng = None
 
     def begin(self) -> None:
         """ Initialize the communication with the client"""
