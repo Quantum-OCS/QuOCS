@@ -20,6 +20,7 @@ from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
 from quocslib.freegradientmethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class DCrabNoisyAlgorithm(Optimizer):
@@ -88,12 +89,12 @@ class DCrabNoisyAlgorithm(Optimizer):
         if "random_number_generator" in alg_parameters:
             try:
                 seed_number = alg_parameters["random_number_generator"]["seed_number"]
-                self.rng = np.random.default_rng(seed_number)
+                self.rng = RandomNumberGenerator(seed_number=seed_number)
             except (TypeError, KeyError):
                 default_seed_number = 2022
                 message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization"\
                     .format(default_seed_number)
-                self.rng = np.random.default_rng(default_seed_number)
+                self.rng = RandomNumberGenerator(seed_number=default_seed_number)
                 self.comm_obj.print_logger(message, level=30)
         # The fact a FoM is a record Fom is decided by the inner call
         self.is_record = False

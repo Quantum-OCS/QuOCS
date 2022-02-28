@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
-from quocslib.tools.randomgenerator import get_random_numbers
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 def ptrace(rho, dimensions):
@@ -53,7 +53,7 @@ def gram_schmidt(A):
 
 
 def simplex_creation(mean_value: np.array, sigma_variation: np.array,
-                     rng: np.random.Generator = None) -> np.array:
+                     rng: RandomNumberGenerator = None) -> np.array:
     """
     Creation of the simplex
 
@@ -69,7 +69,11 @@ def simplex_creation(mean_value: np.array, sigma_variation: np.array,
     # Simplex matrix ( without first row )
     simplex_matrix = np.diag(np.ones_like(sigma_variation))
     # Add random number in the first column
-    random_array = get_random_numbers(ctrl_par_number, rng=rng).reshape(ctrl_par_number, )
+    if rng is None:
+        random_array = np.random.rand(ctrl_par_number)
+    else:
+        random_array = rng.get_random_numbers(ctrl_par_number)
+    random_array = random_array.reshape(ctrl_par_number, )
     simplex_matrix[0, :] += np.sqrt(3) * (random_array - 0.5) * 2
     # Orthogonalize set of vectors with gram_schmidt, and rescale with the normalization length
     simplex_matrix_orthonormal = gram_schmidt(simplex_matrix.T)

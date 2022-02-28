@@ -15,11 +15,48 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
+from packaging import version
 
 
-def get_random_numbers(n: int, rng: np.random.Generator = None):
-    """ Return an array of random numbers between 0 and 1 based on the random generator """
-    if rng is None:
-        return np.random.rand(n)
-    else:
-        return rng.random(n)
+class RandomNumberGenerator:
+
+    def __init__(self, seed_number: int = None):
+        numpy_version = np.__version__
+        self.message = ""
+        self.rng = None
+        self.type = None
+        # If no seed is provided use the random numbers without any seed
+        if seed_number is None:
+            return
+        if version.parse(numpy_version) < version.parse("1.16.0"):
+            # Try to import the randomgen package
+            try:
+                import randomgen
+                from randomgen import RandomGenerator, MT19937
+                self.message = "Import the randomgen library version: {}".format(randomgen.__version__)
+                self.rng = RandomGenerator(MT19937(seed=seed_number))
+                self.type = "randomgen"
+            except ImportError:
+                raise ImportError("Please install randomgen using a compatible version of numpy {0}"
+                                  .format(numpy_version))
+        else:
+            self.rng = np.random.default_rng(seed_number)
+            self.type = "numpy"
+
+    def get_random_numbers(self, n: int):
+        """ Return an array of random numbers """
+        if self.rng is None:
+            return np.random.rand(n)
+        else:
+            if self.type == "numpy":
+                return self.rng.random(n)
+            else:
+                return self.rng.random_sample(n)
+
+
+# def get_random_numbers(n: int, rng: np.random.Generator = None):
+#     """ Return an array of random numbers between 0 and 1 based on the random generator """
+#     if rng is None:
+#         return np.random.rand(n)
+#     else:
+#         return rng.random(n)
