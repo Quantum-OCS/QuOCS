@@ -19,6 +19,8 @@ from typing import Callable
 
 import numpy as np
 
+from quocslib.tools.randomgenerator import RandomNumberGenerator
+
 
 class BasePulse:
     """
@@ -31,7 +33,7 @@ class BasePulse:
     def __init__(self, map_index=-1, pulse_name="pulse", bins_number=101, time_name="time", lower_limit=0.0,
                  upper_limit=1.0, amplitude_variation=0.1, initial_guess=None, scaling_function=None,
                  is_shrinked: bool = False, shaping_options: list = None, overwrite_base_pulse: bool = False,
-                 rng: np.random.Generator = None, **kwargs):
+                 rng: RandomNumberGenerator = None, **kwargs):
         """
         Here we defined all the basic features a pulse should have.
 
