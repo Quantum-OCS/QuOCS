@@ -56,7 +56,7 @@ class ADAlgorithm(Optimizer):
         )
 
         # might need to control if you change something
-        
+
         self.A = optimization_dict["A"]
         self.B = optimization_dict["B"]
         self.n_slices = optimization_dict["n_slices"]
@@ -76,11 +76,21 @@ class ADAlgorithm(Optimizer):
         else:
             ev = U @ rho0
         fid = 1 - jnp.abs(jnp.trace(ev @ rhoT.T.conj()))
-            
+
         return fid
 
     def _get_functional(self):
-        return lambda x: self.functional(x, self.A, self.B, self.n_slices, self.dt, self.u0, self.rho_init, self.rho_target, self.sys_type)
+        return lambda x: self.functional(
+            x,
+            self.A,
+            self.B,
+            self.n_slices,
+            self.dt,
+            self.u0,
+            self.rho_init,
+            self.rho_target,
+            self.sys_type,
+        )
 
     def run(self) -> None:
         """Main loop of the optimization"""
@@ -89,13 +99,12 @@ class ADAlgorithm(Optimizer):
         init = self.controls
         # now we can optimize
         # need to be able to include things
-        oo = jsp.optimize.minimize(func_topt, init, method = "BFGS")
+        oo = jsp.optimize.minimize(func_topt, init, method="BFGS")
 
         # need to be able to implement pulses in Marco's way, ask him later
         self.best_fom = oo.fun
         self.optimized_pulses = oo.x
         self.opt_res = oo
-
 
         #     # Update the base current pulses
         #     self._update_base_pulses()
@@ -122,6 +131,3 @@ class ADAlgorithm(Optimizer):
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict
-
-
-
