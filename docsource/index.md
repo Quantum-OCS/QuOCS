@@ -7,6 +7,7 @@
 :caption: "Contents:"
 
 ./chapters/user_manual
+./chapters/what_is_oc
 ```
 
 ```{toctree}
