@@ -31,7 +31,6 @@ class GRAPEAlgorithm:
     The three important function are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
-    * _get_response_for_client : return info about the goodness of the controls and errors if any
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
@@ -102,7 +101,11 @@ class GRAPEAlgorithm:
         param_dict = [{"parameter_name": ""}] * self.num_pulses
 
         # Initialize the control object
-        self.controls = Controls(pulse_dict, time_dict, param_dict,)
+        self.controls = Controls(
+            pulse_dict,
+            time_dict,
+            param_dict,
+        )
 
     def functional(
         self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type
