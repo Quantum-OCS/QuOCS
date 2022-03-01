@@ -1,73 +1,77 @@
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Index</title>
+<link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+<script src="_static/jquery.js"></script>
+<script src="_static/underscore.js"></script>
+<script src="_static/doctools.js"></script>
+
+
+<script defer="" src="_static/theme.js"></script>
+<link href="#" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="chapters/user_manual.html">User manual</a></li>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="source/quocslib.html">quocslib package</a>
+</li>
 </ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/genindex" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="index.html">Docs</a> »</li>
+<li>Index</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
 <h1 id="index">Index</h1>
-
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
+<a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
@@ -89,988 +93,963 @@
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
- 
 </div>
 <h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump">AbstractDump (class in quocslib.utils.AbstractDump)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump">AbstractDump (class in quocslib.utils.AbstractDump)</a>
 </li>
-      <li><a href="source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFom">AbstractFom (class in quocslib.figureofmeritevaluation.AbstractFom)</a>
-
-      <ul>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractFom.AbstractFom">(class in quocslib.utils.AbstractFom)</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFom">AbstractFom (class in quocslib.figureofmeritevaluation.AbstractFom)</a>
+<ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractFom.AbstractFom">(class in quocslib.utils.AbstractFom)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.handleexit.html#quocslib.handleexit.AbstractHandleExit.AbstractHandleExit">AbstractHandleExit (class in quocslib.handleexit.AbstractHandleExit)</a>
-
-      <ul>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit">(class in quocslib.utils.AbstractHandleExit)</a>
+</ul></li>
+<li><a href="source/quocslib.handleexit.html#quocslib.handleexit.AbstractHandleExit.AbstractHandleExit">AbstractHandleExit (class in quocslib.handleexit.AbstractHandleExit)</a>
+<ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit">(class in quocslib.utils.AbstractHandleExit)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_base_pulse">add_base_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
+</ul></li>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm">ADAlgorithm (class in quocslib.optimalalgorithms.ADAlgorithm)</a>
 </li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_initial_guess">add_initial_guess() (quocslib.pulses.BasePulse.BasePulse method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_base_pulse">add_base_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.alg_iteration_number">alg_iteration_number (quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.alg_iteration_number">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm attribute)</a>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.add_initial_guess">add_initial_guess() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.alg_iteration_number">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm attribute)</a>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.alg_iteration_number">alg_iteration_number (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.alg_iteration_number">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">AlgorithmTemplate (class in quocslib.optimalalgorithms.AlgorithmTemplate)</a>
 </li>
-        <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.alg_iteration_number">(quocslib.Optimizer.Optimizer attribute)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication">AllInOneCommunication (class in quocslib.communication.AllInOneCommunication)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">AlgorithmTemplate (class in quocslib.optimalalgorithms.AlgorithmTemplate)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.assign_job">assign_job() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication">AllInOneCommunication (class in quocslib.communication.AllInOneCommunication)</a>
-</li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.assign_job">assign_job() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
-</li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="B">B</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter">BaseParameter (class in quocslib.parameters.BaseParameter)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter">BaseParameter (class in quocslib.parameters.BaseParameter)</a>
 </li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse">BasePulse (class in quocslib.pulses.BasePulse)</a>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse">BasePulse (class in quocslib.pulses.BasePulse)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.begin">begin() (quocslib.Optimizer.Optimizer method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.begin">begin() (quocslib.Optimizer.Optimizer method)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump">BestDump (class in quocslib.utils.BestDump)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump">BestDump (class in quocslib.utils.BestDump)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.callback">callback (quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.callback">(quocslib.freegradientmethods.NelderMead.NelderMead attribute)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES.callback">callback (quocslib.freegradientmethods.CMAES.CMAES attribute)</a>
+<ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.callback">(quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate attribute)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit.check_communication">check_communication() (quocslib.utils.AbstractHandleExit.AbstractHandleExit method)</a>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.callback">(quocslib.freegradientmethods.NelderMead.NelderMead attribute)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.check_msg_client">check_msg_client() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+</ul></li>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit.check_communication">check_communication() (quocslib.utils.AbstractHandleExit.AbstractHandleExit method)</a>
 </li>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">check_stopping_criteria() (quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">(quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.check_msg_client">check_msg_client() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop">check_user_stop() (quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria method)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">check_stopping_criteria() (quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria method)</a>
+<ul>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">(quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria method)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.commutator">commutator() (in module quocslib.tools.linearalgebra)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">(quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria method)</a>
 </li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.control_parameters_number">control_parameters_number (quocslib.pulses.BasePulse.BasePulse attribute)</a>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop">check_user_stop() (quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria method)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls">Controls (class in quocslib.Controls)</a>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES">CMAES (class in quocslib.freegradientmethods.CMAES)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.logger.create_logger">create_logger() (in module quocslib.tools.logger)</a>
-
-      <ul>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.logger.create_logger">(in module quocslib.utils.logger)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">CMAESStoppingCriteria (class in quocslib.stoppingcriteria.CMAESStoppingCriteria)</a>
 </li>
-      </ul></li>
-  </ul></td>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.commutator">commutator() (in module quocslib.tools.linearalgebra)</a>
+</li>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.control_parameters_number">control_parameters_number (quocslib.pulses.BasePulse.BasePulse attribute)</a>
+</li>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls">Controls (class in quocslib.Controls)</a>
+</li>
+<li><a href="source/quocslib.tools.html#quocslib.tools.logger.create_logger">create_logger() (in module quocslib.tools.logger)</a>
+<ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.logger.create_logger">(in module quocslib.utils.logger)</a>
+</li>
+</ul></li>
+</ul></td>
 </tr></table>
-
 <h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm">DCrabAlgorithm (class in quocslib.optimalalgorithms.dCRABAlgorithm)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm">DCrabAlgorithm (class in quocslib.optimalalgorithms.dCRABAlgorithm)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm">DCrabNoisyAlgorithm (class in quocslib.optimalalgorithms.dCRABNoisyAlgorithm)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm">DCrabNoisyAlgorithm (class in quocslib.optimalalgorithms.dCRABNoisyAlgorithm)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder.default">default() (quocslib.utils.inputoutput.ObjectEncoder method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder.default">default() (quocslib.utils.inputoutput.ObjectEncoder method)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm">DirectSearchAlgorithm (class in quocslib.optimalalgorithms.DirectSearchAlgorithm)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm">DirectSearchAlgorithm (class in quocslib.optimalalgorithms.DirectSearchAlgorithm)</a>
 </li>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod (class in quocslib.freegradientmethods.DirectSearchMethod)</a>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod (class in quocslib.freegradientmethods.DirectSearchMethod)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.DummyDump.DummyDump">DummyDump (class in quocslib.utils.DummyDump)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.DummyDump.DummyDump">DummyDump (class in quocslib.utils.DummyDump)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump.dump_controls">dump_controls() (quocslib.utils.AbstractDump.AbstractDump method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">(quocslib.utils.BestDump.BestDump method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump.dump_controls">dump_controls() (quocslib.utils.AbstractDump.AbstractDump method)</a>
+<ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">(quocslib.utils.BestDump.BestDump method)</a>
 </li>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.DummyDump.DummyDump.dump_controls">(quocslib.utils.DummyDump.DummyDump method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.DummyDump.DummyDump.dump_controls">(quocslib.utils.DummyDump.DummyDump method)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.dynamicimport.dynamic_import">dynamic_import() (in module quocslib.utils.dynamicimport)</a>
+</ul></li>
+<li><a href="source/quocslib.utils.html#quocslib.utils.dynamicimport.dynamic_import">dynamic_import() (in module quocslib.utils.dynamicimport)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="E">E</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.end">end() (quocslib.Optimizer.Optimizer method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.end">end() (quocslib.Optimizer.Optimizer method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.end_communication">end_communication() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.end_communication">end_communication() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom">FilesUpdateFom (class in quocslib.utils.FilesUpdateFom)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom">FilesUpdateFom (class in quocslib.utils.FilesUpdateFom)</a>
 </li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.final_time">final_time (quocslib.pulses.BasePulse.BasePulse attribute)</a>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.final_time">final_time (quocslib.pulses.BasePulse.BasePulse attribute)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.fom_dict">fom_dict (quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.fom_dict">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm attribute)</a>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.fom_dict">fom_dict (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.fom_dict">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm attribute)</a>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.fom_maximum">fom_maximum (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.fom_dict">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate">FreeGradientTemplate (class in quocslib.freegradientmethods.FreeGradientTemplate)</a>
 </li>
-        <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.fom_dict">(quocslib.Optimizer.Optimizer attribute)</a>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper">function_wrapper() (quocslib.freegradientmethods.DirectSearchMethod.Wrap method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.fom_maximum">fom_maximum (quocslib.Optimizer.Optimizer attribute)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.functional">functional() (quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm method)</a>
+<ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">(quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm method)</a>
 </li>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate">FreeGradientTemplate (class in quocslib.freegradientmethods.FreeGradientTemplate)</a>
-</li>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.function_evaluations">function_evaluations (quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria attribute)</a>
-</li>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper">function_wrapper() (quocslib.freegradientmethods.DirectSearchMethod.Wrap method)</a>
-</li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">functional() (quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm method)</a>
-</li>
-  </ul></td>
+</ul></li>
+</ul></td>
 </tr></table>
-
 <h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.get_best_controls">get_best_controls() (quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.get_best_controls">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.get_best_controls">get_best_controls() (quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm method)</a>
+<ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.get_best_controls">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm method)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.get_control_parameters_number">get_control_parameters_number() (quocslib.Controls.Controls method)</a>
+</ul></li>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.get_control_parameters_number">get_control_parameters_number() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.get_controls_lists">get_controls_lists() (quocslib.Controls.Controls method)</a>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.get_controls_lists">get_controls_lists() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_data">get_data() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_data">get_data() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFom.get_FoM">get_FoM() (quocslib.figureofmeritevaluation.AbstractFom.AbstractFom method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">(quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit method)</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFom.get_FoM">get_FoM() (quocslib.figureofmeritevaluation.AbstractFom.AbstractFom method)</a>
+<ul>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">(quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit method)</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields.get_FoM">(quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields method)</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields.get_FoM">(quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields method)</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">(quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock method)</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">(quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock method)</a>
 </li>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractFom.AbstractFom.get_FoM">(quocslib.utils.AbstractFom.AbstractFom method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractFom.AbstractFom.get_FoM">(quocslib.utils.AbstractFom.AbstractFom method)</a>
 </li>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.get_FoM">(quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.get_FoM">(quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.get_mean_value">get_mean_value() (quocslib.Controls.Controls method)</a>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.get_mean_value">get_mean_value() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.get_parameter">get_parameter() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.get_parameter">get_parameter() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
 </li>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.get_pulse">get_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.get_pulse">get_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.get_random_super_parameter">get_random_super_parameter() (quocslib.Controls.Controls method)</a>
+<li><a href="source/quocslib.tools.html#quocslib.tools.randomgenerator.RandomNumberGenerator.get_random_numbers">get_random_numbers() (quocslib.tools.randomgenerator.RandomNumberGenerator method)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.get_sigma_variation">get_sigma_variation() (quocslib.Controls.Controls method)</a>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.get_random_super_parameter">get_random_super_parameter() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter.get_time">get_time() (quocslib.parameters.TimeParameter.TimeParameter method)</a>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.get_sigma_variation">get_sigma_variation() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_user_running">get_user_running() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter.get_time">get_time() (quocslib.parameters.TimeParameter.TimeParameter method)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.gram_schmidt">gram_schmidt() (in module quocslib.tools.linearalgebra)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_user_running">get_user_running() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">GRAPEAlgorithm (class in quocslib.optimalalgorithms.GRAPEAlgorithm)</a>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.gram_schmidt">gram_schmidt() (in module quocslib.tools.linearalgebra)</a>
 </li>
-  </ul></td>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">GRAPEAlgorithm (class in quocslib.optimalalgorithms.GRAPEAlgorithm)</a>
+</li>
+</ul></td>
 </tr></table>
-
 <h2 id="H">H</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2">hamiltonian_d1_d2() (in module quocslib.optimalcontrolproblems.su2)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2">hamiltonian_d1_d2() (in module quocslib.optimalcontrolproblems.su2)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2_2fields">hamiltonian_d1_d2_2fields() (in module quocslib.optimalcontrolproblems.su2)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2_2fields">hamiltonian_d1_d2_2fields() (in module quocslib.optimalcontrolproblems.su2)</a>
 </li>
-      <li><a href="source/quocslib.handleexit.html#quocslib.handleexit.HandleExit.HandleExit">HandleExit (class in quocslib.handleexit.HandleExit)</a>
+<li><a href="source/quocslib.handleexit.html#quocslib.handleexit.HandleExit.HandleExit">HandleExit (class in quocslib.handleexit.HandleExit)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.init_status">init_status (quocslib.Optimizer.Optimizer attribute)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.init_status">init_status (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus">initStatus (quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus">initStatus (quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
 </li>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_converged">is_converged (quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria attribute)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.is_converged">is_converged (quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria attribute)</a>
+<ul>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.is_converged">(quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria attribute)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.is_optimization_running">is_optimization_running() (quocslib.Optimizer.Optimizer method)</a>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.is_optimization_running">is_optimization_running() (quocslib.Optimizer.Optimizer method)</a>
 </li>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_running">is_running (quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria attribute)</a>
+<li><a href="source/quocslib.handleexit.html#quocslib.handleexit.AbstractHandleExit.AbstractHandleExit.is_user_running">is_user_running (quocslib.handleexit.AbstractHandleExit.AbstractHandleExit attribute)</a>
+<ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit.is_user_running">(quocslib.utils.AbstractHandleExit.AbstractHandleExit attribute)</a>
 </li>
-      <li><a href="source/quocslib.handleexit.html#quocslib.handleexit.AbstractHandleExit.AbstractHandleExit.is_user_running">is_user_running (quocslib.handleexit.AbstractHandleExit.AbstractHandleExit attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.handleexit.html#quocslib.handleexit.HandleExit.HandleExit.is_user_running">(quocslib.handleexit.HandleExit.HandleExit attribute)</a>
+</ul></li>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.iteration_number">iteration_number (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-        <li><a href="source/quocslib.utils.html#quocslib.utils.AbstractHandleExit.AbstractHandleExit.is_user_running">(quocslib.utils.AbstractHandleExit.AbstractHandleExit attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.iteration_number">iteration_number (quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.iteration_number">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm attribute)</a>
-</li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.iteration_number">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm attribute)</a>
-</li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.iteration_number">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
-</li>
-        <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.iteration_number">(quocslib.Optimizer.Optimizer attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.limit_pulse">limit_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.limit_pulse">limit_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li>
     module
 
       <ul>
-        <li><a href="source/quocslib.html#module-quocslib">quocslib</a>
+<li><a href="source/quocslib.html#module-quocslib">quocslib</a>
 </li>
-        <li><a href="source/quocslib.communication.html#module-quocslib.communication">quocslib.communication</a>
+<li><a href="source/quocslib.communication.html#module-quocslib.communication">quocslib.communication</a>
 </li>
-        <li><a href="source/quocslib.communication.html#module-quocslib.communication.AllInOneCommunication">quocslib.communication.AllInOneCommunication</a>
+<li><a href="source/quocslib.communication.html#module-quocslib.communication.AllInOneCommunication">quocslib.communication.AllInOneCommunication</a>
 </li>
-        <li><a href="source/quocslib.html#module-quocslib.Controls">quocslib.Controls</a>
+<li><a href="source/quocslib.html#module-quocslib.Controls">quocslib.Controls</a>
 </li>
-        <li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation">quocslib.figureofmeritevaluation</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation">quocslib.figureofmeritevaluation</a>
 </li>
-        <li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation.AbstractFom">quocslib.figureofmeritevaluation.AbstractFom</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation.AbstractFom">quocslib.figureofmeritevaluation.AbstractFom</a>
 </li>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods">quocslib.freegradientmethods</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods">quocslib.freegradientmethods</a>
 </li>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.DirectSearchMethod">quocslib.freegradientmethods.DirectSearchMethod</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.CMAES">quocslib.freegradientmethods.CMAES</a>
 </li>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.FreeGradientTemplate">quocslib.freegradientmethods.FreeGradientTemplate</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.DirectSearchMethod">quocslib.freegradientmethods.DirectSearchMethod</a>
 </li>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.NelderMead">quocslib.freegradientmethods.NelderMead</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.FreeGradientTemplate">quocslib.freegradientmethods.FreeGradientTemplate</a>
 </li>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit">quocslib.handleexit</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.NelderMead">quocslib.freegradientmethods.NelderMead</a>
 </li>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.AbstractHandleExit">quocslib.handleexit.AbstractHandleExit</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit">quocslib.handleexit</a>
 </li>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.HandleExit">quocslib.handleexit.HandleExit</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.AbstractHandleExit">quocslib.handleexit.AbstractHandleExit</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms">quocslib.optimalalgorithms</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.HandleExit">quocslib.handleexit.HandleExit</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.AlgorithmTemplate">quocslib.optimalalgorithms.AlgorithmTemplate</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms">quocslib.optimalalgorithms</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABAlgorithm">quocslib.optimalalgorithms.dCRABAlgorithm</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.ADAlgorithm">quocslib.optimalalgorithms.ADAlgorithm</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">quocslib.optimalalgorithms.dCRABNoisyAlgorithm</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.AlgorithmTemplate">quocslib.optimalalgorithms.AlgorithmTemplate</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">quocslib.optimalalgorithms.DirectSearchAlgorithm</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABAlgorithm">quocslib.optimalalgorithms.dCRABAlgorithm</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.GRAPEAlgorithm">quocslib.optimalalgorithms.GRAPEAlgorithm</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">quocslib.optimalalgorithms.dCRABNoisyAlgorithm</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems">quocslib.optimalcontrolproblems</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">quocslib.optimalalgorithms.DirectSearchAlgorithm</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem">quocslib.optimalcontrolproblems.OneQubitProblem</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.GRAPEAlgorithm">quocslib.optimalalgorithms.GRAPEAlgorithm</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">quocslib.optimalcontrolproblems.OneQubitProblem_2fields</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems">quocslib.optimalcontrolproblems</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.RosenbrockProblem">quocslib.optimalcontrolproblems.RosenbrockProblem</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem">quocslib.optimalcontrolproblems.OneQubitProblem</a>
 </li>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.su2">quocslib.optimalcontrolproblems.su2</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">quocslib.optimalcontrolproblems.OneQubitProblem_2fields</a>
 </li>
-        <li><a href="source/quocslib.html#module-quocslib.Optimizer">quocslib.Optimizer</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.RosenbrockProblem">quocslib.optimalcontrolproblems.RosenbrockProblem</a>
 </li>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters">quocslib.parameters</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.su2">quocslib.optimalcontrolproblems.su2</a>
 </li>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.BaseParameter">quocslib.parameters.BaseParameter</a>
+<li><a href="source/quocslib.html#module-quocslib.Optimizer">quocslib.Optimizer</a>
 </li>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.Parameter">quocslib.parameters.Parameter</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters">quocslib.parameters</a>
 </li>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.TimeParameter">quocslib.parameters.TimeParameter</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.BaseParameter">quocslib.parameters.BaseParameter</a>
 </li>
-        <li><a href="source/quocslib.pulses.html#module-quocslib.pulses">quocslib.pulses</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.Parameter">quocslib.parameters.Parameter</a>
 </li>
-        <li><a href="source/quocslib.pulses.html#module-quocslib.pulses.BasePulse">quocslib.pulses.BasePulse</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.TimeParameter">quocslib.parameters.TimeParameter</a>
 </li>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">quocslib.stoppingcriteria</a>
+<li><a href="source/quocslib.pulses.html#module-quocslib.pulses">quocslib.pulses</a>
 </li>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">quocslib.stoppingcriteria.NelderMeadStoppingCriteria</a>
+<li><a href="source/quocslib.pulses.html#module-quocslib.pulses.BasePulse">quocslib.pulses.BasePulse</a>
 </li>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">quocslib.stoppingcriteria.StoppingCriteria</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">quocslib.stoppingcriteria</a>
 </li>
-        <li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution">quocslib.timeevolution</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.CMAESStoppingCriteria">quocslib.stoppingcriteria.CMAESStoppingCriteria</a>
 </li>
-        <li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution.piecewise_integrator">quocslib.timeevolution.piecewise_integrator</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.generalstoppingcriteria">quocslib.stoppingcriteria.generalstoppingcriteria</a>
 </li>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools">quocslib.tools</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">quocslib.stoppingcriteria.NelderMeadStoppingCriteria</a>
 </li>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.linearalgebra">quocslib.tools.linearalgebra</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">quocslib.stoppingcriteria.StoppingCriteria</a>
 </li>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.logger">quocslib.tools.logger</a>
+<li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution">quocslib.timeevolution</a>
 </li>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.pulsetools">quocslib.tools.pulsetools</a>
+<li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution.piecewise_integrator">quocslib.timeevolution.piecewise_integrator</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils">quocslib.utils</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools">quocslib.tools</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractDump">quocslib.utils.AbstractDump</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.linearalgebra">quocslib.tools.linearalgebra</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractFom">quocslib.utils.AbstractFom</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.logger">quocslib.tools.logger</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractHandleExit">quocslib.utils.AbstractHandleExit</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.pulsetools">quocslib.tools.pulsetools</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.BestDump">quocslib.utils.BestDump</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.randomgenerator">quocslib.tools.randomgenerator</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.DummyDump">quocslib.utils.DummyDump</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils">quocslib.utils</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.dynamicimport">quocslib.utils.dynamicimport</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractDump">quocslib.utils.AbstractDump</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.FilesUpdateFom">quocslib.utils.FilesUpdateFom</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractFom">quocslib.utils.AbstractFom</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.inputoutput">quocslib.utils.inputoutput</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractHandleExit">quocslib.utils.AbstractHandleExit</a>
 </li>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.logger">quocslib.utils.logger</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.BestDump">quocslib.utils.BestDump</a>
 </li>
-      </ul></li>
-  </ul></td>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.DummyDump">quocslib.utils.DummyDump</a>
+</li>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.dynamicimport">quocslib.utils.dynamicimport</a>
+</li>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.FilesUpdateFom">quocslib.utils.FilesUpdateFom</a>
+</li>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.inputoutput">quocslib.utils.inputoutput</a>
+</li>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.logger">quocslib.utils.logger</a>
+</li>
+</ul></li>
+</ul></td>
 </tr></table>
-
 <h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead">NelderMead (class in quocslib.freegradientmethods.NelderMead)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead">NelderMead (class in quocslib.freegradientmethods.NelderMead)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">NelderMeadStoppingCriteria (class in quocslib.stoppingcriteria.NelderMeadStoppingCriteria)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">NelderMeadStoppingCriteria (class in quocslib.stoppingcriteria.NelderMeadStoppingCriteria)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="O">O</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder">ObjectEncoder (class in quocslib.utils.inputoutput)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder">ObjectEncoder (class in quocslib.utils.inputoutput)</a>
 </li>
-      <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">OneQubit (class in quocslib.optimalcontrolproblems.OneQubitProblem)</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">OneQubit (class in quocslib.optimalcontrolproblems.OneQubitProblem)</a>
 </li>
-      <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields">OneQubit2Fields (class in quocslib.optimalcontrolproblems.OneQubitProblem_2fields)</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields">OneQubit2Fields (class in quocslib.optimalcontrolproblems.OneQubitProblem_2fields)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.optimized_control_parameters">optimized_control_parameters (quocslib.pulses.BasePulse.BasePulse attribute)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.optimized_control_parameters">optimized_control_parameters (quocslib.pulses.BasePulse.BasePulse attribute)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer">Optimizer (class in quocslib.Optimizer)</a>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer">Optimizer (class in quocslib.Optimizer)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.other_dumps">other_dumps() (quocslib.utils.BestDump.BestDump method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.other_dumps">other_dumps() (quocslib.utils.BestDump.BestDump method)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.Parameter.Parameter">Parameter (class in quocslib.parameters.Parameter)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.Parameter.Parameter">Parameter (class in quocslib.parameters.Parameter)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_logger">print_logger() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_logger">print_logger() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_optimization_dictionary">print_optimization_dictionary() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_optimization_dictionary">print_optimization_dictionary() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.ptrace">ptrace() (in module quocslib.tools.linearalgebra)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.ptrace">ptrace() (in module quocslib.tools.linearalgebra)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.put_controls_into_user_path">put_controls_into_user_path() (quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.put_controls_into_user_path">put_controls_into_user_path() (quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
 </li>
-      <li><a href="source/quocslib.timeevolution.html#quocslib.timeevolution.piecewise_integrator.pw_evolution">pw_evolution() (in module quocslib.timeevolution.piecewise_integrator)</a>
+<li><a href="source/quocslib.timeevolution.html#quocslib.timeevolution.piecewise_integrator.pw_evolution">pw_evolution() (in module quocslib.timeevolution.piecewise_integrator)</a>
 </li>
-      <li><a href="source/quocslib.timeevolution.html#quocslib.timeevolution.piecewise_integrator.pw_final_evolution">pw_final_evolution() (in module quocslib.timeevolution.piecewise_integrator)</a>
+<li><a href="source/quocslib.timeevolution.html#quocslib.timeevolution.piecewise_integrator.pw_final_evolution">pw_final_evolution() (in module quocslib.timeevolution.piecewise_integrator)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="Q">Q</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li>
     quocslib
 
       <ul>
-        <li><a href="source/quocslib.html#module-quocslib">module</a>
+<li><a href="source/quocslib.html#module-quocslib">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.communication
 
       <ul>
-        <li><a href="source/quocslib.communication.html#module-quocslib.communication">module</a>
+<li><a href="source/quocslib.communication.html#module-quocslib.communication">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.communication.AllInOneCommunication
 
       <ul>
-        <li><a href="source/quocslib.communication.html#module-quocslib.communication.AllInOneCommunication">module</a>
+<li><a href="source/quocslib.communication.html#module-quocslib.communication.AllInOneCommunication">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.Controls
 
       <ul>
-        <li><a href="source/quocslib.html#module-quocslib.Controls">module</a>
+<li><a href="source/quocslib.html#module-quocslib.Controls">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.figureofmeritevaluation
 
       <ul>
-        <li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation">module</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.figureofmeritevaluation.AbstractFom
 
       <ul>
-        <li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation.AbstractFom">module</a>
+<li><a href="source/quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation.AbstractFom">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.freegradientmethods
 
       <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods">module</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
+    quocslib.freegradientmethods.CMAES
+
+      <ul>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.CMAES">module</a>
+</li>
+</ul></li>
+<li>
     quocslib.freegradientmethods.DirectSearchMethod
 
       <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.DirectSearchMethod">module</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.DirectSearchMethod">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.freegradientmethods.FreeGradientTemplate
 
       <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.FreeGradientTemplate">module</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.FreeGradientTemplate">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.freegradientmethods.NelderMead
 
       <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.NelderMead">module</a>
+<li><a href="source/quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.NelderMead">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.handleexit
 
       <ul>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit">module</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.handleexit.AbstractHandleExit
 
       <ul>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.AbstractHandleExit">module</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.AbstractHandleExit">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.handleexit.HandleExit
 
       <ul>
-        <li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.HandleExit">module</a>
+<li><a href="source/quocslib.handleexit.html#module-quocslib.handleexit.HandleExit">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
+    quocslib.optimalalgorithms.ADAlgorithm
+
+      <ul>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.ADAlgorithm">module</a>
+</li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms.AlgorithmTemplate
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.AlgorithmTemplate">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.AlgorithmTemplate">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms.dCRABAlgorithm
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABAlgorithm">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABAlgorithm">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms.dCRABNoisyAlgorithm
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.dCRABNoisyAlgorithm">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms.DirectSearchAlgorithm
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalalgorithms.GRAPEAlgorithm
 
       <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.GRAPEAlgorithm">module</a>
+<li><a href="source/quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.GRAPEAlgorithm">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalcontrolproblems
 
       <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems">module</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalcontrolproblems.OneQubitProblem
 
       <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem">module</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalcontrolproblems.OneQubitProblem_2fields
 
       <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">module</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalcontrolproblems.RosenbrockProblem
 
       <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.RosenbrockProblem">module</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.RosenbrockProblem">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.optimalcontrolproblems.su2
 
       <ul>
-        <li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.su2">module</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.su2">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.Optimizer
 
       <ul>
-        <li><a href="source/quocslib.html#module-quocslib.Optimizer">module</a>
+<li><a href="source/quocslib.html#module-quocslib.Optimizer">module</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
+</ul></li>
+<li>
     quocslib.parameters
 
       <ul>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters">module</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li>
     quocslib.parameters.BaseParameter
 
       <ul>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.BaseParameter">module</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.BaseParameter">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.parameters.Parameter
 
       <ul>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.Parameter">module</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.Parameter">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.parameters.TimeParameter
 
       <ul>
-        <li><a href="source/quocslib.parameters.html#module-quocslib.parameters.TimeParameter">module</a>
+<li><a href="source/quocslib.parameters.html#module-quocslib.parameters.TimeParameter">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.pulses
 
       <ul>
-        <li><a href="source/quocslib.pulses.html#module-quocslib.pulses">module</a>
+<li><a href="source/quocslib.pulses.html#module-quocslib.pulses">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.pulses.BasePulse
 
       <ul>
-        <li><a href="source/quocslib.pulses.html#module-quocslib.pulses.BasePulse">module</a>
+<li><a href="source/quocslib.pulses.html#module-quocslib.pulses.BasePulse">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.stoppingcriteria
 
       <ul>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">module</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
+    quocslib.stoppingcriteria.CMAESStoppingCriteria
+
+      <ul>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.CMAESStoppingCriteria">module</a>
+</li>
+</ul></li>
+<li>
+    quocslib.stoppingcriteria.generalstoppingcriteria
+
+      <ul>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.generalstoppingcriteria">module</a>
+</li>
+</ul></li>
+<li>
     quocslib.stoppingcriteria.NelderMeadStoppingCriteria
 
       <ul>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">module</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.stoppingcriteria.StoppingCriteria
 
       <ul>
-        <li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">module</a>
+<li><a href="source/quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.timeevolution
 
       <ul>
-        <li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution">module</a>
+<li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.timeevolution.piecewise_integrator
 
       <ul>
-        <li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution.piecewise_integrator">module</a>
+<li><a href="source/quocslib.timeevolution.html#module-quocslib.timeevolution.piecewise_integrator">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.tools
 
       <ul>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools">module</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.tools.linearalgebra
 
       <ul>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.linearalgebra">module</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.linearalgebra">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.tools.logger
 
       <ul>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.logger">module</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.logger">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.tools.pulsetools
 
       <ul>
-        <li><a href="source/quocslib.tools.html#module-quocslib.tools.pulsetools">module</a>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.pulsetools">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
+    quocslib.tools.randomgenerator
+
+      <ul>
+<li><a href="source/quocslib.tools.html#module-quocslib.tools.randomgenerator">module</a>
+</li>
+</ul></li>
+<li>
     quocslib.utils
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.AbstractDump
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractDump">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractDump">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.AbstractFom
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractFom">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractFom">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.AbstractHandleExit
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractHandleExit">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.AbstractHandleExit">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.BestDump
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.BestDump">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.BestDump">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.DummyDump
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.DummyDump">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.DummyDump">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.dynamicimport
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.dynamicimport">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.dynamicimport">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.FilesUpdateFom
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.FilesUpdateFom">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.FilesUpdateFom">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.inputoutput
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.inputoutput">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.inputoutput">module</a>
 </li>
-      </ul></li>
-      <li>
+</ul></li>
+<li>
     quocslib.utils.logger
 
       <ul>
-        <li><a href="source/quocslib.utils.html#module-quocslib.utils.logger">module</a>
+<li><a href="source/quocslib.utils.html#module-quocslib.utils.logger">module</a>
 </li>
-      </ul></li>
-  </ul></td>
+</ul></li>
+</ul></td>
 </tr></table>
-
 <h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.read_fom_values">read_fom_values() (quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.tools.html#quocslib.tools.randomgenerator.RandomNumberGenerator">RandomNumberGenerator (class in quocslib.tools.randomgenerator)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.readjson">readjson() (in module quocslib.utils.inputoutput)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.read_fom_values">read_fom_values() (quocslib.utils.FilesUpdateFom.FilesUpdateFom method)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.pulsetools.resample_pulse">resample_pulse() (in module quocslib.tools.pulsetools)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.readjson">readjson() (in module quocslib.utils.inputoutput)</a>
 </li>
-      <li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock">Rosenbrock (class in quocslib.optimalcontrolproblems.RosenbrockProblem)</a>
+<li><a href="source/quocslib.tools.html#quocslib.tools.pulsetools.resample_pulse">resample_pulse() (in module quocslib.tools.pulsetools)</a>
 </li>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">run() (quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.run">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm method)</a>
+<li><a href="source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock">Rosenbrock (class in quocslib.optimalcontrolproblems.RosenbrockProblem)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.run">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm method)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.run">run() (quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm method)</a>
+<ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">(quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate method)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.run">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm method)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.run">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm method)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run">(quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm method)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.run">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm method)</a>
 </li>
-        <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.run">(quocslib.Optimizer.Optimizer method)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.run">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm method)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">run_dsm() (quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">(quocslib.freegradientmethods.NelderMead.NelderMead method)</a>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run">(quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm method)</a>
 </li>
-      </ul></li>
-  </ul></td>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.run">(quocslib.Optimizer.Optimizer method)</a>
+</li>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES.run_dsm">run_dsm() (quocslib.freegradientmethods.CMAES.CMAES method)</a>
+<ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">(quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate method)</a>
+</li>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">(quocslib.freegradientmethods.NelderMead.NelderMead method)</a>
+</li>
+</ul></li>
+</ul></td>
 </tr></table>
-
 <h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.scale_pulse">scale_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.scale_pulse">scale_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.select_basis">select_basis() (quocslib.Controls.Controls method)</a>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.select_basis">select_basis() (quocslib.Controls.Controls method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_communication_data">send_communication_data() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_communication_data">send_communication_data() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_controls">send_controls() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_controls">send_controls() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_fom_response">send_fom_response() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_fom_response">send_fom_response() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_message">send_message() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_message">send_message() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_base_pulse">set_base_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_base_pulse">set_base_pulse() (quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_control_parameters_list">set_control_parameters_list() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
-
-      <ul>
-        <li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list">(quocslib.pulses.BasePulse.BasePulse method)</a>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_control_parameters_list">set_control_parameters_list() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
+<ul>
+<li><a href="source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list">(quocslib.pulses.BasePulse.BasePulse method)</a>
 </li>
-      </ul></li>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_parameter">set_parameter() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
+</ul></li>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_parameter">set_parameter() (quocslib.parameters.BaseParameter.BaseParameter method)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.simplex_creation">simplex_creation() (in module quocslib.tools.linearalgebra)</a>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.simplex_creation">simplex_creation() (in module quocslib.tools.linearalgebra)</a>
 </li>
-      <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">StoppingCriteria (class in quocslib.stoppingcriteria.StoppingCriteria)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">StoppingCriteria (class in quocslib.stoppingcriteria.StoppingCriteria)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="T">T</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.terminate_reason">terminate_reason (quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.terminate_reason">(quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria attribute)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.terminate_reason">terminate_reason (quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
+<ul>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.terminate_reason">(quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria attribute)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter">TimeParameter (class in quocslib.parameters.TimeParameter)</a>
+<li><a href="source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.terminate_reason">(quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria attribute)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.to_sup_op">to_sup_op() (in module quocslib.tools.linearalgebra)</a>
+</ul></li>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter">TimeParameter (class in quocslib.parameters.TimeParameter)</a>
 </li>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.to_vec">to_vec() (in module quocslib.tools.linearalgebra)</a>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.to_sup_op">to_sup_op() (in module quocslib.tools.linearalgebra)</a>
 </li>
-  </ul></td>
+<li><a href="source/quocslib.tools.html#quocslib.tools.linearalgebra.to_vec">to_vec() (in module quocslib.tools.linearalgebra)</a>
+</li>
+</ul></td>
 </tr></table>
-
 <h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.html#quocslib.Controls.Controls.update_base_controls">update_base_controls() (quocslib.Controls.Controls method)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Controls.Controls.update_base_controls">update_base_controls() (quocslib.Controls.Controls method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_init_msg_server">update_init_msg_server() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_controls">update_controls() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-      <li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_msg_server">update_msg_server() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_init_msg_server">update_init_msg_server() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
 </li>
-  </ul></td>
+<li><a href="source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_msg_server">update_msg_server() (quocslib.communication.AllInOneCommunication.AllInOneCommunication method)</a>
+</li>
+</ul></td>
 </tr></table>
-
 <h2 id="V">V</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.tools.html#quocslib.tools.pulsetools.visualise_pulse">visualise_pulse() (in module quocslib.tools.pulsetools)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.tools.html#quocslib.tools.pulsetools.visualise_pulse">visualise_pulse() (in module quocslib.tools.pulsetools)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap">Wrap (class in quocslib.freegradientmethods.DirectSearchMethod)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap">Wrap (class in quocslib.freegradientmethods.DirectSearchMethod)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function">wrap_function() (quocslib.freegradientmethods.DirectSearchMethod.Wrap method)</a>
+</ul></td>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function">wrap_function() (quocslib.freegradientmethods.DirectSearchMethod.Wrap method)</a>
 </li>
-      <li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.writejsonfile">writejsonfile() (in module quocslib.utils.inputoutput)</a>
+<li><a href="source/quocslib.utils.html#quocslib.utils.inputoutput.writejsonfile">writejsonfile() (in module quocslib.utils.inputoutput)</a>
 </li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
 <h2 id="X">X</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx">xx (quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate attribute)</a>
-
-      <ul>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm.xx">(quocslib.optimalalgorithms.dCRABAlgorithm.DCrabAlgorithm attribute)</a>
+<table class="indextable genindextable" style="width: 100%"><tr>
+<td style="width: 33%; vertical-align: top;"><ul>
+<li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.xx">xx (quocslib.Optimizer.Optimizer attribute)</a>
 </li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm.xx">(quocslib.optimalalgorithms.dCRABNoisyAlgorithm.DCrabNoisyAlgorithm attribute)</a>
-</li>
-        <li><a href="source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx">(quocslib.optimalalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm attribute)</a>
-</li>
-        <li><a href="source/quocslib.html#quocslib.Optimizer.Optimizer.xx">(quocslib.Optimizer.Optimizer attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
+</ul></td>
 </tr></table>
-
-
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

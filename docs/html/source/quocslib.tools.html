@@ -1,182 +1,194 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.tools package</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib.tools package &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-    <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.utils.html" rel="next" title="quocslib.utils package"/>
+<link href="quocslib.timeevolution.html" rel="prev" title="quocslib.timeevolution package"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">quocslib.tools package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-quocslib.tools.linearalgebra">quocslib.tools.linearalgebra module</a></li>
-<li><a class="reference internal" href="#module-quocslib.tools.logger">quocslib.tools.logger module</a></li>
-<li><a class="reference internal" href="#module-quocslib.tools.pulsetools">quocslib.tools.pulsetools module</a></li>
-<li><a class="reference internal" href="#module-quocslib.tools">Module contents</a></li>
-</ul>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="quocslib.html">quocslib package</a>
 </li>
 </ul>
 </div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>quocslib.tools package</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.tools.rst" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="quocslib-tools-package">
-<h1>quocslib.tools package<a class="headerlink" href="#quocslib-tools-package" title="Permalink to this headline"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-quocslib.tools.linearalgebra">
-<span id="quocslib-tools-linearalgebra-module"></span><h2>quocslib.tools.linearalgebra module<a class="headerlink" href="#module-quocslib.tools.linearalgebra" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li><a href="modules.html">quocslib</a> »</li>
+<li><a href="quocslib.html">quocslib package</a> »</li>
+<li>quocslib.tools package</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="quocslib.timeevolution.html" title="previous chapter">← quocslib.timeevolution package</a>
+</li>
+<li class="next">
+<a href="quocslib.utils.html" title="next chapter">quocslib.utils package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib-tools-package">
+<h1>quocslib.tools package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-tools-package">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
+</div>
+<div class="section" id="module-quocslib.tools.linearalgebra">
+<span id="quocslib-tools-linearalgebra-module"></span><h2>quocslib.tools.linearalgebra module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.tools.linearalgebra">¶</a></h2>
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.commutator">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">commutator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#commutator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.commutator" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">commutator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A</span></em>, <em class="sig-param"><span class="n">B</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#commutator"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.commutator">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.gram_schmidt">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">gram_schmidt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#gram_schmidt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.gram_schmidt" title="Permalink to this definition"></a></dt>
-<dd><p>Orthonormalize a set of linear independent vectors</p>
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">gram_schmidt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">A</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#gram_schmidt"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.gram_schmidt">¶</a></dt>
+<dd>
+<p>Orthonormalize a set of linear independent vectors</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>A</strong> -- Square matrix with linear independent vectors</p>
+<dd class="field-odd"><p><strong>A</strong> – Square matrix with linear independent vectors</p>
 </dd>
 <dt class="field-even">Return A</dt>
 <dd class="field-even"><p>Square matrix with orthonormalize vectors</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py function">
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.ptrace">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">ptrace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#ptrace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.ptrace" title="Permalink to this definition"></a></dt>
-<dd><p>Useful to have this implementation of the partial trace which uses einsums</p>
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">ptrace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rho</span></em>, <em class="sig-param"><span class="n">dimensions</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#ptrace"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.ptrace">¶</a></dt>
+<dd>
+<p>Useful to have this implementation of the partial trace which uses einsums</p>
 <p>TODO implement this in Python again</p>
 </dd></dl>
-
-<dl class="py function">
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.simplex_creation">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">simplex_creation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mean_value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_variation</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#simplex_creation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.simplex_creation" title="Permalink to this definition"></a></dt>
-<dd><p>Creation of the simplex</p>
-<p>&#64;return:</p>
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">simplex_creation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mean_value</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">sigma_variation</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span></em>, <em class="sig-param"><span class="n">rng</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span><a class="reference internal" href="#quocslib.tools.randomgenerator.RandomNumberGenerator" title="quocslib.tools.randomgenerator.RandomNumberGenerator">quocslib.tools.randomgenerator.RandomNumberGenerator</a><span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#simplex_creation"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.simplex_creation">¶</a></dt>
+<dd>
+<p>Creation of the simplex</p>
+<p>@return:</p>
 </dd></dl>
-
-<dl class="py function">
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.to_sup_op">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">to_sup_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#to_sup_op"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.to_sup_op" title="Permalink to this definition"></a></dt>
-<dd><p>Function to convert a Hamiltonian into a Liouvillian</p>
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">to_sup_op</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">H</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#to_sup_op"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.to_sup_op">¶</a></dt>
+<dd>
+<p>Function to convert a Hamiltonian into a Liouvillian</p>
 </dd></dl>
-
-<dl class="py function">
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.linearalgebra.to_vec">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.linearalgebra.</span></span><span class="sig-name descname"><span class="pre">to_vec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#to_vec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.linearalgebra.to_vec" title="Permalink to this definition"></a></dt>
-<dd><p>Take an input rho vector and flatten it into a column</p>
+<code class="sig-prename descclassname">quocslib.tools.linearalgebra.</code><code class="sig-name descname">to_vec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rho</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/linearalgebra.html#to_vec"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.linearalgebra.to_vec">¶</a></dt>
+<dd>
+<p>Take an input rho vector and flatten it into a column</p>
 </dd></dl>
-
-</section>
-<section id="module-quocslib.tools.logger">
-<span id="quocslib-tools-logger-module"></span><h2>quocslib.tools.logger module<a class="headerlink" href="#module-quocslib.tools.logger" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+</div>
+<div class="section" id="module-quocslib.tools.logger">
+<span id="quocslib-tools-logger-module"></span><h2>quocslib.tools.logger module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.tools.logger">¶</a></h2>
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.logger.create_logger">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.logger.</span></span><span class="sig-name descname"><span class="pre">create_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/logger.html#create_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.logger.create_logger" title="Permalink to this definition"></a></dt>
-<dd><p>Logger creation for console, log file, and debug log file</p>
+<code class="sig-prename descclassname">quocslib.tools.logger.</code><code class="sig-name descname">create_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">results_path</span></em>, <em class="sig-param"><span class="n">is_debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/logger.html#create_logger"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.logger.create_logger">¶</a></dt>
+<dd>
+<p>Logger creation for console, log file, and debug log file</p>
 </dd></dl>
-
-</section>
-<section id="module-quocslib.tools.pulsetools">
-<span id="quocslib-tools-pulsetools-module"></span><h2>quocslib.tools.pulsetools module<a class="headerlink" href="#module-quocslib.tools.pulsetools" title="Permalink to this headline"></a></h2>
-<dl class="py function">
+</div>
+<div class="section" id="module-quocslib.tools.pulsetools">
+<span id="quocslib-tools-pulsetools-module"></span><h2>quocslib.tools.pulsetools module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.tools.pulsetools">¶</a></h2>
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.pulsetools.resample_pulse">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.pulsetools.</span></span><span class="sig-name descname"><span class="pre">resample_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_slices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimised_pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pulses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/pulsetools.html#resample_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.pulsetools.resample_pulse" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
+<code class="sig-prename descclassname">quocslib.tools.pulsetools.</code><code class="sig-name descname">resample_pulse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">n_slices</span></em>, <em class="sig-param"><span class="n">optimised_pulse</span></em>, <em class="sig-param"><span class="n">n_pulses</span></em>, <em class="sig-param"><span class="n">time_axis</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/pulsetools.html#resample_pulse"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.pulsetools.resample_pulse">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.tools.pulsetools.visualise_pulse">
-<span class="sig-prename descclassname"><span class="pre">quocslib.tools.pulsetools.</span></span><span class="sig-name descname"><span class="pre">visualise_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_slices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimised_pulse</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_pulses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/pulsetools.html#visualise_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.tools.pulsetools.visualise_pulse" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-<section id="module-quocslib.tools">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.tools" title="Permalink to this headline"></a></h2>
-</section>
-</section>
-
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+<code class="sig-prename descclassname">quocslib.tools.pulsetools.</code><code class="sig-name descname">visualise_pulse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">n_slices</span></em>, <em class="sig-param"><span class="n">optimised_pulse</span></em>, <em class="sig-param"><span class="n">n_pulses</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/pulsetools.html#visualise_pulse"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.pulsetools.visualise_pulse">¶</a></dt>
+<dd>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.tools.randomgenerator">
+<span id="quocslib-tools-randomgenerator-module"></span><h2>quocslib.tools.randomgenerator module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.tools.randomgenerator">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.tools.randomgenerator.RandomNumberGenerator">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.tools.randomgenerator.</code><code class="sig-name descname">RandomNumberGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seed_number</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/randomgenerator.html#RandomNumberGenerator"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.randomgenerator.RandomNumberGenerator">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.tools.randomgenerator.RandomNumberGenerator.get_random_numbers">
+<code class="sig-name descname">get_random_numbers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span><span class="p">:</span><span class="w"> </span><span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/tools/randomgenerator.html#RandomNumberGenerator.get_random_numbers"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.tools.randomgenerator.RandomNumberGenerator.get_random_numbers">¶</a></dt>
+<dd>
+<p>Return an array of random numbers</p>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.tools">
+<span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.tools">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="quocslib.timeevolution.html" title="previous chapter">← quocslib.timeevolution package</a>
+</li>
+<li class="next">
+<a href="quocslib.utils.html" title="next chapter">quocslib.utils package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

@@ -1,125 +1,132 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Welcome to QuOCS’s documentation!</title>
+<link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="_static/theme.css " rel="stylesheet" type="text/css"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to QuoCS&#39;s documentation! &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="User manual" href="chapters/user_manual.html" /> 
+<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+<script src="_static/jquery.js"></script>
+<script src="_static/underscore.js"></script>
+<script src="_static/doctools.js"></script>
+
+
+<script defer="" src="_static/theme.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="source/modules.html" rel="next" title="quocslib"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="#">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="chapters/user_manual.html">User manual</a></li>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="source/quocslib.html">quocslib package</a>
+</li>
 </ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>Welcome to QuoCS's documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/index.rst" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-quocs-s-documentation">
-<h1>Welcome to QuoCS's documentation!<a class="headerlink" href="#welcome-to-quocs-s-documentation" title="Permalink to this headline"></a></h1>
-<p>Write something about QuOCs.</p>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="#">Docs</a> »</li>
+<li>Welcome to QuOCS’s documentation!</li>
+</ul>
+<ul class="page-nav">
+<li class="next">
+<a href="source/modules.html" title="next chapter">quocslib →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="welcome-to-quocs-s-documentation">
+<h1>Welcome to QuOCS’s documentation!<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#welcome-to-quocs-s-documentation">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="chapters/user_manual.html">User manual</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chapters/user_manual.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="chapters/user_manual.html#first-steps">First steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source/modules.html">quocslib</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="source/quocslib.html">quocslib package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="source/quocslib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.communication.html">quocslib.communication package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.figureofmeritevaluation.html">quocslib.figureofmeritevaluation package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.freegradientmethods.html">quocslib.freegradientmethods package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.handleexit.html">quocslib.handleexit package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.optimalalgorithms.html">quocslib.optimalalgorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.optimalcontrolproblems.html">quocslib.optimalcontrolproblems package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.parameters.html">quocslib.parameters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.pulses.html">quocslib.pulses package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.stoppingcriteria.html">quocslib.stoppingcriteria package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.timeevolution.html">quocslib.timeevolution package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.tools.html">quocslib.tools package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="source/quocslib.utils.html">quocslib.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="source/quocslib.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/quocslib.html#module-quocslib.Controls">quocslib.Controls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/quocslib.html#module-quocslib.Optimizer">quocslib.Optimizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/quocslib.html#module-quocslib">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 </div>
-</section>
-<section id="license">
-<h1>License<a class="headerlink" href="#license" title="Permalink to this headline"></a></h1>
-<p>Insert kind of license.</p>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#indices-and-tables">¶</a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="chapters/user_manual.html" class="btn btn-neutral float-right" title="User manual" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="next">
+<a href="source/modules.html" title="next chapter">quocslib →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

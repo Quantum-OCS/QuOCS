@@ -1,95 +1,140 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.stoppingcriteria package</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib.stoppingcriteria package &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-    <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.timeevolution.html" rel="next" title="quocslib.timeevolution package"/>
+<link href="quocslib.pulses.html" rel="prev" title="quocslib.pulses package"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">quocslib.stoppingcriteria package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">quocslib.stoppingcriteria.NelderMeadStoppingCriteria module</a></li>
-<li><a class="reference internal" href="#module-quocslib.stoppingcriteria.StoppingCriteria">quocslib.stoppingcriteria.StoppingCriteria module</a></li>
-<li><a class="reference internal" href="#module-quocslib.stoppingcriteria">Module contents</a></li>
-</ul>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="quocslib.html">quocslib package</a>
 </li>
 </ul>
 </div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>quocslib.stoppingcriteria package</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.stoppingcriteria.rst" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="quocslib-stoppingcriteria-package">
-<h1>quocslib.stoppingcriteria package<a class="headerlink" href="#quocslib-stoppingcriteria-package" title="Permalink to this headline"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">
-<span id="quocslib-stoppingcriteria-neldermeadstoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.NelderMeadStoppingCriteria module<a class="headerlink" href="#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li><a href="modules.html">quocslib</a> »</li>
+<li><a href="quocslib.html">quocslib package</a> »</li>
+<li>quocslib.stoppingcriteria package</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="quocslib.pulses.html" title="previous chapter">← quocslib.pulses package</a>
+</li>
+<li class="next">
+<a href="quocslib.timeevolution.html" title="next chapter">quocslib.timeevolution package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib-stoppingcriteria-package">
+<h1>quocslib.stoppingcriteria package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-stoppingcriteria-package">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
+</div>
+<div class="section" id="module-quocslib.stoppingcriteria.CMAESStoppingCriteria">
+<span id="quocslib-stoppingcriteria-cmaesstoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.CMAESStoppingCriteria module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.stoppingcriteria.CMAESStoppingCriteria">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.stoppingcriteria.CMAESStoppingCriteria.</code><code class="sig-name descname">CMAESStoppingCriteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/CMAESStoppingCriteria.html#CMAESStoppingCriteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria</code></a></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">
+<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f_sim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">function_evaluations</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/CMAESStoppingCriteria.html#CMAESStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">¶</a></dt>
+<dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f_sim</strong> – </p></li>
+<li><p><strong>function_evaluations</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.is_converged">
+<code class="sig-name descname">is_converged</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.is_converged">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.terminate_reason">
+<code class="sig-name descname">terminate_reason</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.terminate_reason">¶</a></dt>
+<dd>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">
+<span id="quocslib-stoppingcriteria-neldermeadstoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.NelderMeadStoppingCriteria module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.stoppingcriteria.NelderMeadStoppingCriteria.</span></span><span class="sig-name descname"><span class="pre">NelderMeadStoppingCriteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stopping_criteria</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria</span></code></a></p>
-<dl class="py method">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.stoppingcriteria.NelderMeadStoppingCriteria.</code><code class="sig-name descname">NelderMeadStoppingCriteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria</code></a></p>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">
-<span class="sig-name descname"><span class="pre">check_stopping_criteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function_evaluations</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria.check_stopping_criteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">function_evaluations</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">¶</a></dt>
+<dd>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>sim</strong> -- </p></li>
-<li><p><strong>fsim</strong> -- </p></li>
-<li><p><strong>function_evaluations</strong> -- </p></li>
+<li><p><strong>sim</strong> – </p></li>
+<li><p><strong>fsim</strong> – </p></li>
+<li><p><strong>function_evaluations</strong> – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -97,92 +142,67 @@
 </dd>
 </dl>
 </dd></dl>
-
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.is_converged">
+<code class="sig-name descname">is_converged</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.is_converged">¶</a></dt>
+<dd>
 </dd></dl>
-
-</section>
-<section id="module-quocslib.stoppingcriteria.StoppingCriteria">
-<span id="quocslib-stoppingcriteria-stoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.StoppingCriteria module<a class="headerlink" href="#module-quocslib.stoppingcriteria.StoppingCriteria" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.terminate_reason">
+<code class="sig-name descname">terminate_reason</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.terminate_reason">¶</a></dt>
+<dd>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.stoppingcriteria.StoppingCriteria">
+<span id="quocslib-stoppingcriteria-stoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.StoppingCriteria module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.stoppingcriteria.StoppingCriteria">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.stoppingcriteria.StoppingCriteria.</span></span><span class="sig-name descname"><span class="pre">StoppingCriteria</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.stoppingcriteria.StoppingCriteria.</code><code class="sig-name descname">StoppingCriteria</code><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">check_stopping_criteria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fsim</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function_evaluations</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_stopping_criteria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>function_evaluations</strong> -- </p></li>
-<li><p><strong>sim</strong> -- </p></li>
-<li><p><strong>fsim</strong> -- </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<em class="property">abstract<span class="w"> </span></em><code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">¶</a></dt>
+<dd>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop">
-<span class="sig-name descname"><span class="pre">check_user_stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_user_stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.function_evaluations">
-<span class="sig-name descname"><span class="pre">function_evaluations</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.function_evaluations" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_converged">
-<span class="sig-name descname"><span class="pre">is_converged</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_converged" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_running">
-<span class="sig-name descname"><span class="pre">is_running</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">True</span></em><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.is_running" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.terminate_reason">
-<span class="sig-name descname"><span class="pre">terminate_reason</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.terminate_reason" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<code class="sig-name descname">check_user_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_user_stop"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop">¶</a></dt>
+<dd>
 </dd></dl>
-
-</section>
-<section id="module-quocslib.stoppingcriteria">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.stoppingcriteria" title="Permalink to this headline"></a></h2>
-</section>
-</section>
-
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.stoppingcriteria.generalstoppingcriteria">
+<span id="quocslib-stoppingcriteria-generalstoppingcriteria-module"></span><h2>quocslib.stoppingcriteria.generalstoppingcriteria module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.stoppingcriteria.generalstoppingcriteria">¶</a></h2>
+<p>This module contains an ensemble of stopping criteria to be used in the stopping criteria classes</p>
+</div>
+<div class="section" id="module-quocslib.stoppingcriteria">
+<span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.stoppingcriteria">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="quocslib.pulses.html" title="previous chapter">← quocslib.pulses package</a>
+</li>
+<li class="next">
+<a href="quocslib.timeevolution.html" title="next chapter">quocslib.timeevolution package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

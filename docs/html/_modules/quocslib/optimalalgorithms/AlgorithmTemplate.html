@@ -1,77 +1,86 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib.optimalalgorithms.AlgorithmTemplate &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimalalgorithms.AlgorithmTemplate</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>quocslib.optimalalgorithms.AlgorithmTemplate</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
-  </ul>
-  <hr/>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <h1>Source code for quocslib.optimalalgorithms.AlgorithmTemplate</h1><div class="highlight"><pre>
-<span></span><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.optimalalgorithms.AlgorithmTemplate</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.optimalalgorithms.AlgorithmTemplate</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
-<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1">#  you may not use this file except in compliance with the License.</span>
 <span class="c1">#  You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1">#  See the License for the specific language governing permissions and</span>
 <span class="c1">#  limitations under the License.</span>
@@ -86,31 +95,31 @@
 
 
 <div class="viewcode-block" id="AlgorithmTemplate"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">[docs]</a><span class="k">class</span> <span class="nc">AlgorithmTemplate</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">"""</span>
 <span class="sd">    This is the template for an algorithm class. The three important function are:</span>
 <span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
 <span class="sd">    * run : The main loop for optimal control</span>
 <span class="sd">    * _get_response_for_client : return info about the goodness of the controls and errors if any</span>
 <span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
 <span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
 <span class="sd">        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">communication_obj</span><span class="o">=</span><span class="n">communication_obj</span><span class="p">)</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Inner free gradient method</span>
         <span class="c1">###########################################################################################</span>
-        <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;dsm_settings&quot;</span><span class="p">][</span><span class="s2">&quot;stopping_criteria&quot;</span><span class="p">]</span>
-        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;dsm_settings&quot;</span><span class="p">][</span>
-            <span class="s2">&quot;general_settings&quot;</span>
+        <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"stopping_criteria"</span><span class="p">]</span>
+        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"dsm_settings"</span><span class="p">][</span>
+            <span class="s2">"general_settings"</span>
         <span class="p">]</span>
         <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="s2">&quot;FreeGradientTemplate&quot;</span><span class="p">,</span>
-            <span class="n">module_name</span><span class="o">=</span><span class="s2">&quot;quocslib.freegradientmethods.FreeGradientTemplate&quot;</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="s2">"FreeGradientTemplate"</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="s2">"quocslib.freegradientmethods.FreeGradientTemplate"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">dsm_attribute</span><span class="p">(</span>
             <span class="n">direct_search_method_settings</span><span class="p">,</span>
@@ -120,7 +129,7 @@
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Optimal algorithm variables if any</span>
         <span class="c1">###########################################################################################</span>
-        <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;algorithm_settings&quot;</span><span class="p">]</span>
+        <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
         <span class="c1"># Starting fom</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="c1">###########################################################################################</span>
@@ -128,27 +137,27 @@
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Initialize the control object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">(</span>
-            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;pulses&quot;</span><span class="p">],</span>
-            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;times&quot;</span><span class="p">],</span>
-            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">&quot;parameters&quot;</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"times"</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return useful information for th interface&quot;&quot;&quot;</span>
+        <span class="sd">"""Return useful information for th interface"""</span>
         <span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">&quot;FoM&quot;</span><span class="p">]</span>
+        <span class="n">fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">fom</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">fom</span>
             <span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;is_record&quot;</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span>
-            <span class="s2">&quot;FoM&quot;</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span>
-            <span class="s2">&quot;iteration_number&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+            <span class="s2">"is_record"</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span>
+            <span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span>
+            <span class="s2">"iteration_number"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">response_dict</span>
 
 <div class="viewcode-block" id="AlgorithmTemplate.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Main loop of the optimization&quot;&quot;&quot;</span>
+        <span class="sd">"""Main loop of the optimization"""</span>
         <span class="k">for</span> <span class="n">super_it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
             <span class="c1"># Check if the optimization was stopped by the user</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">():</span>
@@ -164,11 +173,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_base_pulses</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_update_base_pulses</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Update the base dCRAB pulse&quot;&quot;&quot;</span>
+        <span class="sd">"""Update the base dCRAB pulse"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">update_base_controls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Build the direct search method and run it&quot;&quot;&quot;</span>
+        <span class="sd">"""Build the direct search method and run it"""</span>
         <span class="n">start_simplex</span> <span class="o">=</span> <span class="n">simplex_creation</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">()</span>
         <span class="p">)</span>
@@ -183,56 +192,41 @@
         <span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="n">fom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;F_min_val&quot;</span><span class="p">],</span>
-            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;X_opti_vec&quot;</span><span class="p">],</span>
-            <span class="n">result_l</span><span class="p">[</span><span class="s2">&quot;terminate_reason&quot;</span><span class="p">],</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>
+            <span class="n">result_l</span><span class="p">[</span><span class="s2">"terminate_reason"</span><span class="p">],</span>
         <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the controls dictionary from the optimized control parameters&quot;&quot;&quot;</span>
+        <span class="sd">"""Get the controls dictionary from the optimized control parameters"""</span>
         <span class="p">[</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">,</span> <span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_controls_lists</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span>
         <span class="c1">#</span>
         <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;pulses&quot;</span><span class="p">:</span> <span class="n">pulses</span><span class="p">,</span>
-            <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
-            <span class="s2">&quot;timegrids&quot;</span><span class="p">:</span> <span class="n">timegrids</span><span class="p">,</span>
+            <span class="s2">"pulses"</span><span class="p">:</span> <span class="n">pulses</span><span class="p">,</span>
+            <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">"timegrids"</span><span class="p">:</span> <span class="n">timegrids</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">controls_dict</span>
 
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return a dictionary with final results to put into a dictionary&quot;&quot;&quot;</span>
+        <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Figure of merit&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
-            <span class="s2">&quot;total number of function evaluations&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"total number of function evaluations"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">final_dict</span></div>
-</pre></div>
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

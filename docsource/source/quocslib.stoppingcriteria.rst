@@ -4,6 +4,14 @@ quocslib.stoppingcriteria package
 Submodules
 ----------
 
+quocslib.stoppingcriteria.CMAESStoppingCriteria module
+------------------------------------------------------
+
+.. automodule:: quocslib.stoppingcriteria.CMAESStoppingCriteria
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 quocslib.stoppingcriteria.NelderMeadStoppingCriteria module
 -----------------------------------------------------------
 
@@ -16,6 +24,14 @@ quocslib.stoppingcriteria.StoppingCriteria module
 -------------------------------------------------
 
 .. automodule:: quocslib.stoppingcriteria.StoppingCriteria
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+quocslib.stoppingcriteria.generalstoppingcriteria module
+--------------------------------------------------------
+
+.. automodule:: quocslib.stoppingcriteria.generalstoppingcriteria
    :members:
    :undoc-members:
    :show-inheritance:

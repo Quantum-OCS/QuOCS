@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimalalgorithms.ADAlgorithm</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.optimalalgorithms.ADAlgorithm</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.optimalalgorithms.ADAlgorithm</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">Import</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+    <span class="kn">import</span> <span class="nn">jax.scipy</span> <span class="k">as</span> <span class="nn">jsp</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ImportError</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.Optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
+<span class="kn">from</span> <span class="nn">quocslib.timeevolution.piecewise_integrator</span> <span class="kn">import</span> <span class="n">pw_final_evolution</span>
+
+
+<div class="viewcode-block" id="ADAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">ADAlgorithm</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
+    <span class="sd">"""</span>
+<span class="sd">    This is the template for an algorithm class. The three important function are:</span>
+<span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
+<span class="sd">    * run : The main loop for optimal control</span>
+<span class="sd">    * _get_response_for_client : return info about the goodness of the controls and errors if any</span>
+<span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
+<span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the</span>
+<span class="sd">        Optimizer class except the optimization dictionary where the GRAPE settings and the controls are defined.</span>
+<span class="sd">        """</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">communication_obj</span><span class="o">=</span><span class="n">communication_obj</span><span class="p">)</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Optimal algorithm variables if any</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
+        <span class="c1"># Starting fom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Pulses, Parameters, Times object</span>
+        <span class="c1">###########################################################################################</span>
+        <span class="c1"># Initialize the control object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">(</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"times"</span><span class="p">],</span>
+            <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="c1"># might need to control if you change something</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"A"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"B"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"n_slices"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"rho_init"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"rho_target"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"dt"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"sys_type"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="ADAlgorithm.functional"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.functional">[docs]</a>    <span class="k">def</span> <span class="nf">functional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">rho0</span><span class="p">,</span> <span class="n">rhoT</span><span class="p">,</span> <span class="n">sys_type</span><span class="p">):</span>
+        <span class="sd">"""Compute the fidelity functional for the given problem defined in the class</span>
+
+<span class="sd">        :param jnp.array drive: a flat array that contains the pulse amplitudes</span>
+<span class="sd">        :param jnp.matrix A: the drift hamiltonian</span>
+<span class="sd">        :param list[jnp.matrix] B: the control hamiltonians</span>
+<span class="sd">        :param int n_slices: the number of slices in the pulse</span>
+<span class="sd">        :param float dt: the duration of each timeslice</span>
+<span class="sd">        :param jnp.matrix u0: the initial propagator that should be used</span>
+<span class="sd">        :param jnp.matrix rho0: the initial density matrix</span>
+<span class="sd">        :param jnp.matrix rhoT: the target density matrix</span>
+<span class="sd">        :param str sys_type: the string to indicate the system type, can be either StateTransfer or left blank</span>
+<span class="sd">        :return float: the value of the fidelity at the current point in time</span>
+<span class="sd">        """</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="n">drive</span> <span class="o">=</span> <span class="n">drive</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">K</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">))</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">pw_final_evolution</span><span class="p">(</span><span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sys_type</span> <span class="o">==</span> <span class="s2">"StateTransfer"</span><span class="p">:</span>
+            <span class="n">ev</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">rho0</span> <span class="o">@</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ev</span> <span class="o">=</span> <span class="n">U</span> <span class="o">@</span> <span class="n">rho0</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">ev</span> <span class="o">@</span> <span class="n">rhoT</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()))</span>
+
+        <span class="k">return</span> <span class="n">fid</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_functional</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">"""generates a lambda function lambda x: which evaluates and returns the figure of merit</span>
+
+<span class="sd">        :return lambda:</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">functional</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">u0</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="ADAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""This runs the main loop of the optimization, assuming that everything</span>
+<span class="sd">        has been configured correctly this should use LBFGS, or a chosen algorithm,</span>
+<span class="sd">        to optimize the pulse</span>
+<span class="sd">        """</span>
+
+        <span class="n">func_topt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_functional</span><span class="p">()</span>
+        <span class="n">init</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span>
+        <span class="c1"># now we can optimize</span>
+        <span class="c1"># need to be able to include things</span>
+        <span class="n">optimization_result</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">func_topt</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"BFGS"</span><span class="p">)</span>
+
+        <span class="c1"># need to be able to implement pulses in Marco's way, ask him later</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">optimization_result</span><span class="o">.</span><span class="n">fun</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="n">optimization_result</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="n">optimization_result</span></div>
+
+        <span class="c1">#     # Update the base current pulses</span>
+        <span class="c1">#     self._update_base_pulses()</span>
+
+    <span class="c1"># def _update_base_pulses(self) -&gt; None:</span>
+    <span class="c1">#     """Update the base dCRAB pulse"""</span>
+    <span class="c1">#     self.controls.update_base_controls(self.xx)</span>
+
+    <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""Get the controls dictionary from the optimized control parameters</span>
+
+<span class="sd">        :param jnp.array optimized_control_parameters: the array of optimize control parameters</span>
+<span class="sd">        :return dict: returns a dict that contains the pulses, parameters and timegrid</span>
+<span class="sd">        """</span>
+        <span class="p">[</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">,</span> <span class="n">parameters</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_controls_lists</span><span class="p">(</span>
+            <span class="n">optimized_control_parameters</span>
+        <span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"pulses"</span><span class="p">:</span> <span class="n">pulses</span><span class="p">,</span>
+            <span class="s2">"parameters"</span><span class="p">:</span> <span class="n">parameters</span><span class="p">,</span>
+            <span class="s2">"timegrids"</span><span class="p">:</span> <span class="n">timegrids</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">controls_dict</span>
+
+    <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
+        <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"total number of function evaluations"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">final_dict</span>
+
+    <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

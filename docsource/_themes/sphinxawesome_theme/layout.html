@@ -1,0 +1,81 @@
+{%- macro script() %}
+{%- for js in script_files %}
+  {{ js_tag(js) }}
+{%- endfor %}
+<script src="{{ pathto(asset('_static/theme.js'), 1) }}"></script>
+{%- if docsearch %}
+  <script src="{{ pathto(asset('_static/docsearch.js'), 1) }}"></script>
+  <script src="{{ pathto('_static/docsearch_config.js', 1) }}"></script>
+{%- endif %}
+{%- endmacro -%}
+
+{%- set lang_attr = "en" if language == None else (language|replace('_','-')) -%}
+
+{%- if not embedded and docstitle -%}
+  {%- if title == docstitle -%}
+    {%- set titlesuffix = "" -%}
+  {%- else -%}
+    {%- set titlesuffix = " | "|safe + docstitle|e -%}
+  {%- endif -%}
+{%- else -%}
+  {%- set titlesuffix = "" -%}
+{%- endif %}
+
+<!DOCTYPE html>
+<html lang="{{ lang_attr }}">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    {{ metatags }}
+    {%- block htmltitle %}
+      <title>{{ title|striptags|e if title else docstitle }}{{ titlesuffix }}</title>
+    {%- endblock %}
+    {#- Extra CSS files for overriding stuff #}
+    {%- for css in css_files %}
+      <link rel="stylesheet" href="{{ pathto(asset(css), 1) }}" />
+    {%- endfor %}
+    {%- if pageurl %}
+      <link rel="canonical" href="{{ pageurl }}" />
+    {%- endif %}
+    {%- if favicon %}
+      <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}" />
+    {%- endif %}
+    {%- block linktags %}
+      {%- if hasdoc('search') and not docsearch %}
+        <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+      {%- endif %}
+      {%- if hasdoc('genindex') %}
+        <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+      {%- endif %}
+      {%- if next %}
+        <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+      {%- endif %}
+      {%- if prev %}
+        <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+      {%- endif %}
+    {%- endblock %}
+  </head>
+
+  <body class="antialiased text-gray scroll-smooth">
+    <div
+      id="page"
+      data-controller="sidebar search"
+      data-action="keydown@window->search#focus"
+      class="h-screen xl:grid xl:grid-layout"
+    >
+      {% include "skip.html" %}
+
+      <header class="grid-area-header z-10 h-14">
+        {% include "header.html" %}
+      </header>
+
+      {% block document %}
+      {% endblock %}
+
+      {% include "modals.html" %}
+    </div>
+    {% block scripts %}
+      {{ script() }}
+    {% endblock %}
+  </body>
+</html>

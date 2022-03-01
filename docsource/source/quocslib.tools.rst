@@ -28,6 +28,14 @@ quocslib.tools.pulsetools module
    :undoc-members:
    :show-inheritance:
 
+quocslib.tools.randomgenerator module
+-------------------------------------
+
+.. automodule:: quocslib.tools.randomgenerator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

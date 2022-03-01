@@ -1,0 +1,28 @@
+{#-
+    Template for the `footer` at the bottom of the main page.
+    Contains copyright information.
+-#}
+
+<div class="mt-20 mb-4 text-sm text-gray-700">
+{%- if show_copyright and copyright|length -%}
+  {%- if hasdoc('copyright') -%}
+    {%- trans path=pathto('copyright'), copyright=copyright|e -%}
+      &copy; <a href="{{ path }}">Copyright</a>{{ copyright }}
+    {%- endtrans -%}
+  {%- else -%}
+    {%- trans copyright=copyright|e -%}
+      &copy; {{ copyright }}&nbsp;
+    {%- endtrans -%}
+  {%- endif -%}
+{%- endif -%}
+{%- if last_updated -%}
+  {%- trans last_updated=last_updated|e -%}
+    Last updated: {{ last_updated }}.&nbsp;
+  {%- endtrans -%}
+{%- endif -%}
+{%- if show_sphinx -%}
+  {%- trans sphinx_version=sphinx_version|e -%}
+    Made with <a href="https://www.sphinx-doc.org">Sphinx {{ sphinx_version }}</a>
+  {%- endtrans -%}
+{%- endif -%}
+</div>

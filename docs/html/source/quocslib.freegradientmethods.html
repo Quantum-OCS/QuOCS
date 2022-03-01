@@ -1,128 +1,170 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.freegradientmethods package</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib.freegradientmethods package &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-    <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.handleexit.html" rel="next" title="quocslib.handleexit package"/>
+<link href="quocslib.figureofmeritevaluation.html" rel="prev" title="quocslib.figureofmeritevaluation package"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">quocslib.freegradientmethods package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-quocslib.freegradientmethods.DirectSearchMethod">quocslib.freegradientmethods.DirectSearchMethod module</a></li>
-<li><a class="reference internal" href="#module-quocslib.freegradientmethods.FreeGradientTemplate">quocslib.freegradientmethods.FreeGradientTemplate module</a></li>
-<li><a class="reference internal" href="#module-quocslib.freegradientmethods.NelderMead">quocslib.freegradientmethods.NelderMead module</a></li>
-<li><a class="reference internal" href="#module-quocslib.freegradientmethods">Module contents</a></li>
-</ul>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="quocslib.html">quocslib package</a>
 </li>
 </ul>
 </div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>quocslib.freegradientmethods package</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.freegradientmethods.rst" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="quocslib-freegradientmethods-package">
-<h1>quocslib.freegradientmethods package<a class="headerlink" href="#quocslib-freegradientmethods-package" title="Permalink to this headline"></a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-quocslib.freegradientmethods.DirectSearchMethod">
-<span id="quocslib-freegradientmethods-directsearchmethod-module"></span><h2>quocslib.freegradientmethods.DirectSearchMethod module<a class="headerlink" href="#module-quocslib.freegradientmethods.DirectSearchMethod" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li><a href="modules.html">quocslib</a> »</li>
+<li><a href="quocslib.html">quocslib package</a> »</li>
+<li>quocslib.freegradientmethods package</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="quocslib.figureofmeritevaluation.html" title="previous chapter">← quocslib.figureofmeritevaluation package</a>
+</li>
+<li class="next">
+<a href="quocslib.handleexit.html" title="next chapter">quocslib.handleexit package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib-freegradientmethods-package">
+<h1>quocslib.freegradientmethods package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-freegradientmethods-package">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
+</div>
+<div class="section" id="module-quocslib.freegradientmethods.CMAES">
+<span id="quocslib-freegradientmethods-cmaes-module"></span><h2>quocslib.freegradientmethods.CMAES module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.freegradientmethods.CMAES">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.freegradientmethods.CMAES.CMAES">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.freegradientmethods.CMAES.</code><code class="sig-name descname">CMAES</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/CMAES.html#CMAES"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.CMAES.CMAES">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.freegradientmethods.CMAES.CMAES.callback">
+<code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.CMAES.CMAES.callback">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.freegradientmethods.CMAES.CMAES.run_dsm">
+<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">sigma_v</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_iterations_number</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/CMAES.html#CMAES.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.CMAES.CMAES.run_dsm">¶</a></dt>
+<dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<em>callable</em>) – Function tbe called at every function evaluation</p></li>
+<li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
+<li><p><strong>args</strong> (<em>tuple</em>) – Further arguments</p></li>
+<li><p><strong>initial_simplex</strong> (<em>np.array</em>) – Starting simplex for the Nelder Mead evaluation</p></li>
+<li><p><strong>max_iterations_number</strong> (<em>int</em>) – Maximum iteration number of function evaluations</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.freegradientmethods.DirectSearchMethod">
+<span id="quocslib-freegradientmethods-directsearchmethod-module"></span><h2>quocslib.freegradientmethods.DirectSearchMethod module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.freegradientmethods.DirectSearchMethod">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.freegradientmethods.DirectSearchMethod.</span></span><span class="sig-name descname"><span class="pre">DirectSearchMethod</span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#DirectSearchMethod"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.freegradientmethods.DirectSearchMethod.</code><code class="sig-name descname">DirectSearchMethod</code><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#DirectSearchMethod"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
 </dd></dl>
-
-<dl class="py class">
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.DirectSearchMethod.Wrap">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.freegradientmethods.DirectSearchMethod.</span></span><span class="sig-name descname"><span class="pre">Wrap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.freegradientmethods.DirectSearchMethod.</code><code class="sig-name descname">Wrap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper">
-<span class="sig-name descname"><span class="pre">function_wrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">wrapper_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap.function_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">function_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">wrapper_args</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap.function_wrapper"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function">
-<span class="sig-name descname"><span class="pre">wrap_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap.wrap_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<code class="sig-name descname">wrap_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">function</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/DirectSearchMethod.html#Wrap.wrap_function"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function">¶</a></dt>
+<dd>
 </dd></dl>
-
-</section>
-<section id="module-quocslib.freegradientmethods.FreeGradientTemplate">
-<span id="quocslib-freegradientmethods-freegradienttemplate-module"></span><h2>quocslib.freegradientmethods.FreeGradientTemplate module<a class="headerlink" href="#module-quocslib.freegradientmethods.FreeGradientTemplate" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.freegradientmethods.FreeGradientTemplate">
+<span id="quocslib-freegradientmethods-freegradienttemplate-module"></span><h2>quocslib.freegradientmethods.FreeGradientTemplate module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.freegradientmethods.FreeGradientTemplate">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.freegradientmethods.FreeGradientTemplate.</span></span><span class="sig-name descname"><span class="pre">FreeGradientTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopping_criteria</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/FreeGradientTemplate.html#FreeGradientTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod</span></code></a></p>
-<dl class="py attribute">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.freegradientmethods.FreeGradientTemplate.</code><code class="sig-name descname">FreeGradientTemplate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/FreeGradientTemplate.html#FreeGradientTemplate"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.callback">
-<span class="sig-name descname"><span class="pre">callback</span></span><em class="property"><span class="pre">:</span> <span class="pre">callable</span></em><a class="headerlink" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.callback" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.callback">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">
-<span class="sig-name descname"><span class="pre">run_dsm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_simplex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/FreeGradientTemplate.html#FreeGradientTemplate.run_dsm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_iterations_number</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/FreeGradientTemplate.html#FreeGradientTemplate.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">¶</a></dt>
+<dd>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>callable</em>) -- Function tbe called at every function evaluation</p></li>
-<li><p><strong>x0</strong> (<em>np.array</em>) -- initial point</p></li>
-<li><p><strong>args</strong> (<em>tuple</em>) -- Further arguments</p></li>
-<li><p><strong>initial_simplex</strong> (<em>np.array</em>) -- Starting simplex for the Nelder Mead evaluation</p></li>
-<li><p><strong>max_iterations_number</strong> (<em>int</em>) -- Maximum iteration number of function evaluations</p></li>
+<li><p><strong>func</strong> (<em>callable</em>) – Function tbe called at every function evaluation</p></li>
+<li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
+<li><p><strong>args</strong> (<em>tuple</em>) – Further arguments</p></li>
+<li><p><strong>initial_simplex</strong> (<em>np.array</em>) – Starting simplex for the Nelder Mead evaluation</p></li>
+<li><p><strong>max_iterations_number</strong> (<em>int</em>) – Maximum iteration number of function evaluations</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -130,32 +172,32 @@
 </dd>
 </dl>
 </dd></dl>
-
 </dd></dl>
-
-</section>
-<section id="module-quocslib.freegradientmethods.NelderMead">
-<span id="quocslib-freegradientmethods-neldermead-module"></span><h2>quocslib.freegradientmethods.NelderMead module<a class="headerlink" href="#module-quocslib.freegradientmethods.NelderMead" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</div>
+<div class="section" id="module-quocslib.freegradientmethods.NelderMead">
+<span id="quocslib-freegradientmethods-neldermead-module"></span><h2>quocslib.freegradientmethods.NelderMead module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.freegradientmethods.NelderMead">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.NelderMead.NelderMead">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.freegradientmethods.NelderMead.</span></span><span class="sig-name descname"><span class="pre">NelderMead</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">settings</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopping_criteria</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">callable</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/NelderMead.html#NelderMead"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.NelderMead.NelderMead" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate"><span class="pre">quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod</span></code></a></p>
-<dl class="py attribute">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.freegradientmethods.NelderMead.</code><code class="sig-name descname">NelderMead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/NelderMead.html#NelderMead"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.NelderMead.NelderMead">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.NelderMead.NelderMead.callback">
-<span class="sig-name descname"><span class="pre">callback</span></span><em class="property"><span class="pre">:</span> <span class="pre">callable</span></em><a class="headerlink" href="#quocslib.freegradientmethods.NelderMead.NelderMead.callback" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.NelderMead.NelderMead.callback">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">
-<span class="sig-name descname"><span class="pre">run_dsm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_simplex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/NelderMead.html#NelderMead.run_dsm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_iterations_number</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/freegradientmethods/NelderMead.html#NelderMead.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">¶</a></dt>
+<dd>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>func</strong> (<em>callable</em>) -- Function tbe called at every function evaluation</p></li>
-<li><p><strong>x0</strong> (<em>np.array</em>) -- initial point</p></li>
-<li><p><strong>args</strong> (<em>tuple</em>) -- Further arguments</p></li>
-<li><p><strong>initial_simplex</strong> (<em>np.array</em>) -- Starting simplex for the Nelder Mead evaluation</p></li>
-<li><p><strong>max_iterations_number</strong> (<em>int</em>) -- Maximum iteration number of function evaluations</p></li>
+<li><p><strong>func</strong> (<em>callable</em>) – Function to be called at every function evaluation</p></li>
+<li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
+<li><p><strong>args</strong> (<em>tuple</em>) – Further arguments</p></li>
+<li><p><strong>initial_simplex</strong> (<em>np.array</em>) – Starting simplex for the Nelder Mead evaluation</p></li>
+<li><p><strong>max_iterations_number</strong> (<em>int</em>) – Maximum iteration number of function evaluations</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -163,41 +205,29 @@
 </dd>
 </dl>
 </dd></dl>
-
 </dd></dl>
-
-</section>
-<section id="module-quocslib.freegradientmethods">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib.freegradientmethods" title="Permalink to this headline"></a></h2>
-</section>
-</section>
-
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</div>
+<div class="section" id="module-quocslib.freegradientmethods">
+<span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.freegradientmethods">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="quocslib.figureofmeritevaluation.html" title="previous chapter">← quocslib.figureofmeritevaluation package</a>
+</li>
+<li class="next">
+<a href="quocslib.handleexit.html" title="next chapter">quocslib.handleexit package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

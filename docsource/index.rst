@@ -1,22 +1,18 @@
-.. QuoCS documentation master file, created by
-   sphinx-quickstart on Thu May  6 14:17:16 2021.
+.. QuOCS documentation master file, created by
+   sphinx-quickstart on Tue Mar  1 16:39:46 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to QuoCS's documentation!
+Welcome to QuOCS's documentation!
 =================================
 
-Write something about QuOCs.
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
 
-   chapters/user_manual
+   ./source/modules
 
-License
-=======
-Insert kind of license.
+
 
 Indices and tables
 ==================

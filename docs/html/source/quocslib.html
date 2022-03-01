@@ -1,73 +1,93 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib package</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib package &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
-    <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.communication.html" rel="next" title="quocslib.communication package"/>
+<link href="modules.html" rel="prev" title="quocslib"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="current">
+<li class="toctree-l1 current expanded">
+<a class="reference internal current" href="#">quocslib package</a>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../chapters/user_manual.html">User manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-quocslib.Controls">quocslib.Controls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-quocslib.Optimizer">quocslib.Optimizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-quocslib">Module contents</a></li>
 </ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>quocslib package</li>
-      <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/Quantum-OCS/QuOCS/blob/masterdocs/source/quocslib.rst" class="fa fa-github"> Edit on GitHub</a>
-      </li>
-  </ul>
-  <hr/>
+</li>
+</ul>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="quocslib-package">
-<h1>quocslib package<a class="headerlink" href="#quocslib-package" title="Permalink to this headline"></a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li><a href="modules.html">quocslib</a> »</li>
+<li>quocslib package</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="modules.html" title="previous chapter">← quocslib</a>
+</li>
+<li class="next">
+<a href="quocslib.communication.html" title="next chapter">quocslib.communication package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib-package">
+<h1>quocslib package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-package">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#subpackages">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="quocslib.communication.html">quocslib.communication package</a><ul>
@@ -84,6 +104,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quocslib.freegradientmethods.html">quocslib.freegradientmethods package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.freegradientmethods.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.CMAES">quocslib.freegradientmethods.CMAES module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.DirectSearchMethod">quocslib.freegradientmethods.DirectSearchMethod module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.FreeGradientTemplate">quocslib.freegradientmethods.FreeGradientTemplate module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.freegradientmethods.html#module-quocslib.freegradientmethods.NelderMead">quocslib.freegradientmethods.NelderMead module</a></li>
@@ -99,7 +120,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quocslib.optimalalgorithms.html">quocslib.optimalalgorithms package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#quocslib-optimalalgorithms-adalgorithm-module">quocslib.optimalalgorithms.ADAlgorithm module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.ADAlgorithm">quocslib.optimalalgorithms.ADAlgorithm module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.AlgorithmTemplate">quocslib.optimalalgorithms.AlgorithmTemplate module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.DirectSearchAlgorithm">quocslib.optimalalgorithms.DirectSearchAlgorithm module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.optimalalgorithms.html#module-quocslib.optimalalgorithms.GRAPEAlgorithm">quocslib.optimalalgorithms.GRAPEAlgorithm module</a></li>
@@ -133,8 +154,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quocslib.stoppingcriteria.html">quocslib.stoppingcriteria package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.CMAESStoppingCriteria">quocslib.stoppingcriteria.CMAESStoppingCriteria module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">quocslib.stoppingcriteria.NelderMeadStoppingCriteria module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">quocslib.stoppingcriteria.StoppingCriteria module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.generalstoppingcriteria">quocslib.stoppingcriteria.generalstoppingcriteria module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">Module contents</a></li>
 </ul>
 </li>
@@ -149,6 +172,7 @@
 <li class="toctree-l2"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.linearalgebra">quocslib.tools.linearalgebra module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.logger">quocslib.tools.logger module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.pulsetools">quocslib.tools.pulsetools module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.randomgenerator">quocslib.tools.randomgenerator module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools">Module contents</a></li>
 </ul>
 </li>
@@ -168,170 +192,160 @@
 </li>
 </ul>
 </div>
-</section>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
-</section>
-<section id="module-quocslib.Controls">
-<span id="quocslib-controls-module"></span><h2>quocslib.Controls module<a class="headerlink" href="#module-quocslib.Controls" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
+</div>
+<div class="section" id="module-quocslib.Controls">
+<span id="quocslib-controls-module"></span><h2>quocslib.Controls module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.Controls">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.Controls.</span></span><span class="sig-name descname"><span class="pre">Controls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.Controls.</code><code class="sig-name descname">Controls</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses_list</span></em>, <em class="sig-param"><span class="n">times_list</span></em>, <em class="sig-param"><span class="n">parameters_list</span></em>, <em class="sig-param"><span class="n">rng</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span><a class="reference internal" href="quocslib.tools.html#quocslib.tools.randomgenerator.RandomNumberGenerator" title="quocslib.tools.randomgenerator.RandomNumberGenerator">quocslib.tools.randomgenerator.RandomNumberGenerator</a><span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
 <p>This is the main class for the optimization quantities, i.e. pulses, parameters, and times.
 All these quantities are defined in this class and can be accessed by calling the modules here.</p>
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.get_control_parameters_number">
-<span class="sig-name descname"><span class="pre">get_control_parameters_number</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_control_parameters_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.get_control_parameters_number" title="Permalink to this definition"></a></dt>
-<dd><p>Return the control parameter number</p>
+<code class="sig-name descname">get_control_parameters_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">int</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_control_parameters_number"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.get_control_parameters_number">¶</a></dt>
+<dd>
+<p>Return the control parameter number</p>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.get_controls_lists">
-<span class="sig-name descname"><span class="pre">get_controls_lists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_controls_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.get_controls_lists" title="Permalink to this definition"></a></dt>
-<dd><p>Set the optimized control parameters and get the controls</p>
+<code class="sig-name descname">get_controls_lists</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_controls_lists"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.get_controls_lists">¶</a></dt>
+<dd>
+<p>Set the optimized control parameters and get the controls</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>optimized_parameters_vector</strong> (<em>np.array</em>) -- </p>
+<dd class="field-odd"><p><strong>optimized_parameters_vector</strong> (<em>np.array</em>) – </p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The pulses, time grids, and the parameters in three different lists of numpy arrays.</p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.get_mean_value">
-<span class="sig-name descname"><span class="pre">get_mean_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_mean_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.get_mean_value" title="Permalink to this definition"></a></dt>
-<dd><p>Return a numpy array the mean value</p>
+<code class="sig-name descname">get_mean_value</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_mean_value"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.get_mean_value">¶</a></dt>
+<dd>
+<p>Return a numpy array the mean value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return np.array</dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.get_random_super_parameter">
-<span class="sig-name descname"><span class="pre">get_random_super_parameter</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_random_super_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.get_random_super_parameter" title="Permalink to this definition"></a></dt>
-<dd><p>Return list with dcrab current super_parameters</p>
+<code class="sig-name descname">get_random_super_parameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_random_super_parameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.get_random_super_parameter">¶</a></dt>
+<dd>
+<p>Return list with dcrab current super_parameters</p>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.get_sigma_variation">
-<span class="sig-name descname"><span class="pre">get_sigma_variation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.array</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_sigma_variation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.get_sigma_variation" title="Permalink to this definition"></a></dt>
-<dd><p>Return a numpy array with the maximum sigma in the parameters choice for the start simplex</p>
+<code class="sig-name descname">get_sigma_variation</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.get_sigma_variation"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.get_sigma_variation">¶</a></dt>
+<dd>
+<p>Return a numpy array with the maximum sigma in the parameters choice for the start simplex</p>
 <p>:return np.array</p>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.select_basis">
-<span class="sig-name descname"><span class="pre">select_basis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.select_basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.select_basis" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize the superparameter basis</p>
+<code class="sig-name descname">select_basis</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.select_basis"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.select_basis">¶</a></dt>
+<dd>
+<p>Initialize the superparameter basis</p>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Controls.Controls.update_base_controls">
-<span class="sig-name descname"><span class="pre">update_base_controls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_parameters_vector</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.update_base_controls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Controls.Controls.update_base_controls" title="Permalink to this definition"></a></dt>
-<dd><p>Update the base controls. Only pulses is enough</p>
+<code class="sig-name descname">update_base_controls</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimized_parameters_vector</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/Controls.html#Controls.update_base_controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Controls.Controls.update_base_controls">¶</a></dt>
+<dd>
+<p>Update the base controls. Only pulses is enough</p>
 </dd></dl>
-
 </dd></dl>
-
-</section>
-<section id="module-quocslib.Optimizer">
-<span id="quocslib-optimizer-module"></span><h2>quocslib.Optimizer module<a class="headerlink" href="#module-quocslib.Optimizer" title="Permalink to this headline"></a></h2>
-<dl class="py class">
+</div>
+<div class="section" id="module-quocslib.Optimizer">
+<span id="quocslib-optimizer-module"></span><h2>quocslib.Optimizer module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.Optimizer">¶</a></h2>
+<dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">quocslib.Optimizer.</span></span><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">communication_obj</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication" title="quocslib.communication.AllInOneCommunication.AllInOneCommunication"><span class="pre">quocslib.communication.AllInOneCommunication.AllInOneCommunication</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimization_dict</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Optimizer.Optimizer" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.Optimizer.</code><code class="sig-name descname">Optimizer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">communication_obj</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span><a class="reference internal" href="quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication" title="quocslib.communication.AllInOneCommunication.AllInOneCommunication">quocslib.communication.AllInOneCommunication.AllInOneCommunication</a><span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.alg_iteration_number">
-<span class="sig-name descname"><span class="pre">alg_iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.alg_iteration_number" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">alg_iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.alg_iteration_number">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.begin">
-<span class="sig-name descname"><span class="pre">begin</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.begin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Optimizer.Optimizer.begin" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize the communication with the client</p>
+<code class="sig-name descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.begin"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.begin">¶</a></dt>
+<dd>
+<p>Initialize the communication with the client</p>
 </dd></dl>
-
-<dl class="py method">
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.end">
-<span class="sig-name descname"><span class="pre">end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Optimizer.Optimizer.end" title="Permalink to this definition"></a></dt>
-<dd><p>Finalize the transmission with  the client</p>
+<code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.end"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.end">¶</a></dt>
+<dd>
+<p>Finalize the transmission with  the client</p>
 </dd></dl>
-
-<dl class="py attribute">
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.fom_dict">
-<span class="sig-name descname"><span class="pre">fom_dict</span></span><em class="property"><span class="pre">:</span> <span class="pre">dict</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.fom_dict" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
+<code class="sig-name descname">fom_dict</code><em class="property"><span class="p">:</span><span class="w"> </span>dict</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.fom_dict">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.fom_maximum">
-<span class="sig-name descname"><span class="pre">fom_maximum</span></span><em class="property"><span class="pre">:</span> <span class="pre">float</span></em><em class="property"> <span class="pre">=</span> <span class="pre">10000000000.0</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.fom_maximum" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
+<code class="sig-name descname">fom_maximum</code><em class="property"><span class="p">:</span><span class="w"> </span>float</em><em class="property"><span class="w"> </span><span class="p">=</span><span class="w"> </span>10000000000.0</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.fom_maximum">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.init_status">
-<span class="sig-name descname"><span class="pre">init_status</span></span><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><em class="property"> <span class="pre">=</span> <span class="pre">False</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.init_status" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><em class="property"><span class="w"> </span><span class="p">=</span><span class="w"> </span>False</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.init_status">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.is_optimization_running">
-<span class="sig-name descname"><span class="pre">is_optimization_running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.is_optimization_running"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Optimizer.Optimizer.is_optimization_running" title="Permalink to this definition"></a></dt>
-<dd><p>Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode</p>
+<code class="sig-name descname">is_optimization_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">bool</span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.is_optimization_running"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.is_optimization_running">¶</a></dt>
+<dd>
+<p>Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode</p>
 </dd></dl>
-
-<dl class="py attribute">
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.iteration_number">
-<span class="sig-name descname"><span class="pre">iteration_number</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.iteration_number" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
+<code class="sig-name descname">iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.iteration_number">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.run">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#quocslib.Optimizer.Optimizer.run" title="Permalink to this definition"></a></dt>
-<dd><p>Run the optimization algorithm</p>
+<em class="property">abstract<span class="w"> </span></em><code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/Optimizer.html#Optimizer.run"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.run">¶</a></dt>
+<dd>
+<p>Run the optimization algorithm</p>
 </dd></dl>
-
-<dl class="py attribute">
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.Optimizer.Optimizer.xx">
-<span class="sig-name descname"><span class="pre">xx</span></span><em class="property"><span class="pre">:</span> <span class="pre">numpy.array</span></em><a class="headerlink" href="#quocslib.Optimizer.Optimizer.xx" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.Optimizer.Optimizer.xx">¶</a></dt>
+<dd>
 </dd></dl>
-
-</section>
-<section id="module-quocslib">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-quocslib" title="Permalink to this headline"></a></h2>
-</section>
-</section>
-
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib">
+<span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="modules.html" title="previous chapter">← quocslib</a>
+</li>
+<li class="next">
+<a href="quocslib.communication.html" title="next chapter">quocslib.communication package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

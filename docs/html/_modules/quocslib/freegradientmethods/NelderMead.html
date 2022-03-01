@@ -1,84 +1,93 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="python" >
+
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>quocslib.freegradientmethods.NelderMead &mdash; QuoCS 1.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" /> 
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.freegradientmethods.NelderMead</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
 </head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="../../../index.html" class="icon icon-home"> QuoCS
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+</navlinks>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">QuoCS</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-      <li>quocslib.freegradientmethods.NelderMead</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
-  </ul>
-  <hr/>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <h1>Source code for quocslib.freegradientmethods.NelderMead</h1><div class="highlight"><pre>
-<span></span><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.freegradientmethods.NelderMead</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.freegradientmethods.NelderMead</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
-<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1">#  you may not use this file except in compliance with the License.</span>
 <span class="c1">#  You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1">#  See the License for the specific language governing permissions and</span>
 <span class="c1">#  limitations under the License.</span>
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">&quot;raise&quot;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">"raise"</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.freegradientmethods.DirectSearchMethod</span> <span class="kn">import</span> <span class="n">DirectSearchMethod</span>
 <span class="kn">from</span> <span class="nn">quocslib.stoppingcriteria.NelderMeadStoppingCriteria</span> <span class="kn">import</span> <span class="n">NelderMeadStoppingCriteria</span>
@@ -88,30 +97,30 @@
     <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">"""</span>
 <span class="sd">        :param dict settings:</span>
 <span class="sd">        :param dict stopping_criteria:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
         <span class="c1"># Active the parallelization for the firsts evaluations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_parallelized</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;parallelization&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;is_adaptive&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_parallelized</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"parallelization"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_adaptive"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="c1"># TODO Create it using dynamical import module</span>
         <span class="c1"># Stopping criteria object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">NelderMeadStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NelderMead.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_iterations_number</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="NelderMead.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.NelderMead.NelderMead.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_iterations_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""</span>
 
-<span class="sd">        :param callable func: Function tbe called at every function evaluation</span>
+<span class="sd">        :param callable func: Function to be called at every function evaluation</span>
 <span class="sd">        :param np.array x0: initial point</span>
 <span class="sd">        :param tuple args: Further arguments</span>
 <span class="sd">        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation</span>
 <span class="sd">        :param int max_iterations_number: Maximum iteration number of function evaluations</span>
 <span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Creation of the communication function for the Optimizer object</span>
         <span class="n">calls_number</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_wrapper</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
         <span class="c1"># Set to false is_converged</span>
@@ -212,7 +221,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">():</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">&quot;User stopped the optimization&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"User stopped the optimization"</span>
             <span class="c1"># Check stopping criteria</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_stopping_criteria</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">fsim</span><span class="p">,</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="c1"># END of while loop</span>
@@ -221,36 +230,21 @@
         <span class="c1"># Optimal parameters and value</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">fval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
-        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F_min_val&#39;</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span> <span class="s1">&#39;X_opti_vec&#39;</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">&#39;NitUsed&#39;</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
-                         <span class="s1">&#39;NfunevalsUsed&#39;</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;terminate_reason&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">}</span>
+        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'F_min_val'</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span> <span class="s1">'X_opti_vec'</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">'NitUsed'</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
+                         <span class="s1">'NfunevalsUsed'</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"terminate_reason"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">result_custom</span></div></div>
-</pre></div>
-
-           </div>
-          </div>
-          <footer>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, QuoCS.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
 </body>
 </html>

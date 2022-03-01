@@ -4,6 +4,14 @@ quocslib.freegradientmethods package
 Submodules
 ----------
 
+quocslib.freegradientmethods.CMAES module
+-----------------------------------------
+
+.. automodule:: quocslib.freegradientmethods.CMAES
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 quocslib.freegradientmethods.DirectSearchMethod module
 ------------------------------------------------------
 
