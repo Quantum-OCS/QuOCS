@@ -31,6 +31,8 @@ Install quocslib in your virtual environment
 ```bash
 python -m pip install -e .
 ```
+## Documentation 
+https://quantum-ocs.github.io/QuOCS/
 
 ## Tests
 Now you are able to use the tests scripts in the tests folder
