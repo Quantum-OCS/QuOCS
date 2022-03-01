@@ -64,9 +64,25 @@ class ADAlgorithm(Optimizer):
         self.rho_target = optimization_dict["rho_target"]
         self.dt = optimization_dict["dt"]
         self.sys_type = optimization_dict["sys_type"]
-        self.dim = np.size(self.A, 1)
+        self.dim = jnp.size(self.A, 1)
+
+        self.optimized_pulses = None
+        self.opt_res = None
 
     def functional(self, drive, A, B, n_slices, dt, u0, rho0, rhoT, sys_type):
+        """Compute the fidelity functional for the given problem defined in the class
+
+        :param jnp.array drive: a flat array that contains the pulse amplitudes
+        :param jnp.matrix A: the drift hamiltonian
+        :param list[jnp.matrix] B: the control hamiltonians
+        :param int n_slices: the number of slices in the pulse
+        :param float dt: the duration of each timeslice
+        :param jnp.matrix u0: the initial propagator that should be used
+        :param jnp.matrix rho0: the initial density matrix
+        :param jnp.matrix rhoT: the target density matrix
+        :param str sys_type: the string to indicate the system type, can be either StateTransfer or left blank
+        :return float: the value of the fidelity at the current point in time
+        """
         K = len(B)
         drive = drive.reshape((K, n_slices))
         U = pw_final_evolution(drive, A, B, n_slices, dt, u0)
@@ -99,12 +115,12 @@ class ADAlgorithm(Optimizer):
         init = self.controls
         # now we can optimize
         # need to be able to include things
-        oo = jsp.optimize.minimize(func_topt, init, method="BFGS")
+        optimization_result = jsp.optimize.minimize(func_topt, init, method="BFGS")
 
         # need to be able to implement pulses in Marco's way, ask him later
-        self.best_fom = oo.fun
-        self.optimized_pulses = oo.x
-        self.opt_res = oo
+        self.best_fom = optimization_result.fun
+        self.optimized_pulses = optimization_result.x
+        self.opt_res = optimization_result
 
         #     # Update the base current pulses
         #     self._update_base_pulses()
@@ -113,9 +129,11 @@ class ADAlgorithm(Optimizer):
     #     """Update the base dCRAB pulse"""
     #     self.controls.update_base_controls(self.xx)
 
-    def _get_controls(self, xx: np.array) -> dict:
+    def _get_controls(self, optimized_control_parameters: jnp.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
-        [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(
+            optimized_control_parameters
+        )
         #
         controls_dict = {
             "pulses": pulses,
@@ -131,3 +149,6 @@ class ADAlgorithm(Optimizer):
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict
+
+    def _get_response_for_client(self) -> dict:
+        raise NotImplementedError
