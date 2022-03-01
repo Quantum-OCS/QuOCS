@@ -13,14 +13,18 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-import jax.numpy as jnp
-import jax.scipy as jsp
+from ast import Import
+
+
+try:
+    import jax.numpy as jnp
+    import jax.scipy as jsp
+except:
+    raise ImportError
 
 from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
-from quocslib.utils.dynamicimport import dynamic_import
-
-from quocslib.tools.linearalgebra import simplex_creation
+from quocslib.timeevolution.piecewise_integrator import pw_final_evolution
 
 
 class ADAlgorithm(Optimizer):
@@ -96,6 +100,10 @@ class ADAlgorithm(Optimizer):
         return fid
 
     def _get_functional(self):
+        """generates a lambda function lambda x: which evaluates and returns the figure of merit
+
+        :return lambda:
+        """
         return lambda x: self.functional(
             x,
             self.A,
@@ -109,7 +117,10 @@ class ADAlgorithm(Optimizer):
         )
 
     def run(self) -> None:
-        """Main loop of the optimization"""
+        """This runs the main loop of the optimization, assuming that everything
+        has been configured correctly this should use LBFGS, or a chosen algorithm,
+        to optimize the pulse
+        """
 
         func_topt = self._get_functional()
         init = self.controls
@@ -130,7 +141,11 @@ class ADAlgorithm(Optimizer):
     #     self.controls.update_base_controls(self.xx)
 
     def _get_controls(self, optimized_control_parameters: jnp.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters"""
+        """Get the controls dictionary from the optimized control parameters
+
+        :param jnp.array optimized_control_parameters: the array of optimize control parameters
+        :return dict: returns a dict that contains the pulses, parameters and timegrid
+        """
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(
             optimized_control_parameters
         )
