@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>User manual</title>
+<title>Getting Started!</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
 
@@ -12,12 +12,13 @@
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
 <script src="../_static/doctools.js"></script>
-<script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
 <script defer="" src="../_static/theme.js"></script>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="../search.html" rel="search" title="Search"/>
+<link href="../source/modules.html" rel="next" title="quocslib"/>
+<link href="../index.html" rel="prev" title="Welcome to the Quantum Optimal Control Suite in Python!"/>
 </head>
 <body>
 <div id="app">
@@ -27,6 +28,16 @@
 </router-link>
 <div class="links">
 <navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link router-link-active" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
 </navlinks>
 </div>
 </navbar>
@@ -34,6 +45,16 @@
 </div>
 <sidebar @toggle-sidebar="toggleSidebar">
 <navlinks>
+<div class="nav-item">
+<a class="nav-link router-link-active" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
 </navlinks><div class="searchbox" id="searchbox" role="search">
 <div class="caption"><span class="caption-text">Quick search</span>
 <div class="searchformwrapper">
@@ -46,6 +67,20 @@
 </div>
 </div>
 </div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="current">
+<li class="toctree-l1 current expanded">
+<a class="reference internal current" href="#">Getting Started!</a>
+<ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</div>
 <div class="sidebar-group">
 <p class="caption">
 <span class="caption-text"><a href="../source/modules.html#quocslib">quocslib</a></span>
@@ -62,48 +97,44 @@
 <div aria-label="navigation" class="body-header" role="navigation">
 <ul class="breadcrumbs">
 <li><a href="../index.html">Docs</a> »</li>
-<li>User manual</li>
+<li>Getting Started!</li>
 </ul>
 <ul class="page-nav">
+<li class="prev">
+<a href="../index.html" title="previous chapter">← Welcome to the Quantum Optimal Control Suite in Python!</a>
+</li>
+<li class="next">
+<a href="../source/modules.html" title="next chapter">quocslib →</a>
+</li>
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<div class="section" id="user-manual">
-<h1>User manual<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#user-manual">¶</a></h1>
+<div class="section" id="getting-started">
+<h1>Getting Started!<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#getting-started">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation">¶</a></h2>
-<p>Describe how to install it.</p>
-<div class="code-wrapper" data-controller="code">
-<div class="code-header">
-<span class="code-lang">console</span></div>
-<div class="highlight"><pre><code><span class="go">pip install .</span>
-</code></pre></div></div>
-<p>It needs the following packages:
-- numpy
-- …</p>
-</div>
-<div class="section" id="first-steps">
-<h2>First steps<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#first-steps">¶</a></h2>
-<p>Insert text</p>
-<div class="section" id="example-program">
-<h3>Example program<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#example-program">¶</a></h3>
-<p>Insert text</p>
-<div class="math notranslate nohighlight">
-\[\mathcal{P}\]</div>
+<p>QuOCS can be easily installed using <code class="docutils literal notranslate">pip</code></p>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">python</span></div>
-<div class="highlight"><pre><code><span class="c1"># Import necessary modules</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><code><span class="n">pip</span> <span class="n">install</span> <span class="n">quocs</span>
 </code></pre></div></div>
-<p>Insert text</p>
 </div>
+<div class="section" id="documentation">
+<h2>Documentation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#documentation">¶</a></h2>
+<p>The documentation can be found on <a class="reference external" href="https://quantum-ocs.github.io/QuOCS/html/index.html" rel="nofollow noopener">Github<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p>
 </div>
 </div>
 </div>
 <div class="page-nav">
 <div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="../index.html" title="previous chapter">← Welcome to the Quantum Optimal Control Suite in Python!</a>
+</li>
+<li class="next">
+<a href="../source/modules.html" title="next chapter">quocslib →</a>
+</li>
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Search</title>
+<title>How to create the documentation (Sphinx+GithubPages)</title>
 <link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="_static/theme.css " rel="stylesheet" type="text/css"/>
 
@@ -15,12 +15,8 @@
 
 
 <script defer="" src="_static/theme.js"></script>
-<script src="_static/searchtools.js" type="text/javascript"></script>
-<script src="_static/language_data.js"></script>
 <link href="genindex.html" rel="index" title="Index"/>
-<link href="#" rel="search" title="Search"/>
-<script defer="" src="searchindex.js" type="text/javascript"></script>
-<script id="searchindexloader" type="text/javascript"></script>
+<link href="search.html" rel="search" title="Search"/>
 </head>
 <body>
 <div id="app">
@@ -60,7 +56,7 @@
 </navlinks><div class="searchbox" id="searchbox" role="search">
 <div class="caption"><span class="caption-text">Quick search</span>
 <div class="searchformwrapper">
-<form action="#" class="search" method="get">
+<form action="search.html" class="search" method="get">
 <input name="q" type="text"/>
 <input type="submit" value="Search"/>
 <input name="check_keywords" type="hidden" value="yes"/>
@@ -95,32 +91,38 @@
 <div aria-label="navigation" class="body-header" role="navigation">
 <ul class="breadcrumbs">
 <li><a href="index.html">Docs</a> »</li>
-<li>Search</li>
+<li>How to create the documentation (Sphinx+GithubPages)</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1 id="search-documentation">Search</h1>
-<div class="admonition warning" id="fallback">
-<p>
-    Please activate JavaScript to enable the search
-    functionality.
-  </p>
-</div>
-<p>
-    From here you can search these documents. Enter your search
-    words into the box below and click "search". Note that the search
-    function will automatically search for all of the words. Pages
-    containing fewer words won't appear in the result list.
-  </p>
-<form action="" method="get">
-<input name="q" type="text" value=""/>
-<input type="submit" value="search"/>
-<span id="search-progress" style="padding-left: 10px"></span>
-</form>
-<div id="search-results">
+<div class="section" id="how-to-create-the-documentation-sphinx-githubpages">
+<h1>How to create the documentation (Sphinx+GithubPages)<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#how-to-create-the-documentation-sphinx-githubpages">¶</a></h1>
+<p>This readme provide a summary for the required steps to build the documentation.</p>
+<ul class="simple">
+<li><p>Create folder <code class="docutils literal notranslate">docsource/</code>. In this folder:</p>
+<ul>
+<li><p>Use the command <code class="docutils literal notranslate">sphinx-quickstart</code> to generate automatically the <code class="docutils literal notranslate">makefile</code> and <code class="docutils literal notranslate">conf.py</code>.</p>
+<ul>
+<li><p>Modify <code class="docutils literal notranslate">conf.py</code> in order to change style etc…</p></li>
+<li><p>Change <code class="docutils literal notranslate">BUILDDIR=../docs/</code> in <code class="docutils literal notranslate">makefile</code>.</p></li>
+</ul>
+</li>
+<li><p>Use the command <code class="docutils literal notranslate">sphinx-apidoc -f -o source/ ../src/quocslib/</code> to generate the folder <code class="docutils literal notranslate">source/</code>. The latter contains the part of the documentation that can be built automatically from the code.</p></li>
+<li><p>Create folder <code class="docutils literal notranslate">chapters/</code>. This folder will contain the part of the documentation that is written manually, like user guide and tutorials.</p></li>
+<li><p>Use <code class="docutils literal notranslate">make</code> command. This will generate the html file inside the folder <code class="docutils literal notranslate">../docs/</code>.</p></li>
+</ul>
+</li>
+<li><p>Go into folder <code class="docutils literal notranslate">docs/</code>.</p>
+<ul>
+<li><p>In order to make <strong>GithubPages</strong> working correctly the html files should be on the top level of this folder. At the moment they are not. To solve this problem, create a file <code class="docutils literal notranslate">index.html</code> which redirect to <code class="docutils literal notranslate">html/index.html</code>.</p></li>
+<li><p>If you want to use the theme <code class="docutils literal notranslate">sphinx</code> add <code class="docutils literal notranslate">.nojekyll</code> file into this folder.</p></li>
+</ul>
+</li>
+</ul>
+<p>With these steps the documentation inside <strong>GithubPages</strong> should work.</p>
 </div>
 </div>
 <div class="page-nav">
@@ -134,8 +136,5 @@
 </div>
 </page>
 </div></div>
-<script type="text/javascript">
-    $('#fallback').hide();
-  </script>
 </body>
 </html>
