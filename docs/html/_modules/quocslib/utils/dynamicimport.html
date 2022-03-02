@@ -122,7 +122,9 @@
 <span class="kn">import</span> <span class="nn">importlib</span>
 
 
-<div class="viewcode-block" id="dynamic_import"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.dynamicimport.dynamic_import">[docs]</a><span class="k">def</span> <span class="nf">dynamic_import</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">callable</span><span class="p">:</span>
+<div class="viewcode-block" id="dynamic_import"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.dynamicimport.dynamic_import">[docs]</a><span class="k">def</span> <span class="nf">dynamic_import</span><span class="p">(</span>
+    <span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">callable</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Function for dynamic import.</span>
 <span class="sd">    :param attribute: The attribute of the class you want to use. It is an optional argument.</span>
@@ -138,14 +140,24 @@
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">import_conditions</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># provide backward - compatibility after renaming</span>
-            <span class="n">module_name</span> <span class="o">=</span> <span class="n">module_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"quocslib.pulses.super_parameter."</span><span class="p">,</span> <span class="s2">"quocslib.pulses.superparameter."</span><span class="p">)</span>
-            
+            <span class="n">module_name</span> <span class="o">=</span> <span class="n">module_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="s2">"quocslib.pulses.super_parameter."</span><span class="p">,</span> <span class="s2">"quocslib.pulses.superparameter."</span>
+            <span class="p">)</span>
+
             <span class="n">attribute</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">),</span> <span class="n">class_name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{0}</span><span class="s2">.py module does not exist or </span><span class="si">{1}</span><span class="s2"> is not the class in that module"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">class_name</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">{0}</span><span class="s2">.py module does not exist or </span><span class="si">{1}</span><span class="s2"> is not the class in that module"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">module_name</span><span class="p">,</span> <span class="n">class_name</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"module_name: </span><span class="si">{0}</span><span class="s2"> and/or class_name: </span><span class="si">{1}</span><span class="s2"> are None"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">class_name</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">"module_name: </span><span class="si">{0}</span><span class="s2"> and/or class_name: </span><span class="si">{1}</span><span class="s2"> are None"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">module_name</span><span class="p">,</span> <span class="n">class_name</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">attribute</span></div>
 </code></pre></div>
 </div>

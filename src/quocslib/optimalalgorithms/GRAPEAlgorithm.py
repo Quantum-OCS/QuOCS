@@ -110,6 +110,19 @@ class GRAPEAlgorithm:
     def functional(
         self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type
     ):
+        """Compute the fidelity functional for the defined problem
+
+        :param np.array drive: this should be a flat array that will be resized into N_ctrls x N_slices
+        :param np.matrix A: drift Hamiltonian
+        :param List[np.matrix] B: control Hamiltonians in a list of N_ctrls long
+        :param int n_slices: the number of pulse slices
+        :param float dt: the duration of each timeslice
+        :param List[np.matrix] U_store: a store for all of the propagators
+        :param List[np.matrix] rho_store: a store for all of the forward propagated states
+        :param List[np.matrix] corho_store: a store for all of the reverse propagated states
+        :param str sys_type: either specifying statetransfer or other
+        :return Tuple[float, np.array]: Returns a tuple containing the gradient and the figure of merit
+        """
         K = self.num_pulses
         drive = drive.reshape((K, n_slices))
         pw_evolution(U_store, drive, A, B, n_slices, dt)
@@ -153,6 +166,10 @@ class GRAPEAlgorithm:
         return (fid, grads)
 
     def _get_functional(self):
+        """Generates a lambda x: where x is the control
+
+        :return lambda:
+        """
         return lambda x: self.functional(
             x,
             self.A,

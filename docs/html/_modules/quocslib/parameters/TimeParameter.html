@@ -134,8 +134,16 @@
 <span class="sd">    alpha_variation = (amplitude_variation)/(t_max - t_min)</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">time_name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">is_optimization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-                 <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">time_name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+        <span class="n">initial_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">is_optimization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">):</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param map_index:</span>
@@ -156,22 +164,28 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
             <span class="c1"># Define the optimization coefficient alpha to be used in the optimization. Check the info for details</span>
             <span class="n">max_variation</span> <span class="o">=</span> <span class="n">upper_limit</span> <span class="o">-</span> <span class="n">lower_limit</span>
-            <span class="n">alpha_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">upper_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span><span class="o">/</span><span class="n">max_variation</span>
-            <span class="n">alpha_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">lower_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span><span class="o">/</span><span class="n">max_variation</span>
+            <span class="n">alpha_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">upper_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_variation</span>
+            <span class="n">alpha_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">lower_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_variation</span>
             <span class="n">alpha_in</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">alpha_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span><span class="o">/</span><span class="n">max_variation</span>
+            <span class="n">alpha_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span> <span class="o">/</span> <span class="n">max_variation</span>
             <span class="n">parameter_name</span> <span class="o">=</span> <span class="s2">"alpha_"</span> <span class="o">+</span> <span class="n">time_name</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">map_index</span><span class="o">=</span><span class="n">map_index</span><span class="p">,</span> <span class="n">parameter_name</span><span class="o">=</span><span class="n">parameter_name</span><span class="p">,</span> <span class="n">initial_value</span><span class="o">=</span><span class="n">alpha_in</span><span class="p">,</span>
-                             <span class="n">lower_limit</span><span class="o">=</span><span class="n">alpha_min</span><span class="p">,</span> <span class="n">upper_limit</span><span class="o">=</span><span class="n">alpha_max</span><span class="p">,</span> <span class="n">amplitude_variation</span><span class="o">=</span><span class="n">alpha_variation</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+                <span class="n">map_index</span><span class="o">=</span><span class="n">map_index</span><span class="p">,</span>
+                <span class="n">parameter_name</span><span class="o">=</span><span class="n">parameter_name</span><span class="p">,</span>
+                <span class="n">initial_value</span><span class="o">=</span><span class="n">alpha_in</span><span class="p">,</span>
+                <span class="n">lower_limit</span><span class="o">=</span><span class="n">alpha_min</span><span class="p">,</span>
+                <span class="n">upper_limit</span><span class="o">=</span><span class="n">alpha_max</span><span class="p">,</span>
+                <span class="n">amplitude_variation</span><span class="o">=</span><span class="n">alpha_variation</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="c1"># else:</span>
-            <span class="c1"># Otherwise just call the parent constructor</span>
+        <span class="c1"># Otherwise just call the parent constructor</span>
         <span class="c1">#    super().__init__(parameter_name=time_name, initial_value=initial_value)</span>
 
 <div class="viewcode-block" id="TimeParameter.get_time"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">""" Return the time. In case of time optimization, use the alpha parameter to get the optimized time """</span>
+        <span class="sd">"""Return the time. In case of time optimization, use the alpha parameter to get the optimized time"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
             <span class="c1"># value is the optimized parameter</span>
-            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">time_variation</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_variation</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
         <span class="k">return</span> <span class="n">time</span></div></div>

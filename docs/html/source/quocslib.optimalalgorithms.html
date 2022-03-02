@@ -139,7 +139,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>drive</strong> (<em>jnp.array</em>) – a flat array that contains the pulse amplitudes</p></li>
 <li><p><strong>A</strong> (<em>jnp.matrix</em>) – the drift hamiltonian</p></li>
-<li><p><strong>B</strong> (<em>list</em><em>[</em><em>jnp.matrix</em><em>]</em>) – the control hamiltonians</p></li>
+<li><p><strong>B</strong> (<em>List</em><em>[</em><em>jnp.matrix</em><em>]</em>) – the control hamiltonians</p></li>
 <li><p><strong>n_slices</strong> (<em>int</em>) – the number of slices in the pulse</p></li>
 <li><p><strong>dt</strong> (<em>float</em>) – the duration of each timeslice</p></li>
 <li><p><strong>u0</strong> (<em>jnp.matrix</em>) – the initial propagator that should be used</p></li>
@@ -225,6 +225,25 @@ The three important function are:
 <dt class="sig sig-object py" id="quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">
 <code class="sig-name descname">functional</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drive</span></em>, <em class="sig-param"><span class="n">A</span></em>, <em class="sig-param"><span class="n">B</span></em>, <em class="sig-param"><span class="n">n_slices</span></em>, <em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">U_store</span></em>, <em class="sig-param"><span class="n">rho_store</span></em>, <em class="sig-param"><span class="n">corho_store</span></em>, <em class="sig-param"><span class="n">sys_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.functional"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.functional">¶</a></dt>
 <dd>
+<p>Compute the fidelity functional for the defined problem</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>drive</strong> (<em>np.array</em>) – this should be a flat array that will be resized into N_ctrls x N_slices</p></li>
+<li><p><strong>A</strong> (<em>np.matrix</em>) – drift Hamiltonian</p></li>
+<li><p><strong>B</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – control Hamiltonians in a list of N_ctrls long</p></li>
+<li><p><strong>n_slices</strong> (<em>int</em>) – the number of pulse slices</p></li>
+<li><p><strong>dt</strong> (<em>float</em>) – the duration of each timeslice</p></li>
+<li><p><strong>U_store</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – a store for all of the propagators</p></li>
+<li><p><strong>rho_store</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – a store for all of the forward propagated states</p></li>
+<li><p><strong>corho_store</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – a store for all of the reverse propagated states</p></li>
+<li><p><strong>sys_type</strong> (<em>str</em>) – either specifying statetransfer or other</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return Tuple[float, np.array]</dt>
+<dd class="field-even"><p>Returns a tuple containing the gradient and the figure of merit</p>
+</dd>
+</dl>
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimalalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.run">

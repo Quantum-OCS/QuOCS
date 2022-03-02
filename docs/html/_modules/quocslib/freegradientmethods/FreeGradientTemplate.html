@@ -123,13 +123,17 @@
 <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">"raise"</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.freegradientmethods.DirectSearchMethod</span> <span class="kn">import</span> <span class="n">DirectSearchMethod</span>
-<span class="kn">from</span> <span class="nn">quocslib.stoppingcriteria.NelderMeadStoppingCriteria</span> <span class="kn">import</span> <span class="n">NelderMeadStoppingCriteria</span>
+<span class="kn">from</span> <span class="nn">quocslib.stoppingcriteria.NelderMeadStoppingCriteria</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NelderMeadStoppingCriteria</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="FreeGradientTemplate"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate">[docs]</a><span class="k">class</span> <span class="nc">FreeGradientTemplate</span><span class="p">(</span><span class="n">DirectSearchMethod</span><span class="p">):</span>
     <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        :param dict settings:</span>
 <span class="sd">        :param dict stopping_criteria:</span>
@@ -144,7 +148,9 @@
         <span class="c1"># Stopping criteria object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">NelderMeadStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FreeGradientTemplate.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_iterations_number</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="FreeGradientTemplate.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.FreeGradientTemplate.FreeGradientTemplate.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_iterations_number</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param callable func: Function tbe called at every function evaluation</span>
@@ -168,13 +174,18 @@
         <span class="c1"># Other operations ...</span>
 
         <span class="c1"># Initialize the function evaluation</span>
-        
+
         <span class="c1"># Landscape dimension</span>
         <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
         <span class="c1"># Hyper-parameters for adaptive and not adaptive NM</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span><span class="p">:</span>
             <span class="n">f_dim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
-            <span class="p">[</span><span class="n">rho</span><span class="p">,</span> <span class="n">chi</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">sigma</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">f_dim</span><span class="p">,</span> <span class="mf">0.75</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">f_dim</span><span class="p">),</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">f_dim</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">rho</span><span class="p">,</span> <span class="n">chi</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">sigma</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="mi">1</span><span class="p">,</span>
+                <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">f_dim</span><span class="p">,</span>
+                <span class="mf">0.75</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">f_dim</span><span class="p">),</span>
+                <span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">f_dim</span><span class="p">,</span>
+            <span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="p">[</span><span class="n">rho</span><span class="p">,</span> <span class="n">chi</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">sigma</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
         <span class="c1"># Start simplex initialization</span>
@@ -269,8 +280,13 @@
         <span class="c1"># Optimal parameters and value</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">fval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
-        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'F_min_val'</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span> <span class="s1">'X_opti_vec'</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">'NitUsed'</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
-                         <span class="s1">'NfunevalsUsed'</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"terminate_reason"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">}</span>
+        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"F_min_val"</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span>
+            <span class="s2">"X_opti_vec"</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+            <span class="s2">"NitUsed"</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
+            <span class="s2">"NfunevalsUsed"</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"terminate_reason"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
+        <span class="p">}</span>
         <span class="k">return</span> <span class="n">result_custom</span></div></div>
 </code></pre></div>
 </div>

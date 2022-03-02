@@ -152,13 +152,14 @@
         <span class="c1"># each of the previous vectors.</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
             <span class="n">u_k</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span>
-            <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u_k</span><span class="p">,</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">u_k</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_k</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+            <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u_k</span><span class="p">,</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="n">u_k</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">u_k</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
         <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">A</span></div>
 
 
-<div class="viewcode-block" id="simplex_creation"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.linearalgebra.simplex_creation">[docs]</a><span class="k">def</span> <span class="nf">simplex_creation</span><span class="p">(</span><span class="n">mean_value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">sigma_variation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
-                     <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<div class="viewcode-block" id="simplex_creation"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.linearalgebra.simplex_creation">[docs]</a><span class="k">def</span> <span class="nf">simplex_creation</span><span class="p">(</span>
+    <span class="n">mean_value</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">sigma_variation</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Creation of the simplex</span>
 
@@ -178,12 +179,16 @@
         <span class="n">random_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">ctrl_par_number</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">random_array</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">get_random_numbers</span><span class="p">(</span><span class="n">ctrl_par_number</span><span class="p">)</span>
-    <span class="n">random_array</span> <span class="o">=</span> <span class="n">random_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ctrl_par_number</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">random_array</span> <span class="o">=</span> <span class="n">random_array</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+        <span class="n">ctrl_par_number</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">simplex_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">random_array</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="c1"># Orthogonalize set of vectors with gram_schmidt, and rescale with the normalization length</span>
     <span class="n">simplex_matrix_orthonormal</span> <span class="o">=</span> <span class="n">gram_schmidt</span><span class="p">(</span><span class="n">simplex_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
     <span class="c1"># Rescale the vector with the sigma variation</span>
-    <span class="n">simplex_matrix_orthogonal_rescaled</span> <span class="o">=</span> <span class="n">simplex_matrix_orthonormal</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">sigma_variation</span><span class="p">)</span>
+    <span class="n">simplex_matrix_orthogonal_rescaled</span> <span class="o">=</span> <span class="n">simplex_matrix_orthonormal</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+        <span class="n">sigma_variation</span>
+    <span class="p">)</span>
     <span class="c1"># Add the first row containing only zeros</span>
     <span class="n">x_t_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0_scale</span><span class="p">,</span> <span class="n">simplex_matrix_orthogonal_rescaled</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="c1"># Offset matrix</span>
@@ -193,21 +198,34 @@
     <span class="k">return</span> <span class="n">StartSimplex</span></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="c1"># TODO Move this main script to a test script</span>
     <span class="n">Nc</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">ampl_var_1</span> <span class="o">=</span> <span class="mf">2.0</span>
     <span class="n">ampl_var_2</span> <span class="o">=</span> <span class="mf">0.7</span>
-    <span class="n">f_norm</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">p_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">ampl_var_1</span><span class="o">*</span><span class="n">f_norm</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,)</span>
-    <span class="n">p_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">ampl_var_2</span> <span class="o">*</span> <span class="n">f_norm</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">f_norm</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">p_1</span> <span class="o">=</span> <span class="p">(</span><span class="n">ampl_var_1</span> <span class="o">*</span> <span class="n">f_norm</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">p_2</span> <span class="o">=</span> <span class="p">(</span><span class="n">ampl_var_2</span> <span class="o">*</span> <span class="n">f_norm</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">sc_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_1</span><span class="p">,</span> <span class="n">p_2</span><span class="p">)</span>
 
     <span class="n">x0_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">Nc</span><span class="p">))</span>
     <span class="c1"># Simplex matrix ( without first row )</span>
     <span class="n">simplex_m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">sc_vec</span><span class="p">)</span>
     <span class="c1"># Add random number</span>
-    <span class="n">simplex_m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">sc_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">Nc</span><span class="p">,</span> <span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">simplex_m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="n">sc_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span>
+        <span class="o">*</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
+                <span class="n">Nc</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="o">-</span> <span class="mf">0.5</span>
+        <span class="p">)</span>
+        <span class="o">*</span> <span class="mi">2</span>
+    <span class="p">)</span>
 
     <span class="n">simplex_m_r</span> <span class="o">=</span> <span class="n">gram_schmidt</span><span class="p">(</span><span class="n">simplex_m</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">sc_vec</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
     <span class="c1"># Rescale accordingly to amplitude variation</span>
@@ -232,8 +250,6 @@
 <span class="sd">    Take an input rho vector and flatten it into a column</span>
 <span class="sd">    """</span>
     <span class="k">return</span> <span class="n">rho</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span></div>
-
-
 </code></pre></div>
 </div>
 <div class="page-nav">
