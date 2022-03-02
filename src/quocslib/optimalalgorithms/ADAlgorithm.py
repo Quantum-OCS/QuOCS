@@ -69,6 +69,7 @@ class ADAlgorithm(Optimizer):
         self.dt = optimization_dict["dt"]
         self.sys_type = optimization_dict["sys_type"]
         self.dim = jnp.size(self.A, 1)
+        self.u0 = optimization_dict["u0"]
 
         self.optimized_pulses = None
         self.opt_res = None
