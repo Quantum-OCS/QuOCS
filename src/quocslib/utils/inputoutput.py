@@ -18,6 +18,7 @@ import json
 import numpy as np
 import inspect
 
+
 def readjson(filename: str) -> [int, dict]:
     """
     Read a json file given its filename
@@ -27,7 +28,7 @@ def readjson(filename: str) -> [int, dict]:
     err_stat = 0
     user_data = None
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             user_data = json.load(file)
     except Exception as ex:
         err_stat = 1
@@ -37,6 +38,7 @@ def readjson(filename: str) -> [int, dict]:
 
 class ObjectEncoder(json.JSONEncoder):
     """Convert numpy array to list"""
+
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
@@ -48,10 +50,10 @@ class ObjectEncoder(json.JSONEncoder):
 
 
 def writejsonfile(json_file: str, kwargs_bib: dict) -> int:
-    """ A wrapper to the json dump file with error code as return"""
+    """A wrapper to the json dump file with error code as return"""
     err_stat = 0
     try:
-        with open(json_file, 'w') as fp:
+        with open(json_file, "w") as fp:
             json.dump(kwargs_bib, fp, indent=4, cls=ObjectEncoder)
     except Exception as ex:
         print("It is not possible to write the json file")

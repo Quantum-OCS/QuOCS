@@ -29,8 +29,16 @@ class TimeParameter(BaseParameter):
     alpha_variation = (amplitude_variation)/(t_max - t_min)
     """
 
-    def __init__(self, map_index=-1, time_name="time", initial_value=1.0, is_optimization=False, lower_limit=0.0,
-                 upper_limit=1.0, amplitude_variation=0.1):
+    def __init__(
+        self,
+        map_index=-1,
+        time_name="time",
+        initial_value=1.0,
+        is_optimization=False,
+        lower_limit=0.0,
+        upper_limit=1.0,
+        amplitude_variation=0.1,
+    ):
         """
 
         :param map_index:
@@ -51,22 +59,28 @@ class TimeParameter(BaseParameter):
         if self.is_optimization:
             # Define the optimization coefficient alpha to be used in the optimization. Check the info for details
             max_variation = upper_limit - lower_limit
-            alpha_max = (upper_limit - initial_value)/max_variation
-            alpha_min = (lower_limit - initial_value)/max_variation
+            alpha_max = (upper_limit - initial_value) / max_variation
+            alpha_min = (lower_limit - initial_value) / max_variation
             alpha_in = 0.0
-            alpha_variation = amplitude_variation/max_variation
+            alpha_variation = amplitude_variation / max_variation
             parameter_name = "alpha_" + time_name
-            super().__init__(map_index=map_index, parameter_name=parameter_name, initial_value=alpha_in,
-                             lower_limit=alpha_min, upper_limit=alpha_max, amplitude_variation=alpha_variation)
+            super().__init__(
+                map_index=map_index,
+                parameter_name=parameter_name,
+                initial_value=alpha_in,
+                lower_limit=alpha_min,
+                upper_limit=alpha_max,
+                amplitude_variation=alpha_variation,
+            )
         # else:
-            # Otherwise just call the parent constructor
+        # Otherwise just call the parent constructor
         #    super().__init__(parameter_name=time_name, initial_value=initial_value)
 
     def get_time(self) -> float:
-        """ Return the time. In case of time optimization, use the alpha parameter to get the optimized time """
+        """Return the time. In case of time optimization, use the alpha parameter to get the optimized time"""
         if self.is_optimization:
             # value is the optimized parameter
-            time = self.time + self.value*self.time_variation
+            time = self.time + self.value * self.time_variation
         else:
             time = self.time
         return time

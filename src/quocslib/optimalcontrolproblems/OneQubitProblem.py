@@ -25,8 +25,15 @@ class OneQubit(AbstractFom):
         if args_dict is None:
             args_dict = {}
 
-        self.psi_target = np.asarray(eval(args_dict.setdefault("target_state", "[1.0/np.sqrt(2), -1j/np.sqrt(2)]")), dtype="complex")
-        self.psi_0 = np.asarray(eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex")
+        self.psi_target = np.asarray(
+            eval(
+                args_dict.setdefault("target_state", "[1.0/np.sqrt(2), -1j/np.sqrt(2)]")
+            ),
+            dtype="complex",
+        )
+        self.psi_0 = np.asarray(
+            eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex"
+        )
         self.delta1 = args_dict.setdefault("delta1", 0.1)
         self.delta2 = args_dict.setdefault("delta2", 0.1)
         # Noise in the figure of merit
@@ -34,7 +41,9 @@ class OneQubit(AbstractFom):
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
         self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
-    def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
+    def get_FoM(
+        self, pulses: list = [], parameters: list = [], timegrids: list = []
+    ) -> dict:
         f = np.asarray(pulses[0])
         timegrid = np.asarray(timegrids[0])
         dt = timegrid[1] - timegrid[0]
@@ -43,9 +52,23 @@ class OneQubit(AbstractFom):
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
         std = 1e-4
         if self.is_noisy:
-            noise = self.noise_factor * 2 * (0.5 - np.random.rand(1, )[0])
+            noise = (
+                self.noise_factor
+                * 2
+                * (
+                    0.5
+                    - np.random.rand(
+                        1,
+                    )[0]
+                )
+            )
             infidelity += noise
-            std = self.std_factor * np.random.rand(1, )[0]
+            std = (
+                self.std_factor
+                * np.random.rand(
+                    1,
+                )[0]
+            )
 
         return {"FoM": np.abs(infidelity), "std": std}
 
@@ -60,4 +83,4 @@ class OneQubit(AbstractFom):
 
     @staticmethod
     def _get_fidelity(psi1, psi2):
-        return np.abs(np.dot(psi1.conj().T, psi2))**2/(norm(psi1)*norm(psi2))
+        return np.abs(np.dot(psi1.conj().T, psi2)) ** 2 / (norm(psi1) * norm(psi2))

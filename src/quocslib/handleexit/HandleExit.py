@@ -18,6 +18,5 @@ from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 
 class HandleExit(AbstractHandleExit):
-
     def __init__(self):
         self.is_user_running = True

@@ -23,4 +23,4 @@ class AbstractFom(metaclass=ABCMeta):
     @abstractmethod
     def get_FoM(self, pulses_list, time_grids_list, parameters_list) -> dict:
         """Abstract method for figure of merit evaluation. It returns a dictionary with
-         the FoM key inside """
+        the FoM key inside"""

@@ -21,9 +21,9 @@ import sys
 
 def create_logger(results_path, is_debug=False):
     """Logger creation for console, log file, and debug log file"""
-    log_format = '%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s'
-    date_format = '%m/%d/%Y %I:%M:%S'
-    print_format = '%(levelname)-8s %(name)-12s %(message)s'
+    log_format = "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s"
+    date_format = "%m/%d/%Y %I:%M:%S"
+    print_format = "%(levelname)-8s %(name)-12s %(message)s"
     log_filename = os.path.join(results_path, "logging.log")
     log_debug_filename = os.path.join(results_path, "logging_debug.log")
 

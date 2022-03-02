@@ -22,7 +22,7 @@ def hamiltonian_d1_d2(ft, delta1=0.0, delta2=0.0):
     sigma_x = _get_sigma_x()
     sigma_z = _get_sigma_z()
 
-    ham_t = delta1*sigma_z/2 + (ft + delta2)*sigma_x/2
+    ham_t = delta1 * sigma_z / 2 + (ft + delta2) * sigma_x / 2
     return ham_t
 
 
@@ -31,7 +31,9 @@ def hamiltonian_d1_d2_2fields(amplitude_t, phase_t, delta1=0.0, delta2=0.0):
     sigma_y = _get_sigma_y()
     sigma_z = _get_sigma_z()
     # The controls
-    ham_t = delta1*sigma_z/2 + amplitude_t*(1 + delta2)*(np.cos(phase_t) * sigma_x + np.sin(phase_t) * sigma_y)
+    ham_t = delta1 * sigma_z / 2 + amplitude_t * (1 + delta2) * (
+        np.cos(phase_t) * sigma_x + np.sin(phase_t) * sigma_y
+    )
     return ham_t
 
 

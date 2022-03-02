@@ -27,7 +27,11 @@ class Optimizer:
     iteration_number: int
     fom_dict: dict
 
-    def __init__(self, communication_obj: AllInOneCommunication = None, optimization_dict: dict = None):
+    def __init__(
+        self,
+        communication_obj: AllInOneCommunication = None,
+        optimization_dict: dict = None,
+    ):
         """
         The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
@@ -46,7 +50,7 @@ class Optimizer:
         self.rng = None
 
     def begin(self) -> None:
-        """ Initialize the communication with the client"""
+        """Initialize the communication with the client"""
         # Open the log with the QuOCS version number
         self.comm_obj.print_logger("QuOCS version number: {0}".format(QUOCSLIB_VERSION))
         # Send starting message to the interface
@@ -58,7 +62,9 @@ class Optimizer:
         # Notify it to the client
         self.comm_obj.update_init_msg_server(upd_name=self.comm_obj.client_job_name)
 
-    def _routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
+    def _routine_call(
+        self, optimized_control_parameters: np.array, iterations: int
+    ) -> float:
         """
         General routine for any control algorithm. It has to be given as the argument of the inner free gradient control
         methods
@@ -102,32 +108,34 @@ class Optimizer:
 
     @abstractmethod
     def run(self) -> None:
-        """ Run the optimization algorithm """
+        """Run the optimization algorithm"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod
     def _get_response_for_client(self) -> dict:
-        """ Return a dictionary with useful info for the client interface. At least the dictionary
-        has to provide "is_record": bool and "FoM": float """
+        """Return a dictionary with useful info for the client interface. At least the dictionary
+        has to provide "is_record": bool and "FoM": float"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod
-    def _get_controls(self, optimized_control_parameters: np.array) -> [list, list, list]:
-        """ Given the optimized control parameters, the control object in the optimal algorithm builds the
-         pulses, time grids, and parameters"""
+    def _get_controls(
+        self, optimized_control_parameters: np.array
+    ) -> [list, list, list]:
+        """Given the optimized control parameters, the control object in the optimal algorithm builds the
+        pulses, time grids, and parameters"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod
     def _get_final_results(self) -> dict:
-        """ The optimal algorithm gives back a dictionary with useful results"""
+        """The optimal algorithm gives back a dictionary with useful results"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     def is_optimization_running(self) -> bool:
-        """ Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode """
+        """Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode"""
         return self.comm_obj.get_user_running()
 
     def end(self) -> None:
-        """ Finalize the transmission with  the client """
+        """Finalize the transmission with  the client"""
         # Check client update
         self.comm_obj.check_msg_client()
         # End communication

@@ -18,14 +18,10 @@ import numpy as np
 
 
 class StoppingCriteria:
-    """
-
-    """
+    """ """
 
     def __init__(self):
-        """
-
-        """
+        """ """
         pass
 
     @abstractmethod

@@ -19,6 +19,7 @@ import numpy as np
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.pulses.BasePulse import BasePulse
 
+
 class PiecewiseBasis(BasePulse):
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
@@ -42,20 +43,22 @@ class PiecewiseBasis(BasePulse):
         #################
         # Basis dependent settings
         #################
-    def setdefault(a,b,c):
-        class Skipper():
+
+    def setdefault(a, b, c):
+        class Skipper:
             def __init__(self):
-                self.last_index=0
-        return lambda x, y : Skipper()
+                self.last_index = 0
+
+        return lambda x, y: Skipper()
 
     # TODO check if this function is really called by GRAPE
     def _get_shaped_pulse(self) -> np.array:
-        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """
+        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
         #################
         # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
         # distribution of super parameters, etc ...
         ################
         pulse = self.pulse_amplitudes
         # in the case of a piecewise basis the pulse is defined by the amplitudes
-        
+
         return pulse

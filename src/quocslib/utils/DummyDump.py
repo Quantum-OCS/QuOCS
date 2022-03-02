@@ -18,10 +18,11 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class DummyDump(AbstractDump):
-
     def __init__(self, results_path: str = ".", **kwargs):
         pass
 
-    def dump_controls(self, pulses: list = [], timegrids: list = [], parameters: list = [], **kwargs) -> None:
-        """ Do Nothing """
+    def dump_controls(
+        self, pulses: list = [], timegrids: list = [], parameters: list = [], **kwargs
+    ) -> None:
+        """Do Nothing"""
         pass

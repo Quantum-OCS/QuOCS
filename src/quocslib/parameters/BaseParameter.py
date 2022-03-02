@@ -21,8 +21,16 @@ class BaseParameter:
     Parameter Class where every parameter to be optimized is defined. It is used as a parent class of the Time class in
     order to optimize the time of the pulse whenever the user specified it in the configuration class.
     """
-    def __init__(self, map_index=-1, parameter_name="parameter", initial_value=1.0, lower_limit=0.1, upper_limit=1.1,
-                 amplitude_variation=0.1):
+
+    def __init__(
+        self,
+        map_index=-1,
+        parameter_name="parameter",
+        initial_value=1.0,
+        lower_limit=0.1,
+        upper_limit=1.1,
+        amplitude_variation=0.1,
+    ):
         """
         @param str parameter_name: Name of the parameter
         @param float initial_value: Initial value for the parameter to be used in the optimization
@@ -43,13 +51,17 @@ class BaseParameter:
         # The parameters control number is ever equal to 1
         self.control_parameters_number = 1
         # Create the control parameters list to get the optimized parameter from the optimized vector
-        self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
+        self.control_parameters_list = [
+            map_index + i + 1 for i in range(self.control_parameters_number)
+        ]
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
 
     def set_control_parameters_list(self, map_index):
-        """ Set the control parameters list. It is used when the """
-        self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
+        """Set the control parameters list. It is used when the"""
+        self.control_parameters_list = [
+            map_index + i + 1 for i in range(self.control_parameters_number)
+        ]
 
     def set_parameter(self, optimized_parameter_vector):
         """

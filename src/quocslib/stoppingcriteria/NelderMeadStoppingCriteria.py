@@ -38,10 +38,12 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
         self.is_converged = False
 
-    def check_stopping_criteria(self,
-                                sim: np.array = None,
-                                fsim: np.array = None,
-                                function_evaluations: int = None) -> None:
+    def check_stopping_criteria(
+        self,
+        sim: np.array = None,
+        fsim: np.array = None,
+        function_evaluations: int = None,
+    ) -> None:
         """
 
         :param sim:

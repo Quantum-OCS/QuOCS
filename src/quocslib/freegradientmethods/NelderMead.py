@@ -18,13 +18,17 @@ import numpy as np
 np.seterr(all="raise")
 
 from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
-from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import NelderMeadStoppingCriteria
+from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
+    NelderMeadStoppingCriteria,
+)
 
 
 class NelderMead(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
+    def __init__(
+        self, settings: dict, stopping_criteria: dict, callback: callable = None
+    ):
         """
         :param dict settings:
         :param dict stopping_criteria:
@@ -39,7 +43,15 @@ class NelderMead(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None, **kwargs) -> dict:
+    def run_dsm(
+        self,
+        func,
+        x0,
+        args=(),
+        initial_simplex=None,
+        max_iterations_number=None,
+        **kwargs
+    ) -> dict:
         """
 
         :param callable func: Function to be called at every function evaluation
@@ -63,7 +75,12 @@ class NelderMead(DirectSearchMethod):
         # Hyper-parameters for adaptive and not adaptive NM
         if self.is_adaptive:
             f_dim = float(dim)
-            [rho, chi, psi, sigma] = [1, 1 + 2 / f_dim, 0.75 - 1 / (2 * f_dim), 1 - 1 / f_dim]
+            [rho, chi, psi, sigma] = [
+                1,
+                1 + 2 / f_dim,
+                0.75 - 1 / (2 * f_dim),
+                1 - 1 / f_dim,
+            ]
         else:
             [rho, chi, psi, sigma] = [1, 2, 0.5, 0.5]
         # Start simplex initialization
@@ -158,6 +175,11 @@ class NelderMead(DirectSearchMethod):
         # Optimal parameters and value
         x = sim[0]
         fval = np.min(fsim)
-        result_custom = {'F_min_val': fval, 'X_opti_vec': x, 'NitUsed': iterations,
-                         'NfunevalsUsed': calls_number[0], "terminate_reason": self.sc_obj.terminate_reason}
+        result_custom = {
+            "F_min_val": fval,
+            "X_opti_vec": x,
+            "NitUsed": iterations,
+            "NfunevalsUsed": calls_number[0],
+            "terminate_reason": self.sc_obj.terminate_reason,
+        }
         return result_custom
