@@ -18,6 +18,7 @@ from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2
 import numpy as np
 from scipy.linalg import expm, norm
 from quocslib.utils.AbstractFom import AbstractFom
+import os
 
 
 class OneQubit(AbstractFom):
@@ -25,15 +26,9 @@ class OneQubit(AbstractFom):
         if args_dict is None:
             args_dict = {}
 
-        self.psi_target = np.asarray(
-            eval(
-                args_dict.setdefault("target_state", "[1.0/np.sqrt(2), -1j/np.sqrt(2)]")
-            ),
-            dtype="complex",
-        )
-        self.psi_0 = np.asarray(
-            eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex"
-        )
+        self.psi_target = np.asarray(eval(args_dict.setdefault("target_state", "[1.0/np.sqrt(2), -1j/np.sqrt(2)]")),
+                                     dtype="complex")
+        self.psi_0 = np.asarray(eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex")
         self.delta1 = args_dict.setdefault("delta1", 0.1)
         self.delta2 = args_dict.setdefault("delta2", 0.1)
         # Noise in the figure of merit
@@ -41,9 +36,21 @@ class OneQubit(AbstractFom):
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
         self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
-    def get_FoM(
-        self, pulses: list = [], parameters: list = [], timegrids: list = []
-    ) -> dict:
+        self.fom_list = []
+        self.save_path = ""
+        self.fom_save_name = "fom.txt"
+
+    # def __del__(self):
+    #     np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
+
+    def save_fom(self):
+        np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
+
+
+    def set_save_path(self, save_path: str = ""):
+        self.save_path = save_path
+
+    def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         f = np.asarray(pulses[0])
         timegrid = np.asarray(timegrids[0])
         dt = timegrid[1] - timegrid[0]
@@ -52,23 +59,11 @@ class OneQubit(AbstractFom):
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
         std = 1e-4
         if self.is_noisy:
-            noise = (
-                self.noise_factor
-                * 2
-                * (
-                    0.5
-                    - np.random.rand(
-                        1,
-                    )[0]
-                )
-            )
+            noise = (self.noise_factor * 2 * (0.5 - np.random.rand(1)[0]))
             infidelity += noise
-            std = (
-                self.std_factor
-                * np.random.rand(
-                    1,
-                )[0]
-            )
+            std = (self.std_factor * np.random.rand(1)[0])
+
+        self.fom_list.append(np.abs(infidelity))
 
         return {"FoM": np.abs(infidelity), "std": std}
 
