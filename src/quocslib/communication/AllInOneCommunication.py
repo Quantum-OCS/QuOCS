@@ -28,14 +28,12 @@ from quocslib import __VERSION__ as quocslib_version
 
 
 class AllInOneCommunication:
-    def __init__(
-        self,
-        interface_job_name: str = "OptimizationTest",
-        fom_obj: AbstractFom = None,
-        handle_exit_obj: AbstractHandleExit = None,
-        dump_attribute: callable = DummyDump,
-        comm_signals_list: [list, list, list] = None,
-    ):
+    def __init__(self,
+                 interface_job_name: str = "OptimizationTest",
+                 fom_obj: AbstractFom = None,
+                 handle_exit_obj: AbstractHandleExit = None,
+                 dump_attribute: callable = DummyDump,
+                 comm_signals_list: [list, list, list] = None):
 
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
@@ -51,17 +49,9 @@ class AllInOneCommunication:
         """
         # Communication signals
         if comm_signals_list is None:
-            self.message_signal, self.fom_plot_signal, self.controls_update_signal = (
-                None,
-                None,
-                None,
-            )
+            self.message_signal, self.fom_plot_signal, self.controls_update_signal = (None, None,  None)
         else:
-            (
-                self.message_signal,
-                self.fom_plot_signal,
-                self.controls_update_signal,
-            ) = comm_signals_list
+            (self.message_signal, self.fom_plot_signal, self.controls_update_signal) = comm_signals_list
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
@@ -73,17 +63,13 @@ class AllInOneCommunication:
         ###
         # Optimization folder
         optimization_folder = "QuOCS_Results"
-        self.results_path = os.path.join(
-            os.getcwd(), optimization_folder, self.client_job_name
-        )
+        self.results_path = os.path.join(os.getcwd(), optimization_folder, self.client_job_name)
         if not os.path.isdir(os.path.join(os.getcwd(), optimization_folder)):
             os.makedirs(os.path.join(os.getcwd(), optimization_folder))
         # Create the folder for logging and results
         os.makedirs(self.results_path)
         # Write the current quocs lib version in the file
-        with open(
-            os.path.join(self.results_path, "quocs_version.txt"), "w"
-        ) as version_file:
+        with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
         self.logger = create_logger(self.results_path)
@@ -117,10 +103,8 @@ class AllInOneCommunication:
 
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
         """Print optimization dictionary into a file"""
-        writejsonfile(
-            os.path.join(self.results_path, "optimization_dictionary.json"),
-            optimization_dictionary,
-        )
+        writejsonfile(os.path.join(self.results_path, "optimization_dictionary.json"),
+                      optimization_dictionary)
 
     def get_user_running(self) -> bool:
         """Check if the user stopped the optimization"""
@@ -136,11 +120,9 @@ class AllInOneCommunication:
         """
         self.controls_dict = controls_dict
         if self.controls_update_signal is not None:
-            self.controls_update_signal.emit(
-                controls_dict["pulses"],
-                controls_dict["timegrids"],
-                controls_dict["parameters"],
-            )
+            self.controls_update_signal.emit(controls_dict["pulses"],
+                                             controls_dict["timegrids"],
+                                             controls_dict["parameters"])
 
     def get_data(self) -> dict:
         """
@@ -164,17 +146,13 @@ class AllInOneCommunication:
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
-        iteration_number, fom = (
-            response_for_client["iteration_number"],
-            response_for_client["FoM"],
-        )
+        iteration_number, fom = (response_for_client["iteration_number"],
+                                 response_for_client["FoM"])
         status_code = response_for_client.setdefault("status_code", 0)
         # Check for interrupting signals
         if status_code != 0:
-            self.logger.info(
-                "The optimization was interrupted with status code: {0}"
-                " at iteration {1}".format(status_code, iteration_number)
-            )
+            self.logger.info("The optimization was interrupted with status code: {0}"
+                             " at iteration {1}".format(status_code, iteration_number))
             # Set the user running to False in order to not continue with the next iteration
             self.he_obj.is_user_running = False
             return
@@ -186,11 +164,7 @@ class AllInOneCommunication:
     def _print_general_log(self, iteration_number: int, fom: float):
         """Print the general log at each function evaluation"""
         if self.print_general_log:
-            self.logger.info(
-                "Function evaluation number: {0}, FoM: {1}".format(
-                    iteration_number, fom
-                )
-            )
+            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, fom))
 
     def update_controls(self, **response_for_client) -> None:
         """External call to update the controls"""

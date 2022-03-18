@@ -28,13 +28,7 @@ class Controls:
     All these quantities are defined in this class and can be accessed by calling the modules here.
     """
 
-    def __init__(
-        self,
-        pulses_list,
-        times_list,
-        parameters_list,
-        rng: RandomNumberGenerator = None,
-    ):
+    def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None):
         """
         Constructor of the general class containing all the controls used during the optimization
 
@@ -55,11 +49,9 @@ class Controls:
         for pulse in pulses_list:
             # Basis attribute inside the dictionary or module and class relative import
             basis = pulse["basis"]
-            basis_attribute = dynamic_import(
-                attribute=basis.setdefault("basis_attribute", None),
-                module_name=basis.setdefault("basis_module", None),
-                class_name=basis.setdefault("basis_class", None),
-            )
+            basis_attribute = dynamic_import(attribute=basis.setdefault("basis_attribute", None),
+                                             module_name=basis.setdefault("basis_module", None),
+                                             class_name=basis.setdefault("basis_class", None))
             # Create the pulse obj
             self.pulse_objs_list.append(basis_attribute(map_index, pulse, rng=rng))
             # Update the map index for the next control
@@ -149,26 +141,18 @@ class Controls:
 
         :return np.array
         """
-        sigma_variation_coefficients = np.zeros(
-            self.get_control_parameters_number(), dtype="float"
-        )
+        sigma_variation_coefficients = np.zeros(self.get_control_parameters_number(), dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
-            sigma_variation_coefficients[
-                pulse.control_parameters_list
-            ] = pulse.scale_coefficients
+            sigma_variation_coefficients[pulse.control_parameters_list] = pulse.scale_coefficients
         # Parameters
         for parameter in self.parameter_objs_list:
-            sigma_variation_coefficients[
-                parameter.control_parameters_list
-            ] = parameter.amplitude_variation
+            sigma_variation_coefficients[parameter.control_parameters_list] = parameter.amplitude_variation
         # Times
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]
             if time.is_optimization:
-                sigma_variation_coefficients[
-                    time.control_parameters_list
-                ] = time.amplitude_variation
+                sigma_variation_coefficients[time.control_parameters_list] = time.amplitude_variation
         return sigma_variation_coefficients
 
     def get_mean_value(self) -> np.array:
@@ -176,14 +160,10 @@ class Controls:
 
         :return np.array:
         """
-        mean_value_coefficients = np.zeros(
-            self.get_control_parameters_number(), dtype="float"
-        )
+        mean_value_coefficients = np.zeros(self.get_control_parameters_number(), dtype="float")
         # Pulses
         for pulse in self.pulse_objs_list:
-            mean_value_coefficients[
-                pulse.control_parameters_list
-            ] = pulse.offset_coefficients
+            mean_value_coefficients[pulse.control_parameters_list] = pulse.offset_coefficients
         # Parameters
         for parameter in self.parameter_objs_list:
             mean_value_coefficients[parameter.control_parameters_list] = parameter.value
@@ -197,25 +177,17 @@ class Controls:
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]
             if time.is_optimization:
-                time.set_parameter(
-                    optimized_parameters_vector[time.control_parameters_list]
-                )
+                time.set_parameter(optimized_parameters_vector[time.control_parameters_list])
         # Set the pulses
         for pulse in self.pulse_objs_list:
             time_name = pulse.time_name
-            pulse.set_base_pulse(
-                optimized_parameters_vector[pulse.control_parameters_list],
-                final_time=self.times_obj_dictionary[time_name].get_time(),
-            )
+            pulse.set_base_pulse(optimized_parameters_vector[pulse.control_parameters_list],
+                                 final_time=self.times_obj_dictionary[time_name].get_time())
         # Set the parameters
         for parameter in self.parameter_objs_list:
-            parameter.set_parameter(
-                optimized_parameters_vector[parameter.control_parameters_list]
-            )
+            parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
-    def get_controls_lists(
-        self, optimized_parameters_vector: np.array
-    ) -> [list, list, list]:
+    def get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
         """
         Set the optimized control parameters and get the controls
 
@@ -229,25 +201,16 @@ class Controls:
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]
             if time.is_optimization:
-                time.set_parameter(
-                    optimized_parameters_vector[time.control_parameters_list]
-                )
+                time.set_parameter(optimized_parameters_vector[time.control_parameters_list])
         # Get the pulses and the timegrids
         for pulse in self.pulse_objs_list:
             time_name = pulse.time_name
-            pulses_list.append(
-                pulse.get_pulse(
-                    optimized_parameters_vector[pulse.control_parameters_list],
-                    final_time=self.times_obj_dictionary[time_name].get_time(),
-                )
-            )
+            pulses_list.append(pulse.get_pulse(optimized_parameters_vector[pulse.control_parameters_list],
+                                                final_time=self.times_obj_dictionary[time_name].get_time()))
             time_grids_list.append(pulse.time_grid)
         # Get the parameters
         for parameter in self.parameter_objs_list:
             parameters_list.append(
-                parameter.get_parameter(
-                    optimized_parameters_vector[parameter.control_parameters_list]
-                )
-            )
+                parameter.get_parameter(optimized_parameters_vector[parameter.control_parameters_list]))
 
         return pulses_list, time_grids_list, parameters_list

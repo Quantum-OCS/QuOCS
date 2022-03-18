@@ -27,11 +27,9 @@ class Optimizer:
     iteration_number: int
     fom_dict: dict
 
-    def __init__(
-        self,
-        communication_obj: AllInOneCommunication = None,
-        optimization_dict: dict = None,
-    ):
+    def __init__(self,
+                 communication_obj: AllInOneCommunication = None,
+                 optimization_dict: dict = None):
         """
         The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
@@ -62,9 +60,7 @@ class Optimizer:
         # Notify it to the client
         self.comm_obj.update_init_msg_server(upd_name=self.comm_obj.client_job_name)
 
-    def _routine_call(
-        self, optimized_control_parameters: np.array, iterations: int
-    ) -> float:
+    def _routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
         """
         General routine for any control algorithm. It has to be given as the argument of the inner free gradient control
         methods
@@ -118,9 +114,7 @@ class Optimizer:
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     @abstractmethod
-    def _get_controls(
-        self, optimized_control_parameters: np.array
-    ) -> [list, list, list]:
+    def _get_controls(self, optimized_control_parameters: np.array) -> [list, list, list]:
         """Given the optimized control parameters, the control object in the optimal algorithm builds the
         pulses, time grids, and parameters"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")

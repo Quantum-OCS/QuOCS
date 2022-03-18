@@ -1,0 +1,37 @@
+{
+    "optimization_client_name": "Pure_Parameter_Opt_with_Rosenbrock_NM",
+    "opti_algorithm_module": "quocslib.optimalalgorithms.DirectSearchAlgorithm",
+    "opti_algorithm_class": "DirectSearchAlgorithm",
+    "algorithm_settings": {
+        "super_iteration_number": 1,
+        "maximum_function_evaluations_number": 100
+    },
+    "dsm_settings": {
+        "general_settings": {
+            "dsm_algorithm_module": "quocslib.freegradientmethods.NelderMead",
+            "dsm_algorithm_class": "NelderMead"
+        },
+        "stopping_criteria": {
+            "xatol": 1e-14,
+            "frtol": 1e-4
+        }
+    },
+    "pulses": [],
+    "times": [],
+    "parameters": [
+        {
+            "parameter_name": "Parameter1",
+            "lower_limit": -2.0,
+            "upper_limit": 2.0,
+            "initial_value": 0.4,
+            "amplitude_variation": 0.5
+        },
+        {
+            "parameter_name": "Parameter2",
+            "lower_limit": -2.0,
+            "upper_limit": 2.0,
+            "initial_value": 0.4,
+            "amplitude_variation": 0.5
+        }
+    ]
+}

@@ -36,6 +36,9 @@ class OneQubit(AbstractFom):
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
         self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
+        # Drifting FoM
+        self.include_drift = args_dict.setdefault("include_drift", True)
+
         self.fom_list = []
         self.save_path = ""
         self.fom_save_name = "fom.txt"
@@ -45,7 +48,6 @@ class OneQubit(AbstractFom):
 
     def save_fom(self):
         np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
-
 
     def set_save_path(self, save_path: str = ""):
         self.save_path = save_path
