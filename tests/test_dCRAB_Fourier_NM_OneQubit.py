@@ -143,7 +143,8 @@ def main(optimization_dictionary: dict, args_dict: dict):
 
 def test_dCRAB_Fourier_NM_OneQubit():
     # get the optimization settings from the json dictionary
-    optimization_dictionary = readjson(os.path.join(os.getcwd(), "dCRAB_Fourier_NM_OneQubit.json"))[1]
+    folder = os.path.dirname(os.path.realpath(__file__))
+    optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit.json"))[1]
     # define some parameters for the optimization
     args_dict = {"initial_state": "[1.0 , 0.0]",
                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
@@ -162,7 +163,8 @@ def test_dCRAB_Fourier_NM_OneQubit():
 
 def test_dCRAB_Fourier_NM_OneQubit_Noisy():
     # get the optimization settings from the json dictionary
-    optimization_dictionary = readjson(os.path.join(os.getcwd(), "dCRAB_Fourier_NM_OneQubit_Noisy.json"))[1]
+    folder = os.path.dirname(os.path.realpath(__file__))
+    optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit_Noisy.json"))[1]
     # define some parameters for the optimization
     args_dict = {"initial_state": "[1.0 , 0.0]",
                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
