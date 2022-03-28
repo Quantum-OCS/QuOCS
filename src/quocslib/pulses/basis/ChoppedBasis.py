@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.pulses.BasePulse import BasePulse
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class ChoppedBasis(BasePulse):
@@ -24,7 +25,7 @@ class ChoppedBasis(BasePulse):
 
     super_parameter_number: int
 
-    def __init__(self, basis: dict = None, **kwargs):
+    def __init__(self, basis: dict = None, rng: RandomNumberGenerator = None, **kwargs):
         """
 
         :param basis:

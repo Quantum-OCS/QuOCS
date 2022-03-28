@@ -18,6 +18,7 @@ import numpy as np
 
 from quocslib.pulses.BasePulse import BasePulse
 from quocslib.pulses.basis.ChoppedBasis import ChoppedBasis
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class Walsh(ChoppedBasis):
@@ -27,7 +28,7 @@ class Walsh(ChoppedBasis):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index: int, pulse_dictionary: dict):
+    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis

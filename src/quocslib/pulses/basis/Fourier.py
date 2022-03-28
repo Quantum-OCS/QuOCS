@@ -26,9 +26,7 @@ class Fourier(ChoppedBasis):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(
-        self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None
-    ):
+    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
