@@ -78,7 +78,6 @@ class GRAPEAlgorithm:
         self.iteration_number = None
 
         pw_basis_dict = {
-            "map_inde": 1,
             "pulse_name": "GRAPE",
             "bins_number": optimization_dict["n_slices"],
             "time_name": "",
@@ -94,8 +93,13 @@ class GRAPEAlgorithm:
                 "lambda_function": "lambda x: x",
             },
         }
+        # This declaration is wrong
+        # pulse_dict = [
+        #     {"basis": PiecewiseBasis(basis={}, **pw_basis_dict)}
+        # ] * self.num_pulses
         pulse_dict = [
-            {"basis": PiecewiseBasis(basis={}, **pw_basis_dict)}
+            {"basis": {"basis_attribute": PiecewiseBasis}, **pw_basis_dict
+             }
         ] * self.num_pulses
         time_dict = [{"time_name": ""}] * self.num_pulses
         param_dict = [{"parameter_name": ""}] * self.num_pulses
@@ -105,6 +109,7 @@ class GRAPEAlgorithm:
             pulse_dict,
             time_dict,
             param_dict,
+            rng=None
         )
 
     def functional(
