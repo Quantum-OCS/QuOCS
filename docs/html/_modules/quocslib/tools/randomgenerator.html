@@ -124,7 +124,6 @@
 
 
 <div class="viewcode-block" id="RandomNumberGenerator"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.randomgenerator.RandomNumberGenerator">[docs]</a><span class="k">class</span> <span class="nc">RandomNumberGenerator</span><span class="p">:</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">numpy_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">__version__</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">""</span>
@@ -138,18 +137,24 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="kn">import</span> <span class="nn">randomgen</span>
                 <span class="kn">from</span> <span class="nn">randomgen</span> <span class="kn">import</span> <span class="n">RandomGenerator</span><span class="p">,</span> <span class="n">MT19937</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">"Import the randomgen library version: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">randomgen</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="s2">"Import the randomgen library version: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">randomgen</span><span class="o">.</span><span class="n">__version__</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">RandomGenerator</span><span class="p">(</span><span class="n">MT19937</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed_number</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">"randomgen"</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">"Please install randomgen using a compatible version of numpy </span><span class="si">{0}</span><span class="s2">"</span>
-                                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">numpy_version</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">"Please install randomgen using a compatible version of numpy </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">numpy_version</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed_number</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s2">"numpy"</span>
 
 <div class="viewcode-block" id="RandomNumberGenerator.get_random_numbers"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.randomgenerator.RandomNumberGenerator.get_random_numbers">[docs]</a>    <span class="k">def</span> <span class="nf">get_random_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">""" Return an array of random numbers """</span>
+        <span class="sd">"""Return an array of random numbers"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>

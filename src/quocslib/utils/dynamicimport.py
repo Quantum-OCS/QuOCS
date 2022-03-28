@@ -17,7 +17,9 @@
 import importlib
 
 
-def dynamic_import(attribute=None, module_name: str = None, class_name: str = None) -> callable:
+def dynamic_import(
+    attribute=None, module_name: str = None, class_name: str = None
+) -> callable:
     """
     Function for dynamic import.
     :param attribute: The attribute of the class you want to use. It is an optional argument.
@@ -33,12 +35,22 @@ def dynamic_import(attribute=None, module_name: str = None, class_name: str = No
     if all(import_conditions):
         try:
             # provide backward - compatibility after renaming
-            module_name = module_name.replace("quocslib.pulses.super_parameter.", "quocslib.pulses.superparameter.")
-            
+            module_name = module_name.replace(
+                "quocslib.pulses.super_parameter.", "quocslib.pulses.superparameter."
+            )
+
             attribute = getattr(importlib.import_module(module_name), class_name)
         except Exception as ex:
-            print("{0}.py module does not exist or {1} is not the class in that module".format(module_name, class_name))
+            print(
+                "{0}.py module does not exist or {1} is not the class in that module".format(
+                    module_name, class_name
+                )
+            )
             return None
     else:
-        print("module_name: {0} and/or class_name: {1} are None".format(module_name, class_name))
+        print(
+            "module_name: {0} and/or class_name: {1} are None".format(
+                module_name, class_name
+            )
+        )
     return attribute

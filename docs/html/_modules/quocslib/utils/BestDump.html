@@ -125,16 +125,18 @@
 
 
 <div class="viewcode-block" id="BestDump"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump">[docs]</a><span class="k">class</span> <span class="nc">BestDump</span><span class="p">(</span><span class="n">AbstractDump</span><span class="p">):</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span> <span class="o">=</span> <span class="n">results_path</span>
 
-<div class="viewcode-block" id="BestDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">[docs]</a>    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-                      <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-                      <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-                      <span class="n">is_record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">""" Save the controls in the results folder """</span>
+<div class="viewcode-block" id="BestDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">[docs]</a>    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">is_record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Save the controls in the results folder"""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_record</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -154,7 +156,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">controls_path</span><span class="p">,</span> <span class="o">**</span><span class="n">full_dict</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BestDump.other_dumps"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.other_dumps">[docs]</a>    <span class="k">def</span> <span class="nf">other_dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"test.txt"</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])):</span>
-        <span class="sd">""" Save other results into a txt numpy file """</span>
+        <span class="sd">"""Save other results into a txt numpy file"""</span>
         <span class="c1"># Create the path</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="c1"># Save the data in a txt file</span>

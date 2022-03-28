@@ -123,6 +123,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 
+
 <div class="viewcode-block" id="readjson"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.inputoutput.readjson">[docs]</a><span class="k">def</span> <span class="nf">readjson</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
     <span class="sd">"""</span>
 <span class="sd">    Read a json file given its filename</span>
@@ -132,7 +133,7 @@
     <span class="n">err_stat</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">user_data</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
             <span class="n">user_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
         <span class="n">err_stat</span> <span class="o">=</span> <span class="mi">1</span>
@@ -142,6 +143,7 @@
 
 <div class="viewcode-block" id="ObjectEncoder"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder">[docs]</a><span class="k">class</span> <span class="nc">ObjectEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
     <span class="sd">"""Convert numpy array to list"""</span>
+
 <div class="viewcode-block" id="ObjectEncoder.default"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.inputoutput.ObjectEncoder.default">[docs]</a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -153,10 +155,10 @@
 
 
 <div class="viewcode-block" id="writejsonfile"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.inputoutput.writejsonfile">[docs]</a><span class="k">def</span> <span class="nf">writejsonfile</span><span class="p">(</span><span class="n">json_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">kwargs_bib</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">""" A wrapper to the json dump file with error code as return"""</span>
+    <span class="sd">"""A wrapper to the json dump file with error code as return"""</span>
     <span class="n">err_stat</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">kwargs_bib</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">ObjectEncoder</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"It is not possible to write the json file"</span><span class="p">)</span>

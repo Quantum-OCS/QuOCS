@@ -28,8 +28,8 @@ from quocslib import __VERSION__ as quocslib_version
 
 
 class AllInOneCommunication:
-
-    def __init__(self, interface_job_name: str = "OptimizationTest",
+    def __init__(self,
+                 interface_job_name: str = "OptimizationTest",
                  fom_obj: AbstractFom = None,
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
@@ -37,7 +37,7 @@ class AllInOneCommunication:
 
         """
         In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
-        The objects to dump the results, calculate the figure of merit, and the logger are created here.
+        The objects to dump the results, calculate the figure of merit, and the logger are created here. 
 
         :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current
         time to ensure univocity
@@ -49,9 +49,9 @@ class AllInOneCommunication:
         """
         # Communication signals
         if comm_signals_list is None:
-            self.message_signal, self.fom_plot_signal, self.controls_update_signal = None, None, None
+            self.message_signal, self.fom_plot_signal, self.controls_update_signal = (None, None,  None)
         else:
-            self.message_signal, self.fom_plot_signal, self.controls_update_signal = comm_signals_list
+            (self.message_signal, self.fom_plot_signal, self.controls_update_signal) = comm_signals_list
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
@@ -86,7 +86,7 @@ class AllInOneCommunication:
         self.controls_dict = {}
 
     def print_logger(self, message: str = "", level: int = 20):
-        """ Print a message in the log """
+        """Print a message in the log"""
         if level <= 10:
             self.logger.debug(message)
         elif 10 < level <= 20:
@@ -97,16 +97,17 @@ class AllInOneCommunication:
             self.logger.error(message)
 
     def send_message(self, message):
-        """ Send a message to the interface """
+        """Send a message to the interface"""
         if self.message_signal is not None:
             self.message_signal.emit(message)
-        
+
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
-        """ Print optimization dictionary into a file """
-        writejsonfile(os.path.join(self.results_path, 'optimization_dictionary.json'), optimization_dictionary)
+        """Print optimization dictionary into a file"""
+        writejsonfile(os.path.join(self.results_path, "optimization_dictionary.json"),
+                      optimization_dictionary)
 
     def get_user_running(self) -> bool:
-        """ Check if the user stopped the optimization """
+        """Check if the user stopped the optimization"""
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         return self.he_obj.is_user_running
 
@@ -119,8 +120,9 @@ class AllInOneCommunication:
         """
         self.controls_dict = controls_dict
         if self.controls_update_signal is not None:
-            self.controls_update_signal.emit(
-                controls_dict["pulses"], controls_dict["timegrids"], controls_dict["parameters"])
+            self.controls_update_signal.emit(controls_dict["pulses"],
+                                             controls_dict["timegrids"],
+                                             controls_dict["parameters"])
 
     def get_data(self) -> dict:
         """
@@ -134,7 +136,7 @@ class AllInOneCommunication:
         status_code = fom_dict.setdefault("status_code", 0)
         # if the user passes a different status code than zero, stop the optimization
         if status_code != 0:
-            self.he_obj.is_user_running = False 
+            self.he_obj.is_user_running = False
         return {"fom_values": fom_dict}
 
     def send_fom_response(self, response_for_client: dict) -> None:
@@ -144,7 +146,8 @@ class AllInOneCommunication:
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
-        iteration_number, fom = response_for_client["iteration_number"], response_for_client["FoM"]
+        iteration_number, fom = (response_for_client["iteration_number"],
+                                 response_for_client["FoM"])
         status_code = response_for_client.setdefault("status_code", 0)
         # Check for interrupting signals
         if status_code != 0:
@@ -159,12 +162,12 @@ class AllInOneCommunication:
             self.fom_plot_signal.emit(iteration_number, fom)
 
     def _print_general_log(self, iteration_number: int, fom: float):
-        """ Print the general log at each function evaluation """
+        """Print the general log at each function evaluation"""
         if self.print_general_log:
             self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, fom))
 
     def update_controls(self, **response_for_client) -> None:
-        """ External call to update the controls """
+        """External call to update the controls"""
         if response_for_client is None:
             response_for_client = {}
         self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)

@@ -132,7 +132,13 @@
 <div class="viewcode-block" id="CMAES"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES">[docs]</a><span class="k">class</span> <span class="nc">CMAES</span><span class="p">(</span><span class="n">DirectSearchMethod</span><span class="p">):</span>
     <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        :param dict settings:</span>
 <span class="sd">        :param dict stopping_criteria:</span>
@@ -147,8 +153,16 @@
         <span class="c1"># Stopping criteria object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">CMAESStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CMAES.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">sigma_v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">max_iterations_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CMAES.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.CMAES.CMAES.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">,</span>
+        <span class="n">x0</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(),</span>
+        <span class="n">sigma_v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_iterations_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param callable func: Function tbe called at every function evaluation</span>
@@ -172,7 +186,9 @@
         <span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="c1"># coordinate wise standard deviation (step-size) TR 2020_04_15: use ReasonableAmplVar (see later in for loop)</span>
         <span class="k">if</span> <span class="n">sigma_v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sigma_v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
-            <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
+            <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+                <span class="n">N</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># Strategy parameter setting: Selection population size, offspring number TR 2020_04_15: according to The CMA</span>
         <span class="c1"># Evolution Strategy: A Tutorial (Hansen) this can be increased number of parents/points for recombination</span>
@@ -183,7 +199,7 @@
         <span class="c1"># Normalize recombination weights array</span>
         <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
         <span class="c1"># variance-effectiveness</span>
-        <span class="n">mueff</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">mueff</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># Strategy parameter setting: Adaptation Time constant for cumulation for C</span>
         <span class="n">cc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">+</span> <span class="n">mueff</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">mueff</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span>
@@ -204,12 +220,12 @@
         <span class="n">D</span> <span class="o">=</span> <span class="n">sigma_v</span>
 
         <span class="c1"># Initial covariance matrix</span>
-        <span class="n">C</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
         <span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
         <span class="c1"># Eigenvalue approximation</span>
         <span class="n">eigeneval</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># Expectation value</span>
-        <span class="n">chiN</span> <span class="o">=</span> <span class="n">N</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">21</span> <span class="o">*</span> <span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">chiN</span> <span class="o">=</span> <span class="n">N</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">21</span> <span class="o">*</span> <span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
         <span class="c1"># Total evaluation</span>
         <span class="n">counteval</span> <span class="o">=</span> <span class="mi">0</span>
@@ -232,7 +248,12 @@
                 <span class="c1"># TR 2020_04_15: Hansen (2016) here also has arz: arz[:,k] = randn(N,)  standard normally</span>
                 <span class="c1"># distributed vector TR 2020_04_15: here we should make sigma dependent on the reasonable amplitude</span>
                 <span class="c1"># variation, right?</span>
-                <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">))</span>
+                <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
+                    <span class="n">D</span>
+                    <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span>
+                        <span class="n">N</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
                 <span class="c1"># Starting point at the beginning of the SI</span>
                 <span class="k">if</span> <span class="n">counteval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span>
@@ -264,15 +285,19 @@
                 <span class="n">ps</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">)</span> <span class="o">*</span> <span class="n">ps</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cs</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cs</span><span class="p">)</span> <span class="o">*</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">/</span> <span class="n">sigma</span>
 
                 <span class="c1"># hsig = np.linalg.norm(ps) / np.sqrt(1 - (1 - cs) ** (2 * counteval / l_pop)) / chiN &lt; 2 + 4. / (N + 1)</span>
-                <span class="n">hsig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">counteval</span> <span class="o">/</span> <span class="n">l_pop</span><span class="p">)))</span> <span class="o">/</span> <span class="n">chiN</span> \
-                       <span class="o">&lt;</span> <span class="mf">1.4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">hsig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                    <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">counteval</span> <span class="o">/</span> <span class="n">l_pop</span><span class="p">))</span>
+                <span class="p">)</span> <span class="o">/</span> <span class="n">chiN</span> <span class="o">&lt;</span> <span class="mf">1.4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="c1"># Evolution path update</span>
                 <span class="n">pc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">pc</span> <span class="o">+</span> <span class="n">hsig</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">sigma</span>
 
                 <span class="c1"># Adapt covariance matrix C, i.e. rank mu update</span>
                 <span class="n">artmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">arx</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">mu</span><span class="p">]]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">xold</span><span class="p">,</span> <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span> <span class="o">+</span> <span class="n">cmu</span> <span class="o">*</span> <span class="n">artmp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">artmp</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span>
+                    <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="n">cmu</span> <span class="o">*</span> <span class="n">artmp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">artmp</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+                <span class="p">)</span>
 
                 <span class="c1"># Adapt step size sigma</span>
                 <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">cs</span> <span class="o">/</span> <span class="n">damps</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">chiN</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -305,27 +330,36 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Best Result: </span><span class="si">{0}</span><span class="s2"> ,  in </span><span class="si">{1}</span><span class="s2"> evaluations."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">counteval</span><span class="p">))</span>
         <span class="n">fval</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">arx</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'F_min_val'</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span> <span class="s1">'X_opti_vec'</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="s1">'NitUsed'</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
-                         <span class="s1">'NfunevalsUsed'</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'terminate_reason'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">}</span>
+        <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"F_min_val"</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span>
+            <span class="s2">"X_opti_vec"</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+            <span class="s2">"NitUsed"</span><span class="p">:</span> <span class="n">iterations</span><span class="p">,</span>
+            <span class="s2">"NfunevalsUsed"</span><span class="p">:</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"terminate_reason"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
+        <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">result_custom</span></div></div>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+
     <span class="k">def</span> <span class="nf">test_rosenbrock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">DebugMode</span><span class="p">,</span> <span class="n">details</span><span class="p">):</span>
         <span class="n">fom</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fom</span>
-
 
     <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
     <span class="kn">import</span> <span class="nn">time</span>
 
     <span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
-    <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
-    <span class="n">max_iteration_number</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">4</span>
+    <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+        <span class="n">N</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">max_iteration_number</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span>
     <span class="n">opt_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"max_iterations_number"</span><span class="p">:</span> <span class="n">max_iteration_number</span><span class="p">,</span> <span class="s2">"sigma_v"</span><span class="p">:</span> <span class="n">sigma_v</span><span class="p">}</span>
-    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
-    <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'type'</span><span class="p">:</span> <span class="s1">'Run Test'</span><span class="p">}</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
+        <span class="n">N</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">details</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"Run Test"</span><span class="p">}</span>
     <span class="n">function</span> <span class="o">=</span> <span class="n">test_rosenbrock</span>
     <span class="c1">###############################################</span>
     <span class="c1"># Benchmark CMAES</span>

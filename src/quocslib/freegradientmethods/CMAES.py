@@ -27,7 +27,13 @@ from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteri
 class CMAES(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict = None, stopping_criteria: dict = None, callback: callable = None, **kwargs):
+    def __init__(
+        self,
+        settings: dict = None,
+        stopping_criteria: dict = None,
+        callback: callable = None,
+        **kwargs
+    ):
         """
         :param dict settings:
         :param dict stopping_criteria:
@@ -42,8 +48,16 @@ class CMAES(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), sigma_v: np.array = None, initial_simplex=None,
-                max_iterations_number: int = None, **kwargs) -> dict:
+    def run_dsm(
+        self,
+        func,
+        x0,
+        args=(),
+        sigma_v: np.array = None,
+        initial_simplex=None,
+        max_iterations_number: int = None,
+        **kwargs
+    ) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
@@ -67,7 +81,9 @@ class CMAES(DirectSearchMethod):
         sigma = 1.0
         # coordinate wise standard deviation (step-size) TR 2020_04_15: use ReasonableAmplVar (see later in for loop)
         if sigma_v is None or len(sigma_v) != N:
-            sigma_v = 0.3 * np.ones(N, )
+            sigma_v = 0.3 * np.ones(
+                N,
+            )
 
         # Strategy parameter setting: Selection population size, offspring number TR 2020_04_15: according to The CMA
         # Evolution Strategy: A Tutorial (Hansen) this can be increased number of parents/points for recombination
@@ -78,7 +94,7 @@ class CMAES(DirectSearchMethod):
         # Normalize recombination weights array
         weights = weights / np.sum(weights)
         # variance-effectiveness
-        mueff = 1 / sum(weights ** 2)
+        mueff = 1 / sum(weights**2)
 
         # Strategy parameter setting: Adaptation Time constant for cumulation for C
         cc = (4 + mueff / N) / (N + 4 + 2 * mueff / N)
@@ -99,12 +115,12 @@ class CMAES(DirectSearchMethod):
         D = sigma_v
 
         # Initial covariance matrix
-        C = B * np.diag(D ** 2) * B.T
+        C = B * np.diag(D**2) * B.T
         invsqrtC = B * np.diag(D ** (-1)) * B.T
         # Eigenvalue approximation
         eigeneval = 0
         # Expectation value
-        chiN = N ** 0.5 * (1 - 1 / (4 * N) + 1 / (21 * N ** 2))
+        chiN = N**0.5 * (1 - 1 / (4 * N) + 1 / (21 * N**2))
 
         # Total evaluation
         counteval = 0
@@ -127,7 +143,12 @@ class CMAES(DirectSearchMethod):
                 # TR 2020_04_15: Hansen (2016) here also has arz: arz[:,k] = randn(N,)  standard normally
                 # distributed vector TR 2020_04_15: here we should make sigma dependent on the reasonable amplitude
                 # variation, right?
-                arx[:, k] = xmean + sigma * B.dot(D * np.random.randn(N, ))
+                arx[:, k] = xmean + sigma * B.dot(
+                    D
+                    * np.random.randn(
+                        N,
+                    )
+                )
                 # Starting point at the beginning of the SI
                 if counteval == 0:
                     arx[:, k] = xmean
@@ -159,15 +180,19 @@ class CMAES(DirectSearchMethod):
                 ps = (1 - cs) * ps + np.sqrt(cs * (2 - cs) * mueff) * z / sigma
 
                 # hsig = np.linalg.norm(ps) / np.sqrt(1 - (1 - cs) ** (2 * counteval / l_pop)) / chiN < 2 + 4. / (N + 1)
-                hsig = np.linalg.norm(ps) / np.sqrt(1 - np.power((1 - cs), (2 * counteval / l_pop))) / chiN \
-                       < 1.4 + 2 / (N + 1)
+                hsig = np.linalg.norm(ps) / np.sqrt(
+                    1 - np.power((1 - cs), (2 * counteval / l_pop))
+                ) / chiN < 1.4 + 2 / (N + 1)
                 # Evolution path update
                 pc = (1 - cc) * pc + hsig * np.sqrt(cc * (2 - cc) * mueff) * y / sigma
 
                 # Adapt covariance matrix C, i.e. rank mu update
                 artmp = (1 / sigma) * (arx[:, ind[0:mu]] - np.tile(xold, (mu, 1)).T)
-                C = (1 - c1 - cmu) * C + c1 * (np.outer(pc, pc) + (1 - hsig) * cc * (2 - cc) * C) + cmu * artmp.dot(
-                    np.diag(weights).dot(artmp.T))
+                C = (
+                    (1 - c1 - cmu) * C
+                    + c1 * (np.outer(pc, pc) + (1 - hsig) * cc * (2 - cc) * C)
+                    + cmu * artmp.dot(np.diag(weights).dot(artmp.T))
+                )
 
                 # Adapt step size sigma
                 sigma = sigma * np.exp((cs / damps) * (np.linalg.norm(ps) / chiN - 1))
@@ -200,27 +225,36 @@ class CMAES(DirectSearchMethod):
         print("Best Result: {0} ,  in {1} evaluations.".format(fsim[0], counteval))
         fval = fsim[0]
         x = arx[:, ind[0]]
-        result_custom = {'F_min_val': fval, 'X_opti_vec': x, 'NitUsed': iterations,
-                         'NfunevalsUsed': calls_number[0], 'terminate_reason': self.sc_obj.terminate_reason}
+        result_custom = {
+            "F_min_val": fval,
+            "X_opti_vec": x,
+            "NitUsed": iterations,
+            "NfunevalsUsed": calls_number[0],
+            "terminate_reason": self.sc_obj.terminate_reason,
+        }
 
         return result_custom
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     def test_rosenbrock(x, DebugMode, details):
         fom = optimize.rosen(x)
         return fom
-
 
     from scipy import optimize
     import time
 
     N = 20
-    sigma_v = 0.3 * np.ones(N, )
-    max_iteration_number = 2 * 10 ** 4
+    sigma_v = 0.3 * np.ones(
+        N,
+    )
+    max_iteration_number = 2 * 10**4
     opt_dict = {"max_iterations_number": max_iteration_number, "sigma_v": sigma_v}
-    x0 = np.random.rand(N, )
-    details = {'type': 'Run Test'}
+    x0 = np.random.rand(
+        N,
+    )
+    details = {"type": "Run Test"}
     function = test_rosenbrock
     ###############################################
     # Benchmark CMAES

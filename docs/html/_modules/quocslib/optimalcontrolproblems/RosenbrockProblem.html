@@ -129,19 +129,35 @@
 <span class="sd">    number of parameters"""</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">""" Initialize useful arguments """</span>
+        <span class="sd">"""Initialize useful arguments"""</span>
         <span class="c1"># Noise in the figure of merit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_noisy"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"noise_factor"</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std_factor"</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Rosenbrock.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="Rosenbrock.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">fom</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">rosen</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">parameters</span><span class="p">))</span>
         <span class="n">std</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span><span class="p">:</span>
-            <span class="n">noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span>
+                <span class="o">*</span> <span class="mi">2</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="mf">0.5</span>
+                    <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
+                        <span class="mi">1</span><span class="p">,</span>
+                    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">fom</span> <span class="o">+=</span> <span class="n">noise</span>
-            <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
+                    <span class="mi">1</span><span class="p">,</span>
+                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span> <span class="s2">"std"</span><span class="p">:</span> <span class="n">std</span><span class="p">}</span></div></div>
 </code></pre></div>

@@ -133,12 +133,14 @@
 
 
 <div class="viewcode-block" id="AllInOneCommunication"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication">[docs]</a><span class="k">class</span> <span class="nc">AllInOneCommunication</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface_job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OptimizationTest"</span><span class="p">,</span>
-                 <span class="n">fom_obj</span><span class="p">:</span> <span class="n">AbstractFom</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">handle_exit_obj</span><span class="p">:</span> <span class="n">AbstractHandleExit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">dump_attribute</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">DummyDump</span><span class="p">,</span>
-                 <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">interface_job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OptimizationTest"</span><span class="p">,</span>
+        <span class="n">fom_obj</span><span class="p">:</span> <span class="n">AbstractFom</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">handle_exit_obj</span><span class="p">:</span> <span class="n">AbstractHandleExit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dump_attribute</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">DummyDump</span><span class="p">,</span>
+        <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
 
         <span class="sd">"""</span>
 <span class="sd">        In case the user chooses to run the optimization in his device, this class is used by the Optimizer.</span>
@@ -154,9 +156,17 @@
 <span class="sd">        """</span>
         <span class="c1"># Communication signals</span>
         <span class="k">if</span> <span class="n">comm_signals_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="kc">None</span><span class="p">,</span>
+                <span class="kc">None</span><span class="p">,</span>
+                <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="n">comm_signals_list</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">comm_signals_list</span>
         <span class="c1"># Pre job name</span>
         <span class="n">pre_job_name</span> <span class="o">=</span> <span class="n">interface_job_name</span>
         <span class="c1"># Datetime for 1-1 association</span>
@@ -168,13 +178,17 @@
         <span class="c1">###</span>
         <span class="c1"># Optimization folder</span>
         <span class="n">optimization_folder</span> <span class="o">=</span> <span class="s2">"QuOCS_Results"</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_job_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_job_name</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">)):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">))</span>
         <span class="c1"># Create the folder for logging and results</span>
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">)</span>
         <span class="c1"># Write the current quocs lib version in the file</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">"quocs_version.txt"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">version_file</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">"quocs_version.txt"</span><span class="p">),</span> <span class="s2">"w"</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">version_file</span><span class="p">:</span>
             <span class="n">version_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"QuOCS library version: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quocslib_version</span><span class="p">))</span>
         <span class="c1"># Create logging object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">create_logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">)</span>
@@ -191,7 +205,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="AllInOneCommunication.print_logger"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_logger">[docs]</a>    <span class="k">def</span> <span class="nf">print_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
-        <span class="sd">""" Print a message in the log """</span>
+        <span class="sd">"""Print a message in the log"""</span>
         <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
         <span class="k">elif</span> <span class="mi">10</span> <span class="o">&lt;</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
@@ -202,16 +216,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AllInOneCommunication.send_message"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="sd">""" Send a message to the interface """</span>
+        <span class="sd">"""Send a message to the interface"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
-        
+
 <div class="viewcode-block" id="AllInOneCommunication.print_optimization_dictionary"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_optimization_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">print_optimization_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dictionary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">""" Print optimization dictionary into a file """</span>
-        <span class="n">writejsonfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s1">'optimization_dictionary.json'</span><span class="p">),</span> <span class="n">optimization_dictionary</span><span class="p">)</span></div>
+        <span class="sd">"""Print optimization dictionary into a file"""</span>
+        <span class="n">writejsonfile</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">"optimization_dictionary.json"</span><span class="p">),</span>
+            <span class="n">optimization_dictionary</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AllInOneCommunication.get_user_running"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_user_running">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_running</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">""" Check if the user stopped the optimization """</span>
+        <span class="sd">"""Check if the user stopped the optimization"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"User running: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span></div>
 
@@ -225,7 +242,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span> <span class="o">=</span> <span class="n">controls_dict</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
-                <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span> <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"timegrids"</span><span class="p">],</span> <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">])</span></div>
+                <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span>
+                <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"timegrids"</span><span class="p">],</span>
+                <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">],</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="AllInOneCommunication.get_data"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -239,7 +259,7 @@
         <span class="n">status_code</span> <span class="o">=</span> <span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># if the user passes a different status code than zero, stop the optimization</span>
         <span class="k">if</span> <span class="n">status_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"fom_values"</span><span class="p">:</span> <span class="n">fom_dict</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="AllInOneCommunication.send_fom_response"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_fom_response">[docs]</a>    <span class="k">def</span> <span class="nf">send_fom_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_for_client</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -249,12 +269,17 @@
 <span class="sd">        :param dict response_for_client: It is a dictionary defined in the optimal algorithm</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
-        <span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span> <span class="o">=</span> <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"iteration_number"</span><span class="p">],</span> <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
+        <span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"iteration_number"</span><span class="p">],</span>
+            <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="n">status_code</span> <span class="o">=</span> <span class="n">response_for_client</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># Check for interrupting signals</span>
         <span class="k">if</span> <span class="n">status_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"The optimization was interrupted with status code: </span><span class="si">{0}</span><span class="s2">"</span>
-                             <span class="s2">" at iteration </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"The optimization was interrupted with status code: </span><span class="si">{0}</span><span class="s2">"</span>
+                <span class="s2">" at iteration </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="c1"># Set the user running to False in order to not continue with the next iteration</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span>
@@ -264,12 +289,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_print_general_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fom</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="sd">""" Print the general log at each function evaluation """</span>
+        <span class="sd">"""Print the general log at each function evaluation"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Function evaluation number: </span><span class="si">{0}</span><span class="s2">, FoM: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"Function evaluation number: </span><span class="si">{0}</span><span class="s2">, FoM: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
 <div class="viewcode-block" id="AllInOneCommunication.update_controls"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_controls">[docs]</a>    <span class="k">def</span> <span class="nf">update_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">""" External call to update the controls """</span>
+        <span class="sd">"""External call to update the controls"""</span>
         <span class="k">if</span> <span class="n">response_for_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">response_for_client</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dump_obj</span><span class="o">.</span><span class="n">dump_controls</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span></div>

@@ -19,6 +19,7 @@ from abc import ABCMeta, abstractmethod
 
 class AbstractHandleExit(metaclass=ABCMeta):
     """Abstract class to handle the program exit"""
+
     is_user_running: bool = True
 
     @abstractmethod

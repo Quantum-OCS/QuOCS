@@ -17,19 +17,25 @@
 from abc import ABCMeta, abstractmethod
 import os
 
+
 class AbstractDump(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
 
     @abstractmethod
-    def __init__(self, results_path:str = ".", **kwargs):
+    def __init__(self, results_path: str = ".", **kwargs):
         """
         Abstract method fro the contructor. Set here the relevant paths
         :param str results_path: Path of the folder of the results
         """
 
     @abstractmethod
-    def dump_controls(self, pulses_list: list = [], time_grids_list: list = [], parameters_list: list = [], **kwargs) \
-            -> None:
+    def dump_controls(
+        self,
+        pulses_list: list = [],
+        time_grids_list: list = [],
+        parameters_list: list = [],
+        **kwargs
+    ) -> None:
         """
         Abstract method for figure of merit evaluation. It returns a dictionary with
          the FoM key inside

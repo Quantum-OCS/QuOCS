@@ -20,16 +20,16 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class BestDump(AbstractDump):
-
     def __init__(self, results_path: str = ".", **kwargs):
         self.best_controls_path = results_path
 
-    def dump_controls(self, pulses: list = [],
+    def dump_controls(self,
+                      pulses: list = [],
                       timegrids: list = [],
                       parameters: list = [],
                       is_record: bool = False,
                       **kwargs) -> None:
-        """ Save the controls in the results folder """
+        """Save the controls in the results folder"""
         if not is_record:
             return
         controls_dict = {}
@@ -49,7 +49,7 @@ class BestDump(AbstractDump):
         np.savez(controls_path, **full_dict)
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
-        """ Save other results into a txt numpy file """
+        """Save other results into a txt numpy file"""
         # Create the path
         path = os.path.join(self.best_controls_path, filename)
         # Save the data in a txt file

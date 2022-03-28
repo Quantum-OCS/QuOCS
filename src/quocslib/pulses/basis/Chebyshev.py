@@ -40,11 +40,15 @@ class Chebyshev(ChoppedBasis):
         # Constructor of the parent class, i.e. Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
-        self.scale_coefficients = self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number,))
+        self.scale_coefficients = (
+            self.amplitude_variation
+            / np.sqrt(2)
+            * np.ones((self.control_parameters_number,))
+        )
         self.offset_coefficients = np.zeros((self.control_parameters_number,))
 
     def _get_shaped_pulse(self) -> np.array:
-        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse """
+        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
         # Pulse definition
         pulse = np.zeros(self.bins_number)
         # Final time definition
@@ -55,5 +59,8 @@ class Chebyshev(ChoppedBasis):
         t = self.time_grid
         for ii in range(self.super_parameter_number):
             # weird values in arccos so that we are between -1 and 1
-            pulse += xx[2*ii] * np.cos( w[ii] * np.arccos(-1 + 1e-10 + (2 * (1 - 1e-10) * t / final_time)) + xx[2*ii + 1])
+            pulse += xx[2 * ii] * np.cos(
+                w[ii] * np.arccos(-1 + 1e-10 + (2 * (1 - 1e-10) * t / final_time))
+                + xx[2 * ii + 1]
+            )
         return pulse

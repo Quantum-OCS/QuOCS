@@ -127,7 +127,7 @@
     <span class="n">sigma_x</span> <span class="o">=</span> <span class="n">_get_sigma_x</span><span class="p">()</span>
     <span class="n">sigma_z</span> <span class="o">=</span> <span class="n">_get_sigma_z</span><span class="p">()</span>
 
-    <span class="n">ham_t</span> <span class="o">=</span> <span class="n">delta1</span><span class="o">*</span><span class="n">sigma_z</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">)</span><span class="o">*</span><span class="n">sigma_x</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">ham_t</span> <span class="o">=</span> <span class="n">delta1</span> <span class="o">*</span> <span class="n">sigma_z</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">ft</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_x</span> <span class="o">/</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">ham_t</span></div>
 
 
@@ -136,7 +136,9 @@
     <span class="n">sigma_y</span> <span class="o">=</span> <span class="n">_get_sigma_y</span><span class="p">()</span>
     <span class="n">sigma_z</span> <span class="o">=</span> <span class="n">_get_sigma_z</span><span class="p">()</span>
     <span class="c1"># The controls</span>
-    <span class="n">ham_t</span> <span class="o">=</span> <span class="n">delta1</span><span class="o">*</span><span class="n">sigma_z</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">amplitude_t</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_y</span><span class="p">)</span>
+    <span class="n">ham_t</span> <span class="o">=</span> <span class="n">delta1</span> <span class="o">*</span> <span class="n">sigma_z</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">amplitude_t</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">delta2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_y</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">ham_t</span></div>
 
 

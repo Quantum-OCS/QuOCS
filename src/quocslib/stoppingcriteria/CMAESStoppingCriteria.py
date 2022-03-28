@@ -17,7 +17,10 @@ import numpy as np
 
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
-from quocslib.stoppingcriteria.generalstoppingcriteria import _check_func_eval, _check_f_size
+from quocslib.stoppingcriteria.generalstoppingcriteria import (
+    _check_func_eval,
+    _check_f_size,
+)
 
 
 class CMAESStoppingCriteria(StoppingCriteria):
@@ -41,9 +44,9 @@ class CMAESStoppingCriteria(StoppingCriteria):
         self.is_converged = False
         self.terminate_reason = ""
 
-    def check_stopping_criteria(self,
-                                f_sim: np.array = None,
-                                function_evaluations: int = None) -> None:
+    def check_stopping_criteria(
+        self, f_sim: np.array = None, function_evaluations: int = None
+    ) -> None:
         """
         :param f_sim:
         :param function_evaluations:
@@ -53,7 +56,9 @@ class CMAESStoppingCriteria(StoppingCriteria):
             return
 
         # Check function evaluation
-        is_converged, terminate_reason = _check_func_eval(function_evaluations, self.max_iterations_number)
+        is_converged, terminate_reason = _check_func_eval(
+            function_evaluations, self.max_iterations_number
+        )
         if is_converged:
             self.is_converged = True
             self.terminate_reason = terminate_reason

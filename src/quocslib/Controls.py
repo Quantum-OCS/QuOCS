@@ -73,7 +73,7 @@ class Controls:
             # TODO Implement the time optimization here
 
     def get_control_parameters_number(self) -> int:
-        """ Return the control parameter number """
+        """Return the control parameter number"""
         ###############################################
         # Pulses
         ###############################################
@@ -95,7 +95,7 @@ class Controls:
         return control_parameters_number
 
     def select_basis(self) -> None:
-        """ Initialize the superparameter basis """
+        """Initialize the superparameter basis"""
         for pulse in self.pulse_objs_list:
             pulse.super_parameter_distribution_obj.set_random_super_parameter()
             # Update the base pulse parameters and functions
@@ -104,7 +104,7 @@ class Controls:
             self._update_control_parameter_indexes()
 
     def _update_control_parameter_indexes(self) -> None:
-        """ Update the control parameter indexes """
+        """Update the control parameter indexes"""
         # Map index
         map_index = -1
         ###############################################
@@ -128,7 +128,7 @@ class Controls:
         # Return the control parameters number
 
     def get_random_super_parameter(self) -> np.array:
-        """ Return list with dcrab current super_parameters"""
+        """Return list with dcrab current super_parameters"""
         super_parameter_list = []
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
@@ -137,7 +137,7 @@ class Controls:
         return super_parameter_array
 
     def get_sigma_variation(self) -> np.array:
-        """ Return a numpy array with the maximum sigma in the parameters choice for the start simplex
+        """Return a numpy array with the maximum sigma in the parameters choice for the start simplex
 
         :return np.array
         """
@@ -156,7 +156,7 @@ class Controls:
         return sigma_variation_coefficients
 
     def get_mean_value(self) -> np.array:
-        """ Return a numpy array the mean value
+        """Return a numpy array the mean value
 
         :return np.array:
         """
@@ -172,7 +172,7 @@ class Controls:
         return mean_value_coefficients
 
     def update_base_controls(self, optimized_parameters_vector: np.array) -> None:
-        """ Update the base controls. Only pulses is enough"""
+        """Update the base controls. Only pulses is enough"""
         # Set the times
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]
@@ -206,11 +206,11 @@ class Controls:
         for pulse in self.pulse_objs_list:
             time_name = pulse.time_name
             pulses_list.append(pulse.get_pulse(optimized_parameters_vector[pulse.control_parameters_list],
-                                               final_time=self.times_obj_dictionary[time_name].get_time()))
+                                                final_time=self.times_obj_dictionary[time_name].get_time()))
             time_grids_list.append(pulse.time_grid)
         # Get the parameters
         for parameter in self.parameter_objs_list:
-            parameters_list.append(parameter.get_parameter(
-                optimized_parameters_vector[parameter.control_parameters_list]))
+            parameters_list.append(
+                parameter.get_parameter(optimized_parameters_vector[parameter.control_parameters_list]))
 
         return pulses_list, time_grids_list, parameters_list

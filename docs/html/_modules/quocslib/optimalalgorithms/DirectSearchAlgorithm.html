@@ -146,20 +146,26 @@
             <span class="s2">"general_settings"</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="s2">"dsm_name"</span> <span class="ow">in</span> <span class="n">direct_search_method_settings</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"dsm_name is used direct search methods. This option is deprecated. Use </span><span class="se">\n</span><span class="s2">"</span>
-                  <span class="s2">"dsm_algorithm_module: quocslib.freegradients.NelderMead</span><span class="se">\n</span><span class="s2">"</span>
-                  <span class="s2">"dsm_algorithm_class: NelderMead"</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">"dsm_name is used direct search methods. This option is deprecated. Use </span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"dsm_algorithm_module: quocslib.freegradients.NelderMead</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"dsm_algorithm_class: NelderMead"</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">NelderMead</span><span class="p">(</span>
                 <span class="n">direct_search_method_settings</span><span class="p">,</span>
                 <span class="n">stopping_criteria</span><span class="p">,</span>
-                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">)</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="p">[</span><span class="s2">"dsm_algorithm_module"</span><span class="p">],</span>
-                                          <span class="n">class_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="p">[</span><span class="s2">"dsm_algorithm_class"</span><span class="p">])</span>
+            <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
+                <span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="p">[</span><span class="s2">"dsm_algorithm_module"</span><span class="p">],</span>
+                <span class="n">class_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="p">[</span><span class="s2">"dsm_algorithm_class"</span><span class="p">],</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">dsm_attribute</span><span class="p">(</span>
                 <span class="n">direct_search_method_settings</span><span class="p">,</span>
                 <span class="n">stopping_criteria</span><span class="p">,</span>
-                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">)</span>
+                <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Optimal algorithm variables ###########################################################</span>
         <span class="c1">###########################################################################################</span>
@@ -217,8 +223,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1"># Run the direct search algorithm</span>
         <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
-            <span class="n">sigma_v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span>
+            <span class="n">x0</span><span class="p">,</span>
+            <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
+            <span class="n">sigma_v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">(),</span>
         <span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>

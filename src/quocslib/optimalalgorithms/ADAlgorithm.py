@@ -69,6 +69,7 @@ class ADAlgorithm(Optimizer):
         self.dt = optimization_dict["dt"]
         self.sys_type = optimization_dict["sys_type"]
         self.dim = jnp.size(self.A, 1)
+        self.u0 = optimization_dict["u0"]
 
         self.optimized_pulses = None
         self.opt_res = None
@@ -78,7 +79,7 @@ class ADAlgorithm(Optimizer):
 
         :param jnp.array drive: a flat array that contains the pulse amplitudes
         :param jnp.matrix A: the drift hamiltonian
-        :param list[jnp.matrix] B: the control hamiltonians
+        :param List[jnp.matrix] B: the control hamiltonians
         :param int n_slices: the number of slices in the pulse
         :param float dt: the duration of each timeslice
         :param jnp.matrix u0: the initial propagator that should be used
