@@ -38,10 +38,13 @@ class OneQubit(AbstractFom):
 
         # Drifting FoM
         self.include_drift = args_dict.setdefault("include_drift", True)
+        self.linear_drift_val_over_iterartion = args_dict.setdefault("linear_drift_val_over_iterartion", 0.002)
 
         self.fom_list = []
         self.save_path = ""
         self.fom_save_name = "fom.txt"
+
+        self.fom_eval_number = 0
 
     # def __del__(self):
     #     np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
@@ -65,7 +68,11 @@ class OneQubit(AbstractFom):
             infidelity += noise
             std = (self.std_factor * np.random.rand(1)[0])
 
+        if self.include_drift:
+            infidelity += self.linear_drift_val_over_iterartion * self.fom_eval_number
+
         self.fom_list.append(np.abs(infidelity))
+        self.fom_eval_number += 1
 
         return {"FoM": np.abs(infidelity), "std": std}
 

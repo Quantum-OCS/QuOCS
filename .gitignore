@@ -6,6 +6,9 @@
 # C extensions
 *.so
 
+# Apple
+.DS_Store
+
 # Distribution / packaging
 .Python
 build/

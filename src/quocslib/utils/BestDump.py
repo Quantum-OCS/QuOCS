@@ -23,14 +23,12 @@ class BestDump(AbstractDump):
     def __init__(self, results_path: str = ".", **kwargs):
         self.best_controls_path = results_path
 
-    def dump_controls(
-        self,
-        pulses: list = [],
-        timegrids: list = [],
-        parameters: list = [],
-        is_record: bool = False,
-        **kwargs
-    ) -> None:
+    def dump_controls(self,
+                      pulses: list = [],
+                      timegrids: list = [],
+                      parameters: list = [],
+                      is_record: bool = False,
+                      **kwargs) -> None:
         """Save the controls in the results folder"""
         if not is_record:
             return
