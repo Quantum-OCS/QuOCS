@@ -16,7 +16,7 @@
 
 import numpy as np
 
-from quocslib.utils.dynamicimport import dynamic_import
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.pulses.BasePulse import BasePulse
 
 
@@ -26,7 +26,7 @@ class PiecewiseBasis(BasePulse):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, basis: dict = None, **kwargs):
+    def __init__(self, map_index, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
@@ -34,8 +34,12 @@ class PiecewiseBasis(BasePulse):
 
         :param dict pulse_dictionary: Should contain the basis_dict under the key "basis" and should contain the number of bins and time spacing under "n_bins" and "dt"
         """
-        self.control_parameters_number = 1
-        super().__init__(**kwargs)
+        # basis_dict = pulse_dictionary["basis"]
+        # Constructor of the parent class, i.e. Chopped Basis
+        self.control_parameters_number = pulse_dictionary["bins_number"]
+        super().__init__(map_index=map_index, rng=rng, **pulse_dictionary)
+        # self.control_parameters_number = 1
+        # super().__init__(**kwargs)
         # basis_attribute = dynamic_import(attribute=basis.setdefault("basis_attribute", None),
         #                                     module_name=basis.setdefault("basis_module", None),
         #                                     class_name=basis.setdefault("basis_class", None))
