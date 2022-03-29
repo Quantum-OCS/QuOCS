@@ -32,7 +32,7 @@ class DirectSearchAlgorithm(Optimizer):
         :param optimization_dict:
         :param communication_obj:
         """
-        super().__init__(communication_obj=communication_obj)
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
