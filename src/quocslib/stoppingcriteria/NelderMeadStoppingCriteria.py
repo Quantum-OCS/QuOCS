@@ -70,10 +70,10 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # Adapt the variable for stopping criteria
         frtol = self.frtol
         try:
-            maxDeltaFomRel = np.max(np.abs(fsim[0] - fsim[1:])) / (np.abs(fsim[0]))
+            maxDeltaFoMRel = np.max(np.abs(fsim[0] - fsim[1:])) / (np.abs(fsim[0]))
         except (ZeroDivisionError, FloatingPointError):
-            maxDeltaFomRel = fsim[1]
-        if maxDeltaFomRel <= frtol:
+            maxDeltaFoMRel = fsim[1]
+        if maxDeltaFoMRel <= frtol:
             self.terminate_reason = "Convergence of the FoM"
             self.is_converged = True
             return

@@ -64,7 +64,7 @@ class CMAESStoppingCriteria(StoppingCriteria):
             self.terminate_reason = terminate_reason
             return
 
-        # Convergence fom criterion
+        # Convergence FoM criterion
         is_converged, terminate_reason = _check_f_size(f_sim, self.f_atol)
         if is_converged:
             self.is_converged = True

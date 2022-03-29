@@ -183,8 +183,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
             <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"maximum_function_evaluations_number"</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="c1"># Starting fom</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># Starting FoM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Pulses, Parameters object</span>
         <span class="c1">###########################################################################################</span>
@@ -202,33 +202,33 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return useful information for the client interface"""</span>
         <span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">fom</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">:</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">FoM</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">"Found a record. Previous fom: </span><span class="si">{fom}</span><span class="s2">, new best fom : </span><span class="si">{best_fom}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">fom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span> <span class="n">best_fom</span><span class="o">=</span><span class="n">fom</span>
+                <span class="s2">"Found a record. Previous FoM: </span><span class="si">{FoM}</span><span class="s2">, new best FoM : </span><span class="si">{best_FoM}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span> <span class="n">best_FoM</span><span class="o">=</span><span class="n">FoM</span>
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">fom</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">FoM</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"is_record"</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span>
-            <span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span>
+            <span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span>
             <span class="s2">"iteration_number"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
             <span class="s2">"status_code"</span><span class="p">:</span> <span class="n">status_code</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="c1"># Load the current parameters</span>
         <span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fom</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FoM</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response_dict</span>
 
@@ -277,7 +277,7 @@
             <span class="n">max_iterations_number</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Update the results</span>
-        <span class="p">[</span><span class="n">fom</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"terminate_reason"</span><span class="p">],</span>
@@ -286,11 +286,11 @@
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">"SI: </span><span class="si">{super_it}</span><span class="s2">, Total nr fnct evaluations: </span><span class="si">{NfunevalsUsed}</span><span class="s2">, </span><span class="se">\n</span><span class="s2">"</span>
             <span class="s2">"Termination Reason: </span><span class="si">{termination_reason}</span><span class="se">\n</span><span class="s2">"</span>
-            <span class="s2">"Current best fom: </span><span class="si">{best_fom}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">"Current best FoM: </span><span class="si">{best_FoM}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
                 <span class="n">NfunevalsUsed</span><span class="o">=</span><span class="n">NfunevalsUsed</span><span class="p">,</span>
                 <span class="n">termination_reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
-                <span class="n">best_fom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+                <span class="n">best_FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
@@ -310,7 +310,7 @@
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="s2">"total number of function evaluations"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
             <span class="s2">"dcrab_freq_list"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="p">,</span>
             <span class="s2">"dcrab_para_list"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span><span class="p">,</span>

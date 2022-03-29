@@ -29,7 +29,7 @@ def main(optimization_dictionary: dict):
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              fom_obj=OneQubit(args_dict=args_dict), handle_exit_obj=HandleExit(),
+                                              FoM_obj=OneQubit(args_dict=args_dict), handle_exit_obj=HandleExit(),
                                               dump_attribute=BestDump)
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),

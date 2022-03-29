@@ -12,10 +12,10 @@ quocslib.utils.AbstractDump module
    :undoc-members:
    :show-inheritance:
 
-quocslib.utils.AbstractFom module
+quocslib.utils.AbstractFoM module
 ---------------------------------
 
-.. automodule:: quocslib.utils.AbstractFom
+.. automodule:: quocslib.utils.AbstractFoM
    :members:
    :undoc-members:
    :show-inheritance:
@@ -44,10 +44,10 @@ quocslib.utils.DummyDump module
    :undoc-members:
    :show-inheritance:
 
-quocslib.utils.FilesUpdateFom module
+quocslib.utils.FilesUpdateFoM module
 ------------------------------------
 
-.. automodule:: quocslib.utils.FilesUpdateFom
+.. automodule:: quocslib.utils.FilesUpdateFoM
    :members:
    :undoc-members:
    :show-inheritance:

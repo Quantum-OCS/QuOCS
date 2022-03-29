@@ -152,8 +152,8 @@
         <span class="c1"># Optimal algorithm variables if any</span>
         <span class="c1">###########################################################################################</span>
         <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
-        <span class="c1"># Starting fom</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># Starting FoM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Pulses, Parameters, Times object</span>
         <span class="c1">###########################################################################################</span>
@@ -235,7 +235,7 @@
         <span class="n">optimization_result</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">func_topt</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"BFGS"</span><span class="p">)</span>
 
         <span class="c1"># need to be able to implement pulses in Marco's way, ask him later</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">optimization_result</span><span class="o">.</span><span class="n">fun</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">optimization_result</span><span class="o">.</span><span class="n">fun</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="n">optimization_result</span><span class="o">.</span><span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="n">optimization_result</span></div>
 
@@ -266,7 +266,7 @@
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="s2">"total number of function evaluations"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">final_dict</span>

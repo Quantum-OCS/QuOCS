@@ -54,8 +54,8 @@ class DirectSearchAlgorithm(Optimizer):
         ###########################################################################################
         # Optimal algorithm variables ###########################################################
         ###########################################################################################
-        # Starting fom
-        self.best_fom = 1e10
+        # Starting FoM
+        self.best_FoM = 1e10
         ###########################################################################################
         # Pulses, Parameters object ###########################################################
         ###########################################################################################
@@ -71,10 +71,10 @@ class DirectSearchAlgorithm(Optimizer):
 
         """
         is_record = False
-        if self.fom_dict["FoM"] < self.best_fom:
+        if self.FoM_dict["FoM"] < self.best_FoM:
             is_record = True
         response_dict = {"is_record": is_record,
-                         "FoM": self.fom_dict["FoM"],
+                         "FoM": self.FoM_dict["FoM"],
                          "iteration_number": self.iteration_number}
         return response_dict
 
@@ -106,7 +106,7 @@ class DirectSearchAlgorithm(Optimizer):
                                         initial_simplex=start_simplex,
                                         sigma_v=self.controls.get_sigma_variation())
         # Update the results
-        [self.best_fom, self.xx, self.terminate_reason] = [result_l["F_min_val"],
+        [self.best_FoM, self.xx, self.terminate_reason] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],
                                                            result_l["terminate_reason"]]
 
@@ -118,7 +118,7 @@ class DirectSearchAlgorithm(Optimizer):
         return controls_dict
 
     def _get_final_results(self):
-        final_dict = {"Figure of merit": self.best_fom,
+        final_dict = {"Figure of merit": self.best_FoM,
                       "parameters": self.xx,
                       "terminate_reason": self.terminate_reason}
         return final_dict

@@ -24,15 +24,15 @@ from datetime import datetime
 max_counter = 1000
 sleep_time = 0.2
 qubit_obj = OneQubit()
-fom_path = "fom.txt"
+FoM_path = "FoM.txt"
 controls_path = "controls."
 
 
 def main1():
     pulses_list = [np.random.random((100,))]
     time_grids_list = [np.linspace(0.0, 3.0, 100)]
-    fom = qubit_obj.get_FoM(pulses=pulses_list, timegrids=time_grids_list, parameters=[])
-    print(fom)
+    FoM = qubit_obj.get_FoM(pulses=pulses_list, timegrids=time_grids_list, parameters=[])
+    print(FoM)
 
 
 def main(controls_file_extension: str = "txt"):
@@ -69,11 +69,11 @@ def read_pulses_file(controls_file_extension: str = "txt") -> bool:
             os.remove(controls_path)
             # Calculate the figure of merit
             # pulses, parameters, timegrids)
-            fom = qubit_obj.get_FoM([controls["pulse1"]], [], [controls["time_grid1"]])
-            # Return the figure of merit in the fom file
-            with open(fom_path, "w+") as fom_file:
-                fom_file.write(str(fom["FoM"]))
-                fom_file.close()
+            FoM = qubit_obj.get_FoM([controls["pulse1"]], [], [controls["time_grid1"]])
+            # Return the figure of merit in the FoM file
+            with open(FoM_path, "w+") as FoM_file:
+                FoM_file.write(str(FoM["FoM"]))
+                FoM_file.close()
             break
         else:
             counter += 1

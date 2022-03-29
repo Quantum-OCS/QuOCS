@@ -122,10 +122,10 @@
 <span class="kn">from</span> <span class="nn">quocslib.optimalcontrolproblems.su2</span> <span class="kn">import</span> <span class="n">hamiltonian_d1_d2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span><span class="p">,</span> <span class="n">norm</span>
-<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFom</span> <span class="kn">import</span> <span class="n">AbstractFom</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
 
 
-<div class="viewcode-block" id="OneQubit"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">[docs]</a><span class="k">class</span> <span class="nc">OneQubit</span><span class="p">(</span><span class="n">AbstractFom</span><span class="p">):</span>
+<div class="viewcode-block" id="OneQubit"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">[docs]</a><span class="k">class</span> <span class="nc">OneQubit</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">args_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">args_dict</span> <span class="o">=</span> <span class="p">{}</span>

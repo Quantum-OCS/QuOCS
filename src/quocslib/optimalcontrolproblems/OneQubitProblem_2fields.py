@@ -17,10 +17,10 @@
 from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2_2fields
 import numpy as np
 from scipy.linalg import expm, norm
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 
 
-class OneQubit2Fields(AbstractFom):
+class OneQubit2Fields(AbstractFoM):
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}

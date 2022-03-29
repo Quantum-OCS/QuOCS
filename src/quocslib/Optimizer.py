@@ -21,11 +21,11 @@ from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
 class Optimizer:
     init_status: bool = False
-    fom_maximum: float = 1e10
+    FoM_maximum: float = 1e10
     xx: np.array
     alg_iteration_number: int
     iteration_number: int
-    fom_dict: dict
+    FoM_dict: dict
 
     def __init__(self,
                  communication_obj: AllInOneCommunication = None,
@@ -72,7 +72,7 @@ class Optimizer:
         # Check if the optimization is still running
         is_running = self.comm_obj.get_user_running()
         if not is_running:
-            return self.fom_maximum
+            return self.FoM_maximum
         # Update parameter array and iteration number
         self.xx, self.alg_iteration_number = optimized_control_parameters, iterations
         # Update iteration number
@@ -90,17 +90,17 @@ class Optimizer:
         # Check if the optimization is still running
         is_running = self.comm_obj.get_user_running()
         if not is_running:
-            return self.fom_maximum
+            return self.FoM_maximum
         # Get the figure of merit and update it to the main algorithm
-        self.fom_dict = self.comm_obj.get_data()["fom_values"]
+        self.FoM_dict = self.comm_obj.get_data()["FoM_values"]
         # Send the response for the interface
-        self.comm_obj.send_fom_response(self._get_response_for_client())
+        self.comm_obj.send_FoM_response(self._get_response_for_client())
         # Update the notification file for the interface
         self.comm_obj.update_msg_server()
         # The interface reads the FoM response and update its notification file
         #
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
-        return self.fom_dict["FoM"]
+        return self.FoM_dict["FoM"]
 
     @abstractmethod
     def run(self) -> None:

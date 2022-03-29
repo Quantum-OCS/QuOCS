@@ -54,8 +54,8 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.max_num_function_ev = int(alg_parameters["maximum_function_evaluations_number"])
         # Max number of iterations from SI2
         self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
-        # Starting fom and sigma
-        self.best_fom = 1e10
+        # Starting FoM and sigma
+        self.best_FoM = 1e10
         self.best_sigma = 0.0
         # Update the drift Hamiltonian
         self.is_compensate_drift = alg_parameters.setdefault("is_compensated_drift", True)
@@ -69,10 +69,10 @@ class DCrabNoisyAlgorithm(Optimizer):
                 message = "Steps not found. The default will be used in the optimization: {0}".format(
                     self.re_evaluation_steps)
                 self.comm_obj.print_logger(message, level=30)
-            # Define the fom test and sigma test arrays, with the maximum number of steps
-            # Fom test and sigma test are arrays containing the fom and sigma at every re-evaluation step
-            self.fom_test = np.zeros(self.re_evaluation_steps.shape[0] + 1, dtype=float)
-            self.sigma_test = np.zeros_like(self.fom_test)
+            # Define the FoM test and sigma test arrays, with the maximum number of steps
+            # FoM test and sigma test are arrays containing the FoM and sigma at every re-evaluation step
+            self.FoM_test = np.zeros(self.re_evaluation_steps.shape[0] + 1, dtype=float)
+            self.sigma_test = np.zeros_like(self.FoM_test)
         else:
             self.re_evaluation_steps = None
         # Seed for the random number generator
@@ -86,9 +86,9 @@ class DCrabNoisyAlgorithm(Optimizer):
                     default_seed_number)
                 self.rng = RandomNumberGenerator(seed_number=default_seed_number)
                 self.comm_obj.print_logger(message, level=30)
-        # The fact a FoM is a record Fom is decided by the inner call
+        # The fact a FoM is a record FoM is decided by the inner call
         self.is_record = False
-        # Initialize the step number used during the fom calculation
+        # Initialize the step number used during the FoM calculation
         self.step_number = 0
         ###########################################################################################
         # Pulses, Parameters object
@@ -108,25 +108,25 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.super_it: int = 0
         self.dcrab_parameters_list: list = []
         self.dcrab_super_parameter_list: list = []
-        self.fom_list: list = []
+        self.FoM_list: list = []
         self.iteration_number_list: list = []
 
     def _get_response_for_client(self) -> dict:
         """Return useful information for the client interface and print message in the log"""
-        # Get the average fom
-        fom, std = self._get_average_fom_std()
-        status_code = self.fom_dict.setdefault("status_code", 0)
+        # Get the average FoM
+        FoM, std = self._get_average_FoM_std()
+        status_code = self.FoM_dict.setdefault("status_code", 0)
         # If re-evaluation steps is not used check for current best figure of merit
         if self.re_evaluation_steps is None:
-            if fom < self.best_fom:
-                message = "Found a record. Previous FoM: {fom}, new best FoM : {best_fom}".format(
-                    fom=self.best_fom, best_fom=fom)
+            if FoM < self.best_FoM:
+                message = "Found a record. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
+                    FoM=self.best_FoM, best_FoM=FoM)
                 self.comm_obj.print_logger(message=message, level=20)
-                self.best_fom = fom
+                self.best_FoM = FoM
                 self.best_xx = self.xx.copy()
                 self.is_record = True
         response_dict = {"is_record": self.is_record,
-                         "FoM": fom,
+                         "FoM": FoM,
                          "iteration_number": self.iteration_number,
                          "super_it": self.super_it,
                          "status_code": status_code}
@@ -141,13 +141,13 @@ class DCrabNoisyAlgorithm(Optimizer):
                                                            sub_it=self.alg_iteration_number))
         # Data
         if self.re_evaluation_steps is not None:
-            message += " re-eval step number: {0}, FoM: {1}, std: {2}".format(self.step_number, fom, std)
+            message += " re-eval step number: {0}, FoM: {1}, std: {2}".format(self.step_number, FoM, std)
         else:
-            message += " FoM: {0}".format(fom)
+            message += " FoM: {0}".format(FoM)
         self.comm_obj.print_logger(message, level=20)
         # Load the current figure of merit and iteration number in the summary list of dCRAB
         if status_code == 0:
-            self.fom_list.append(fom)
+            self.FoM_list.append(FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
@@ -161,7 +161,7 @@ class DCrabNoisyAlgorithm(Optimizer):
             self.super_it = super_it
             # Compensate the drift Hamiltonian
             if self.is_compensate_drift and super_it >= 2:
-                self._update_fom()
+                self._update_FoM()
             # Initialize the random super_parameters
             self.controls.select_basis()
             # Direct search method
@@ -172,16 +172,16 @@ class DCrabNoisyAlgorithm(Optimizer):
             # Update the base current pulses
             self._update_base_pulses()
 
-    def _update_fom(self) -> None:
-        """Update the value of the best fom using the current best controls"""
-        previous_best_fom = self.best_fom
+    def _update_FoM(self) -> None:
+        """Update the value of the best FoM using the current best controls"""
+        previous_best_FoM = self.best_FoM
         # Get the current best control optimization vector
         x0 = self.controls.get_mean_value()
-        # Evaluate the fom with the standard routine call and set the fom as the current record
+        # Evaluate the FoM with the standard routine call and set the FoM as the current record
         iteration, self.is_record, self.step_number = 0, True, 0
-        self.best_fom = self._routine_call(x0, iteration)
+        self.best_FoM = self._routine_call(x0, iteration)
         # Info message
-        message = f"Previous best FoM: {previous_best_fom} , Current best FoM after drift compensation: {self.best_fom}"
+        message = f"Previous best FoM: {previous_best_FoM} , Current best FoM after drift compensation: {self.best_FoM}"
         self.comm_obj.print_logger(message=message, level=20)
         # At this point is not necessary to set again is_record to False since is newly re-define at the beginning of
         # the _inner_routine_call function
@@ -209,16 +209,16 @@ class DCrabNoisyAlgorithm(Optimizer):
                                         initial_simplex=start_simplex,
                                         max_iterations_number=max_iteration_number)
         # Update the results
-        [fom, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
+        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],
                                                            result_l["terminate_reason"],
                                                            result_l["NfunevalsUsed"]]
         # Message at the end of the SI
         message = ("SI: {super_it}, Total nr control evaluations: {NfunevalsUsed}, \n"
-                   "Current best FoM: {best_fom}".format(super_it=self.super_it,
+                   "Current best FoM: {best_FoM}".format(super_it=self.super_it,
                                                          NfunevalsUsed=NfunevalsUsed,
                                                          termination_reason=self.terminate_reason,
-                                                         best_fom=self.best_fom))
+                                                         best_FoM=self.best_FoM))
         self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
@@ -227,12 +227,12 @@ class DCrabNoisyAlgorithm(Optimizer):
         self.is_record = False
         # Initialize step number to 0
         self.step_number = 0
-        fom = self._routine_call(optimized_control_parameters, iterations)
+        FoM = self._routine_call(optimized_control_parameters, iterations)
         ################################################################################################################
         # Standard function evaluation - dCRAB without re-evaluation steps
         ################################################################################################################
         if self.re_evaluation_steps is None:
-            mu_1 = fom
+            mu_1 = FoM
         else:
             ############################################################################################################
             # Implement the re-evaluation step method
@@ -245,67 +245,67 @@ class DCrabNoisyAlgorithm(Optimizer):
                 re_evaluation_steps = np.array([0.5])
             # number of steps
             max_steps_number = re_evaluation_steps.shape[0]
-            # Initialize to zero the fom_test and the sigma_test arrays
-            self.fom_test = 0.0 * self.fom_test
+            # Initialize to zero the FoM_test and the sigma_test arrays
+            self.FoM_test = 0.0 * self.FoM_test
             self.sigma_test = 0.0 * self.sigma_test
             # Get the figure of merit from the client
-            self.fom_test[0] = fom
+            self.FoM_test[0] = FoM
             # TODO: Check if optimization_is_running is necessary here
             # Get the standard deviation
-            self.sigma_test[0] = float(self.fom_dict.setdefault("std", 1.0))
+            self.sigma_test[0] = float(self.FoM_dict.setdefault("std", 1.0))
             # Increase step number after function evaluation
             self.step_number += 1
             # p level test better than current record
             for ii in range(max_steps_number):
                 p_level = re_evaluation_steps[ii]
-                mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
+                mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
                                                           sigma_sum=np.sum(self.sigma_test) * 1.0)
-                mu_2, sigma_2 = self.best_fom, self.best_sigma
+                mu_2, sigma_2 = self.best_FoM, self.best_sigma
                 probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
                 # If probability is lower than the probability in the list return the
                 if probability < p_level:
                     return mu_1
                 # else: go on with further re-evaluations
-                self.fom_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
-                self.sigma_test[ii + 1] = float(self.fom_dict.setdefault("std", 1.0))
+                self.FoM_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
+                self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                 # Increase step number after function evaluation
                 self.step_number += 1
 
             # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
-            mu_1, sigma_1 = self._get_average_fom_std(mu_sum=np.sum(self.fom_test) * 1.0,
+            mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
                                                       sigma_sum=np.sum(self.sigma_test) * 1.0)
-            mu_2, sigma_2 = self.best_fom, self.best_sigma
+            mu_2, sigma_2 = self.best_FoM, self.best_sigma
             probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
-            # TODO: Check what best fom means in this case
+            # TODO: Check what best FoM means in this case
             if probability > re_evaluation_steps[-1]:
                 # We have a new record
-                self.best_sigma, self.best_fom = sigma_1, mu_1
+                self.best_sigma, self.best_FoM = sigma_1, mu_1
                 self.is_record = True
                 message = "Found a record. FoM: {0}, std: {1}".format(mu_1, sigma_1)
                 self.comm_obj.print_logger(message, level=20)
                 self.best_xx = self.xx.copy()
                 self.comm_obj.update_controls(is_record=True,
-                                              FoM=self.best_fom,
+                                              FoM=self.best_FoM,
                                               sigma=self.best_sigma,
                                               super_it=self.super_it)
 
         return mu_1
 
-    def _get_average_fom_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
+    def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
         """Calculate the average figure of merit and sigma"""
         step_number = self.step_number
         # For the first evaluation and in case no re-evaluation step is needed return directly
         if step_number == 0:
-            return self.fom_dict["FoM"], self.fom_dict.setdefault("std", 1.0)
-        # Call from the response for client function. Calculate the average fom based on all the previous fom stored in
-        # the fom_test array and the current fom in the fom dict
+            return self.FoM_dict["FoM"], self.FoM_dict.setdefault("std", 1.0)
+        # Call from the response for client function. Calculate the average FoM based on all the previous FoM stored in
+        # the FoM_test array and the current FoM in the FoM dict
         if mu_sum is None:
-            curr_fom, curr_std = self.fom_dict["FoM"], self.fom_dict.setdefault("std", 1.0)
-            mu_sum = np.mean(self.fom_test[:step_number]) * (step_number - 1) + curr_fom
+            curr_FoM, curr_std = self.FoM_dict["FoM"], self.FoM_dict.setdefault("std", 1.0)
+            mu_sum = np.mean(self.FoM_test[:step_number]) * (step_number - 1) + curr_FoM
             sigma_sum = (np.mean(self.sigma_test[:step_number]) * (step_number - 1) + curr_std)
         # If it is called inside the _inner_routine_call()
-        average_fom, average_std = mu_sum / step_number, sigma_sum / step_number
-        return average_fom, average_std
+        average_FoM, average_std = mu_sum / step_number, sigma_sum / step_number
+        return average_FoM, average_std
 
     def _probabnormx1betterx2(self, mu_1: float, sigma_1: float, mu_2: float, sigma_2: float):
         """
@@ -346,7 +346,7 @@ class DCrabNoisyAlgorithm(Optimizer):
 
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
-        final_dict = {"Figure of merit": self.best_fom,
+        final_dict = {"Figure of merit": self.best_FoM,
                       "Std": self.best_sigma,
                       "total number of function evaluations": self.iteration_number,
                       "dcrab_freq_list": self.dcrab_super_parameter_list,

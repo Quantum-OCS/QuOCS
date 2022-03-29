@@ -319,7 +319,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_stopping_criteria</span><span class="p">(</span><span class="n">fsim</span><span class="p">,</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="c1"># # CMAES criterium</span>
                 <span class="c1"># if np.amax(D) &gt; 1e7 * np.amin(D):</span>
-                <span class="c1">#     fom_best = fsim[0]</span>
+                <span class="c1">#     FoM_best = fsim[0]</span>
                 <span class="c1">#     is_terminated = True</span>
                 <span class="c1">#     terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?</span>
                 <span class="c1"># if iterations &gt; max_iterations_number:</span>
@@ -344,8 +344,8 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 
     <span class="k">def</span> <span class="nf">test_rosenbrock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">DebugMode</span><span class="p">,</span> <span class="n">details</span><span class="p">):</span>
-        <span class="n">fom</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">fom</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">rosen</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">FoM</span>
 
     <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
     <span class="kn">import</span> <span class="nn">time</span>

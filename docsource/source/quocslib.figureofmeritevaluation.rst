@@ -4,10 +4,10 @@ quocslib.figureofmeritevaluation package
 Submodules
 ----------
 
-quocslib.figureofmeritevaluation.AbstractFom module
+quocslib.figureofmeritevaluation.AbstractFoM module
 ---------------------------------------------------
 
-.. automodule:: quocslib.figureofmeritevaluation.AbstractFom
+.. automodule:: quocslib.figureofmeritevaluation.AbstractFoM
    :members:
    :undoc-members:
    :show-inheritance:

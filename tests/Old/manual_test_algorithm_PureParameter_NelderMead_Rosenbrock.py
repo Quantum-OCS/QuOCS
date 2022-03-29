@@ -28,7 +28,7 @@ from quocslib.utils.BestDump import BestDump
 def main(optimization_dictionary: dict):
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
-    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name, fom_obj=Rosenbrock(),
+    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name, FoM_obj=Rosenbrock(),
                                               handle_exit_obj=HandleExit(), dump_attribute=BestDump)
     # Get the optimizer attribute
     optimizer_attribute = dynamic_import(

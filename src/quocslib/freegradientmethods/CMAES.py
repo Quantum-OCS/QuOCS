@@ -214,7 +214,7 @@ class CMAES(DirectSearchMethod):
                 self.sc_obj.check_stopping_criteria(fsim, calls_number[0])
                 # # CMAES criterium
                 # if np.amax(D) > 1e7 * np.amin(D):
-                #     fom_best = fsim[0]
+                #     FoM_best = fsim[0]
                 #     is_terminated = True
                 #     terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?
                 # if iterations > max_iterations_number:
@@ -239,8 +239,8 @@ class CMAES(DirectSearchMethod):
 if __name__ == "__main__":
 
     def test_rosenbrock(x, DebugMode, details):
-        fom = optimize.rosen(x)
-        return fom
+        FoM = optimize.rosen(x)
+        return FoM
 
     from scipy import optimize
     import time

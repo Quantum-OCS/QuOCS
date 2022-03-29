@@ -169,8 +169,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
             <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"maximum_function_evaluations_number"</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="c1"># Starting fom and sigma</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># Starting FoM and sigma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="c1"># Update the drift Hamiltonian</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_compensate_drift</span> <span class="o">=</span> <span class="n">alg_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
@@ -189,12 +189,12 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-            <span class="c1"># Define the fom test and sigma test arrays, with the maximum number of steps</span>
-            <span class="c1"># Fom test and sigma test are arrays containing the fom and sigma at every re-evaluation step</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+            <span class="c1"># Define the FoM test and sigma test arrays, with the maximum number of steps</span>
+            <span class="c1"># FoM test and sigma test are arrays containing the FoM and sigma at every re-evaluation step</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># Seed for the random number generator</span>
@@ -209,9 +209,9 @@
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="n">RandomNumberGenerator</span><span class="p">(</span><span class="n">seed_number</span><span class="o">=</span><span class="n">default_seed_number</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-        <span class="c1"># The fact a FoM is a record Fom is decided by the inner call</span>
+        <span class="c1"># The fact a FoM is a record FoM is decided by the inner call</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="c1"># Initialize the step number used during the fom calculation</span>
+        <span class="c1"># Initialize the step number used during the FoM calculation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Pulses, Parameters object</span>
@@ -233,27 +233,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return useful information for the client interface and print message in the log"""</span>
-        <span class="c1"># Get the average fom</span>
-        <span class="n">fom</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_fom_std</span><span class="p">()</span>
-        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Get the average FoM</span>
+        <span class="n">FoM</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_FoM_std</span><span class="p">()</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># If re-evaluation steps is not used check for current best figure of merit</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fom</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">:</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="s2">"Found a record. Previous fom: </span><span class="si">{fom}</span><span class="s2">, new best fom : </span><span class="si">{best_fom}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">fom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span> <span class="n">best_fom</span><span class="o">=</span><span class="n">fom</span>
+            <span class="k">if</span> <span class="n">FoM</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">"Found a record. Previous FoM: </span><span class="si">{FoM}</span><span class="s2">, new best FoM : </span><span class="si">{best_FoM}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span> <span class="n">best_FoM</span><span class="o">=</span><span class="n">FoM</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">fom</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">FoM</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"is_record"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span><span class="p">,</span>
-            <span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span>
+            <span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span>
             <span class="s2">"iteration_number"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
             <span class="s2">"super_it"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
             <span class="s2">"status_code"</span><span class="p">:</span> <span class="n">status_code</span><span class="p">,</span>
@@ -273,15 +273,15 @@
         <span class="p">)</span>
         <span class="c1"># Data</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">+=</span> <span class="s2">" step number: </span><span class="si">{0}</span><span class="s2">, Fom: </span><span class="si">{1}</span><span class="s2">, Std: </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span><span class="p">,</span> <span class="n">fom</span><span class="p">,</span> <span class="n">std</span>
+            <span class="n">message</span> <span class="o">+=</span> <span class="s2">" step number: </span><span class="si">{0}</span><span class="s2">, FoM: </span><span class="si">{1}</span><span class="s2">, Std: </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">,</span> <span class="n">std</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">+=</span> <span class="s2">" Fom: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fom</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">+=</span> <span class="s2">" FoM: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">FoM</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
         <span class="c1"># Load the current figure of merit and iteration number in the summary list of dCRAB</span>
         <span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fom</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FoM</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response_dict</span>
 
@@ -295,7 +295,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span> <span class="o">=</span> <span class="n">super_it</span>
             <span class="c1"># Compensate the drift Hamiltonian</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_compensate_drift</span> <span class="ow">and</span> <span class="n">super_it</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_update_fom</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_FoM</span><span class="p">()</span>
             <span class="c1"># Initialize the random super_parameters</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">select_basis</span><span class="p">()</span>
             <span class="c1"># Direct search method</span>
@@ -306,16 +306,16 @@
             <span class="c1"># Update the base current pulses</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_base_pulses</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_update_fom</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">"""Update the value of the best fom using the current best controls"""</span>
-        <span class="n">previous_best_fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span>
+    <span class="k">def</span> <span class="nf">_update_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Update the value of the best FoM using the current best controls"""</span>
+        <span class="n">previous_best_FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span>
         <span class="c1"># Get the current best control optimization vector</span>
         <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span>
-        <span class="c1"># Evaluate the fom with the standard routine call and set the fom as the current record</span>
+        <span class="c1"># Evaluate the FoM with the standard routine call and set the FoM as the current record</span>
         <span class="n">iteration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">iteration</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">iteration</span><span class="p">)</span>
         <span class="c1"># Info message</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best fom: </span><span class="si">{</span><span class="n">previous_best_fom</span><span class="si">}</span><span class="s2"> , Current best fom after drift compensation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best FoM: </span><span class="si">{</span><span class="n">previous_best_FoM</span><span class="si">}</span><span class="s2"> , Current best FoM after drift compensation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="si">}</span><span class="s2">"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
         <span class="c1"># At this point is not necessary to set again is_record to False since is newly re-define at the beginning of</span>
         <span class="c1"># the _inner_routine_call function</span>
@@ -349,7 +349,7 @@
             <span class="n">max_iterations_number</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Update the results</span>
-        <span class="p">[</span><span class="n">fom</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"terminate_reason"</span><span class="p">],</span>
@@ -359,11 +359,11 @@
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">"SI: </span><span class="si">{super_it}</span><span class="s2">, Total nr control evaluations: </span><span class="si">{NfunevalsUsed}</span><span class="s2">, </span><span class="se">\n</span><span class="s2">"</span>
             <span class="s2">"Termination Reason: </span><span class="si">{termination_reason}</span><span class="se">\n</span><span class="s2">"</span>
-            <span class="s2">"Current best fom: </span><span class="si">{best_fom}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">"Current best FoM: </span><span class="si">{best_FoM}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
                 <span class="n">NfunevalsUsed</span><span class="o">=</span><span class="n">NfunevalsUsed</span><span class="p">,</span>
                 <span class="n">termination_reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
-                <span class="n">best_fom</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+                <span class="n">best_FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -376,12 +376,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Initialize step number to 0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">fom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span><span class="n">optimized_control_parameters</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span><span class="n">optimized_control_parameters</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
         <span class="c1">################################################################################################################</span>
         <span class="c1"># Standard function evaluation - dCRAB without re-evaluation steps</span>
         <span class="c1">################################################################################################################</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_evaluation_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">mu_1</span> <span class="o">=</span> <span class="n">fom</span>
+            <span class="n">mu_1</span> <span class="o">=</span> <span class="n">FoM</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1">############################################################################################################</span>
             <span class="c1"># Implement the re-evaluation step method</span>
@@ -394,81 +394,81 @@
                 <span class="n">re_evaluation_steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">])</span>
             <span class="c1"># number of steps</span>
             <span class="n">max_steps_number</span> <span class="o">=</span> <span class="n">re_evaluation_steps</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="c1"># Initialize to zero the fom_test and the sigma_test arrays</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span>
+            <span class="c1"># Initialize to zero the FoM_test and the sigma_test arrays</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span>
             <span class="c1"># Get the figure of merit from the client</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">fom</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">FoM</span>
             <span class="c1"># TODO: Check if optimization_is_running is necessary here</span>
             <span class="c1"># Get the standard deviation</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
             <span class="c1"># Increase step number after function evaluation</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># p level test better than current record</span>
             <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps_number</span><span class="p">):</span>
                 <span class="n">p_level</span> <span class="o">=</span> <span class="n">re_evaluation_steps</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
-                <span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_fom_std</span><span class="p">(</span>
-                    <span class="n">mu_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_FoM_std</span><span class="p">(</span>
+                    <span class="n">mu_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
                     <span class="n">sigma_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span>
+                <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span>
                 <span class="n">probability</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_probabnormx1betterx2</span><span class="p">(</span><span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span><span class="p">,</span> <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span><span class="p">)</span>
                 <span class="c1"># If probability is lower than the probability in the list return the</span>
                 <span class="k">if</span> <span class="n">probability</span> <span class="o">&lt;</span> <span class="n">p_level</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">mu_1</span>
                 <span class="c1"># else: go on with further re-evaluations</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span>
                     <span class="n">optimized_control_parameters</span><span class="p">,</span> <span class="n">iterations</span>
                 <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
                 <span class="c1"># Increase step number after function evaluation</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="c1"># check if last threshold (re_evaluation_steps[-1]) is surpassed -&gt; new record</span>
-            <span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_fom_std</span><span class="p">(</span>
-                <span class="n">mu_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_average_FoM_std</span><span class="p">(</span>
+                <span class="n">mu_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
                 <span class="n">sigma_sum</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span>
+            <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span>
             <span class="n">probability</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_probabnormx1betterx2</span><span class="p">(</span><span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span><span class="p">,</span> <span class="n">mu_2</span><span class="p">,</span> <span class="n">sigma_2</span><span class="p">)</span>
-            <span class="c1"># TODO: Check what best fom means in this case</span>
+            <span class="c1"># TODO: Check what best FoM means in this case</span>
             <span class="k">if</span> <span class="n">probability</span> <span class="o">&gt;</span> <span class="n">re_evaluation_steps</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                 <span class="c1"># We have a new record</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">sigma_1</span><span class="p">,</span> <span class="n">mu_1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">sigma_1</span><span class="p">,</span> <span class="n">mu_1</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">message</span> <span class="o">=</span> <span class="s2">"Found a record. fom: </span><span class="si">{0}</span><span class="s2">, std: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span><span class="p">)</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">"Found a record. FoM: </span><span class="si">{0}</span><span class="s2">, std: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mu_1</span><span class="p">,</span> <span class="n">sigma_1</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_controls</span><span class="p">(</span>
                     <span class="n">is_record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+                    <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
                     <span class="n">sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span><span class="p">,</span>
                     <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
                 <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">mu_1</span>
 
-    <span class="k">def</span> <span class="nf">_get_average_fom_std</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_get_average_FoM_std</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mu_sum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sigma_sum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
         <span class="sd">"""Calculate the average figure of merit and sigma"""</span>
         <span class="n">step_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span>
         <span class="c1"># For the first evaluation and in case no re-evaluation step is needed return directly</span>
         <span class="k">if</span> <span class="n">step_number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="c1"># Call from the response for client function. Calculate the average fom based on all the previous fom stored in</span>
-        <span class="c1"># the fom_test array and the current fom in the fom dict</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="c1"># Call from the response for client function. Calculate the average FoM based on all the previous FoM stored in</span>
+        <span class="c1"># the FoM_test array and the current FoM in the FoM dict</span>
         <span class="k">if</span> <span class="n">mu_sum</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">curr_fom</span><span class="p">,</span> <span class="n">curr_std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="n">curr_FoM</span><span class="p">,</span> <span class="n">curr_std</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
                 <span class="s2">"std"</span><span class="p">,</span> <span class="mf">1.0</span>
             <span class="p">)</span>
-            <span class="n">mu_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_test</span><span class="p">[:</span><span class="n">step_number</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">step_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">curr_fom</span>
+            <span class="n">mu_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_test</span><span class="p">[:</span><span class="n">step_number</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">step_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">curr_FoM</span>
             <span class="n">sigma_sum</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_test</span><span class="p">[:</span><span class="n">step_number</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">step_number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">curr_std</span>
             <span class="p">)</span>
         <span class="c1"># If it is called inside the _inner_routine_call()</span>
-        <span class="n">average_fom</span><span class="p">,</span> <span class="n">average_std</span> <span class="o">=</span> <span class="n">mu_sum</span> <span class="o">/</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">sigma_sum</span> <span class="o">/</span> <span class="n">step_number</span>
-        <span class="k">return</span> <span class="n">average_fom</span><span class="p">,</span> <span class="n">average_std</span>
+        <span class="n">average_FoM</span><span class="p">,</span> <span class="n">average_std</span> <span class="o">=</span> <span class="n">mu_sum</span> <span class="o">/</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">sigma_sum</span> <span class="o">/</span> <span class="n">step_number</span>
+        <span class="k">return</span> <span class="n">average_FoM</span><span class="p">,</span> <span class="n">average_std</span>
 
     <span class="k">def</span> <span class="nf">_probabnormx1betterx2</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mu_1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma_1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">mu_2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma_2</span><span class="p">:</span> <span class="nb">float</span>
@@ -516,7 +516,7 @@
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="s2">"Std"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span><span class="p">,</span>
             <span class="s2">"total number of function evaluations"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
             <span class="s2">"dcrab_freq_list"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="p">,</span>

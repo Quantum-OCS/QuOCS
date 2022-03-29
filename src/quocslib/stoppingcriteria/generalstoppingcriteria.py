@@ -36,13 +36,13 @@ def _check_simplex_criterion(sim: np.array, x_atol: float) -> [bool, str]:
 
 
 def _check_f_size(f_sim: np.array, fr_tol: float) -> [bool, str]:
-    # Convergence fom criterion
+    # Convergence FoM criterion
     terminate_reason = "Convergence of the FoM"
     is_converged = False
     try:
-        maxDeltaFomRel = np.max(np.abs(f_sim[0] - f_sim[1:])) / (np.abs(f_sim[0]))
+        maxDeltaFoMRel = np.max(np.abs(f_sim[0] - f_sim[1:])) / (np.abs(f_sim[0]))
     except (ZeroDivisionError, FloatingPointError):
-        maxDeltaFomRel = f_sim[1]
-    if maxDeltaFomRel <= fr_tol:
+        maxDeltaFoMRel = f_sim[1]
+    if maxDeltaFoMRel <= fr_tol:
         is_converged = True
     return [is_converged, terminate_reason]

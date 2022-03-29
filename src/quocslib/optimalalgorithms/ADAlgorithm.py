@@ -47,8 +47,8 @@ class ADAlgorithm(Optimizer):
         # Optimal algorithm variables if any
         ###########################################################################################
         alg_parameters = optimization_dict["algorithm_settings"]
-        # Starting fom
-        self.best_fom = 1e10
+        # Starting FoM
+        self.best_FoM = 1e10
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
@@ -130,7 +130,7 @@ class ADAlgorithm(Optimizer):
         optimization_result = jsp.optimize.minimize(func_topt, init, method="BFGS")
 
         # need to be able to implement pulses in Marco's way, ask him later
-        self.best_fom = optimization_result.fun
+        self.best_FoM = optimization_result.fun
         self.optimized_pulses = optimization_result.x
         self.opt_res = optimization_result
 
@@ -161,7 +161,7 @@ class ADAlgorithm(Optimizer):
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "Figure of merit": self.best_fom,
+            "Figure of merit": self.best_FoM,
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict

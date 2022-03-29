@@ -126,11 +126,11 @@
 
 <div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
     <span class="n">init_status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">fom_maximum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e10</span>
+    <span class="n">FoM_maximum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e10</span>
     <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
     <span class="n">alg_iteration_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">fom_dict</span><span class="p">:</span> <span class="nb">dict</span>
+    <span class="n">FoM_dict</span><span class="p">:</span> <span class="nb">dict</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -181,7 +181,7 @@
         <span class="c1"># Check if the optimization is still running</span>
         <span class="n">is_running</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_running</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_maximum</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_maximum</span>
         <span class="c1"># Update parameter array and iteration number</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alg_iteration_number</span> <span class="o">=</span> <span class="n">optimized_control_parameters</span><span class="p">,</span> <span class="n">iterations</span>
         <span class="c1"># Update iteration number</span>
@@ -199,17 +199,17 @@
         <span class="c1"># Check if the optimization is still running</span>
         <span class="n">is_running</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_running</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_maximum</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_maximum</span>
         <span class="c1"># Get the figure of merit and update it to the main algorithm</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="s2">"fom_values"</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="s2">"FoM_values"</span><span class="p">]</span>
         <span class="c1"># Send the response for the interface</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_fom_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_response_for_client</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_FoM_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_response_for_client</span><span class="p">())</span>
         <span class="c1"># Update the notification file for the interface</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_msg_server</span><span class="p">()</span>
         <span class="c1"># The interface reads the FoM response and update its notification file</span>
         <span class="c1">#</span>
         <span class="c1"># Return the figure of merit, i.e. a real number, to the optimal based algorithm</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Optimizer.run"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer.run">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

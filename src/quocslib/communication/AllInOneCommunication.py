@@ -19,7 +19,7 @@ import time
 
 import numpy as np
 
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.tools.logger import create_logger
@@ -30,7 +30,7 @@ from quocslib import __VERSION__ as quocslib_version
 class AllInOneCommunication:
     def __init__(self,
                  interface_job_name: str = "OptimizationTest",
-                 fom_obj: AbstractFom = None,
+                 FoM_obj: AbstractFoM = None,
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
                  comm_signals_list: [list, list, list] = None):
@@ -41,7 +41,7 @@ class AllInOneCommunication:
 
         :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current
         time to ensure univocity
-        :param AbstractFom fom_obj: object for the figure of merit evaluation. Have a look to the abstract class for
+        :param AbstractFoM FoM_obj: object for the figure of merit evaluation. Have a look to the abstract class for
         more info
         :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the
         communication is finished to communicate with the client interface
@@ -49,9 +49,9 @@ class AllInOneCommunication:
         """
         # Communication signals
         if comm_signals_list is None:
-            self.message_signal, self.fom_plot_signal, self.controls_update_signal = (None, None,  None)
+            self.message_signal, self.FoM_plot_signal, self.controls_update_signal = (None, None,  None)
         else:
-            (self.message_signal, self.fom_plot_signal, self.controls_update_signal) = comm_signals_list
+            (self.message_signal, self.FoM_plot_signal, self.controls_update_signal) = comm_signals_list
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
@@ -76,7 +76,7 @@ class AllInOneCommunication:
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object
-        self.fom_obj = fom_obj
+        self.FoM_obj = FoM_obj
         # TODO Thinks whether it is a good idea dumping the results
         # Dumping data object
         self.dump_obj = dump_attribute(self.results_path)
@@ -128,25 +128,25 @@ class AllInOneCommunication:
         """
         Calculate the figure of merit and return a dictionary with all the arguments
 
-        :return dict: {"fom_values": {"FoM": float, ...}}
+        :return dict: {"FoM_values": {"FoM": float, ...}}
         """
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
-        fom_dict = self.fom_obj.get_FoM(**self.controls_dict)
-        # set the status of the fom to 0 if it does not exist already
-        status_code = fom_dict.setdefault("status_code", 0)
+        FoM_dict = self.FoM_obj.get_FoM(**self.controls_dict)
+        # set the status of the FoM to 0 if it does not exist already
+        status_code = FoM_dict.setdefault("status_code", 0)
         # if the user passes a different status code than zero, stop the optimization
         if status_code != 0:
             self.he_obj.is_user_running = False
-        return {"fom_values": fom_dict}
+        return {"FoM_values": FoM_dict}
 
-    def send_fom_response(self, response_for_client: dict) -> None:
+    def send_FoM_response(self, response_for_client: dict) -> None:
         """
         Emit signal to the Client Interface and dump the results in case any
 
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
-        iteration_number, fom = (response_for_client["iteration_number"],
+        iteration_number, FoM = (response_for_client["iteration_number"],
                                  response_for_client["FoM"])
         status_code = response_for_client.setdefault("status_code", 0)
         # Check for interrupting signals
@@ -156,15 +156,15 @@ class AllInOneCommunication:
             # Set the user running to False in order to not continue with the next iteration
             self.he_obj.is_user_running = False
             return
-        self._print_general_log(iteration_number, fom)
+        self._print_general_log(iteration_number, FoM)
         self.update_controls(**response_for_client)
-        if self.fom_plot_signal is not None:
-            self.fom_plot_signal.emit(iteration_number, fom)
+        if self.FoM_plot_signal is not None:
+            self.FoM_plot_signal.emit(iteration_number, FoM)
 
-    def _print_general_log(self, iteration_number: int, fom: float):
+    def _print_general_log(self, iteration_number: int, FoM: float):
         """Print the general log at each function evaluation"""
         if self.print_general_log:
-            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, fom))
+            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, FoM))
 
     def update_controls(self, **response_for_client) -> None:
         """External call to update the controls"""

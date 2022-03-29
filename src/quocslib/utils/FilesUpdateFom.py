@@ -14,19 +14,19 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.utils.inputoutput import writejsonfile
 import numpy as np
 import os
 import time
 
 
-class FilesUpdateFom(AbstractFom):
+class FilesUpdateFoM(AbstractFoM):
     """An evaluation method for the figure of merit via files exchange. The communication object accesses to the
     get_FoM function.
-    The get_FoM removes the "fom.txt" file and creates a json, a txt or a npz file in the controls
+    The get_FoM removes the "FoM.txt" file and creates a json, a txt or a npz file in the controls
     folder designed by the user.
-    Finally, the read_fom_values will wait and check for the figure of merit in the folder designed by the user.
+    Finally, the read_FoM_values will wait and check for the figure of merit in the folder designed by the user.
     In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or
     an error occur during the evaluation an error will set in the
     """
@@ -36,14 +36,14 @@ class FilesUpdateFom(AbstractFom):
         controls_folder: str = ".",
         is_splitted: bool = False,
         file_extension: str = "json",
-        fom_folder: str = ".",
+        FoM_folder: str = ".",
         max_time: float = 60 * 2,
         **kwargs
     ) -> None:
         """
 
         :param str controls_folder: Path of the controls folder
-        :param str fom_folder: Path of the figure of merit folder
+        :param str FoM_folder: Path of the figure of merit folder
         :param int max_time: Maximum time in arbitrary units. 1 = 0.5 seconds
         :param kwargs: Other parameters
         """
@@ -55,8 +55,8 @@ class FilesUpdateFom(AbstractFom):
         self.file_extension = file_extension
         # Split the controls in multiple files
         self.is_splitted = is_splitted
-        # Fom folder
-        self.fom_path = os.path.join(fom_folder, "fom.txt")
+        # FoM folder
+        self.FoM_path = os.path.join(FoM_folder, "FoM.txt")
         # Maximum time in seconds to wait for the figure of merit evaluation
         self.max_time = max_time
 
@@ -64,45 +64,45 @@ class FilesUpdateFom(AbstractFom):
         self, pulses: list = [], timegrids: list = [], parameters: list = []
     ) -> dict:
         """
-        Write the controls in the controls.npz file, read the figure of merit in the fom.txt file
+        Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file
         """
-        print("Removing the previous {0} file if any".format(self.fom_path))
-        # If fom.txt file exists remove it
-        if os.path.exists(self.fom_path):
-            os.remove(self.fom_path)
+        print("Removing the previous {0} file if any".format(self.FoM_path))
+        # If FoM.txt file exists remove it
+        if os.path.exists(self.FoM_path):
+            os.remove(self.FoM_path)
         # Write the pulses into a file or multiple files
         # TODO Multiple files extension
         print("Putting controls in {0}".format(self.controls_path))
         self.put_controls_into_user_path(pulses, timegrids, parameters)
-        # Read the content of fom.txt file
-        print("Reading the {0} file ".format(self.fom_path))
-        return self.read_fom_values()
+        # Read the content of FoM.txt file
+        print("Reading the {0} file ".format(self.FoM_path))
+        return self.read_FoM_values()
 
-    def read_fom_values(self) -> dict:
+    def read_FoM_values(self) -> dict:
         """
-        Read the figure of merit fom.txt file
+        Read the figure of merit FoM.txt file
         :return: dict The figure of merit dictionary
         """
-        # Read the fom
-        fom = None
+        # Read the FoM
+        FoM = None
         time_counter = 0
         time_counter_max = self.max_time * 2
         # Check if figure of merit file exists
-        while not os.path.exists(self.fom_path):
+        while not os.path.exists(self.FoM_path):
             time_counter += 1
             time.sleep(0.5)
             if time_counter >= time_counter_max:
-                return {"FoM": fom, "status_code": -2}
+                return {"FoM": FoM, "status_code": -2}
         # Sleep to be sure the file is correctly close
         time.sleep(0.01)
         try:
-            with open(self.fom_path, "r") as fom_file:
-                fom = float(str(fom_file.readline()).strip())
+            with open(self.FoM_path, "r") as FoM_file:
+                FoM = float(str(FoM_file.readline()).strip())
         # TODO Add specific exception why the figure of merit is not readable
         except Exception as ex:
-            print("Unhandled exception during fom reading: {0}".format(ex.args))
-            return {"FoM": fom, "status_code": -3}
-        return {"FoM": fom}
+            print("Unhandled exception during FoM reading: {0}".format(ex.args))
+            return {"FoM": FoM, "status_code": -3}
+        return {"FoM": FoM}
 
     def put_controls_into_user_path(
         self, pulses_list: list, time_grids_list: list, parameters_list: list

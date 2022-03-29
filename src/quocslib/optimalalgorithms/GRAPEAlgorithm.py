@@ -44,8 +44,8 @@ class GRAPEAlgorithm:
         # Optimal algorithm variables if any
         ###########################################################################################
         self.alg_parameters = optimization_dict["algorithm_settings"]
-        # Starting fom
-        self.best_fom = 1e10
+        # Starting FoM
+        self.best_FoM = 1e10
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
@@ -64,7 +64,7 @@ class GRAPEAlgorithm:
         self.dim = np.size(self.A, 1)
         self.num_pulses = len(self.B)
         self.initial_guess = optimization_dict["initial_guess"]
-        self.fom_list = []
+        self.FoM_list = []
 
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
@@ -166,7 +166,7 @@ class GRAPEAlgorithm:
         else:
             fid = 0.0
 
-        self.fom_list.append(fid)
+        self.FoM_list.append(fid)
 
         return (fid, grads)
 
@@ -198,7 +198,7 @@ class GRAPEAlgorithm:
         )
 
         # need to be able to implement pulses in Marco's way, ask him later
-        self.best_fom = oo.fun
+        self.best_FoM = oo.fun
         self.optimized_pulses = oo.x  # TODO we might want to reshape this
         self.opt_res = oo
         self.iteration_number = oo.nfev
@@ -220,7 +220,7 @@ class GRAPEAlgorithm:
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "FoM": self.best_fom,
+            "FoM": self.best_FoM,
             "nfev": self.iteration_number,
         }
         return final_dict

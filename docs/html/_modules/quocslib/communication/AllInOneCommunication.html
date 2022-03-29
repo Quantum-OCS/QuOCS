@@ -124,7 +124,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFom</span> <span class="kn">import</span> <span class="n">AbstractFom</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.DummyDump</span> <span class="kn">import</span> <span class="n">DummyDump</span>
 <span class="kn">from</span> <span class="nn">quocslib.handleexit.AbstractHandleExit</span> <span class="kn">import</span> <span class="n">AbstractHandleExit</span>
 <span class="kn">from</span> <span class="nn">quocslib.tools.logger</span> <span class="kn">import</span> <span class="n">create_logger</span>
@@ -136,7 +136,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">interface_job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OptimizationTest"</span><span class="p">,</span>
-        <span class="n">fom_obj</span><span class="p">:</span> <span class="n">AbstractFom</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">FoM_obj</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">handle_exit_obj</span><span class="p">:</span> <span class="n">AbstractHandleExit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">dump_attribute</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">DummyDump</span><span class="p">,</span>
         <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -148,7 +148,7 @@
 
 <span class="sd">        :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current</span>
 <span class="sd">        time to ensure univocity</span>
-<span class="sd">        :param AbstractFom fom_obj: object for the figure of merit evaluation. Have a look to the abstract class for</span>
+<span class="sd">        :param AbstractFoM FoM_obj: object for the figure of merit evaluation. Have a look to the abstract class for</span>
 <span class="sd">        more info</span>
 <span class="sd">        :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the</span>
 <span class="sd">        communication is finished to communicate with the client interface</span>
@@ -156,7 +156,7 @@
 <span class="sd">        """</span>
         <span class="c1"># Communication signals</span>
         <span class="k">if</span> <span class="n">comm_signals_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="kc">None</span><span class="p">,</span>
                 <span class="kc">None</span><span class="p">,</span>
                 <span class="kc">None</span><span class="p">,</span>
@@ -164,7 +164,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span><span class="p">,</span>
             <span class="p">)</span> <span class="o">=</span> <span class="n">comm_signals_list</span>
         <span class="c1"># Pre job name</span>
@@ -195,7 +195,7 @@
         <span class="c1"># Print function evaluation and figure of merit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="c1"># Figure of merit object</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_obj</span> <span class="o">=</span> <span class="n">fom_obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_obj</span> <span class="o">=</span> <span class="n">FoM_obj</span>
         <span class="c1"># TODO Thinks whether it is a good idea dumping the results</span>
         <span class="c1"># Dumping data object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dump_obj</span> <span class="o">=</span> <span class="n">dump_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">)</span>
@@ -251,25 +251,25 @@
         <span class="sd">"""</span>
 <span class="sd">        Calculate the figure of merit and return a dictionary with all the arguments</span>
 
-<span class="sd">        :return dict: {"fom_values": {"FoM": float, ...}}</span>
+<span class="sd">        :return dict: {"FoM_values": {"FoM": float, ...}}</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"User running: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span><span class="p">))</span>
-        <span class="n">fom_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_obj</span><span class="o">.</span><span class="n">get_FoM</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span><span class="p">)</span>
-        <span class="c1"># set the status of the fom to 0 if it does not exist already</span>
-        <span class="n">status_code</span> <span class="o">=</span> <span class="n">fom_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">FoM_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_obj</span><span class="o">.</span><span class="n">get_FoM</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span><span class="p">)</span>
+        <span class="c1"># set the status of the FoM to 0 if it does not exist already</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="c1"># if the user passes a different status code than zero, stop the optimization</span>
         <span class="k">if</span> <span class="n">status_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"fom_values"</span><span class="p">:</span> <span class="n">fom_dict</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM_values"</span><span class="p">:</span> <span class="n">FoM_dict</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="AllInOneCommunication.send_fom_response"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_fom_response">[docs]</a>    <span class="k">def</span> <span class="nf">send_fom_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_for_client</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="AllInOneCommunication.send_FoM_response"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_FoM_response">[docs]</a>    <span class="k">def</span> <span class="nf">send_FoM_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_for_client</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Emit signal to the Client Interface and dump the results in case any</span>
 
 <span class="sd">        :param dict response_for_client: It is a dictionary defined in the optimal algorithm</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
-        <span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"iteration_number"</span><span class="p">],</span>
             <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span>
         <span class="p">)</span>
@@ -283,17 +283,17 @@
             <span class="c1"># Set the user running to False in order to not continue with the next iteration</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_print_general_log</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_general_log</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_controls</span><span class="p">(</span><span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fom_plot_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_print_general_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">fom</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_print_general_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">FoM</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
         <span class="sd">"""Print the general log at each function evaluation"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">"Function evaluation number: </span><span class="si">{0}</span><span class="s2">, FoM: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">iteration_number</span><span class="p">,</span> <span class="n">fom</span>
+                    <span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span>
                 <span class="p">)</span>
             <span class="p">)</span>
 

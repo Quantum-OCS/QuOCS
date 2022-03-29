@@ -17,7 +17,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-class AbstractFom(metaclass=ABCMeta):
+class AbstractFoM(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
 
     @abstractmethod

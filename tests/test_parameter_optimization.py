@@ -7,24 +7,24 @@ from quocslib.utils.inputoutput import readjson
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
 from quocslib.utils.BestDump import BestDump
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 from scipy.optimize import rosen
 import numpy as np
 import pytest
 
 
-class RosenFoM(AbstractFom):
+class RosenFoM(AbstractFoM):
 
     def __init__(self, args_dict:dict = None):
         if args_dict is None:
             args_dict = {}
 
-        self.fom_list = []
+        self.FoM_list = []
         self.param_list = []
         self.save_path = ""
 
     def __del__(self):
-        np.savetxt(os.path.join(self.save_path, 'fom.txt'), self.fom_list)
+        np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
         np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
 
 
@@ -34,12 +34,12 @@ class RosenFoM(AbstractFom):
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
 
-        fom = rosen(np.asarray(parameters))
+        FoM = rosen(np.asarray(parameters))
 
-        self.fom_list.append(fom)
+        self.FoM_list.append(FoM)
         self.param_list.append(parameters)
         
-        return {"FoM": fom}
+        return {"FoM": FoM}
 
 
 def main(optimization_dictionary: dict):
@@ -50,7 +50,7 @@ def main(optimization_dictionary: dict):
     FoM_object = RosenFoM()
 
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              fom_obj=FoM_object, handle_exit_obj=HandleExit(),
+                                              FoM_obj=FoM_object, handle_exit_obj=HandleExit(),
                                               dump_attribute=BestDump)
 
     FoM_object.set_save_path(communication_obj.results_path)

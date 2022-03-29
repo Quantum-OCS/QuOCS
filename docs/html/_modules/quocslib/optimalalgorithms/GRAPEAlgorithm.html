@@ -149,8 +149,8 @@
         <span class="c1"># Optimal algorithm variables if any</span>
         <span class="c1">###########################################################################################</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
-        <span class="c1"># Starting fom</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># Starting FoM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Pulses, Parameters, Times object</span>
         <span class="c1">###########################################################################################</span>
@@ -169,7 +169,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_pulses</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_guess</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"initial_guess"</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># create some storage arrays for the forward and backward propagated state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rho_storage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_init</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)])</span>
@@ -266,7 +266,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fid</span> <span class="o">=</span> <span class="mf">0.0</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fid</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">grads</span><span class="p">)</span></div>
 
@@ -298,7 +298,7 @@
         <span class="p">)</span>
 
         <span class="c1"># need to be able to implement pulses in Marco's way, ask him later</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">fun</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">fun</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">x</span>  <span class="c1"># TODO we might want to reshape this</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="n">oo</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">=</span> <span class="n">oo</span><span class="o">.</span><span class="n">nfev</span></div>
@@ -320,7 +320,7 @@
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"FoM"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_fom</span><span class="p">,</span>
+            <span class="s2">"FoM"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="s2">"nfev"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">final_dict</span></div>

@@ -26,14 +26,14 @@ from quocslib.utils.BestDump import BestDump
 import pytest
 
 
-def plot_fom(result_path, fom_filename):
+def plot_FoM(result_path, FoM_filename):
 
     if 'Windows' in platform.platform():
         opt_name = result_path.split('\\')[-1]
     else:
         opt_name = result_path.split('/')[-1]
 
-    file_path = os.path.join(result_path, fom_filename)
+    file_path = os.path.join(result_path, FoM_filename)
     save_name = "FoM_" + opt_name
 
     FoM = [line.rstrip('\n') for line in open(file_path)]
@@ -103,7 +103,7 @@ def main(optimization_dictionary: dict, args_dict: dict):
 
     # initialize the communication object
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              fom_obj=FoM_object,
+                                              FoM_obj=FoM_object,
                                               handle_exit_obj=HandleExit(),
                                               dump_attribute=BestDump)
 
@@ -125,9 +125,9 @@ def main(optimization_dictionary: dict, args_dict: dict):
     optimizer_obj.run()
     optimizer_obj.end()
 
-    FoM_object.save_fom()
+    FoM_object.save_FoM()
 
-    plot_fom(FoM_object.save_path, FoM_object.fom_save_name)
+    plot_FoM(FoM_object.save_path, FoM_object.FoM_save_name)
     plot_controls(FoM_object.save_path)
 
 

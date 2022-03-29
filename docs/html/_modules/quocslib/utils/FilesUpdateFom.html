@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.utils.FilesUpdateFom</title>
+<title>quocslib.utils.FilesUpdateFoM</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
 
@@ -95,14 +95,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.utils.FilesUpdateFom</li>
+<li>quocslib.utils.FilesUpdateFoM</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.utils.FilesUpdateFom</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.utils.FilesUpdateFoM</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -119,19 +119,19 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFom</span> <span class="kn">import</span> <span class="n">AbstractFom</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.inputoutput</span> <span class="kn">import</span> <span class="n">writejsonfile</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 
-<div class="viewcode-block" id="FilesUpdateFom"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom">[docs]</a><span class="k">class</span> <span class="nc">FilesUpdateFom</span><span class="p">(</span><span class="n">AbstractFom</span><span class="p">):</span>
+<div class="viewcode-block" id="FilesUpdateFoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM">[docs]</a><span class="k">class</span> <span class="nc">FilesUpdateFoM</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
     <span class="sd">"""An evaluation method for the figure of merit via files exchange. The communication object accesses to the</span>
 <span class="sd">    get_FoM function.</span>
-<span class="sd">    The get_FoM removes the "fom.txt" file and creates a json, a txt or a npz file in the controls</span>
+<span class="sd">    The get_FoM removes the "FoM.txt" file and creates a json, a txt or a npz file in the controls</span>
 <span class="sd">    folder designed by the user.</span>
-<span class="sd">    Finally, the read_fom_values will wait and check for the figure of merit in the folder designed by the user.</span>
+<span class="sd">    Finally, the read_FoM_values will wait and check for the figure of merit in the folder designed by the user.</span>
 <span class="sd">    In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or</span>
 <span class="sd">    an error occur during the evaluation an error will set in the</span>
 <span class="sd">    """</span>
@@ -141,14 +141,14 @@
         <span class="n">controls_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>
         <span class="n">is_splitted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"json"</span><span class="p">,</span>
-        <span class="n">fom_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>
+        <span class="n">FoM_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>
         <span class="n">max_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param str controls_folder: Path of the controls folder</span>
-<span class="sd">        :param str fom_folder: Path of the figure of merit folder</span>
+<span class="sd">        :param str FoM_folder: Path of the figure of merit folder</span>
 <span class="sd">        :param int max_time: Maximum time in arbitrary units. 1 = 0.5 seconds</span>
 <span class="sd">        :param kwargs: Other parameters</span>
 <span class="sd">        """</span>
@@ -160,56 +160,56 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span> <span class="o">=</span> <span class="n">file_extension</span>
         <span class="c1"># Split the controls in multiple files</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_splitted</span> <span class="o">=</span> <span class="n">is_splitted</span>
-        <span class="c1"># Fom folder</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fom_folder</span><span class="p">,</span> <span class="s2">"fom.txt"</span><span class="p">)</span>
+        <span class="c1"># FoM folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FoM_folder</span><span class="p">,</span> <span class="s2">"FoM.txt"</span><span class="p">)</span>
         <span class="c1"># Maximum time in seconds to wait for the figure of merit evaluation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span>
 
-<div class="viewcode-block" id="FilesUpdateFom.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
+<div class="viewcode-block" id="FilesUpdateFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
-<span class="sd">        Write the controls in the controls.npz file, read the figure of merit in the fom.txt file</span>
+<span class="sd">        Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file</span>
 <span class="sd">        """</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Removing the previous </span><span class="si">{0}</span><span class="s2"> file if any"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">))</span>
-        <span class="c1"># If fom.txt file exists remove it</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">):</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Removing the previous </span><span class="si">{0}</span><span class="s2"> file if any"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">))</span>
+        <span class="c1"># If FoM.txt file exists remove it</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">)</span>
         <span class="c1"># Write the pulses into a file or multiple files</span>
         <span class="c1"># TODO Multiple files extension</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Putting controls in </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_path</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">put_controls_into_user_path</span><span class="p">(</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-        <span class="c1"># Read the content of fom.txt file</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Reading the </span><span class="si">{0}</span><span class="s2"> file "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_fom_values</span><span class="p">()</span></div>
+        <span class="c1"># Read the content of FoM.txt file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Reading the </span><span class="si">{0}</span><span class="s2"> file "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_FoM_values</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="FilesUpdateFom.read_fom_values"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.read_fom_values">[docs]</a>    <span class="k">def</span> <span class="nf">read_fom_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="FilesUpdateFoM.read_FoM_values"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.read_FoM_values">[docs]</a>    <span class="k">def</span> <span class="nf">read_FoM_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
-<span class="sd">        Read the figure of merit fom.txt file</span>
+<span class="sd">        Read the figure of merit FoM.txt file</span>
 <span class="sd">        :return: dict The figure of merit dictionary</span>
 <span class="sd">        """</span>
-        <span class="c1"># Read the fom</span>
-        <span class="n">fom</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Read the FoM</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">time_counter</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">time_counter_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">*</span> <span class="mi">2</span>
         <span class="c1"># Check if figure of merit file exists</span>
-        <span class="k">while</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">):</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">):</span>
             <span class="n">time_counter</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">time_counter</span> <span class="o">&gt;=</span> <span class="n">time_counter_max</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}</span>
         <span class="c1"># Sleep to be sure the file is correctly close</span>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fom_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fom_file</span><span class="p">:</span>
-                <span class="n">fom</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fom_file</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">FoM_file</span><span class="p">:</span>
+                <span class="n">FoM</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">FoM_file</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
         <span class="c1"># TODO Add specific exception why the figure of merit is not readable</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">"Unhandled exception during fom reading: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">}</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">fom</span><span class="p">}</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Unhandled exception during FoM reading: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="FilesUpdateFom.put_controls_into_user_path"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFom.put_controls_into_user_path">[docs]</a>    <span class="k">def</span> <span class="nf">put_controls_into_user_path</span><span class="p">(</span>
+<div class="viewcode-block" id="FilesUpdateFoM.put_controls_into_user_path"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.put_controls_into_user_path">[docs]</a>    <span class="k">def</span> <span class="nf">put_controls_into_user_path</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>

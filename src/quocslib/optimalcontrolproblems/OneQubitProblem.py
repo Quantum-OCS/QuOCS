@@ -17,11 +17,11 @@
 from quocslib.optimalcontrolproblems.su2 import hamiltonian_d1_d2
 import numpy as np
 from scipy.linalg import expm, norm
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 import os
 
 
-class OneQubit(AbstractFom):
+class OneQubit(AbstractFoM):
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
@@ -40,17 +40,17 @@ class OneQubit(AbstractFom):
         self.include_drift = args_dict.setdefault("include_drift", False)
         self.linear_drift_val_over_iterartion = args_dict.setdefault("linear_drift_val_over_iterartion", 0.002)
 
-        self.fom_list = []
+        self.FoM_list = []
         self.save_path = ""
-        self.fom_save_name = "fom.txt"
+        self.FoM_save_name = "FoM.txt"
 
-        self.fom_eval_number = 0
+        self.FoM_eval_number = 0
 
     # def __del__(self):
-    #     np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
+    #     np.savetxt(os.path.join(self.save_path, self.FoM_save_name), self.FoM_list)
 
-    def save_fom(self):
-        np.savetxt(os.path.join(self.save_path, self.fom_save_name), self.fom_list)
+    def save_FoM(self):
+        np.savetxt(os.path.join(self.save_path, self.FoM_save_name), self.FoM_list)
 
     def set_save_path(self, save_path: str = ""):
         self.save_path = save_path
@@ -69,10 +69,10 @@ class OneQubit(AbstractFom):
             std = (self.std_factor * np.random.rand(1)[0])
 
         if self.include_drift:
-            infidelity += self.linear_drift_val_over_iterartion * self.fom_eval_number
+            infidelity += self.linear_drift_val_over_iterartion * self.FoM_eval_number
 
-        self.fom_list.append(np.abs(infidelity))
-        self.fom_eval_number += 1
+        self.FoM_list.append(np.abs(infidelity))
+        self.FoM_eval_number += 1
 
         return {"FoM": np.abs(infidelity), "std": std}
 

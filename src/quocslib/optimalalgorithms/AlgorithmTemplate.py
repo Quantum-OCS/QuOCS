@@ -58,8 +58,8 @@ class AlgorithmTemplate(Optimizer):
         # Optimal algorithm variables if any
         ###########################################################################################
         alg_parameters = optimization_dict["algorithm_settings"]
-        # Starting fom
-        self.best_fom = 1e10
+        # Starting FoM
+        self.best_FoM = 1e10
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
@@ -73,13 +73,13 @@ class AlgorithmTemplate(Optimizer):
     def _get_response_for_client(self) -> dict:
         """Return useful information for th interface"""
         is_record = False
-        fom = self.fom_dict["FoM"]
-        if fom < self.best_fom:
-            self.best_fom = fom
+        FoM = self.FoM_dict["FoM"]
+        if FoM < self.best_FoM:
+            self.best_FoM = FoM
             is_record = True
         response_dict = {
             "is_record": is_record,
-            "FoM": fom,
+            "FoM": FoM,
             "iteration_number": self.iteration_number,
         }
         return response_dict
@@ -119,7 +119,7 @@ class AlgorithmTemplate(Optimizer):
             max_iterations_number=max_iteration_number,
         )
         # Update the results
-        [fom, self.xx, self.terminate_reason] = [
+        [FoM, self.xx, self.terminate_reason] = [
             result_l["F_min_val"],
             result_l["X_opti_vec"],
             result_l["terminate_reason"],
@@ -139,7 +139,7 @@ class AlgorithmTemplate(Optimizer):
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "Figure of merit": self.best_fom,
+            "Figure of merit": self.best_FoM,
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict

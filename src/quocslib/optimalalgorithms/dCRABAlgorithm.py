@@ -62,8 +62,8 @@ class DCrabAlgorithm(Optimizer):
         self.max_num_function_ev = int(alg_parameters["maximum_function_evaluations_number"])
         # Max number of iterations from SI2
         self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
-        # Starting fom
-        self.best_fom = 1e10
+        # Starting FoM
+        self.best_FoM = 1e10
         ###########################################################################################
         # Pulses, Parameters object
         ###########################################################################################
@@ -79,28 +79,28 @@ class DCrabAlgorithm(Optimizer):
         self.super_it: int = 1
         self.dcrab_parameters_list = []
         self.dcrab_super_parameter_list = []
-        self.fom_list = []
+        self.FoM_list = []
         self.iteration_number_list = []
 
     def _get_response_for_client(self) -> dict:
         """Return useful information for the client interface"""
         is_record = False
-        fom = self.fom_dict["FoM"]
-        if fom < self.best_fom:
-            message = ("Found a record. Previous fom: {fom}, new best fom : {best_fom}".format(fom=self.best_fom,
-                                                                                               best_fom=fom))
+        FoM = self.FoM_dict["FoM"]
+        if FoM < self.best_FoM:
+            message = ("Found a record. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+                                                                                               best_FoM=FoM))
             self.comm_obj.print_logger(message=message, level=20)
-            self.best_fom = fom
+            self.best_FoM = FoM
             self.best_xx = self.xx.copy()
             is_record = True
-        status_code = self.fom_dict.setdefault("status_code", 0)
+        status_code = self.FoM_dict.setdefault("status_code", 0)
         response_dict = {"is_record": is_record,
-                         "FoM": fom,
+                         "FoM": FoM,
                          "iteration_number": self.iteration_number,
                          "status_code": status_code}
         # Load the current parameters
         if status_code == 0:
-            self.fom_list.append(fom)
+            self.FoM_list.append(FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
@@ -143,16 +143,16 @@ class DCrabAlgorithm(Optimizer):
                                         initial_simplex=start_simplex,
                                         max_iterations_number=max_iteration_number)
         # Update the results
-        [fom, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
+        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],
                                                            result_l["terminate_reason"],
                                                            result_l["NfunevalsUsed"]]
         message = ("SI: {super_it}, Total nr fnct evaluations: {NfunevalsUsed}, \n"
                    "Termination Reason: {termination_reason}\n"
-                   "Current best fom: {best_fom}".format(super_it=self.super_it,
+                   "Current best FoM: {best_FoM}".format(super_it=self.super_it,
                                                          NfunevalsUsed=NfunevalsUsed,
                                                          termination_reason=self.terminate_reason,
-                                                         best_fom=self.best_fom))
+                                                         best_FoM=self.best_FoM))
 
         self.comm_obj.print_logger(message=message, level=20)
 
@@ -166,7 +166,7 @@ class DCrabAlgorithm(Optimizer):
 
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
-        final_dict = {"Figure of merit": self.best_fom,
+        final_dict = {"Figure of merit": self.best_FoM,
                       "total number of function evaluations": self.iteration_number,
                       "dcrab_freq_list": self.dcrab_super_parameter_list,
                       "dcrab_para_list": self.dcrab_parameters_list,

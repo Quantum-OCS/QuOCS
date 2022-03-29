@@ -17,7 +17,7 @@
 from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.utils.inputoutput import readjson
-from quocslib.utils.FilesUpdateFom import FilesUpdateFom
+from quocslib.utils.FilesUpdateFoM import FilesUpdateFoM
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
 
@@ -25,9 +25,9 @@ from quocslib.utils.BestDump import BestDump
 def main(optimization_dictionary: dict):
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
-    fom_obj = FilesUpdateFom(controls_folder=".", fom_folder=".")
+    FoM_obj = FilesUpdateFoM(controls_folder=".", FoM_folder=".")
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              fom_obj=fom_obj, handle_exit_obj=HandleExit(), dump_attribute=BestDump)
+                                              FoM_obj=FoM_obj, handle_exit_obj=HandleExit(), dump_attribute=BestDump)
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),

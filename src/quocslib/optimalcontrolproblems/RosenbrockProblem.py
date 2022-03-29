@@ -14,12 +14,12 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocslib.utils.AbstractFom import AbstractFom
+from quocslib.utils.AbstractFoM import AbstractFoM
 from scipy import optimize
 import numpy as np
 
 
-class Rosenbrock(AbstractFom):
+class Rosenbrock(AbstractFoM):
     """A figure of merit class for optimization of the Rosenbrock function given an arbitrary
     number of parameters"""
 
@@ -33,7 +33,7 @@ class Rosenbrock(AbstractFom):
     def get_FoM(
         self, pulses: list = [], parameters: list = [], timegrids: list = []
     ) -> dict:
-        fom = optimize.rosen(np.asarray(parameters))
+        FoM = optimize.rosen(np.asarray(parameters))
         std = 0.0
         if self.is_noisy:
             noise = (
@@ -46,7 +46,7 @@ class Rosenbrock(AbstractFom):
                     )[0]
                 )
             )
-            fom += noise
+            FoM += noise
             std = (
                 self.std_factor
                 * np.random.rand(
@@ -54,4 +54,4 @@ class Rosenbrock(AbstractFom):
                 )[0]
             )
 
-        return {"FoM": fom, "std": std}
+        return {"FoM": FoM, "std": std}
