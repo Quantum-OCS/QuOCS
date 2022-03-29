@@ -31,23 +31,21 @@ class BasePulse:
     optimized_control_parameters: np.ndarray
     final_time: float
 
-    def __init__(
-        self,
-        map_index=-1,
-        pulse_name="pulse",
-        bins_number=101,
-        time_name="time",
-        lower_limit=0.0,
-        upper_limit=1.0,
-        amplitude_variation=0.1,
-        initial_guess=None,
-        scaling_function=None,
-        is_shrinked: bool = False,
-        shaping_options: list = None,
-        overwrite_base_pulse: bool = False,
-        rng: RandomNumberGenerator = None,
-        **kwargs
-    ):
+    def __init__(self,
+                 map_index=-1,
+                 pulse_name="pulse",
+                 bins_number=101,
+                 time_name="time",
+                 lower_limit=0.0,
+                 upper_limit=1.0,
+                 amplitude_variation=0.1,
+                 initial_guess=None,
+                 scaling_function=None,
+                 is_shrinked: bool = False,
+                 shaping_options: list = None,
+                 overwrite_base_pulse: bool = False,
+                 rng: RandomNumberGenerator = None,
+                 **kwargs):
         """
         Here we defined all the basic features a pulse should have.
 
@@ -80,26 +78,20 @@ class BasePulse:
         # Amplitude variation
         self.amplitude_variation = amplitude_variation
         # Create the parameter indexes list. It is used
-        self.control_parameters_list = [
-            map_index + i + 1 for i in range(self.control_parameters_number)
-        ]
+        self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
         # Shaping options
         print("Testing shaping option list mode")
-        shaping_option_dict = {
-            "add_base_pulse": self.add_base_pulse,
-            "add_initial_guess": self.add_initial_guess,
-            "limit_pulse": self.limit_pulse,
-            "scale_pulse": self.scale_pulse,
-        }
+        shaping_option_dict = {"add_base_pulse": self.add_base_pulse,
+                               "add_initial_guess": self.add_initial_guess,
+                               "limit_pulse": self.limit_pulse,
+                               "scale_pulse": self.scale_pulse}
         if shaping_options is None:
-            self.shaping_options = [
-                self.add_base_pulse,
-                self.add_initial_guess,
-                self.scale_pulse,
-                self.limit_pulse,
-            ]
+            self.shaping_options = [self.add_base_pulse,
+                                    self.add_initial_guess,
+                                    self.scale_pulse,
+                                    self.limit_pulse]
         else:
             self.shaping_options = []
             for op_str in shaping_options:
@@ -134,9 +126,7 @@ class BasePulse:
 
     def set_control_parameters_list(self, map_index):
         """Set the control parameters list. It is used when the Chopped Basis changes during SIs"""
-        self.control_parameters_list = [
-            map_index + i + 1 for i in range(self.control_parameters_number)
-        ]
+        self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
 
     def _set_time_grid(self, final_time: float) -> None:
         """Set the time grid"""
@@ -179,10 +169,9 @@ class BasePulse:
             v_optimal_pulse = optimal_pulse - distance_u_l_value
             # Move the bounds to the center of the axis respect the optimal pulses
             # distance_u_l_bound = (u_bound + l_bound) / 2.0
-            v_u_bound, v_l_bound = [
-                u_bound - distance_u_l_value,
-                l_bound - distance_u_l_value,
-            ]
+            v_u_bound, v_l_bound = [u_bound - distance_u_l_value,
+                                    l_bound - distance_u_l_value
+                                    ]
             # Check which is the greatest virtual distance
             v_u_value = np.max(v_optimal_pulse)
             v_l_value = np.min(v_optimal_pulse)
@@ -219,9 +208,7 @@ class BasePulse:
             temp_min = np.amin(ui)
 
             # if the whole pulse is higher or lower than the limits take the limits
-            if (temp_max >= ub and temp_min >= ub) or (
-                temp_max <= lb and temp_min <= lb
-            ):
+            if (temp_max >= ub and temp_min >= ub) or (temp_max <= lb and temp_min <= lb):
                 ui = np.maximum(np.minimum(uiTotal, ub), lb)  # cut off the pulse
 
             # otherwise shrink the pulse if it exceeds the limits accordingly
@@ -252,17 +239,13 @@ class BasePulse:
 
         return ui
 
-    def get_pulse(
-        self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0
-    ) -> np.ndarray:
+    def get_pulse(self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0) -> np.ndarray:
         """Set the optimized control parameters, the time grid, and return the pulse"""
         self._set_control_parameters(optimized_parameters_vector)
         self._set_time_grid(final_time)
         return self._get_build_pulse()
 
-    def set_base_pulse(
-        self, optimized_control_parameters: np.ndarray, final_time: float = 1.0
-    ) -> None:
+    def set_base_pulse(self, optimized_control_parameters: np.ndarray, final_time: float = 1.0) -> None:
         """Set the base optimal pulse"""
         self._set_control_parameters(optimized_control_parameters)
         self._set_time_grid(final_time)
@@ -322,9 +305,7 @@ class BasePulse:
         if self.is_shrinked:
             return self._shrink_pulse(optimal_pulse)
         else:
-            return np.maximum(
-                np.minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower
-            )
+            return np.maximum(np.minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
 
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:
