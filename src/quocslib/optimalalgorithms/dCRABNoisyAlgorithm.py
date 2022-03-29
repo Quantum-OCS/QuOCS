@@ -119,7 +119,7 @@ class DCrabNoisyAlgorithm(Optimizer):
         # If re-evaluation steps is not used check for current best figure of merit
         if self.re_evaluation_steps is None:
             if FoM < self.best_FoM:
-                message = "Found a record. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
+                message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
                     FoM=self.best_FoM, best_FoM=FoM)
                 self.comm_obj.print_logger(message=message, level=20)
                 self.best_FoM = FoM
@@ -281,7 +281,7 @@ class DCrabNoisyAlgorithm(Optimizer):
                 # We have a new record
                 self.best_sigma, self.best_FoM = sigma_1, mu_1
                 self.is_record = True
-                message = "Found a record. FoM: {0}, std: {1}".format(mu_1, sigma_1)
+                message = "New record achieved. New best FoM: {0}, std: {1}".format(mu_1, sigma_1)
                 self.comm_obj.print_logger(message, level=20)
                 self.best_xx = self.xx.copy()
                 self.comm_obj.update_controls(is_record=True,

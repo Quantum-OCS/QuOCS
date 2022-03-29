@@ -87,7 +87,7 @@ class DCrabAlgorithm(Optimizer):
         is_record = False
         FoM = self.FoM_dict["FoM"]
         if FoM < self.best_FoM:
-            message = ("Found a record. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+            message = ("New record achieved. Previous FoM: {FoM}, new best FoM: {best_FoM}".format(FoM=self.best_FoM,
                                                                                                best_FoM=FoM))
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
