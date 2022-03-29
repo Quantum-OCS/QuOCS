@@ -55,9 +55,9 @@ class AllInOneCommunication:
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
-        date_time = str(time.strftime("%Y%m%d_%H%M%S"))
+        self.date_time = str(time.strftime("%Y%m%d_%H%M%S"))
         # Client job name to send to the Server
-        self.client_job_name = date_time + "_" + pre_job_name
+        self.client_job_name = self.date_time + "_" + pre_job_name
         ###
         # Logging, Results, Figure of merit evaluation ...
         ###
@@ -72,14 +72,14 @@ class AllInOneCommunication:
         with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
-        self.logger = create_logger(self.results_path)
+        self.logger = create_logger(self.results_path, self.date_time)
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object
         self.FoM_obj = FoM_obj
         # TODO Thinks whether it is a good idea dumping the results
         # Dumping data object
-        self.dump_obj = dump_attribute(self.results_path)
+        self.dump_obj = dump_attribute(self.results_path, self.date_time)
         # Handle exit object
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary

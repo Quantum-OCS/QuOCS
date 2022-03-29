@@ -67,7 +67,10 @@ def plot_controls(result_path):
     else:
         opt_name = result_path.split('/')[-1]
 
-    file_path = os.path.join(result_path, 'best_controls.npz')
+    for file in os.listdir(result_path):
+        if file.endswith('best_controls.npz'):
+            file_path = os.path.join(result_path, file)
+
     save_name = "Controls_" + opt_name
 
     controls = np.load(file_path)

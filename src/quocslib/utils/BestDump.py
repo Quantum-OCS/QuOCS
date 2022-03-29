@@ -14,14 +14,16 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import os
+import time
 import numpy as np
 
 from quocslib.utils.AbstractDump import AbstractDump
 
 
 class BestDump(AbstractDump):
-    def __init__(self, results_path: str = ".", **kwargs):
+    def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
         self.best_controls_path = results_path
+        self.date_time = date_time
 
     def dump_controls(self,
                       pulses: list = [],
@@ -45,7 +47,7 @@ class BestDump(AbstractDump):
         # Full dictionary
         full_dict = {**controls_dict, **kwargs}
         # Print in the best controls file
-        controls_path = os.path.join(self.best_controls_path, "best_controls.npz")
+        controls_path = os.path.join(self.best_controls_path, self.date_time+"_best_controls.npz")
         np.savez(controls_path, **full_dict)
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
