@@ -32,6 +32,7 @@ def readjson(filename: str) -> [int, dict]:
             user_data = json.load(file)
     except Exception as ex:
         err_stat = 1
+        print('\n!!! The json file \"'+filename+'\" was not found.')
     finally:
         return err_stat, user_data
 
