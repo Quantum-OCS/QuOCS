@@ -23,4 +23,4 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
       run: |
         python setup.py sdist
-        twine upload dist/*
+        twine upload --repository testpypi dist/*
