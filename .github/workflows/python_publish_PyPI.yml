@@ -1,6 +1,6 @@
 # This is a workflow for PyPI publication
 
-name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+name: Upload to TestPyPI
 
 on:
   push:

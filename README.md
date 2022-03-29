@@ -6,6 +6,7 @@ You can find here the core of the optimization algorithms used in the QuOCS - su
 
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_linux.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_windows.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
+[![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/python_publish_PyPI.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 
 ## Installation
 Install quocslib in your virtual environment
