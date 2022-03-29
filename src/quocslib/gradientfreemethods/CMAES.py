@@ -20,7 +20,7 @@ import numpy as np
 
 from scipy import linalg
 
-from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
+from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteria
 
 

@@ -31,6 +31,7 @@ class OneQubit(AbstractFoM):
         self.psi_0 = np.asarray(eval(args_dict.setdefault("initial_state", "[1.0, 0.0]")), dtype="complex")
         self.delta1 = args_dict.setdefault("delta1", 0.1)
         self.delta2 = args_dict.setdefault("delta2", 0.1)
+
         # Noise in the figure of merit
         self.is_noisy = args_dict.setdefault("is_noisy", False)
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
@@ -57,9 +58,12 @@ class OneQubit(AbstractFoM):
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         f = np.asarray(pulses[0])
+        if parameters:
+            # checks if list is empty, otherwise it sets delta1 to the first para
+            self.delta1 = parameters[0]
         timegrid = np.asarray(timegrids[0])
         dt = timegrid[1] - timegrid[0]
-        U = self._time_evolution(f, dt)
+        U = self._time_evolution(f, dt, self.delta1, self.delta2)
         psi_f = np.matmul(U, self.psi_0)
         infidelity = 1.0 - self._get_fidelity(self.psi_target, psi_f)
         std = 1e-4
@@ -77,10 +81,10 @@ class OneQubit(AbstractFoM):
         return {"FoM": np.abs(infidelity), "std": std}
 
     @staticmethod
-    def _time_evolution(fc, dt):
+    def _time_evolution(fc, dt, delta1, delta2):
         U = np.identity(2)
         for ii in range(fc.size - 1):
-            ham_t = hamiltonian_d1_d2((fc[ii + 1] + fc[ii]) / 2)
+            ham_t = hamiltonian_d1_d2((fc[ii + 1] + fc[ii]) / 2, delta1=delta1, delta2=delta2)
             U_temp = U
             U = np.matmul(expm(-1j * ham_t * dt), U_temp)
         return U

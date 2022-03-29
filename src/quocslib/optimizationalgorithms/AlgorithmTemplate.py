@@ -46,8 +46,8 @@ class AlgorithmTemplate(Optimizer):
             "general_settings"
         ]
         dsm_attribute = dynamic_import(
-            class_name="FreeGradientTemplate",
-            module_name="quocslib.freegradientmethods.FreeGradientTemplate",
+            class_name="GradientFreeTemplate",
+            module_name="quocslib.gradientfreemethods.GradientFreeTemplate",
         )
         self.dsm_obj = dsm_attribute(
             direct_search_method_settings,
