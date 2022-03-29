@@ -2,7 +2,7 @@
   "Comment": "This is test dictionary for the controls: Direct Search Method Algorithm 1 parameter",
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
-  "opti_algorithm_module": "quocslib.optimalalgorithms.DirectSearchAlgorithm",
+  "opti_algorithm_module": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
   "opti_algorithm_class": "DirectSearchAlgorithm",
   "optimization_client_name": "Optimization_directSearchMethod_Test",
   "algorithm_settings": {

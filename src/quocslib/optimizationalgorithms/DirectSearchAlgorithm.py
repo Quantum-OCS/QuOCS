@@ -16,7 +16,7 @@
 
 from quocslib.Optimizer import Optimizer
 from quocslib.Controls import Controls
-from quocslib.freegradientmethods.NelderMead import NelderMead
+from quocslib.gradientfreemethods.NelderMead import NelderMead
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.tools.linearalgebra import simplex_creation
 

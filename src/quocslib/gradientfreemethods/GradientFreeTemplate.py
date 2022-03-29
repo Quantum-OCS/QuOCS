@@ -17,16 +17,18 @@ import numpy as np
 
 np.seterr(all="raise")
 
-from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
+from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
     NelderMeadStoppingCriteria,
 )
 
 
-class NelderMead(DirectSearchMethod):
+class GradientFreeTemplate(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
+    def __init__(
+        self, settings: dict, stopping_criteria: dict, callback: callable = None
+    ):
         """
         :param dict settings:
         :param dict stopping_criteria:
@@ -41,10 +43,12 @@ class NelderMead(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None, **kwargs) -> dict:
+    def run_dsm(
+        self, func, x0, args=(), initial_simplex=None, max_iterations_number=None
+    ) -> dict:
         """
 
-        :param callable func: Function to be called at every function evaluation
+        :param callable func: Function tbe called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
@@ -60,6 +64,12 @@ class NelderMead(DirectSearchMethod):
             self.sc_obj.max_iterations_number = max_iterations_number
         # Initialize the iteration number
         iterations = 0
+        # Initialize hyper-parameters if any
+
+        # Other operations ...
+
+        # Initialize the function evaluation
+
         # Landscape dimension
         dim = len(x0)
         # Hyper-parameters for adaptive and not adaptive NM
