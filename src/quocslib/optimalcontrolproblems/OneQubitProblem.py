@@ -37,7 +37,7 @@ class OneQubit(AbstractFom):
         self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
         # Drifting FoM
-        self.include_drift = args_dict.setdefault("include_drift", True)
+        self.include_drift = args_dict.setdefault("include_drift", False)
         self.linear_drift_val_over_iterartion = args_dict.setdefault("linear_drift_val_over_iterartion", 0.002)
 
         self.fom_list = []
