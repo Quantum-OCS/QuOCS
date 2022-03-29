@@ -143,3 +143,4 @@ dmypy.json
 cython_debug/
 
 src/quocslib/optimalalgorithms/test.py
+**/QuOCS_Results
