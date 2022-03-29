@@ -204,15 +204,15 @@ class DCrabNoisyAlgorithm(Optimizer):
         # Initialize the best xx vector for this SI
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_directsearchmethod(self._inner_routine_call, x0, initial_simplex=start_simplex,
-                                                       max_iterations_number=max_iteration_number)
+        result_l = self.dsm_obj.run_dsm(self._inner_routine_call, x0, initial_simplex=start_simplex,
+                                        max_iterations_number=max_iteration_number)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],
                                                            result_l["terminate_reason"],
                                                            result_l["NfunevalsUsed"]]
         # Message at the end of the SI
-        message = ("SI: {super_it}, Total evaluation number: {NfunevalsUsed}, "
+        message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
                                                    NfunevalsUsed=NfunevalsUsed,
                                                    termination_reason=self.terminate_reason,

@@ -137,17 +137,17 @@ class DCrabAlgorithm(Optimizer):
         # Initialize the best xx vector for this SI
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_directsearchmethod(self._routine_call, x0, initial_simplex=start_simplex,
-                                                       max_iterations_number=max_iteration_number,
-                                                       sigma_v=self.controls.get_sigma_variation())
+        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
+                                        max_iterations_number=max_iteration_number,
+                                        sigma_v=self.controls.get_sigma_variation())
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],
                                                            result_l["terminate_reason"],
                                                            result_l["NfunevalsUsed"]]
-        message = ("SI: {super_it}, Total nr fnct evaluations: {NfunevalsUsed}, \n"
-                   "Termination Reason: {termination_reason}\n"
-                   "Current best FoM: {best_FoM}".format(super_it=self.super_it,
+        message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
+                   "Termination Reason: {termination_reason}, "
+                   "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
                                                          NfunevalsUsed=NfunevalsUsed,
                                                          termination_reason=self.terminate_reason,
                                                          best_FoM=self.best_FoM))
