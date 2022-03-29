@@ -112,12 +112,8 @@ class AlgorithmTemplate(Optimizer):
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(
-            self._routine_call,
-            x0,
-            initial_simplex=start_simplex,
-            max_iterations_number=max_iteration_number,
-        )
+        result_l = self.dsm_obj.run_directsearchmethod(self._routine_call, x0, initial_simplex=start_simplex,
+                                                       max_iterations_number=max_iteration_number)
         # Update the results
         [FoM, self.xx, self.terminate_reason] = [
             result_l["F_min_val"],
