@@ -134,16 +134,16 @@ class DCrabNoisyAlgorithm(Optimizer):
         # Print message in the log
         ################################################################################################################
         # Iterations
-        message = ("Function evaluation: {func_eval}, "
+        message = ("Function evaluation number: {func_eval}, "
                    "SI: {super_it}, "
-                   "sub-iteration number: {sub_it}".format(func_eval=self.iteration_number,
+                   "Sub-iteration number: {sub_it}".format(func_eval=self.iteration_number,
                                                            super_it=self.super_it,
                                                            sub_it=self.alg_iteration_number))
         # Data
         if self.re_evaluation_steps is not None:
-            message += " re-eval step number: {0}, FoM: {1}, std: {2}".format(self.step_number, FoM, std)
+            message += ", Re-eval. number: {0}, FoM: {1}, std: {2}".format(self.step_number, FoM, std)
         else:
-            message += " FoM: {0}".format(FoM)
+            message += ", FoM: {0}".format(FoM)
         self.comm_obj.print_logger(message, level=20)
         # Load the current figure of merit and iteration number in the summary list of dCRAB
         if status_code == 0:
@@ -214,11 +214,11 @@ class DCrabNoisyAlgorithm(Optimizer):
                                                            result_l["terminate_reason"],
                                                            result_l["NfunevalsUsed"]]
         # Message at the end of the SI
-        message = ("SI: {super_it}, Total nr control evaluations: {NfunevalsUsed}, \n"
-                   "Current best FoM: {best_FoM}".format(super_it=self.super_it,
-                                                         NfunevalsUsed=NfunevalsUsed,
-                                                         termination_reason=self.terminate_reason,
-                                                         best_FoM=self.best_FoM))
+        message = ("SI: {super_it}, Total evaluation number: {NfunevalsUsed}, "
+                   "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
+                                                   NfunevalsUsed=NfunevalsUsed,
+                                                   termination_reason=self.terminate_reason,
+                                                   best_FoM=self.best_FoM))
         self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
