@@ -21,8 +21,6 @@ class DummyDump(AbstractDump):
     def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
         pass
 
-    def dump_controls(
-        self, pulses: list = [], timegrids: list = [], parameters: list = [], **kwargs
-    ) -> None:
+    def dump_controls(self, pulses: list = [], timegrids: list = [], parameters: list = [], **kwargs) -> None:
         """Do Nothing"""
         pass

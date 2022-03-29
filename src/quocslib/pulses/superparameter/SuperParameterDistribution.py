@@ -20,9 +20,11 @@ import numpy as np
 class SuperParameterDistribution:
     basis_vectors_number: int
 
-    def __init__(self, **kwargs):
+    def __init__(self, lower_limit: float = 0.0, upper_limit: float = 5, **kwargs):
         # Create the array to store the basis vector super_parameters
         self.w = np.zeros((self.basis_vectors_number,), dtype="float")
+        self.lower_limit_w = lower_limit
+        self.upper_limit_w = upper_limit
 
     @abstractmethod
     def set_random_super_parameter(self):

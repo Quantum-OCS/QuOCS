@@ -29,13 +29,12 @@ class AbstractDump(metaclass=ABCMeta):
         """
 
     @abstractmethod
-    def dump_controls(
-        self,
-        pulses_list: list = [],
-        time_grids_list: list = [],
-        parameters_list: list = [],
-        **kwargs
-    ) -> None:
+    def dump_controls(self,
+                      pulses_list: list = [],
+                      time_grids_list: list = [],
+                      parameters_list: list = [],
+                      **kwargs
+                      ) -> None:
         """
         Abstract method for figure of merit evaluation. It returns a dictionary with
          the FoM key inside
