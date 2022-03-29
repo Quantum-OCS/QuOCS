@@ -142,5 +142,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-src/quocslib/optimalalgorithms/test.py
+src/quocslib/optimizationalgorithms/test.py
 **/QuOCS_Results

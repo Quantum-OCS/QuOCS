@@ -2,7 +2,7 @@
     "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
     "Disclaimer": "Do not use this json file for optimization",
     "opti_algorithm_attribute": null,
-    "opti_algorithm_module": "quocslib.optimalalgorithms.dCRABNoisyAlgorithm",
+    "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
     "opti_algorithm_class": "DCrabNoisyAlgorithm",
     "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit_Noisy",
     "algorithm_settings": {

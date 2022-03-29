@@ -2,7 +2,7 @@
   "Comment": "This is test dictionary for the controls: Direct Search Method Algorithm 1 parameter",
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
-  "opti_algorithm_module": "quocslib.optimalalgorithms.DirectSearchAlgorithm",
+  "opti_algorithm_module": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
   "opti_algorithm_class": "DirectSearchAlgorithm",
   "optimization_client_name": "Optimization_directSearchMethod_CMAES_Test",
   "algorithm_settings": {
@@ -11,7 +11,7 @@
   },
   "dsm_settings": {
       "general_settings": {
-        "dsm_algorithm_module": "quocslib.freegradientmethods.CMAES",
+        "dsm_algorithm_module": "quocslib.gradientfreemethods.CMAES",
         "dsm_algorithm_class": "CMAES"
       },
       "stopping_criteria": {
