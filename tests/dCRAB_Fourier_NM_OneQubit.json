@@ -1,7 +1,6 @@
 {
     "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
     "Disclaimer": "Do not use this json file for optimization",
-    "opti_algorithm_attribute": null,
     "opti_algorithm_name":"dCRAB",
     "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit",
     "algorithm_settings": {
@@ -28,9 +27,7 @@
                     "basis_name": "Fourier",
                     "basis_vector_number": 2,
                     "random_super_parameter_distribution": {
-                        "distribution_class": "Uniform",
-                        "distribution_module": "quocslib.pulses.superparameter.Uniform",
-                        "distribution_attribute": null,
+                        "distribution_name": "Uniform",
                         "lower_limit": 0.1,
                         "upper_limit": 5.0
                     }

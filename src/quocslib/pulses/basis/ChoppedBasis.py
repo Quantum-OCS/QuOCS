@@ -44,6 +44,9 @@ class ChoppedBasis(BasePulse):
             class_name=super_parameter_distribution_dict.setdefault(
                 "distribution_class", None
             ),
+            name=super_parameter_distribution_dict.setdefault(
+                "distribution_name", None
+            ),
         )
         self.super_parameter_distribution_obj = distribution_attribute(
             self.super_parameter_number, super_parameter_distribution_dict, rng=self.rng

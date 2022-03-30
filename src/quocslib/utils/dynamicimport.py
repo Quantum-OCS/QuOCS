@@ -53,7 +53,15 @@ basis_map_dict = {"Chebyshev":
                         "class_name": "Walsh"}
 }
 
-map_dict = {**opti_algorithm_map_dict, **basis_map_dict}
+distribution_map_dict = {"Uniform":
+                            {"module_name": "quocslib.pulses.superparameter.Uniform",
+                            "class_name": "Uniform"}
+}
+
+map_dict = {**opti_algorithm_map_dict,
+            **basis_map_dict,
+            **distribution_map_dict
+}
 
 
 def dynamic_import(
