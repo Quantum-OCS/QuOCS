@@ -40,14 +40,15 @@ def dynamic_import(
         return attribute
 
     elif name is not None:
+        map_dict = {}
         try:
-            if class_type=='algorithm':
+            if class_type == 'algorithm':
                 map_dict = total_dict['opti_algorithm_map']
-            elif class_type=='dsm_settings':
+            elif class_type == 'dsm_settings':
                 map_dict = total_dict['dsm_settings_map']
-            elif class_type=='basis':
+            elif class_type == 'basis':
                 map_dict = total_dict['basis_map']
-            elif class_type=='superparameter_distribution':
+            elif class_type == 'superparameter_distribution':
                 map_dict = total_dict['superparameter_distribution_map']
             elif class_type is None:
                 raise Exception('The type of the class is not provided!')
@@ -58,6 +59,7 @@ def dynamic_import(
             attribute = getattr(importlib.import_module(module_name), class_name)
             return attribute
 
+        # TODO Substitute the Exception with a proper Error
         except Exception as ex:
             print(
                 "{0}.py module does not exist or {1} is not the class in that module".format(
@@ -74,6 +76,7 @@ def dynamic_import(
             # )
             attribute = getattr(importlib.import_module(module_name), class_name)
             return attribute
+        # TODO Substitute the Exception with a proper Error
         except Exception as ex:
             print(
                 "{0}.py module does not exist or {1} is not the class in that module".format(
