@@ -129,7 +129,7 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         status_code = self.FoM_dict.setdefault("status_code", 0)
         # If re-evaluation steps is not used check for current best figure of merit
         if self.re_evaluation_steps is None:
-            if FoM < self.best_FoM:
+            if self.get_is_record(FoM):
                 message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
                     FoM=self.best_FoM, best_FoM=FoM)
                 self.comm_obj.print_logger(message=message, level=20)

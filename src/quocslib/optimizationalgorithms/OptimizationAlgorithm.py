@@ -58,8 +58,11 @@ class OptimizationAlgorithm:
         else:
             message = "You can choose between maximization/minimization " \
                       "only, but {0} is provided".format(optimization_direction)
-            self.comm_obj.print_logger(message=message, level=30)
+            self.comm_obj.print_logger(message=message, level=40)
+            raise TypeError
         self.best_FoM = self.optimization_factor * (-1.0) * INITIAL_FOM
+        message = "The optimization direction is {0}".format(optimization_direction)
+        self.comm_obj.print_logger(message=message, level=20)
 
     def begin(self) -> None:
         """Initialize the communication with the client"""
@@ -114,9 +117,9 @@ class OptimizationAlgorithm:
         # The interface reads the FoM response and update its notification file
         #
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
-        return self.FoM_dict["FoM"]
+        return -1.0 * self.optimization_factor * self.FoM_dict["FoM"]
 
-    def is_record(self, FoM: float) -> bool:
+    def get_is_record(self, FoM: float) -> bool:
         """Check if the figure of merit provided is a new record
 
         :param: FoM  : figure of merit provided by the user

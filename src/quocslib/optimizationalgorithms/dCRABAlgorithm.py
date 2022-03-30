@@ -83,7 +83,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         """Return useful information for the client interface"""
         is_record = False
         FoM = self.FoM_dict["FoM"]
-        if self.is_record(FoM):
+        if self.get_is_record(FoM):
             message = ("New record achieved. Previous FoM: {FoM}, new best FoM: {best_FoM}".format(FoM=self.best_FoM,
                                                                                                    best_FoM=FoM))
             self.comm_obj.print_logger(message=message, level=20)
