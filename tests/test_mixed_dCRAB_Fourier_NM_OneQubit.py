@@ -14,17 +14,13 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import os, sys, platform
+import os, platform
 import matplotlib.pyplot as plt
 import numpy as np
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
-from quocslib.handleexit.HandleExit import HandleExit
-from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.utils.inputoutput import readjson
-from quocslib.communication.AllInOneCommunication import AllInOneCommunication
-from quocslib.utils.BestDump import BestDump
+from quocslib.Optimizer import Optimizer
 import pytest
-
 
 def plot_FoM(result_path, FoM_filename):
 
@@ -98,38 +94,18 @@ def plot_controls(result_path):
 
 def main(optimization_dictionary: dict, args_dict: dict):
 
-    # get the job name
-    interface_job_name = optimization_dictionary["optimization_client_name"]
-
-    # create FoM object
+    # Create FoM object
     FoM_object = OneQubit(args_dict=args_dict)
 
-    # initialize the communication object
-    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              FoM_obj=FoM_object,
-                                              handle_exit_obj=HandleExit(),
-                                              dump_attribute=BestDump)
+    # Define Optimizer
+    optimization_obj = Optimizer(optimization_dictionary, FoM_object)
 
-    # set savepath for the FoM record
-    FoM_object.set_save_path(communication_obj.results_path)
-
-    # Set optimizer attributes
-    optimizer_attribute = dynamic_import(
-        attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
-        module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
-
-    # initialize optimizer object
-    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
-                                        communication_obj=communication_obj)
-
-    # run the optimization
-    optimizer_obj.begin()
-    optimizer_obj.run()
-    optimizer_obj.end()
-
+    # Execute the optimization and save the FoM
+    FoM_object.set_save_path(optimization_obj.results_path)
+    optimization_obj.execute()
     FoM_object.save_FoM()
 
+    # Plot the results
     plot_FoM(FoM_object.save_path, FoM_object.FoM_save_name)
     plot_controls(FoM_object.save_path)
 
