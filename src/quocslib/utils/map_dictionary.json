@@ -15,6 +15,13 @@
                           {"module_name": "quocslib.optimizationalgorithms.GRAPEAlgorithm",
                           "class_name": "GRAPEAlgorithm"}
                         },
+"dsm_settings_map": {"NelderMead":
+                        {"module_name": "quocslib.gradientfreemethods.NelderMead",
+                        "class_name": "NelderMead"},
+                    "CMAES":
+                        {"module_name": "quocslib.gradientfreemethods.CMAES",
+                        "class_name": "CMAES"}
+},
 "basis_map": {"Chebyshev":
                   {"module_name": "quocslib.pulses.basis.Chebyshev",
                     "class_name": "Chebyshev"},
@@ -34,7 +41,7 @@
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}
               },
-"distribution_map": {"Uniform":
+"superparameter_distribution_map": {"Uniform":
                         {"module_name": "quocslib.pulses.superparameter.Uniform",
                         "class_name": "Uniform"}
                     }

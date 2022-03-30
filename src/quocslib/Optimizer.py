@@ -39,7 +39,9 @@ class Optimizer:
         self.optimizer_attribute = dynamic_import(
             attribute=optimization_dict.setdefault("opti_algorithm_attribute", None),
             module_name=optimization_dict.setdefault("opti_algorithm_module", None),
-            class_name=optimization_dict.setdefault("opti_algorithm_class", None)
+            class_name=optimization_dict.setdefault("opti_algorithm_class", None),
+            name=optimization_dict.setdefault("opti_algorithm_name", None),
+            class_type='algorithm'
         )
 
         self.opt_alg_obj = self.optimizer_attribute(optimization_dict=optimization_dict,
