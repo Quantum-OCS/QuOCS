@@ -48,7 +48,7 @@ class Optimizer:
                                                     communication_obj=self.communication_obj)
 
     def execute(self):
-        """ Write string """
+        """ Write this docstring """
         self.opt_alg_obj.begin()
         self.opt_alg_obj.run()
         self.opt_alg_obj.end()
