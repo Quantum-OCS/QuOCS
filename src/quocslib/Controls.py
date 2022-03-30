@@ -52,7 +52,8 @@ class Controls:
             basis_attribute = dynamic_import(attribute=basis.setdefault("basis_attribute", None),
                                              module_name=basis.setdefault("basis_module", None),
                                              class_name=basis.setdefault("basis_class", None),
-                                             name=basis.setdefault("basis_name", None))
+                                             name=basis.setdefault("basis_name", None),
+                                             class_type='basis')
             # Create the pulse obj
             self.pulse_objs_list.append(basis_attribute(map_index, pulse, rng=rng))
             # Update the map index for the next control

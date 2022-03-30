@@ -46,8 +46,13 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                                       stopping_criteria,
                                       callback=self.is_optimization_running)
         else:
-            dsm_attribute = dynamic_import(module_name=direct_search_method_settings["dsm_algorithm_module"],
-                                           class_name=direct_search_method_settings["dsm_algorithm_class"])
+            dsm_attribute = dynamic_import(
+                                           module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                                           class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                           name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                           class_type='dsm_settings'
+            )
+
             self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                          stopping_criteria,
                                          callback=self.is_optimization_running)

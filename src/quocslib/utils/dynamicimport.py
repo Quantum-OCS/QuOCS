@@ -22,19 +22,17 @@ from quocslib.utils.inputoutput import readjson
 folder = os.path.dirname(os.path.realpath(__file__))
 total_dict = readjson(os.path.join(folder, "map_dictionary.json"))[1]
 
-map_dict = {**total_dict['opti_algorithm_map'],
-            **total_dict['basis_map'],
-            **total_dict['distribution_map']
-}
 
 def dynamic_import(
-    attribute=None, module_name: str = None, class_name: str = None, name: str = None
+    attribute=None, module_name: str = None, class_name: str = None, name: str = None, class_type: str = None
 ) -> callable:
     """
     Function for dynamic import.
     :param attribute: The attribute of the class you want to use. It is an optional argument.
     :param module_name: Relative import of the module
     :param class_name: Name of the class inside the module
+    :param name: Name of the class in the map_dictionary.json
+    :param class_type: Type of class, i.e. algorithm, dsm_settings_map, basis or superparameter_distribution
     :return: The attribute to use to create the object
     """
     # If the attribute is already given, then just return the attribute
@@ -43,6 +41,17 @@ def dynamic_import(
 
     elif name is not None:
         try:
+            if class_type=='algorithm':
+                map_dict = total_dict['opti_algorithm_map']
+            elif class_type=='dsm_settings':
+                map_dict = total_dict['dsm_settings_map']
+            elif class_type=='basis':
+                map_dict = total_dict['basis_map']
+            elif class_type=='superparameter_distribution':
+                map_dict = total_dict['superparameter_distribution_map']
+            elif class_type is None:
+                raise Exception('The type of the class is not provided!')
+
             name_dict = map_dict[name]
             module_name = name_dict["module_name"]
             class_name = name_dict["class_name"]
