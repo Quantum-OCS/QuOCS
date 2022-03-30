@@ -1,6 +1,6 @@
 # This is a workflow for PyPI publication
 
-name: Upload to TestPyPI
+name: Upload to PyPI
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     - name: Build and publish
       env:
         TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: |
         python setup.py sdist
-        twine upload --repository testpypi dist/*
+        twine upload dist/*
