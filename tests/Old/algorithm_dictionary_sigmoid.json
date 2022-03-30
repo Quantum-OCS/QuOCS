@@ -3,7 +3,7 @@
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
   "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABAlgorithm",
-  "opti_algorithm_class": "DCrabAlgorithm",
+  "opti_algorithm_class": "dCRABAlgorithm",
   "optimization_client_name": "Optimization_dCRAB_Test_Sigmoid",
   "algorithm_settings": {
             "super_iteration_number": 5,

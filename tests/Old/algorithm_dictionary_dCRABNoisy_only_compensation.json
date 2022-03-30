@@ -3,7 +3,7 @@
   "Disclaimer": "Do not use this json file for optimization",
   "opti_algorithm_attribute": null,
   "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
-  "opti_algorithm_class": "DCrabNoisyAlgorithm",
+  "opti_algorithm_class": "dCRABNoisyAlgorithm",
   "optimization_client_name": "Optimization_dCRABNoisy_only_compensation_Test",
   "algorithm_settings": {
     "super_iteration_number": 5,

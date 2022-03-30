@@ -22,7 +22,7 @@ from quocslib.tools.linearalgebra import simplex_creation
 from quocslib.utils.dynamicimport import dynamic_import
 
 
-class DCrabAlgorithm(Optimizer):
+class dCRABAlgorithm(Optimizer):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
