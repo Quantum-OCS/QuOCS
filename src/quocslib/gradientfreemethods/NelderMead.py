@@ -28,12 +28,12 @@ class NelderMead(DirectSearchMethod):
 
     def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
-        :param dict settings:
-        :param dict stopping_criteria:
+        Nelder-Mead is an updating algorithm based on the simplex method.
+        :param dict settings: settings for the NM algorithm
+        :param dict stopping_criteria: stopping criteria such as max_iterations_number
         """
         super().__init__()
-        if callback is not None:
-            self.callback = callback
+        self.callback = callback
         # Active the parallelization for the firsts evaluations
         self.is_parallelized = settings.setdefault("parallelization", False)
         self.is_adaptive = settings.setdefault("is_adaptive", False)
