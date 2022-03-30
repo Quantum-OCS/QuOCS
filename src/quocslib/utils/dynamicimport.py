@@ -21,10 +21,10 @@ opti_algorithm_map_dict = {"AD":
                                 "class_name": "ADAlgorithm"},
                             "dCRAB":
                                 {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
-                                "class_name": "DCrabAlgorithm"},
+                                "class_name": "dCRABAlgorithm"},
                             "dCRABNoisy":
-                                {"module_name": "quocslib.optimizationalgorithms.DCrabNoisyAlgorithm",
-                                "class_name": "DCrabNoisyAlgorithm"},
+                                {"module_name": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
+                                "class_name": "dCRABNoisyAlgorithm"},
                             "DirectSearch":
                                 {"module_name": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
                                 "class_name": "DirectSearchAlgorithm"},
