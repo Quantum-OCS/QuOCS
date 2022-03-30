@@ -18,7 +18,7 @@ import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
-OPTI_FACTOR_MIN: float = 10 ** (-10)
+INITIAL_FOM: float = 10 ** 10
 
 
 class OptimizationAlgorithm:
@@ -48,15 +48,18 @@ class OptimizationAlgorithm:
         self.init_status = True
         # Random number generator
         self.rng = None
-        # Maximization or minimization constant
-        # factor with - sign means minimization
-        # factor with + sign means maximization
-        self.optimization_factor: float = optimization_dict.setdefault("optimization_factor", -1.0)
-        if np.abs(self.optimization_factor) < OPTI_FACTOR_MIN:
-            message = "The optimization factor {optimization_factor} " \
-                      "is lower than {opti_factor_min}".format(optimization_factor=self.optimization_factor,
-                                                               opti_factor_min=OPTI_FACTOR_MIN)
-            self.comm_obj.print_logger(message=message, level=20)
+        # Maximization or minimization
+        # optimization_direction
+        optimization_direction = optimization_dict.setdefault("optimization_direction", "minimization")
+        if optimization_direction == "minimization":
+            self.optimization_factor = -1.0
+        elif optimization_direction == "maximization":
+            self.optimization_factor = 1.0
+        else:
+            message = "You can choose between maximization/minimization " \
+                      "only, but {0} is provided".format(optimization_direction)
+            self.comm_obj.print_logger(message=message, level=30)
+        self.best_FoM = self.optimization_factor * (-1.0) * INITIAL_FOM
 
     def begin(self) -> None:
         """Initialize the communication with the client"""
@@ -76,8 +79,8 @@ class OptimizationAlgorithm:
         General routine for any control algorithm. It has to be given as the argument of the inner free gradient control
         methods
 
-        :param np.array optimized_control_parameters: The vector with all the optimized control parameters
-        :param int iterations: Iteration number of the inner free gradient method
+        :param: np.array optimized_control_parameters: The vector with all the optimized control parameters
+        :param: int iterations: Iteration number of the inner free gradient method
         :return: float: Return the figure of merit to the inner free gradient method
         """
         # Check if the optimization is still running
@@ -116,10 +119,10 @@ class OptimizationAlgorithm:
     def is_record(self, FoM: float) -> bool:
         """Check if the figure of merit provided is a new record
 
-        :param FoM (float) : figure of merit provided by the user
+        :param: FoM  : figure of merit provided by the user
         """
         # Minimization
-        if self.optimization_factor < OPTI_FACTOR_MIN:
+        if self.optimization_factor < 0.0:
             if FoM < self.best_FoM:
                 return True
         else:
