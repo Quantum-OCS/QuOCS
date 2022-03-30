@@ -19,12 +19,12 @@ import os
 
 
 class AbstractDump(metaclass=ABCMeta):
-    """Abstract class for figure of merit evaluation"""
+    """Abstract class for dumping data"""
 
     @abstractmethod
     def __init__(self, results_path: str = ".", **kwargs):
         """
-        Abstract method fro the contructor. Set here the relevant paths
+        Abstract method for the constructor dumping classes. Set here the relevant paths
         :param str results_path: Path of the folder of the results
         """
 
@@ -36,8 +36,7 @@ class AbstractDump(metaclass=ABCMeta):
                       **kwargs
                       ) -> None:
         """
-        Abstract method for figure of merit evaluation. It returns a dictionary with
-         the FoM key inside
+        Abstract method for dumping the controls.
         :param list pulses_list: List of np.array. Every np.array is a pulse.
         :param list time_grids_list: List of np.array. Every np.array is a time grid at each time grid corresponds
         a pulse.
