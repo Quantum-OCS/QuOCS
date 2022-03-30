@@ -38,7 +38,7 @@ class GRAPEAlgorithm:
     def __init__(self, optimization_dict: dict = None):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
-        Optimizer class except the optimization dictionary where the GRAPE settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
         """
         ###########################################################################################
         # Optimal algorithm variables if any

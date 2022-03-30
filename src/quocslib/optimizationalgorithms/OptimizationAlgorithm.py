@@ -19,7 +19,7 @@ from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
 
-class Optimizer:
+class OptimizationAlgorithm:
     init_status: bool = False
     FoM_maximum: float = 1e10
     xx: np.array
@@ -31,7 +31,7 @@ class Optimizer:
                  communication_obj: AllInOneCommunication = None,
                  optimization_dict: dict = None):
         """
-        The constructor of the Optimizer class. All the algorithms has to inherit it. It provides all the basic
+        The constructor of the OptimizationAlgorithm class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info
         in that class.
 

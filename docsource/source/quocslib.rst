@@ -31,10 +31,10 @@ quocslib.Controls module
    :undoc-members:
    :show-inheritance:
 
-quocslib.Optimizer module
+quocslib.OptimizationAlgorithm module
 -------------------------
 
-.. automodule:: quocslib.Optimizer
+.. automodule:: quocslib.OptimizationAlgorithm
    :members:
    :undoc-members:
    :show-inheritance:

@@ -68,7 +68,7 @@ class CMAES(DirectSearchMethod):
         :return:
         """
 
-        # Creation of the communication function for the Optimizer object
+        # Creation of the communication function for the OptimizationAlgorithm object
         calls_number, func = self._get_wrapper(args, func)
 
         # Set to false is_converged

@@ -15,14 +15,14 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-from quocslib.Optimizer import Optimizer
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.Controls import Controls
 from quocslib.utils.dynamicimport import dynamic_import
 
 from quocslib.tools.linearalgebra import simplex_creation
 
 
-class AlgorithmTemplate(Optimizer):
+class AlgorithmTemplate(OptimizationAlgorithm):
     """
     This is the template for an algorithm class. The three important function are:
     * the constructor with the optimization dictionary and the communication object as parameters
@@ -35,7 +35,7 @@ class AlgorithmTemplate(Optimizer):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
-        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.
         """
         super().__init__(communication_obj=communication_obj)
         ###########################################################################################
