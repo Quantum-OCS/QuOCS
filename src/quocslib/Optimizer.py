@@ -18,6 +18,8 @@ import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
+OPTI_FACTOR_MIN: float = 10 ** (-10)
+
 
 class Optimizer:
     init_status: bool = False
@@ -46,6 +48,15 @@ class Optimizer:
         self.init_status = True
         # Random number generator
         self.rng = None
+        # Maximization or minimization constant
+        # factor with - sign means minimization
+        # factor with + sign means maximization
+        self.optimization_factor: float = optimization_dict.setdefault("optimization_factor", -1.0)
+        if np.abs(self.optimization_factor) < OPTI_FACTOR_MIN:
+            message = "The optimization factor {optimization_factor} " \
+                      "is lower than {opti_factor_min}".format(optimization_factor=self.optimization_factor,
+                                                               opti_factor_min=OPTI_FACTOR_MIN)
+            self.comm_obj.print_logger()
 
     def begin(self) -> None:
         """Initialize the communication with the client"""
@@ -100,7 +111,22 @@ class Optimizer:
         # The interface reads the FoM response and update its notification file
         #
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
-        return self.FoM_dict["FoM"]
+        return (-1.0) * self.optimization_factor * self.FoM_dict["FoM"]
+
+    def is_record(self, FoM: float) -> bool:
+        """Check if the figure of merit provided is a new record
+
+        :param FoM (float) : figure of merit provided by the user
+        """
+        # Minimization
+        if self.optimization_factor < OPTI_FACTOR_MIN:
+            if FoM < self.best_FoM:
+                return True
+        else:
+            # Maximization
+            if FoM > self.best_FoM:
+                return True
+        return False
 
     @abstractmethod
     def run(self) -> None:
