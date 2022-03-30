@@ -16,9 +16,48 @@
 
 import importlib
 
+opti_algorithm_map_dict = {"AD":
+                                {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
+                                "class_name": "ADAlgorithm"},
+                            "dCRAB":
+                                {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
+                                "class_name": "DCrabAlgorithm"},
+                            "dCRABNoisy":
+                                {"module_name": "quocslib.optimizationalgorithms.DCrabNoisyAlgorithm",
+                                "class_name": "DCrabNoisyAlgorithm"},
+                            "DirectSearch":
+                                {"module_name": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
+                                "class_name": "DirectSearchAlgorithm"},
+                            "GRAPE":
+                                {"module_name": "quocslib.optimizationalgorithms.GRAPEAlgorithm",
+                                "class_name": "GRAPEAlgorithm"}
+}
+
+basis_map_dict = {"Chebyshev":
+                        {"module_name": "quocslib.pulses.basis.Chebyshev",
+                        "class_name": "Chebyshev"},
+                    "ChoppedBasis":
+                        {"module_name": "quocslib.pulses.basis.ChoppedBasis",
+                        "class_name": "ChoppedBasis"},
+                    "Fourier":
+                        {"module_name": "quocslib.pulses.basis.Fourier",
+                        "class_name": "Fourier"},
+                    "PiecewiseBasis":
+                        {"module_name": "quocslib.pulses.basis.PiecewiseBasis",
+                        "class_name": "PiecewiseBasis"},
+                    "Sigmoid":
+                        {"module_name": "quocslib.pulses.basis.Sigmoid",
+                        "class_name": "Sigmoid"},
+                    "Walsh":
+                        {"module_name": "quocslib.pulses.basis.Walsh",
+                        "class_name": "Walsh"}
+}
+
+map_dict = {**opti_algorithm_map_dict, **basis_map_dict}
+
 
 def dynamic_import(
-    attribute=None, module_name: str = None, class_name: str = None
+    attribute=None, module_name: str = None, class_name: str = None, name: str = None
 ) -> callable:
     """
     Function for dynamic import.
@@ -30,16 +69,31 @@ def dynamic_import(
     # If the attribute is already given, then just return the attribute
     if attribute is not None:
         return attribute
-    # Get the attribute
-    import_conditions = [module_name is not None, class_name is not None]
-    if all(import_conditions):
+
+    elif name is not None:
+        try:
+            name_dict = map_dict[name]
+            module_name = name_dict["module_name"]
+            class_name = name_dict["class_name"]
+            attribute = getattr(importlib.import_module(module_name), class_name)
+            return attribute
+
+        except Exception as ex:
+            print(
+                "{0}.py module does not exist or {1} is not the class in that module".format(
+                    module_name, class_name
+                )
+            )
+            return None
+
+    elif all([module_name is not None, class_name is not None]):
         try:
             # provide backward - compatibility after renaming
-            module_name = module_name.replace(
-                "quocslib.pulses.super_parameter.", "quocslib.pulses.superparameter."
-            )
-
+            # module_name = module_name.replace(
+            #     "quocslib.pulses.super_parameter.", "quocslib.pulses.superparameter."
+            # )
             attribute = getattr(importlib.import_module(module_name), class_name)
+            return attribute
         except Exception as ex:
             print(
                 "{0}.py module does not exist or {1} is not the class in that module".format(
@@ -53,4 +107,5 @@ def dynamic_import(
                 module_name, class_name
             )
         )
-    return attribute
+        return None
+

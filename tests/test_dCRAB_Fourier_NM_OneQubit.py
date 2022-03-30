@@ -117,7 +117,9 @@ def main(optimization_dictionary: dict, args_dict: dict):
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
+        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None),
+        name=optimization_dictionary.setdefault("opti_algorithm_name", None)
+        )
 
     # initialize optimizer object
     optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
