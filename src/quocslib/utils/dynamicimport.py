@@ -15,54 +15,17 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import importlib
+import os
+from quocslib.utils.inputoutput import readjson
 
-opti_algorithm_map_dict = {"AD":
-                                {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
-                                "class_name": "ADAlgorithm"},
-                            "dCRAB":
-                                {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
-                                "class_name": "dCRABAlgorithm"},
-                            "dCRABNoisy":
-                                {"module_name": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
-                                "class_name": "dCRABNoisyAlgorithm"},
-                            "DirectSearch":
-                                {"module_name": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
-                                "class_name": "DirectSearchAlgorithm"},
-                            "GRAPE":
-                                {"module_name": "quocslib.optimizationalgorithms.GRAPEAlgorithm",
-                                "class_name": "GRAPEAlgorithm"}
+
+folder = os.path.dirname(os.path.realpath(__file__))
+total_dict = readjson(os.path.join(folder, "map_dictionary.json"))[1]
+
+map_dict = {**total_dict['opti_algorithm_map'],
+            **total_dict['basis_map'],
+            **total_dict['distribution_map']
 }
-
-basis_map_dict = {"Chebyshev":
-                        {"module_name": "quocslib.pulses.basis.Chebyshev",
-                        "class_name": "Chebyshev"},
-                    "ChoppedBasis":
-                        {"module_name": "quocslib.pulses.basis.ChoppedBasis",
-                        "class_name": "ChoppedBasis"},
-                    "Fourier":
-                        {"module_name": "quocslib.pulses.basis.Fourier",
-                        "class_name": "Fourier"},
-                    "PiecewiseBasis":
-                        {"module_name": "quocslib.pulses.basis.PiecewiseBasis",
-                        "class_name": "PiecewiseBasis"},
-                    "Sigmoid":
-                        {"module_name": "quocslib.pulses.basis.Sigmoid",
-                        "class_name": "Sigmoid"},
-                    "Walsh":
-                        {"module_name": "quocslib.pulses.basis.Walsh",
-                        "class_name": "Walsh"}
-}
-
-distribution_map_dict = {"Uniform":
-                            {"module_name": "quocslib.pulses.superparameter.Uniform",
-                            "class_name": "Uniform"}
-}
-
-map_dict = {**opti_algorithm_map_dict,
-            **basis_map_dict,
-            **distribution_map_dict
-}
-
 
 def dynamic_import(
     attribute=None, module_name: str = None, class_name: str = None, name: str = None

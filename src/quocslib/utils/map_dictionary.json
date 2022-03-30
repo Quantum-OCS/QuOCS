@@ -1,0 +1,41 @@
+{
+"opti_algorithm_map": {"AD":
+                          {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
+                          "class_name": "ADAlgorithm"},
+                      "dCRAB":
+                          {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
+                          "class_name": "dCRABAlgorithm"},
+                      "dCRABNoisy":
+                          {"module_name": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
+                          "class_name": "dCRABNoisyAlgorithm"},
+                      "DirectSearch":
+                          {"module_name": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
+                          "class_name": "DirectSearchAlgorithm"},
+                      "GRAPE":
+                          {"module_name": "quocslib.optimizationalgorithms.GRAPEAlgorithm",
+                          "class_name": "GRAPEAlgorithm"}
+                        },
+"basis_map": {"Chebyshev":
+                  {"module_name": "quocslib.pulses.basis.Chebyshev",
+                    "class_name": "Chebyshev"},
+              "ChoppedBasis":
+                  {"module_name": "quocslib.pulses.basis.ChoppedBasis",
+                  "class_name": "ChoppedBasis"},
+              "Fourier":
+                  {"module_name": "quocslib.pulses.basis.Fourier",
+                  "class_name": "Fourier"},
+              "PiecewiseBasis":
+                  {"module_name": "quocslib.pulses.basis.PiecewiseBasis",
+                  "class_name": "PiecewiseBasis"},
+              "Sigmoid":
+                  {"module_name": "quocslib.pulses.basis.Sigmoid",
+                  "class_name": "Sigmoid"},
+              "Walsh":
+                  {"module_name": "quocslib.pulses.basis.Walsh",
+                  "class_name": "Walsh"}
+              },
+"distribution_map": {"Uniform":
+                        {"module_name": "quocslib.pulses.superparameter.Uniform",
+                        "class_name": "Uniform"}
+                    }
+}
