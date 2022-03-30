@@ -20,8 +20,12 @@ class RosenFoM(AbstractFoM):
         self.save_path = ""
 
     # def __del__(self):
-        # np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
-        # np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
+    #     np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
+    #     np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
+
+    def save_FoM(self):
+        np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
+        np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
 
 
     def set_save_path(self, save_path: str = ""):
@@ -50,6 +54,8 @@ optimization_obj = Optimizer(optimization_dictionary, FoM_object)
 FoM_object.set_save_path(optimization_obj.results_path)
 
 optimization_obj.execute()
+
+FoM_object.save_FoM()
 
 
 
