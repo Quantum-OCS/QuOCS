@@ -27,20 +27,15 @@ from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteri
 class CMAES(DirectSearchMethod):
     callback: callable
 
-    def __init__(
-        self,
-        settings: dict = None,
-        stopping_criteria: dict = None,
-        callback: callable = None,
-        **kwargs
-    ):
+    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None, **kwargs):
         """
-        :param dict settings:
-        :param dict stopping_criteria:
+        The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
+        distributions of points in the control landscape
+        :param dict settings: settings for the CMAES algorithm
+        :param dict stopping_criteria: stopping criteria such as max_iterations_number
         """
         super().__init__()
-        if callback is not None:
-            self.callback = callback
+        self.callback = callback
         # Active the parallelization for the firsts evaluations
         self.is_parallelized = settings.setdefault("parallelization", False)
         self.is_adaptive = settings.setdefault("is_adaptive", False)
@@ -48,16 +43,8 @@ class CMAES(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
-    def run_dsm(
-        self,
-        func,
-        x0,
-        args=(),
-        sigma_v: np.array = None,
-        initial_simplex=None,
-        max_iterations_number: int = None,
-        **kwargs
-    ) -> dict:
+    def run_dsm(self, func, x0, args=(), sigma_v: np.array = None, initial_simplex=None,
+                max_iterations_number: int = None, **kwargs) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
@@ -235,32 +222,3 @@ class CMAES(DirectSearchMethod):
 
         return result_custom
 
-
-if __name__ == "__main__":
-
-    def test_rosenbrock(x, DebugMode, details):
-        FoM = optimize.rosen(x)
-        return FoM
-
-    from scipy import optimize
-    import time
-
-    N = 20
-    sigma_v = 0.3 * np.ones(
-        N,
-    )
-    max_iteration_number = 2 * 10**4
-    opt_dict = {"max_iterations_number": max_iteration_number, "sigma_v": sigma_v}
-    x0 = np.random.rand(
-        N,
-    )
-    details = {"type": "Run Test"}
-    function = test_rosenbrock
-    ###############################################
-    # Benchmark CMAES
-    ###############################################
-    cmaes_obj = CMAES()
-    time_start = time.time()
-    result_custom = cmaes_obj.run_dsm(function, x0, **opt_dict, args=(details,))
-    time_end = time.time()
-    print(result_custom)

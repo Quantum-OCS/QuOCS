@@ -35,18 +35,14 @@ class CMAESStoppingCriteria(StoppingCriteria):
         # Call to the super class constructor
         super().__init__()
         # Maximum iteration number
-        print(stopping_criteria)
-        max_iterations_number = stopping_criteria.setdefault("iterations_number", 100)
-        self.max_iterations_number = max_iterations_number
+        self.max_iterations_number = stopping_criteria.setdefault("max_iterations_number", 100)
         # f_atol and x_atol
         self.x_atol = stopping_criteria.setdefault("xatol", 1e-6)
         self.f_atol = stopping_criteria.setdefault("frtol", 1e-6)
         self.is_converged = False
         self.terminate_reason = ""
 
-    def check_stopping_criteria(
-        self, f_sim: np.array = None, function_evaluations: int = None
-    ) -> None:
+    def check_stopping_criteria(self, f_sim: np.array = None, function_evaluations: int = None) -> None:
         """
         :param f_sim:
         :param function_evaluations:
@@ -56,9 +52,7 @@ class CMAESStoppingCriteria(StoppingCriteria):
             return
 
         # Check function evaluation
-        is_converged, terminate_reason = _check_func_eval(
-            function_evaluations, self.max_iterations_number
-        )
+        is_converged, terminate_reason = _check_func_eval(function_evaluations, self.max_iterations_number)
         if is_converged:
             self.is_converged = True
             self.terminate_reason = terminate_reason
