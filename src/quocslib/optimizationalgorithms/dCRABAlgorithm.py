@@ -37,21 +37,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # TODO Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
-        if "dsm_name" in direct_search_method_settings:
-            print("dsm_name is used direct search methods. This option is deprecated. Use \n"
-                  "dsm_algorithm_module: quocslib.freegradients.NelderMead\n"
-                  "dsm_algorithm_class: NelderMead")
-            self.dsm_obj = NelderMead(direct_search_method_settings,
-                                      stopping_criteria,
-                                      callback=self.is_optimization_running)
-        else:
-            dsm_attribute = dynamic_import(
-                                           module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                           class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                           name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                           class_type='dsm_settings'
-                                           )
-            self.dsm_obj = dsm_attribute(direct_search_method_settings,
+
+        dsm_attribute = dynamic_import(
+                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                        class_type='dsm_settings'
+                                        )
+        self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                          stopping_criteria,
                                          callback=self.is_optimization_running)
         self.terminate_reason = ""

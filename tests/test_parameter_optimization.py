@@ -1,15 +1,10 @@
-import os, sys
-
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
-from quocslib.handleexit.HandleExit import HandleExit
-from quocslib.utils.dynamicimport import dynamic_import
-from quocslib.utils.inputoutput import readjson
-from quocslib.communication.AllInOneCommunication import AllInOneCommunication
-from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
-from quocslib.utils.BestDump import BestDump
 from quocslib.utils.AbstractFoM import AbstractFoM
+from quocslib.utils.inputoutput import readjson
+from quocslib.Optimizer import Optimizer
 from scipy.optimize import rosen
 import numpy as np
+import os
 import pytest
 
 
@@ -23,7 +18,7 @@ class RosenFoM(AbstractFoM):
         self.param_list = []
         self.save_path = ""
 
-    def __del__(self):
+    def save_FoM(self):
         np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
         np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
 
@@ -44,34 +39,16 @@ class RosenFoM(AbstractFoM):
 
 def main(optimization_dictionary: dict):
 
-    # Initialize the communication object
-    interface_job_name = optimization_dictionary["optimization_client_name"]
-
     FoM_object = RosenFoM()
 
-    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              FoM_obj=FoM_object, handle_exit_obj=HandleExit(),
-                                              dump_attribute=BestDump)
+    optimization_obj = Optimizer(optimization_dictionary, FoM_object)
 
-    FoM_object.set_save_path(communication_obj.results_path)
+    FoM_object.set_save_path(optimization_obj.results_path)
 
-    # ----------------------------------------------------------------------------
-    
-    optimizer_attribute = dynamic_import(
-        attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
-        module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
-    
-    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
-                                        communication_obj=communication_obj)
+    optimization_obj.execute()
 
-    print("The optimizer was initialized successfully")
-    optimizer_obj.begin()
-    print("The optimizer started successfully")
-    optimizer_obj.run()
-    print("The optimizer ran successfully")
-    optimizer_obj.end()
-    print("The optimizer finished successfully")
+    FoM_object.save_FoM()
+
 
 
 def test_parameter_optimization():

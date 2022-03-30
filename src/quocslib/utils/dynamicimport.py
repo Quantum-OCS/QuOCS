@@ -32,7 +32,7 @@ def dynamic_import(
     :param module_name: Relative import of the module
     :param class_name: Name of the class inside the module
     :param name: Name of the class in the map_dictionary.json
-    :param class_type: Type of class, i.e. algorithm, dsm_settings_map, basis or superparameter_distribution
+    :param class_type: Type of class, i.e. algorithm, dsm_settings, basis or superparameter_distribution
     :return: The attribute to use to create the object
     """
     # If the attribute is already given, then just return the attribute

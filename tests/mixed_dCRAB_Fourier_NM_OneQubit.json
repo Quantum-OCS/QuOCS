@@ -18,7 +18,7 @@
     },
     "dsm_settings": {
         "general_settings": {
-            "dsm_name": "nelder_mead",
+            "dsm_algorithm_name": "NelderMead",
             "is_adaptive": true
         },
         "stopping_criteria": {
