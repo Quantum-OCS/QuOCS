@@ -63,7 +63,7 @@ class DCrabAlgorithm(Optimizer):
         # Max number of iterations from SI2
         self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
         # Starting FoM
-        self.best_FoM = 1e10
+        self.best_FoM = (-1.0) * self.optimization_factor * 1e10
         ###########################################################################################
         # Pulses, Parameters object
         ###########################################################################################
@@ -86,9 +86,9 @@ class DCrabAlgorithm(Optimizer):
         """Return useful information for the client interface"""
         is_record = False
         FoM = self.FoM_dict["FoM"]
-        if FoM < self.best_FoM:
+        if self.is_record(FoM):
             message = ("New record achieved. Previous FoM: {FoM}, new best FoM: {best_FoM}".format(FoM=self.best_FoM,
-                                                                                               best_FoM=FoM))
+                                                                                                   best_FoM=FoM))
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
             self.best_xx = self.xx.copy()
@@ -148,9 +148,9 @@ class DCrabAlgorithm(Optimizer):
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Termination Reason: {termination_reason}, "
                    "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
-                                                         NfunevalsUsed=NfunevalsUsed,
-                                                         termination_reason=self.terminate_reason,
-                                                         best_FoM=self.best_FoM))
+                                                   NfunevalsUsed=NfunevalsUsed,
+                                                   termination_reason=self.terminate_reason,
+                                                   best_FoM=self.best_FoM))
 
         self.comm_obj.print_logger(message=message, level=20)
 

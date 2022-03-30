@@ -43,6 +43,7 @@ class GRAPEAlgorithm:
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
+        # Is empty
         self.alg_parameters = optimization_dict["algorithm_settings"]
         # Starting FoM
         self.best_FoM = 1e10
@@ -122,14 +123,16 @@ class GRAPEAlgorithm:
         :param List[np.matrix] B: control Hamiltonians in a list of N_ctrls long
         :param int n_slices: the number of pulse slices
         :param float dt: the duration of each timeslice
-        :param List[np.matrix] U_store: a store for all of the propagators
-        :param List[np.matrix] rho_store: a store for all of the forward propagated states
-        :param List[np.matrix] corho_store: a store for all of the reverse propagated states
-        :param str sys_type: either specifying statetransfer or other
+        :param List[np.matrix] U_store: a store for all the propagators
+        :param List[np.matrix] rho_store: a store for all the forward propagated states
+        :param List[np.matrix] corho_store: a store for all the reverse propagated states
+        :param str sys_type: either specifying state transfer or other
         :return Tuple[float, np.array]: Returns a tuple containing the gradient and the figure of merit
         """
         K = self.num_pulses
         drive = drive.reshape((K, n_slices))
+        # TODO: Make this statement more clear
+        # Update the propagator_storage class variable
         pw_evolution(U_store, drive, A, B, n_slices, dt)
 
         for t in range(n_slices):
@@ -168,7 +171,7 @@ class GRAPEAlgorithm:
 
         self.FoM_list.append(fid)
 
-        return (fid, grads)
+        return fid, grads
 
     def _get_functional(self):
         """Generates a lambda x: where x is the control
