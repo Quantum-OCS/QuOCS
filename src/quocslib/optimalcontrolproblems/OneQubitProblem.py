@@ -41,6 +41,11 @@ class OneQubit(AbstractFoM):
         self.include_drift = args_dict.setdefault("include_drift", False)
         self.linear_drift_val_over_iterartion = args_dict.setdefault("linear_drift_val_over_iterartion", 0.002)
 
+        # Maximization or minimization
+        # Minimization -1.0
+        # Maximization 1.0
+        self.optimization_factor = args_dict.setdefault("optimization_factor", -1.0)
+
         self.FoM_list = []
         self.save_path = ""
         self.FoM_save_name = "FoM.txt"
@@ -78,7 +83,7 @@ class OneQubit(AbstractFoM):
         self.FoM_list.append(np.abs(infidelity))
         self.FoM_eval_number += 1
 
-        return {"FoM": np.abs(infidelity), "std": std}
+        return {"FoM": (-1.0) * self.optimization_factor * np.abs(infidelity), "std": std}
 
     @staticmethod
     def _time_evolution(fc, dt, delta1, delta2):
