@@ -21,7 +21,7 @@ from quocslib.Controls import Controls
 from quocslib.gradientfreemethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
 from quocslib.tools.randomgenerator import RandomNumberGenerator
-
+from quocslib.utils.dynamicimport import dynamic_import
 
 class dCRABNoisyAlgorithm(OptimizationAlgorithm):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
@@ -39,9 +39,20 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         # TODO: Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
-        self.dsm_obj = NelderMead(direct_search_method_settings,
-                                  stopping_criteria,
-                                  callback=self.is_optimization_running)
+
+        dsm_attribute = dynamic_import(
+                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                        class_type='dsm_settings'
+                                        )
+        self.dsm_obj = dsm_attribute(direct_search_method_settings,
+                                         stopping_criteria,
+                                         callback=self.is_optimization_running)
+
+        # self.dsm_obj = NelderMead(direct_search_method_settings,
+        #                           stopping_criteria,
+        #                           callback=self.is_optimization_running)
         self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables
@@ -112,7 +123,7 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         self.iteration_number_list: list = []
 
     def _get_response_for_client(self) -> dict:
-        """Return useful information for the client interface and print message in the log"""
+        """ Return useful information for the client interface and print message in the log """
         # Get the average FoM
         FoM, std = self._get_average_FoM_std()
         status_code = self.FoM_dict.setdefault("status_code", 0)
@@ -225,7 +236,7 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         self.is_record = False
         # Initialize step number to 0
         self.step_number = 0
-        FoM = self._routine_call(optimized_control_parameters, iterations)
+        FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
         ################################################################################################################
         # Standard function evaluation - dCRAB without re-evaluation steps
         ################################################################################################################
@@ -264,7 +275,7 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
                 if probability < p_level:
                     return mu_1
                 # else: go on with further re-evaluations
-                self.FoM_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
+                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
                 self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                 # Increase step number after function evaluation
                 self.step_number += 1
@@ -287,7 +298,8 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
                                               sigma=self.best_sigma,
                                               super_it=self.super_it)
 
-        return mu_1
+        # Return the figure of merit to be minimized by the updating algorithm
+        return -1.0 * self.optimization_factor * mu_1
 
     def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
         """Calculate the average figure of merit and sigma"""
@@ -320,7 +332,7 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
         mu_z = mu_2 - mu_1
-        std_comb = np.sqrt(sigma_1**2 + sigma_2**2)
+        std_comb = np.sqrt(sigma_1 ** 2 + sigma_2 ** 2)
         if np.abs(std_comb) < 10 ** (-14):
             # Warning message
             message = ("Combined standard deviation std_comb = {0} < 10**(-14) . To avoid numerical instabilities "

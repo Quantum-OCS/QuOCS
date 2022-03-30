@@ -2,12 +2,12 @@ import numpy as np
 from scipy.linalg import expm
 
 # can we do conditional import?
-try:
-    import jax.scipy as jsp
-except:
-    raise ImportError
+# try:
+#     import jax.scipy as jsp
+# except:
+#     raise ImportError
 
-
+# TODO Shall we merge the two functions in one ???
 def pw_evolution(U_store, drive, A, B, n_slices, dt):
     """Compute the piecewise evolution of a system defined by the
     Hamiltonian H = A + drive * B and store the result in U_store

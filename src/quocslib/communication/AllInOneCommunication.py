@@ -103,7 +103,7 @@ class AllInOneCommunication:
 
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
         """Print optimization dictionary into a file"""
-        writejsonfile(os.path.join(self.results_path, "optimization_dictionary.json"),
+        writejsonfile(os.path.join(self.results_path, self.date_time + "_" +"optimization_dictionary.json"),
                       optimization_dictionary)
 
     def get_user_running(self) -> bool:

@@ -16,11 +16,9 @@
 
 from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
-from quocslib.utils.inputoutput import readjson
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
 from quocslib.utils.AbstractFoM import AbstractFoM
-
 
 
 class Optimizer:
@@ -31,12 +29,10 @@ class Optimizer:
         """
         Write this docstring
         """
-
         self.interface_job_name = optimization_dict.setdefault("optimization_client_name", "run")
-
         self.communication_obj = AllInOneCommunication(interface_job_name=self.interface_job_name,
-                                                  FoM_obj=FoM_object, handle_exit_obj=HandleExit(),
-                                                  dump_attribute=BestDump)
+                                                       FoM_obj=FoM_object, handle_exit_obj=HandleExit(),
+                                                       dump_attribute=BestDump)
 
         self.results_path = self.communication_obj.results_path
 
@@ -51,9 +47,8 @@ class Optimizer:
         self.opt_alg_obj = self.optimizer_attribute(optimization_dict=optimization_dict,
                                                     communication_obj=self.communication_obj)
 
-
     def execute(self):
-
+        """ Write this docstring """
         self.opt_alg_obj.begin()
         self.opt_alg_obj.run()
         self.opt_alg_obj.end()

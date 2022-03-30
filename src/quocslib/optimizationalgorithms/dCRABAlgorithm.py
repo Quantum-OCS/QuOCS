@@ -37,21 +37,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # TODO Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
-        if "dsm_name" in direct_search_method_settings:
-            print("dsm_name is used direct search methods. This option is deprecated. Use \n"
-                  "dsm_algorithm_module: quocslib.freegradients.NelderMead\n"
-                  "dsm_algorithm_class: NelderMead")
-            self.dsm_obj = NelderMead(direct_search_method_settings,
-                                      stopping_criteria,
-                                      callback=self.is_optimization_running)
-        else:
-            dsm_attribute = dynamic_import(
-                                           module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                           class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                           name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                           class_type='dsm_settings'
-                                           )
-            self.dsm_obj = dsm_attribute(direct_search_method_settings,
+
+        dsm_attribute = dynamic_import(
+                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                        class_type='dsm_settings'
+                                        )
+        self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                          stopping_criteria,
                                          callback=self.is_optimization_running)
         self.terminate_reason = ""
@@ -67,7 +60,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Max number of iterations from SI2
         self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
         # Starting FoM
-        self.best_FoM = 1e10
+        self.best_FoM = (-1.0) * self.optimization_factor * 1e10
         ###########################################################################################
         # Pulses, Parameters object
         ###########################################################################################
@@ -90,9 +83,9 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         """Return useful information for the client interface"""
         is_record = False
         FoM = self.FoM_dict["FoM"]
-        if FoM < self.best_FoM:
+        if self.is_record(FoM):
             message = ("New record achieved. Previous FoM: {FoM}, new best FoM: {best_FoM}".format(FoM=self.best_FoM,
-                                                                                               best_FoM=FoM))
+                                                                                                   best_FoM=FoM))
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
             self.best_xx = self.xx.copy()
@@ -152,9 +145,9 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Termination Reason: {termination_reason}, "
                    "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
-                                                         NfunevalsUsed=NfunevalsUsed,
-                                                         termination_reason=self.terminate_reason,
-                                                         best_FoM=self.best_FoM))
+                                                   NfunevalsUsed=NfunevalsUsed,
+                                                   termination_reason=self.terminate_reason,
+                                                   best_FoM=self.best_FoM))
 
         self.comm_obj.print_logger(message=message, level=20)
 
