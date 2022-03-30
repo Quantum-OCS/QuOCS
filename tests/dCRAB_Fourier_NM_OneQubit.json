@@ -25,9 +25,7 @@
                 "time_name": "time_1",
                 "amplitude_variation": 0.3,
                 "basis": {
-                    "basis_class": "Fourier",
-                    "basis_module": "quocslib.pulses.basis.Fourier",
-                    "basis_attribute": null,
+                    "basis_name": "Fourier",
                     "basis_vector_number": 2,
                     "random_super_parameter_distribution": {
                         "distribution_class": "Uniform",
