@@ -16,18 +16,18 @@
 import numpy as np
 from scipy.stats import norm
 
-from quocslib.Optimizer import Optimizer
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.Controls import Controls
-from quocslib.freegradientmethods.NelderMead import NelderMead
+from quocslib.gradientfreemethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
-class DCrabNoisyAlgorithm(Optimizer):
+class dCRABNoisyAlgorithm(OptimizationAlgorithm):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
-        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.
         """
         # TODO Unify this algorithm with the standard dCRAB
         super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)

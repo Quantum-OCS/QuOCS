@@ -14,14 +14,14 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from quocslib.Optimizer import Optimizer
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.Controls import Controls
-from quocslib.freegradientmethods.NelderMead import NelderMead
+from quocslib.gradientfreemethods.NelderMead import NelderMead
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.tools.linearalgebra import simplex_creation
 
 
-class DirectSearchAlgorithm(Optimizer):
+class DirectSearchAlgorithm(OptimizationAlgorithm):
     """ """
 
     initStatus = 0
@@ -32,7 +32,7 @@ class DirectSearchAlgorithm(Optimizer):
         :param optimization_dict:
         :param communication_obj:
         """
-        super().__init__(communication_obj=communication_obj)
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################

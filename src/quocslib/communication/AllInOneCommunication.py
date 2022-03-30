@@ -36,7 +36,7 @@ class AllInOneCommunication:
                  comm_signals_list: [list, list, list] = None):
 
         """
-        In case the user chooses to run the optimization in his device, this class is used by the Optimizer.
+        In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
 
         :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current

@@ -120,14 +120,14 @@
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.Optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<span class="kn">from</span> <span class="nn">quocslib.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
 <span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.dynamicimport</span> <span class="kn">import</span> <span class="n">dynamic_import</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.tools.linearalgebra</span> <span class="kn">import</span> <span class="n">simplex_creation</span>
 
 
-<div class="viewcode-block" id="AlgorithmTemplate"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">[docs]</a><span class="k">class</span> <span class="nc">AlgorithmTemplate</span><span class="p">(</span><span class="n">Optimizer</span><span class="p">):</span>
+<div class="viewcode-block" id="AlgorithmTemplate"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">[docs]</a><span class="k">class</span> <span class="nc">AlgorithmTemplate</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    This is the template for an algorithm class. The three important function are:</span>
 <span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
@@ -140,7 +140,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
-<span class="sd">        Optimizer class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>
+<span class="sd">        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>
 <span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">communication_obj</span><span class="o">=</span><span class="n">communication_obj</span><span class="p">)</span>
         <span class="c1">###########################################################################################</span>

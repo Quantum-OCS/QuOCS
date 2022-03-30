@@ -17,7 +17,7 @@ import numpy as np
 
 np.seterr(all="raise")
 
-from quocslib.freegradientmethods.DirectSearchMethod import DirectSearchMethod
+from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
     NelderMeadStoppingCriteria,
 )
@@ -51,7 +51,7 @@ class NelderMead(DirectSearchMethod):
         :param int max_iterations_number: Maximum iteration number of function evaluations
         :return:
         """
-        # Creation of the communication function for the Optimizer object
+        # Creation of the communication function for the OptimizationAlgorithm object
         calls_number, func = self._get_wrapper(args, func)
         # Set to false is_converged
         self.sc_obj.is_converged = False

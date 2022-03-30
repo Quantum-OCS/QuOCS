@@ -4,7 +4,7 @@
     "opti_algorithm_attribute": null,
     "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
     "opti_algorithm_class": "dCRABNoisyAlgorithm",
-    "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit_Noisy",
+    "optimization_client_name": "Optimization_mixed_dCRAB_Fourier_NM_OneQubit_Noisy",
     "algorithm_settings": {
         "super_iteration_number": 5,
         "maximum_function_evaluations_number": 50,
@@ -54,7 +54,13 @@
                     "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
                 }
     }],
-    "parameters": [],
+  "parameters": [{
+                "parameter_name": "delta1",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.01,
+                "amplitude_variation": 0.5
+            }],
     "times": [{
         "time_name": "time_1",
         "initial_value": 3.0

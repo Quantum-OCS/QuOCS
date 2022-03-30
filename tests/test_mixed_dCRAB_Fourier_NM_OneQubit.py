@@ -117,9 +117,7 @@ def main(optimization_dictionary: dict, args_dict: dict):
     optimizer_attribute = dynamic_import(
         attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None),
-        name=optimization_dictionary.setdefault("opti_algorithm_name", None)
-        )
+        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
 
     # initialize optimizer object
     optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
@@ -146,10 +144,11 @@ def main(optimization_dictionary: dict, args_dict: dict):
 #                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
 #     main(optimization_dictionary, args_dict)
 
-def test_dCRAB_Fourier_NM_OneQubit():
+
+def test_mixed_dCRAB_Fourier_NM_OneQubit():
     # get the optimization settings from the json dictionary
     folder = os.path.dirname(os.path.realpath(__file__))
-    optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit.json"))[1]
+    optimization_dictionary = readjson(os.path.join(folder, "mixed_dCRAB_Fourier_NM_OneQubit.json"))[1]
     # define some parameters for the optimization
     args_dict = {"initial_state": "[1.0 , 0.0]",
                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
@@ -165,15 +164,5 @@ def test_dCRAB_Fourier_NM_OneQubit():
 #                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
 #                  "is_noisy": True}
 #     main(optimization_dictionary, args_dict)
-
-def test_dCRAB_Fourier_NM_OneQubit_Noisy():
-    # get the optimization settings from the json dictionary
-    folder = os.path.dirname(os.path.realpath(__file__))
-    optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit_Noisy.json"))[1]
-    # define some parameters for the optimization
-    args_dict = {"initial_state": "[1.0 , 0.0]",
-                 "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
-                 "is_noisy": True}
-    main(optimization_dictionary, args_dict)
 
 

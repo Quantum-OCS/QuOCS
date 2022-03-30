@@ -1,6 +1,6 @@
 {
     "optimization_client_name": "Pure_Parameter_Opt_with_Rosenbrock_NM",
-    "opti_algorithm_module": "quocslib.optimalalgorithms.DirectSearchAlgorithm",
+    "opti_algorithm_module": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
     "opti_algorithm_class": "DirectSearchAlgorithm",
     "algorithm_settings": {
         "super_iteration_number": 1,
@@ -8,7 +8,7 @@
     },
     "dsm_settings": {
         "general_settings": {
-            "dsm_algorithm_module": "quocslib.freegradientmethods.NelderMead",
+            "dsm_algorithm_module": "quocslib.gradientfreemethods.NelderMead",
             "dsm_algorithm_class": "NelderMead"
         },
         "stopping_criteria": {

@@ -22,12 +22,12 @@ try:
 except:
     raise ImportError
 
-from quocslib.Optimizer import Optimizer
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.Controls import Controls
 from quocslib.timeevolution.piecewise_integrator import pw_final_evolution
 
 
-class ADAlgorithm(Optimizer):
+class ADAlgorithm(OptimizationAlgorithm):
     """
     This is the template for an algorithm class. The three important function are:
     * the constructor with the optimization dictionary and the communication object as parameters
@@ -40,7 +40,7 @@ class ADAlgorithm(Optimizer):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
-        Optimizer class except the optimization dictionary where the GRAPE settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
         """
         super().__init__(communication_obj=communication_obj)
         ###########################################################################################
