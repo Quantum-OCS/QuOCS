@@ -160,7 +160,7 @@
         <span class="n">args</span><span class="o">=</span><span class="p">(),</span>
         <span class="n">sigma_v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_iterations_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">max_eval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -169,7 +169,7 @@
 <span class="sd">        :param np.array x0: initial point</span>
 <span class="sd">        :param tuple args: Further arguments</span>
 <span class="sd">        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation</span>
-<span class="sd">        :param int max_iterations_number: Maximum iteration number of function evaluations</span>
+<span class="sd">        :param int max_eval: Maximum iteration number of function evaluations</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
 
@@ -322,7 +322,7 @@
                 <span class="c1">#     FoM_best = fsim[0]</span>
                 <span class="c1">#     is_terminated = True</span>
                 <span class="c1">#     terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?</span>
-                <span class="c1"># if iterations &gt; max_iterations_number:</span>
+                <span class="c1"># if iterations &gt; max_eval:</span>
                 <span class="c1">#     is_terminated = True</span>
                 <span class="c1">#     terminateReason = "Reached maximum iterations number"</span>
 
@@ -355,7 +355,7 @@
         <span class="n">N</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">max_iteration_number</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span>
-    <span class="n">opt_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"max_iterations_number"</span><span class="p">:</span> <span class="n">max_iteration_number</span><span class="p">,</span> <span class="s2">"sigma_v"</span><span class="p">:</span> <span class="n">sigma_v</span><span class="p">}</span>
+    <span class="n">opt_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"max_eval"</span><span class="p">:</span> <span class="n">max_iteration_number</span><span class="p">,</span> <span class="s2">"sigma_v"</span><span class="p">:</span> <span class="n">sigma_v</span><span class="p">}</span>
     <span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
         <span class="n">N</span><span class="p">,</span>
     <span class="p">)</span>

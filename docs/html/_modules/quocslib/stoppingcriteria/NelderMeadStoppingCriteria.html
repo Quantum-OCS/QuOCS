@@ -136,8 +136,8 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="c1"># Maximum iteration number</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
-        <span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"iterations_number"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">max_iterations_number</span>
+        <span class="n">max_eval</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"iterations_number"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span> <span class="o">=</span> <span class="n">max_eval</span>
         <span class="c1"># frtol and xatol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"xatol"</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"frtol"</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">)</span>
@@ -160,7 +160,7 @@
             <span class="k">return</span>
         <span class="c1"># Trivial stopping criterion</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function_evaluations</span> <span class="o">=</span> <span class="n">function_evaluations</span>
-        <span class="n">max_iter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span>
+        <span class="n">max_iter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span>
         <span class="k">if</span> <span class="n">function_evaluations</span> <span class="o">&gt;=</span> <span class="n">max_iter</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Exceed number of evaluations"</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
