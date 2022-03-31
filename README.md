@@ -6,11 +6,12 @@
 QuOCS (Quantum Optimal Control Suite) is a python software package for theoretical and experimental optimizations with optimal control.
 It uses the excellent Numpy and Scipy packages as numerical backends.
 QuOCS aims to provide a user-friendly interface to solve optimization problems. A wide variety of efficient optimal control algorithms are available:
-* AD (Automatic Differentiation) Algorithm
-* Direct Search Algorithm
 * GRAPE (GRadient Ascent Pulse Engineering) Algorithm
 * dCRAB (dressed Chopped RAndom Basis) Algorithm
 * dCRAB Noisy Algorithm
+* AD (Automatic Differentiation) Algorithm
+* Direct Search Algorithm, i.e. Nelder Mead, Powell...
+
 
 QuOCS is open source and its interface structure allows for user-friendly customizability (see [customization](#customization) section). It can be used on all Unix-based platforms and on Windows.
 
