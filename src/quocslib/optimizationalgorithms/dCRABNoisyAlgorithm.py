@@ -62,9 +62,9 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         self.max_num_si = int(alg_parameters["super_iteration_number"])
         # TODO: Change evaluation number for the first and second super iteration
         # Max number of iterations at SI1
-        self.max_num_function_ev = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev = int(alg_parameters["max_eval_per_SI"])
         # Max number of iterations from SI2
-        self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev2 = int(alg_parameters["max_eval_per_SI"])
         # Starting FoM and sigma
         self.best_FoM = 1e10
         self.best_sigma = 0.0

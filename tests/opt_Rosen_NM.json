@@ -3,7 +3,7 @@
     "opti_algorithm_name": "DirectSearch",
     "algorithm_settings": {
         "super_iteration_number": 1,
-        "maximum_function_evaluations_number": 100
+        "max_eval_per_SI": 100
     },
     "dsm_settings": {
         "general_settings": {

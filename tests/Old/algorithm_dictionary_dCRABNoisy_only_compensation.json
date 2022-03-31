@@ -7,7 +7,7 @@
   "optimization_client_name": "Optimization_dCRABNoisy_only_compensation_Test",
   "algorithm_settings": {
     "super_iteration_number": 5,
-    "maximum_function_evaluations_number": 200,
+    "max_eval_per_SI": 200,
     "is_compensated_drift": true
   },
   "dsm_settings": {

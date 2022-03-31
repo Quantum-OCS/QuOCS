@@ -25,13 +25,12 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
     def __init__(self, stopping_criteria: dict):
         """
         Class for the Nelder Mead custom stopping criteria
-        :param dict stopping_criteria:
+        :param dict stopping_criteria: dictionary of specific stopping criteria
         """
         # Call to the super class constructor
         super().__init__()
         # Maximum iteration number
-        max_iterations_number = stopping_criteria.setdefault("iterations_number", 100)
-        self.max_iterations_number = max_iterations_number
+        self.max_iterations_number = stopping_criteria.setdefault("max_iterations_number", 100)
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)

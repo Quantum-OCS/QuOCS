@@ -26,7 +26,7 @@ def test_dCRAB_Fourier_NM_OneQubit():
         "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit",
         "algorithm_settings": {
             "super_iteration_number": 3,
-            "maximum_function_evaluations_number": 100
+            "max_eval_per_SI": 100
         },
         "dsm_settings": {
             "general_settings": {

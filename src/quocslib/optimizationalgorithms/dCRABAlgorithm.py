@@ -56,9 +56,9 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.max_num_si = int(alg_parameters["super_iteration_number"])
         # TODO change evaluation number for the first and second super iteration
         # Max number of iterations at SI1
-        self.max_num_function_ev = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev = int(alg_parameters["max_eval_per_SI"])
         # Max number of iterations from SI2
-        self.max_num_function_ev2 = int(alg_parameters["maximum_function_evaluations_number"])
+        self.max_num_function_ev2 = int(alg_parameters["max_eval_per_SI"])
         # Starting FoM
         self.best_FoM = (-1.0) * self.optimization_factor * 1e10
         ###########################################################################################
