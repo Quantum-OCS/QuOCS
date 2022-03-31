@@ -7,13 +7,10 @@
 <title>quocslib.optimizationalgorithms.dCRABNoisyAlgorithm</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -167,9 +164,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">max_num_si</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"super_iteration_number"</span><span class="p">])</span>
         <span class="c1"># TODO: Change evaluation number for the first and second super iteration</span>
         <span class="c1"># Max number of iterations at SI1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"max_eval_per_SI"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval_per_SI</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"max_eval_per_SI"</span><span class="p">])</span>
         <span class="c1"># Max number of iterations from SI2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"max_eval_per_SI"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval_per_SI2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"max_eval_per_SI"</span><span class="p">])</span>
         <span class="c1"># Starting FoM and sigma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -282,9 +279,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">select_basis</span><span class="p">()</span>
             <span class="c1"># Direct search method</span>
             <span class="k">if</span> <span class="n">super_it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_eval_per_SI</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_function_ev2</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_eval_per_SI2</span><span class="p">)</span>
             <span class="c1"># Update the base current pulses</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_base_pulses</span><span class="p">()</span></div>
 
@@ -321,7 +318,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1"># Run the direct search algorithm</span>
         <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inner_routine_call</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
-                                        <span class="n">max_iterations_number</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
+                                        <span class="n">max_eval</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
                                                            <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>

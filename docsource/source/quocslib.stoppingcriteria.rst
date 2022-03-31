@@ -28,14 +28,6 @@ quocslib.stoppingcriteria.StoppingCriteria module
    :undoc-members:
    :show-inheritance:
 
-quocslib.stoppingcriteria.generalstoppingcriteria module
---------------------------------------------------------
-
-.. automodule:: quocslib.stoppingcriteria.generalstoppingcriteria
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

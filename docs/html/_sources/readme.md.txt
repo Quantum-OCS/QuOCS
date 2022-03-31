@@ -25,6 +25,7 @@ pip install sphinxawesome_theme myst_parser sphinx_press_theme
 ## Re-building the doc after code changes
 
 Remove the contents of `docsource/source` to avoid problems if filenames have changed.
+Also remove `docs/doctrees` and `docs/html`.
 
 Use a terminal to go into the `docsource` folder. Then run
 
