@@ -120,5 +120,5 @@ If you use QuOCS in your research, please cite the original QuOCS papers that ar
 * [Marco Rossignolo](https://github.com/marcorossignolo)
 * [Alastair Marshall](https://github.com/alastair-marshall)
 * [Thomas Reisser](https://github.com/ThomasReisser90)
-* [Phila Rhembold](https://github.com/phila-rembold)
+* [Phila Rembold](https://github.com/phila-rembold)
 * [Alice Pagano](https://github.com/AlicePagano)
