@@ -8,7 +8,7 @@ It uses the excellent Numpy and Scipy packages as numerical backends.
 QuOCS aims to provide a user-friendly interface to solve optimization problems. A wide variety of efficient optimal control algorithms are available:
 * GRAPE (GRadient Ascent Pulse Engineering) Algorithm
 * dCRAB (dressed Chopped RAndom Basis) Algorithm
-* AD (Automatic Differentiation) Algorithm
+* AD-GRAPE (Automatic Differentiation) Algorithm
 * Direct Search Algorithm, i.e. Nelder Mead, Powell...
 
 
