@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimizationalgorithms.OptimizationAlgorithm</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.optimizationalgorithms.OptimizationAlgorithm</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.optimizationalgorithms.OptimizationAlgorithm</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">quocslib.communication.AllInOneCommunication</span> <span class="kn">import</span> <span class="n">AllInOneCommunication</span>
+<span class="kn">from</span> <span class="nn">quocslib</span> <span class="kn">import</span> <span class="n">__VERSION__</span> <span class="k">as</span> <span class="n">QUOCSLIB_VERSION</span>
+
+<span class="n">INITIAL_FOM</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span>
+
+
+<div class="viewcode-block" id="OptimizationAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">OptimizationAlgorithm</span><span class="p">:</span>
+    <span class="n">init_status</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">FoM_maximum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e10</span>
+    <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+    <span class="n">alg_iteration_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">FoM_dict</span><span class="p">:</span> <span class="nb">dict</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">communication_obj</span><span class="p">:</span> <span class="n">AllInOneCommunication</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        The constructor of the OptimizationAlgorithm class. All the algorithms has to inherit it. It provides all the basic</span>
+<span class="sd">        modules an optimizer should have. All the arguments are passed to the communication object. Find all the info</span>
+<span class="sd">        in that class.</span>
+
+<span class="sd">        :param dict communication_obj: Object fo the communication class</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span> <span class="o">=</span> <span class="n">communication_obj</span>
+        <span class="c1"># Print optimization dictionary into a file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_optimization_dictionary</span><span class="p">(</span><span class="n">optimization_dict</span><span class="p">)</span>
+        <span class="c1"># Initialize the total iteration number, i.e. the total function evaluations of the algorithm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Update status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_status</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Random number generator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rng</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Maximization or minimization</span>
+        <span class="c1"># optimization_direction</span>
+        <span class="n">optimization_direction</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"optimization_direction"</span><span class="p">,</span> <span class="s2">"minimization"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">optimization_direction</span> <span class="o">==</span> <span class="s2">"minimization"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="k">elif</span> <span class="n">optimization_direction</span> <span class="o">==</span> <span class="s2">"maximization"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">"You can choose between maximization/minimization "</span> \
+                      <span class="s2">"only, but </span><span class="si">{0}</span><span class="s2"> is provided"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimization_direction</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">INITIAL_FOM</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">"The optimization direction is </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">optimization_direction</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.begin"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.begin">[docs]</a>    <span class="k">def</span> <span class="nf">begin</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Initialize the communication with the client"""</span>
+        <span class="c1"># Open the log with the QuOCS version number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="s2">"QuOCS version number: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">QUOCSLIB_VERSION</span><span class="p">))</span>
+        <span class="c1"># Send starting message to the interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s2">"start"</span><span class="p">)</span>
+        <span class="c1"># Assign new job number to the client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">assign_job</span><span class="p">()</span>
+        <span class="c1"># Send the new data for the communication to the client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_communication_data</span><span class="p">()</span>
+        <span class="c1"># Notify it to the client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_init_msg_server</span><span class="p">(</span><span class="n">upd_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">client_job_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_routine_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        General routine for any control algorithm. It has to be given as the argument of the inner free gradient control</span>
+<span class="sd">        methods</span>
+
+<span class="sd">        :param: np.array optimized_control_parameters: The vector with all the optimized control parameters</span>
+<span class="sd">        :param: int iterations: Iteration number of the inner free gradient method</span>
+<span class="sd">        :return: float: Return the figure of merit to the inner free gradient method</span>
+<span class="sd">        """</span>
+        <span class="c1"># Check if the optimization is still running</span>
+        <span class="n">is_running</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_running</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_maximum</span>
+        <span class="c1"># Update parameter array and iteration number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alg_iteration_number</span> <span class="o">=</span> <span class="n">optimized_control_parameters</span><span class="p">,</span> <span class="n">iterations</span>
+        <span class="c1"># Update iteration number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># General workflow</span>
+        <span class="c1"># Check interface update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">check_msg_client</span><span class="p">()</span>
+        <span class="c1"># Send the controls to the interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_controls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_controls</span><span class="p">(</span><span class="n">optimized_control_parameters</span><span class="p">))</span>
+        <span class="c1"># Update the notification file for the interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_msg_server</span><span class="p">()</span>
+        <span class="c1"># The interface reads the controls, calculates the FoM and updates its notification</span>
+        <span class="c1"># Check for interface response</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">check_msg_client</span><span class="p">()</span>
+        <span class="c1"># Check if the optimization is still running</span>
+        <span class="n">is_running</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_running</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_maximum</span>
+        <span class="c1"># Get the figure of merit and update it to the main algorithm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">()[</span><span class="s2">"FoM_values"</span><span class="p">]</span>
+        <span class="c1"># Send the response for the interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_FoM_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_response_for_client</span><span class="p">())</span>
+        <span class="c1"># Update the notification file for the interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_msg_server</span><span class="p">()</span>
+        <span class="c1"># The interface reads the FoM response and update its notification file</span>
+        <span class="c1">#</span>
+        <span class="c1"># Return the figure of merit, i.e. a real number, to the optimal based algorithm</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.get_is_record"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.get_is_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_is_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FoM</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Check if the figure of merit provided is a new record</span>
+
+<span class="sd">        :param: FoM  : figure of merit provided by the user</span>
+<span class="sd">        """</span>
+        <span class="c1"># Minimization</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FoM</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Maximization</span>
+            <span class="k">if</span> <span class="n">FoM</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.run">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Run the optimization algorithm"""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must override method in the Optimal Algorithm class"</span><span class="p">)</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""Return a dictionary with useful info for the client interface. At least the dictionary</span>
+<span class="sd">        has to provide "is_record": bool and "FoM": float"""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must override method in the Optimal Algorithm class"</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+        <span class="sd">"""Given the optimized control parameters, the control object in the optimal algorithm builds the</span>
+<span class="sd">        pulses, time grids, and parameters"""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must override method in the Optimal Algorithm class"</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""The optimal algorithm gives back a dictionary with useful results"""</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must override method in the Optimal Algorithm class"</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.is_optimization_running"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.is_optimization_running">[docs]</a>    <span class="k">def</span> <span class="nf">is_optimization_running</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode"""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.end"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Finalize the transmission with  the client"""</span>
+        <span class="c1"># Check client update</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">check_msg_client</span><span class="p">()</span>
+        <span class="c1"># End communication</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">end_communication</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_final_results</span><span class="p">())</span>
+        <span class="c1"># Update server message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_msg_server</span><span class="p">()</span></div></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

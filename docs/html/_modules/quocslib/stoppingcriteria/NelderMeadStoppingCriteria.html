@@ -130,14 +130,12 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Class for the Nelder Mead custom stopping criteria</span>
-<span class="sd">        :param dict stopping_criteria:</span>
+<span class="sd">        :param dict stopping_criteria: dictionary of specific stopping criteria</span>
 <span class="sd">        """</span>
         <span class="c1"># Call to the super class constructor</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="c1"># Maximum iteration number</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
-        <span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"iterations_number"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">max_iterations_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_iterations_number"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
         <span class="c1"># frtol and xatol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"xatol"</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"frtol"</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">)</span>
@@ -189,7 +187,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

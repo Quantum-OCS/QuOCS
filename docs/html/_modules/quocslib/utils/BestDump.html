@@ -119,44 +119,62 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.utils.AbstractDump</span> <span class="kn">import</span> <span class="n">AbstractDump</span>
 
 
 <div class="viewcode-block" id="BestDump"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump">[docs]</a><span class="k">class</span> <span class="nc">BestDump</span><span class="p">(</span><span class="n">AbstractDump</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span> <span class="o">=</span> <span class="n">results_path</span>
 
-<div class="viewcode-block" id="BestDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">[docs]</a>    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">is_record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">"""Save the controls in the results folder"""</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span> <span class="n">date_time</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Dumping class for controls and other data which should be the most useful option for most users.</span>
+<span class="sd">        :param str results_path: Path of the folder of the results</span>
+<span class="sd">        :param str date_time: String containing the identifier in the form of date and time</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span> <span class="o">=</span> <span class="n">results_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">=</span> <span class="n">date_time</span>
+
+<div class="viewcode-block" id="BestDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">[docs]</a>    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">is_record</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Save the controls in the results folder</span>
+<span class="sd">        :param list pulses : the list containing the pulses that were optimized</span>
+<span class="sd">        :param list timegrids : the list containing the time grids that were used in the optimization</span>
+<span class="sd">        :param list parameters : the list containing the parameters that were optimized</span>
+<span class="sd">        :param bool is_record : information if the current controls are a new record</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_record</span><span class="p">:</span>
             <span class="k">return</span>
+
         <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">pulse_index</span> <span class="o">=</span> <span class="mi">1</span>
+
         <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">time_grid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">):</span>
             <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"pulse"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pulse_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pulse</span>
             <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"time_grid"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pulse_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">time_grid</span>
             <span class="n">pulse_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
         <span class="n">parameter_index</span> <span class="o">=</span> <span class="mi">1</span>
+
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
             <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"parameter"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">parameter_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">parameter</span>
             <span class="n">parameter_index</span> <span class="o">+=</span> <span class="mi">1</span>
+
         <span class="c1"># Full dictionary</span>
         <span class="n">full_dict</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">controls_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
-        <span class="c1"># Print in the best controls file</span>
-        <span class="n">controls_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="s2">"best_controls.npz"</span><span class="p">)</span>
+
+        <span class="c1"># Save the file</span>
+        <span class="n">controls_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span><span class="o">+</span><span class="s2">"_best_controls.npz"</span><span class="p">)</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">controls_path</span><span class="p">,</span> <span class="o">**</span><span class="n">full_dict</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BestDump.other_dumps"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.other_dumps">[docs]</a>    <span class="k">def</span> <span class="nf">other_dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"test.txt"</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])):</span>
-        <span class="sd">"""Save other results into a txt numpy file"""</span>
+        <span class="sd">"""</span>
+<span class="sd">        Save other results into a txt numpy file</span>
+<span class="sd">        :param str : filename</span>
+<span class="sd">        :param np.array : data</span>
+<span class="sd">        """</span>
         <span class="c1"># Create the path</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="c1"># Save the data in a txt file</span>
@@ -168,7 +186,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

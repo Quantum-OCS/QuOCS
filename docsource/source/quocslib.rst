@@ -9,10 +9,10 @@ Subpackages
 
    quocslib.communication
    quocslib.figureofmeritevaluation
-   quocslib.freegradientmethods
+   quocslib.gradientfreemethods
    quocslib.handleexit
-   quocslib.optimalalgorithms
    quocslib.optimalcontrolproblems
+   quocslib.optimizationalgorithms
    quocslib.parameters
    quocslib.pulses
    quocslib.stoppingcriteria
@@ -31,10 +31,10 @@ quocslib.Controls module
    :undoc-members:
    :show-inheritance:
 
-quocslib.OptimizationAlgorithm module
+quocslib.Optimizer module
 -------------------------
 
-.. automodule:: quocslib.OptimizationAlgorithm
+.. automodule:: quocslib.Optimizer
    :members:
    :undoc-members:
    :show-inheritance:

@@ -124,26 +124,24 @@
 
 
 <div class="viewcode-block" id="AbstractDump"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump">[docs]</a><span class="k">class</span> <span class="nc">AbstractDump</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">"""Abstract class for figure of merit evaluation"""</span>
+    <span class="sd">"""Abstract class for dumping data"""</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
-<span class="sd">        Abstract method fro the contructor. Set here the relevant paths</span>
+<span class="sd">        Abstract method for the constructor dumping classes. Set here the relevant paths</span>
 <span class="sd">        :param str results_path: Path of the folder of the results</span>
 <span class="sd">        """</span>
 
 <div class="viewcode-block" id="AbstractDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.AbstractDump.AbstractDump.dump_controls">[docs]</a>    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="o">**</span><span class="n">kwargs</span>
+                      <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
-<span class="sd">        Abstract method for figure of merit evaluation. It returns a dictionary with</span>
-<span class="sd">         the FoM key inside</span>
+<span class="sd">        Abstract method for dumping the controls.</span>
 <span class="sd">        :param list pulses_list: List of np.array. Every np.array is a pulse.</span>
 <span class="sd">        :param list time_grids_list: List of np.array. Every np.array is a time grid at each time grid corresponds</span>
 <span class="sd">        a pulse.</span>
@@ -157,7 +155,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

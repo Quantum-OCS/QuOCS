@@ -2,6 +2,49 @@
 
 This readme provide a summary for the required steps to build the documentation.
 
+## Installation of Sphinx and needed packages
+
+on Linux run
+
+~~~bash
+sudo apt install python3-sphinx -y
+~~~
+
+On a mac do
+
+~~~bash
+brew install sphinx-doc
+~~~
+
+Wee need a few packages. To get them run
+
+~~~bash
+pip install sphinxawesome_theme myst_parser sphinx_press_theme
+~~~
+
+## Re-building the doc after code changes
+
+Remove the contents of `docsource/source` to avoid problems if filenames have changed.
+
+Use a terminal to go into the `docsource` folder. Then run
+
+~~~bash
+sphinx-apidoc -f -o source/ ../src/quocslib/
+~~~
+
+This will create the source files.
+
+Then to build the documentation do
+
+~~~bash
+make github
+~~~
+
+also in the `docsource` folder.
+
+
+## Building from scratch
+
 * Create folder `docsource/`. In this folder:
     - Use the command `sphinx-quickstart` to generate automatically the `makefile` and `conf.py`.
         * Modify `conf.py` in order to change style etc...
