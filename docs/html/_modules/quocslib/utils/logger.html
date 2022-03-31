@@ -124,9 +124,7 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 
 
-<div class="viewcode-block" id="create_logger"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.logger.create_logger">[docs]</a><span class="k">def</span> <span class="nf">create_logger</span><span class="p">(</span>
-    <span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"oc_logger"</span><span class="p">,</span> <span class="n">is_debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">):</span>
+<div class="viewcode-block" id="create_logger"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.logger.create_logger">[docs]</a><span class="k">def</span> <span class="nf">create_logger</span><span class="p">(</span><span class="n">results_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">logger_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"oc_logger"</span><span class="p">,</span> <span class="n">is_debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">"""Logger creation for console, log file, and debug log file"""</span>
     <span class="n">log_format</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2">.</span><span class="si">%(msecs)03d</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">"</span>
     <span class="n">date_format</span> <span class="o">=</span> <span class="s2">"%m/</span><span class="si">%d</span><span class="s2">/%Y %I:%M:%S"</span>
