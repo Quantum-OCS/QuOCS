@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.utils.FilesUpdateFom</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.utils.FilesUpdateFom</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.utils.FilesUpdateFom</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.inputoutput</span> <span class="kn">import</span> <span class="n">writejsonfile</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<div class="viewcode-block" id="FilesUpdateFoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM">[docs]</a><span class="k">class</span> <span class="nc">FilesUpdateFoM</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
+    <span class="sd">"""An evaluation method for the figure of merit via files exchange. The communication object accesses to the</span>
+<span class="sd">    get_FoM function.</span>
+<span class="sd">    The get_FoM removes the "FoM.txt" file and creates a json, a txt or a npz file in the controls</span>
+<span class="sd">    folder designed by the user.</span>
+<span class="sd">    Finally, the read_FoM_values will wait and check for the figure of merit in the folder designed by the user.</span>
+<span class="sd">    In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or</span>
+<span class="sd">    an error occur during the evaluation an error will set in the</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">controls_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>
+        <span class="n">is_splitted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">file_extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"json"</span><span class="p">,</span>
+        <span class="n">FoM_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"."</span><span class="p">,</span>
+        <span class="n">max_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+
+<span class="sd">        :param str controls_folder: Path of the controls folder</span>
+<span class="sd">        :param str FoM_folder: Path of the figure of merit folder</span>
+<span class="sd">        :param int max_time: Maximum time in arbitrary units. 1 = 0.5 seconds</span>
+<span class="sd">        :param kwargs: Other parameters</span>
+<span class="sd">        """</span>
+        <span class="c1"># Control folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">controls_folder</span><span class="p">,</span> <span class="s2">"controls.</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_extension</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># File extension</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span> <span class="o">=</span> <span class="n">file_extension</span>
+        <span class="c1"># Split the controls in multiple files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_splitted</span> <span class="o">=</span> <span class="n">is_splitted</span>
+        <span class="c1"># FoM folder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FoM_folder</span><span class="p">,</span> <span class="s2">"FoM.txt"</span><span class="p">)</span>
+        <span class="c1"># Maximum time in seconds to wait for the figure of merit evaluation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span>
+
+<div class="viewcode-block" id="FilesUpdateFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file</span>
+<span class="sd">        """</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Removing the previous </span><span class="si">{0}</span><span class="s2"> file if any"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">))</span>
+        <span class="c1"># If FoM.txt file exists remove it</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">)</span>
+        <span class="c1"># Write the pulses into a file or multiple files</span>
+        <span class="c1"># TODO Multiple files extension</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Putting controls in </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_path</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_controls_into_user_path</span><span class="p">(</span><span class="n">pulses</span><span class="p">,</span> <span class="n">timegrids</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="c1"># Read the content of FoM.txt file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Reading the </span><span class="si">{0}</span><span class="s2"> file "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_FoM_values</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FilesUpdateFoM.read_FoM_values"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.read_FoM_values">[docs]</a>    <span class="k">def</span> <span class="nf">read_FoM_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Read the figure of merit FoM.txt file</span>
+<span class="sd">        :return: dict The figure of merit dictionary</span>
+<span class="sd">        """</span>
+        <span class="c1"># Read the FoM</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">time_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">time_counter_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="c1"># Check if figure of merit file exists</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">):</span>
+            <span class="n">time_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">time_counter</span> <span class="o">&gt;=</span> <span class="n">time_counter_max</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}</span>
+        <span class="c1"># Sleep to be sure the file is correctly close</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">FoM_file</span><span class="p">:</span>
+                <span class="n">FoM</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">FoM_file</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="c1"># TODO Add specific exception why the figure of merit is not readable</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"Unhandled exception during FoM reading: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">args</span><span class="p">))</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="FilesUpdateFoM.put_controls_into_user_path"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.put_controls_into_user_path">[docs]</a>    <span class="k">def</span> <span class="nf">put_controls_into_user_path</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Save the controls in the controls.npz file</span>
+<span class="sd">        :param list pulses_list: List of np.arrays. One np.array for each pulse</span>
+<span class="sd">        :param list time_grids_list: List of np.arrays. One np.array for each time grid</span>
+<span class="sd">        :param list parameters_list: List of floats. One float ofr each parameter</span>
+<span class="sd">        :return:</span>
+<span class="sd">        """</span>
+        <span class="c1"># Choose between save as json file or txt file</span>
+        <span class="n">file_extension</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_extension</span>
+        <span class="k">if</span> <span class="n">file_extension</span> <span class="o">==</span> <span class="s2">"txt"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_put_controls_txt</span><span class="p">(</span><span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">file_extension</span> <span class="o">==</span> <span class="s2">"json"</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_put_controls_json</span><span class="p">(</span><span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO Return a negative status code</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"The extension </span><span class="si">{0}</span><span class="s2"> is not recognized"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_extension</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_put_controls_txt</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span>
+    <span class="p">):</span>
+        <span class="sd">"""Ordered the controls like pulse1, time_grid1, pulse2, time_grid2, ... para1, para2 ... and save into a</span>
+<span class="sd">        txt file.</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_path</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">controls_file</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">time_grid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">):</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">controls_file</span><span class="p">,</span> <span class="p">[</span><span class="n">pulse</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">controls_file</span><span class="p">,</span> <span class="p">[</span><span class="n">time_grid</span><span class="p">],</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
+
+            <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">controls_file</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">"</span><span class="si">%f</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_put_controls_json</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span>
+    <span class="p">):</span>
+        <span class="sd">"""Save into a json file"""</span>
+        <span class="c1"># Save the pulses and the respective timegrids into a dictionary</span>
+        <span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">pulse_index</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># The pulses are saved like pulse#</span>
+        <span class="c1"># The timegrids are saved like time_grids#</span>
+        <span class="k">for</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">time_grid</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">):</span>
+            <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"pulse"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pulse_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pulse</span>
+            <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"time_grid"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pulse_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">time_grid</span>
+            <span class="n">pulse_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">parameter_index</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># The parameters are saved like parameter#</span>
+        <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="n">parameters_list</span><span class="p">:</span>
+            <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"parameter"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">parameter_index</span><span class="p">)]</span> <span class="o">=</span> <span class="n">parameter</span>
+            <span class="n">parameter_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">writejsonfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_path</span><span class="p">,</span> <span class="n">controls_dict</span><span class="p">)</span></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

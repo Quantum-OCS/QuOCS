@@ -1,16 +1,16 @@
 {
     "optimization_client_name": "Pure_Parameter_Opt_with_Rosenbrock_NM",
     "algorithm_settings": {
-        "algorithm_name": "DirectSearch"
-    },
-    "dsm_settings": {
-        "general_settings": {
-            "dsm_algorithm_name": "NelderMead"
-        },
-        "stopping_criteria": {
-            "xatol": 1e-14,
-            "frtol": 1e-4,
-            "max_eval": 100
+        "algorithm_name": "DirectSearch",
+        "dsm_settings": {
+            "general_settings": {
+                "dsm_algorithm_name": "NelderMead"
+            },
+            "stopping_criteria": {
+                "xatol": 1e-14,
+                "frtol": 1e-4,
+                "max_eval": 100
+            }
         }
     },
     "pulses": [],

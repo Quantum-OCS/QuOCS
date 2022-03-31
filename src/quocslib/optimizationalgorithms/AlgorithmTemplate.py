@@ -41,8 +41,8 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         ###########################################################################################
         # Inner free gradient method
         ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"][
+        stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"][
             "general_settings"
         ]
         dsm_attribute = dynamic_import(

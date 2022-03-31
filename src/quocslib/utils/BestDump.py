@@ -35,10 +35,10 @@ class BestDump(AbstractDump):
                       parameters: list = [], is_record: bool = False, **kwargs) -> None:
         """
         Save the controls in the results folder
-        :param list pulses : the list containing the pulses that were optimized
-        :param list timegrids : the list containing the time grids that were used in the optimization
-        :param list parameters : the list containing the parameters that were optimized
-        :param bool is_record : information if the current controls are a new record
+        :param list pulses: the list containing the pulses that were optimized
+        :param list timegrids: the list containing the time grids that were used in the optimization
+        :param list parameters: the list containing the parameters that were optimized
+        :param bool is_record: information if the current controls are a new record
         """
         if not is_record:
             return
@@ -67,8 +67,8 @@ class BestDump(AbstractDump):
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """
         Save other results into a txt numpy file
-        :param str : filename
-        :param np.array : data
+        :param str: filename
+        :param np.array: data
         """
         # Create the path
         path = os.path.join(self.best_controls_path, filename)

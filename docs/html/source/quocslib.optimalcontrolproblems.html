@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimalcontrolproblems package</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.optimizationalgorithms.html" rel="next" title="quocslib.optimizationalgorithms package"/>
+<link href="quocslib.handleexit.html" rel="prev" title="quocslib.handleexit package"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li><a href="modules.html">quocslib</a> »</li>
+<li><a href="quocslib.html">quocslib package</a> »</li>
+<li>quocslib.optimalcontrolproblems package</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="quocslib.handleexit.html" title="previous chapter">← quocslib.handleexit package</a>
+</li>
+<li class="next">
+<a href="quocslib.optimizationalgorithms.html" title="next chapter">quocslib.optimizationalgorithms package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib-optimalcontrolproblems-package">
+<h1>quocslib.optimalcontrolproblems package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-optimalcontrolproblems-package">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
+</div>
+<div class="section" id="module-quocslib.optimalcontrolproblems.OneQubitProblem">
+<span id="quocslib-optimalcontrolproblems-onequbitproblem-module"></span><h2>quocslib.optimalcontrolproblems.OneQubitProblem module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimalcontrolproblems.OneQubitProblem">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimalcontrolproblems.OneQubitProblem.</code><code class="sig-name descname">OneQubit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem.html#OneQubit"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="quocslib.utils.html#quocslib.utils.AbstractFoM.AbstractFoM" title="quocslib.utils.AbstractFoM.AbstractFoM"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractFoM.AbstractFoM</code></a></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">
+<code class="sig-name descname">get_FoM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">timegrids</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem.html#OneQubit.get_FoM"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">¶</a></dt>
+<dd>
+<dl class="simple">
+<dt>Abstract method for figure of merit evaluation. It returns a dictionary with</dt><dd><p>the FoM key inside</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses_list</strong> (<em>list</em>) – List of np.array. Every np.array is a pulse.</p></li>
+<li><p><strong>time_grids_list</strong> (<em>list</em>) – List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
+</ul>
+</dd>
+</dl>
+<p>to a pulse.
+:param list parameters_list: List of floats.
+:return dict: The dictionary must contain at least the “FoM” key with the figure of merit float. Other possible
+keys can provide useful information for errors or other.</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.save_FoM">
+<code class="sig-name descname">save_FoM</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem.html#OneQubit.save_FoM"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.save_FoM">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.set_save_path">
+<code class="sig-name descname">set_save_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">save_path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem.html#OneQubit.set_save_path"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.set_save_path">¶</a></dt>
+<dd>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">
+<span id="quocslib-optimalcontrolproblems-onequbitproblem-2fields-module"></span><h2>quocslib.optimalcontrolproblems.OneQubitProblem_2fields module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimalcontrolproblems.OneQubitProblem_2fields.</code><code class="sig-name descname">OneQubit2Fields</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem_2fields.html#OneQubit2Fields"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="quocslib.utils.html#quocslib.utils.AbstractFoM.AbstractFoM" title="quocslib.utils.AbstractFoM.AbstractFoM"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractFoM.AbstractFoM</code></a></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields.get_FoM">
+<code class="sig-name descname">get_FoM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">timegrids</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/OneQubitProblem_2fields.html#OneQubit2Fields.get_FoM"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.OneQubitProblem_2fields.OneQubit2Fields.get_FoM">¶</a></dt>
+<dd>
+<dl class="simple">
+<dt>Abstract method for figure of merit evaluation. It returns a dictionary with</dt><dd><p>the FoM key inside</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses_list</strong> (<em>list</em>) – List of np.array. Every np.array is a pulse.</p></li>
+<li><p><strong>time_grids_list</strong> (<em>list</em>) – List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
+</ul>
+</dd>
+</dl>
+<p>to a pulse.
+:param list parameters_list: List of floats.
+:return dict: The dictionary must contain at least the “FoM” key with the figure of merit float. Other possible
+keys can provide useful information for errors or other.</p>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.optimalcontrolproblems.RosenbrockProblem">
+<span id="quocslib-optimalcontrolproblems-rosenbrockproblem-module"></span><h2>quocslib.optimalcontrolproblems.RosenbrockProblem module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimalcontrolproblems.RosenbrockProblem">¶</a></h2>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimalcontrolproblems.RosenbrockProblem.</code><code class="sig-name descname">Rosenbrock</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/RosenbrockProblem.html#Rosenbrock"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock">¶</a></dt>
+<dd>
+<p>Bases: <a class="reference internal" href="quocslib.utils.html#quocslib.utils.AbstractFoM.AbstractFoM" title="quocslib.utils.AbstractFoM.AbstractFoM"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractFoM.AbstractFoM</code></a></p>
+<p>A figure of merit class for optimization of the Rosenbrock function given an arbitrary
+number of parameters</p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">
+<code class="sig-name descname">get_FoM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">timegrids</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/RosenbrockProblem.html#Rosenbrock.get_FoM"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.RosenbrockProblem.Rosenbrock.get_FoM">¶</a></dt>
+<dd>
+<dl class="simple">
+<dt>Abstract method for figure of merit evaluation. It returns a dictionary with</dt><dd><p>the FoM key inside</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses_list</strong> (<em>list</em>) – List of np.array. Every np.array is a pulse.</p></li>
+<li><p><strong>time_grids_list</strong> (<em>list</em>) – List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
+</ul>
+</dd>
+</dl>
+<p>to a pulse.
+:param list parameters_list: List of floats.
+:return dict: The dictionary must contain at least the “FoM” key with the figure of merit float. Other possible
+keys can provide useful information for errors or other.</p>
+</dd></dl>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.optimalcontrolproblems.su2">
+<span id="quocslib-optimalcontrolproblems-su2-module"></span><h2>quocslib.optimalcontrolproblems.su2 module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimalcontrolproblems.su2">¶</a></h2>
+<dl class="py function code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2">
+<code class="sig-prename descclassname">quocslib.optimalcontrolproblems.su2.</code><code class="sig-name descname">hamiltonian_d1_d2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ft</span></em>, <em class="sig-param"><span class="n">delta1</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">delta2</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/su2.html#hamiltonian_d1_d2"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py function code-definition">
+<dt class="sig sig-object py" id="quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2_2fields">
+<code class="sig-prename descclassname">quocslib.optimalcontrolproblems.su2.</code><code class="sig-name descname">hamiltonian_d1_d2_2fields</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">amplitude_t</span></em>, <em class="sig-param"><span class="n">phase_t</span></em>, <em class="sig-param"><span class="n">delta1</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">delta2</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimalcontrolproblems/su2.html#hamiltonian_d1_d2_2fields"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimalcontrolproblems.su2.hamiltonian_d1_d2_2fields">¶</a></dt>
+<dd>
+</dd></dl>
+</div>
+<div class="section" id="module-quocslib.optimalcontrolproblems">
+<span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimalcontrolproblems">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="quocslib.handleexit.html" title="previous chapter">← quocslib.handleexit package</a>
+</li>
+<li class="next">
+<a href="quocslib.optimizationalgorithms.html" title="next chapter">quocslib.optimizationalgorithms package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

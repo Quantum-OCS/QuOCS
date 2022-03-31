@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.communication.AllInOneCommunication</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.communication.AllInOneCommunication</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.communication.AllInOneCommunication</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.DummyDump</span> <span class="kn">import</span> <span class="n">DummyDump</span>
+<span class="kn">from</span> <span class="nn">quocslib.handleexit.AbstractHandleExit</span> <span class="kn">import</span> <span class="n">AbstractHandleExit</span>
+<span class="kn">from</span> <span class="nn">quocslib.tools.logger</span> <span class="kn">import</span> <span class="n">create_logger</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.inputoutput</span> <span class="kn">import</span> <span class="n">writejsonfile</span>
+<span class="kn">from</span> <span class="nn">quocslib</span> <span class="kn">import</span> <span class="n">__VERSION__</span> <span class="k">as</span> <span class="n">quocslib_version</span>
+
+
+<div class="viewcode-block" id="AllInOneCommunication"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication">[docs]</a><span class="k">class</span> <span class="nc">AllInOneCommunication</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">interface_job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OptimizationTest"</span><span class="p">,</span>
+                 <span class="n">FoM_obj</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">handle_exit_obj</span><span class="p">:</span> <span class="n">AbstractHandleExit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">dump_attribute</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">DummyDump</span><span class="p">,</span>
+                 <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">"""</span>
+<span class="sd">        In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.</span>
+<span class="sd">        The objects to dump the results, calculate the figure of merit, and the logger are created here. </span>
+
+<span class="sd">        :param str interface_job_name: Name decided by the Client. It is change in the constructor adding the current</span>
+<span class="sd">        time to ensure univocity</span>
+<span class="sd">        :param AbstractFoM FoM_obj: object for the figure of merit evaluation. Have a look to the abstract class for</span>
+<span class="sd">        more info</span>
+<span class="sd">        :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the</span>
+<span class="sd">        communication is finished to communicate with the client interface</span>
+<span class="sd">        :param [list, list, list] comm_signals_list: List containing the signals to the gui</span>
+<span class="sd">        """</span>
+        <span class="c1"># Communication signals</span>
+        <span class="k">if</span> <span class="n">comm_signals_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>  <span class="kc">None</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span><span class="p">)</span> <span class="o">=</span> <span class="n">comm_signals_list</span>
+        <span class="c1"># Pre job name</span>
+        <span class="n">pre_job_name</span> <span class="o">=</span> <span class="n">interface_job_name</span>
+        <span class="c1"># Datetime for 1-1 association</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S"</span><span class="p">))</span>
+        <span class="c1"># Client job name to send to the Server</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_job_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">+</span> <span class="s2">"_"</span> <span class="o">+</span> <span class="n">pre_job_name</span>
+        <span class="c1">###</span>
+        <span class="c1"># Logging, Results, Figure of merit evaluation ...</span>
+        <span class="c1">###</span>
+        <span class="c1"># Optimization folder</span>
+        <span class="n">optimization_folder</span> <span class="o">=</span> <span class="s2">"QuOCS_Results"</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_job_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">)):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="n">optimization_folder</span><span class="p">))</span>
+        <span class="c1"># Create the folder for logging and results</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">)</span>
+        <span class="c1"># Write the current quocs lib version in the file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">"quocs_version.txt"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">version_file</span><span class="p">:</span>
+            <span class="n">version_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"QuOCS library version: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quocslib_version</span><span class="p">))</span>
+        <span class="c1"># Create logging object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">create_logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span><span class="p">)</span>
+        <span class="c1"># Print function evaluation and figure of merit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># Figure of merit object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_obj</span> <span class="o">=</span> <span class="n">FoM_obj</span>
+        <span class="c1"># TODO Thinks whether it is a good idea dumping the results</span>
+        <span class="c1"># Dumping data object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dump_obj</span> <span class="o">=</span> <span class="n">dump_attribute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span><span class="p">)</span>
+        <span class="c1"># Handle exit object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span> <span class="o">=</span> <span class="n">handle_exit_obj</span>
+        <span class="c1"># Initialize the control dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="AllInOneCommunication.print_logger"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_logger">[docs]</a>    <span class="k">def</span> <span class="nf">print_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">):</span>
+        <span class="sd">"""Print a message in the log"""</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="mi">10</span> <span class="o">&lt;</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="mi">20</span> <span class="o">&lt;</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.send_message"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">"""Send a message to the interface"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.print_optimization_dictionary"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.print_optimization_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">print_optimization_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dictionary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Print optimization dictionary into a file"""</span>
+        <span class="n">writejsonfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">+</span> <span class="s2">"_"</span> <span class="o">+</span><span class="s2">"optimization_dictionary.json"</span><span class="p">),</span>
+                      <span class="n">optimization_dictionary</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.get_user_running"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_user_running">[docs]</a>    <span class="k">def</span> <span class="nf">get_user_running</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Check if the user stopped the optimization"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"User running: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.send_controls"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_controls">[docs]</a>    <span class="k">def</span> <span class="nf">send_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controls_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Set the controls for FoM calculation and notify the gui</span>
+
+<span class="sd">        :param dict controls_dict:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span> <span class="o">=</span> <span class="n">controls_dict</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controls_update_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">controls_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span>
+                                             <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"timegrids"</span><span class="p">],</span>
+                                             <span class="n">controls_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.get_data"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.get_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Calculate the figure of merit and return a dictionary with all the arguments</span>
+
+<span class="sd">        :return dict: {"FoM_values": {"FoM": float, ...}}</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"User running: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span><span class="p">))</span>
+        <span class="n">FoM_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_obj</span><span class="o">.</span><span class="n">get_FoM</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span><span class="p">)</span>
+        <span class="c1"># set the status of the FoM to 0 if it does not exist already</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># if the user passes a different status code than zero, stop the optimization</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM_values"</span><span class="p">:</span> <span class="n">FoM_dict</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.send_FoM_response"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_FoM_response">[docs]</a>    <span class="k">def</span> <span class="nf">send_FoM_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response_for_client</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Emit signal to the Client Interface and dump the results in case any</span>
+
+<span class="sd">        :param dict response_for_client: It is a dictionary defined in the optimal algorithm</span>
+<span class="sd">        :return:</span>
+<span class="sd">        """</span>
+        <span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span> <span class="o">=</span> <span class="p">(</span><span class="n">response_for_client</span><span class="p">[</span><span class="s2">"iteration_number"</span><span class="p">],</span>
+                                 <span class="n">response_for_client</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">])</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="n">response_for_client</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Check for interrupting signals</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"The optimization was interrupted with status code: </span><span class="si">{0}</span><span class="s2">"</span>
+                             <span class="s2">" at iteration </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">status_code</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">))</span>
+            <span class="c1"># Set the user running to False in order to not continue with the next iteration</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">he_obj</span><span class="o">.</span><span class="n">is_user_running</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_general_log</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_controls</span><span class="p">(</span><span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_plot_signal</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_print_general_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">FoM</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="sd">"""Print the general log at each function evaluation"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Function evaluation number: </span><span class="si">{0}</span><span class="s2">, FoM: </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iteration_number</span><span class="p">,</span> <span class="n">FoM</span><span class="p">))</span>
+
+<div class="viewcode-block" id="AllInOneCommunication.update_controls"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_controls">[docs]</a>    <span class="k">def</span> <span class="nf">update_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""External call to update the controls"""</span>
+        <span class="k">if</span> <span class="n">response_for_client</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">response_for_client</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dump_obj</span><span class="o">.</span><span class="n">dump_controls</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">controls_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">response_for_client</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.end_communication"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.end_communication">[docs]</a>    <span class="k">def</span> <span class="nf">end_communication</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Report the final results</span>
+
+<span class="sd">        :param dict results_dict: It is a dictionary defined in the optimal algorithm with all the data to display at</span>
+<span class="sd">        the end of the optimization process</span>
+<span class="sd">        :return:</span>
+<span class="sd">        """</span>
+        <span class="c1"># Print final results data</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">results_dict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"</span><span class="si">{0}</span><span class="s2"> : </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="n">results_dict</span><span class="p">[</span><span class="n">el</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.assign_job"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.assign_job">[docs]</a>    <span class="k">def</span> <span class="nf">assign_job</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Do nothing"""</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.send_communication_data"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.send_communication_data">[docs]</a>    <span class="k">def</span> <span class="nf">send_communication_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Do nothing"""</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.update_init_msg_server"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_init_msg_server">[docs]</a>    <span class="k">def</span> <span class="nf">update_init_msg_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upd_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Do nothing"""</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.check_msg_client"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.check_msg_client">[docs]</a>    <span class="k">def</span> <span class="nf">check_msg_client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Do nothing"""</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="AllInOneCommunication.update_msg_server"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication.update_msg_server">[docs]</a>    <span class="k">def</span> <span class="nf">update_msg_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Do nothing"""</span>
+        <span class="k">pass</span></div></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

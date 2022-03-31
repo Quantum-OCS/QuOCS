@@ -26,16 +26,16 @@ def test_dCRAB_Fourier_NM_OneQubit():
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
-            "max_eval_per_SI": 100
-        },
-        "dsm_settings": {
-            "general_settings": {
-                "dsm_algorithm_name": "NelderMead",
-                "is_adaptive": True
-            },
-            "stopping_criteria": {
-                "xatol": 1e-2,
-                "frtol": 1e-2
+            "max_eval_per_SI": 100,
+            "dsm_settings": {
+                "general_settings": {
+                    "dsm_algorithm_name": "NelderMead",
+                    "is_adaptive": True
+                },
+                "stopping_criteria": {
+                    "xatol": 1e-2,
+                    "frtol": 1e-2
+                }
             }
         },
         "pulses": [{"pulse_name": "Pulse_1",

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="quocslib.html" rel="next" title="quocslib package"/>
+<link href="../chapters/what_is_oc.html" rel="prev" title="What is Quantum Optimal Control (QOC) anyway?"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li>quocslib</li>
+</ul>
+<ul class="page-nav">
+<li class="prev">
+<a href="../chapters/what_is_oc.html" title="previous chapter">← What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+<li class="next">
+<a href="quocslib.html" title="next chapter">quocslib package →</a>
+</li>
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="quocslib">
+<h1>quocslib<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quocslib.html">quocslib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.communication.html">quocslib.communication package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.communication.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.communication.html#module-quocslib.communication.AllInOneCommunication">quocslib.communication.AllInOneCommunication module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.communication.html#module-quocslib.communication">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.figureofmeritevaluation.html">quocslib.figureofmeritevaluation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.figureofmeritevaluation.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation.AbstractFoM">quocslib.figureofmeritevaluation.AbstractFoM module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.figureofmeritevaluation.html#module-quocslib.figureofmeritevaluation">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.gradientfreemethods.html">quocslib.gradientfreemethods package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#module-quocslib.gradientfreemethods.CMAES">quocslib.gradientfreemethods.CMAES module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#module-quocslib.gradientfreemethods.DirectSearchMethod">quocslib.gradientfreemethods.DirectSearchMethod module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#module-quocslib.gradientfreemethods.GradientFreeTemplate">quocslib.gradientfreemethods.GradientFreeTemplate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#module-quocslib.gradientfreemethods.NelderMead">quocslib.gradientfreemethods.NelderMead module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.gradientfreemethods.html#module-quocslib.gradientfreemethods">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.handleexit.html">quocslib.handleexit package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.handleexit.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.handleexit.html#module-quocslib.handleexit.AbstractHandleExit">quocslib.handleexit.AbstractHandleExit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.handleexit.html#module-quocslib.handleexit.HandleExit">quocslib.handleexit.HandleExit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.handleexit.html#module-quocslib.handleexit">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.optimalcontrolproblems.html">quocslib.optimalcontrolproblems package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem">quocslib.optimalcontrolproblems.OneQubitProblem module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.OneQubitProblem_2fields">quocslib.optimalcontrolproblems.OneQubitProblem_2fields module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.RosenbrockProblem">quocslib.optimalcontrolproblems.RosenbrockProblem module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems.su2">quocslib.optimalcontrolproblems.su2 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimalcontrolproblems.html#module-quocslib.optimalcontrolproblems">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.optimizationalgorithms.html">quocslib.optimizationalgorithms package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.ADAlgorithm">quocslib.optimizationalgorithms.ADAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.AlgorithmTemplate">quocslib.optimizationalgorithms.AlgorithmTemplate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.DirectSearchAlgorithm">quocslib.optimizationalgorithms.DirectSearchAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.GRAPEAlgorithm">quocslib.optimizationalgorithms.GRAPEAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.OptimizationAlgorithm">quocslib.optimizationalgorithms.OptimizationAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.dCRABAlgorithm">quocslib.optimizationalgorithms.dCRABAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms.dCRABNoisyAlgorithm">quocslib.optimizationalgorithms.dCRABNoisyAlgorithm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.optimizationalgorithms.html#module-quocslib.optimizationalgorithms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.parameters.html">quocslib.parameters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.parameters.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.parameters.html#module-quocslib.parameters.BaseParameter">quocslib.parameters.BaseParameter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.parameters.html#module-quocslib.parameters.Parameter">quocslib.parameters.Parameter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.parameters.html#module-quocslib.parameters.TimeParameter">quocslib.parameters.TimeParameter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.parameters.html#module-quocslib.parameters">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.pulses.html">quocslib.pulses package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.pulses.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.pulses.html#module-quocslib.pulses.BasePulse">quocslib.pulses.BasePulse module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.pulses.html#module-quocslib.pulses">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.stoppingcriteria.html">quocslib.stoppingcriteria package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.stoppingcriteria.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.CMAESStoppingCriteria">quocslib.stoppingcriteria.CMAESStoppingCriteria module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.NelderMeadStoppingCriteria">quocslib.stoppingcriteria.NelderMeadStoppingCriteria module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria.StoppingCriteria">quocslib.stoppingcriteria.StoppingCriteria module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.stoppingcriteria.html#module-quocslib.stoppingcriteria">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.timeevolution.html">quocslib.timeevolution package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.timeevolution.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.timeevolution.html#module-quocslib.timeevolution.piecewise_integrator">quocslib.timeevolution.piecewise_integrator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.timeevolution.html#module-quocslib.timeevolution">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.tools.html">quocslib.tools package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.linearalgebra">quocslib.tools.linearalgebra module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.logger">quocslib.tools.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.pulsetools">quocslib.tools.pulsetools module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools.randomgenerator">quocslib.tools.randomgenerator module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.tools.html#module-quocslib.tools">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="quocslib.utils.html">quocslib.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.AbstractDump">quocslib.utils.AbstractDump module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.AbstractFoM">quocslib.utils.AbstractFoM module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.AbstractHandleExit">quocslib.utils.AbstractHandleExit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.BestDump">quocslib.utils.BestDump module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.DummyDump">quocslib.utils.DummyDump module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.FilesUpdateFom">quocslib.utils.FilesUpdateFom module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.dynamicimport">quocslib.utils.dynamicimport module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.inputoutput">quocslib.utils.inputoutput module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.logger">quocslib.utils.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils.test_BestDump">quocslib.utils.test_BestDump module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="quocslib.utils.html#module-quocslib.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.html#module-quocslib.Controls">quocslib.Controls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.html#module-quocslib.Optimizer">quocslib.Optimizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quocslib.html#module-quocslib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+<li class="prev">
+<a href="../chapters/what_is_oc.html" title="previous chapter">← What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+<li class="next">
+<a href="quocslib.html" title="next chapter">quocslib package →</a>
+</li>
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

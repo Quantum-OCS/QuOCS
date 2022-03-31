@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimalcontrolproblems.OneQubitProblem</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.optimalcontrolproblems.OneQubitProblem</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.optimalcontrolproblems.OneQubitProblem</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.optimalcontrolproblems.su2</span> <span class="kn">import</span> <span class="n">hamiltonian_d1_d2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="OneQubit"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">[docs]</a><span class="k">class</span> <span class="nc">OneQubit</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">args_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">psi_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"target_state"</span><span class="p">,</span> <span class="s2">"[1.0/np.sqrt(2), -1j/np.sqrt(2)]"</span><span class="p">)),</span>
+                                     <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">psi_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"initial_state"</span><span class="p">,</span> <span class="s2">"[1.0, 0.0]"</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delta1"</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delta2</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delta2"</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="c1"># Noise in the figure of merit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_noisy"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"noise_factor"</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std_factor"</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+        <span class="c1"># Drifting FoM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_drift</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"include_drift"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_drift_val_over_iterartion</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"linear_drift_val_over_iterartion"</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+
+        <span class="c1"># Maximization or minimization</span>
+        <span class="c1"># Minimization -1.0</span>
+        <span class="c1"># Maximization 1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"optimization_factor"</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_save_name</span> <span class="o">=</span> <span class="s2">"FoM.txt"</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># def __del__(self):</span>
+    <span class="c1">#     np.savetxt(os.path.join(self.save_path, self.FoM_save_name), self.FoM_list)</span>
+
+<div class="viewcode-block" id="OneQubit.save_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.save_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">save_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_save_name</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OneQubit.set_save_path"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.set_save_path">[docs]</a>    <span class="k">def</span> <span class="nf">set_save_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="n">save_path</span></div>
+
+<div class="viewcode-block" id="OneQubit.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+            <span class="c1"># checks if list is empty, otherwise it sets delta1 to the first para</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">timegrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">timegrids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">timegrid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">timegrid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_evolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta2</span><span class="p">)</span>
+        <span class="n">psi_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">psi_0</span><span class="p">)</span>
+        <span class="n">infidelity</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">psi_target</span><span class="p">,</span> <span class="n">psi_f</span><span class="p">)</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="mf">1e-4</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span><span class="p">:</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">infidelity</span> <span class="o">+=</span> <span class="n">noise</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_drift</span><span class="p">:</span>
+            <span class="n">infidelity</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_drift_val_over_iterartion</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">infidelity</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">infidelity</span><span class="p">),</span> <span class="s2">"std"</span><span class="p">:</span> <span class="n">std</span><span class="p">}</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_time_evolution</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="p">):</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ham_t</span> <span class="o">=</span> <span class="n">hamiltonian_d1_d2</span><span class="p">((</span><span class="n">fc</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fc</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">delta1</span><span class="o">=</span><span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="o">=</span><span class="n">delta2</span><span class="p">)</span>
+            <span class="n">U_temp</span> <span class="o">=</span> <span class="n">U</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">expm</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">ham_t</span> <span class="o">*</span> <span class="n">dt</span><span class="p">),</span> <span class="n">U_temp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">U</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_fidelity</span><span class="p">(</span><span class="n">psi1</span><span class="p">,</span> <span class="n">psi2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">psi1</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">psi2</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">psi1</span><span class="p">)</span> <span class="o">*</span> <span class="n">norm</span><span class="p">(</span><span class="n">psi2</span><span class="p">))</span></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

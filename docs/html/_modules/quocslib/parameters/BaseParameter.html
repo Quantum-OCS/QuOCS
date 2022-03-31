@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.parameters.BaseParameter</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.parameters.BaseParameter</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.parameters.BaseParameter</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="BaseParameter"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter">[docs]</a><span class="k">class</span> <span class="nc">BaseParameter</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Parameter Class where every parameter to be optimized is defined. It is used as a parent class of the Time class in</span>
+<span class="sd">    order to optimize the time of the pulse whenever the user specified it in the configuration class.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">parameter_name</span><span class="o">=</span><span class="s2">"parameter"</span><span class="p">,</span>
+        <span class="n">initial_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span>
+        <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        @param str parameter_name: Name of the parameter</span>
+<span class="sd">        @param float initial_value: Initial value for the parameter to be used in the optimization</span>
+<span class="sd">        @param float lower_limit: Lower limit for the parameter</span>
+<span class="sd">        @param float upper_limit: Upper limit for the parameter</span>
+<span class="sd">        @param float amplitude_variation: Amplitude variation for the simplex initialization</span>
+<span class="sd">        """</span>
+        <span class="c1"># Parameter name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameter_name</span> <span class="o">=</span> <span class="n">parameter_name</span>
+        <span class="c1"># Initial value for the optimization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">initial_value</span>
+        <span class="c1"># Upper limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_limit</span> <span class="o">=</span> <span class="n">upper_limit</span>
+        <span class="c1"># Lower limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_limit</span> <span class="o">=</span> <span class="n">lower_limit</span>
+        <span class="c1"># Amplitude variation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span>
+        <span class="c1"># The parameters control number is ever equal to 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># Create the control parameters list to get the optimized parameter from the optimized vector</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="c1"># Update the map_index number for the next pulse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<div class="viewcode-block" id="BaseParameter.set_control_parameters_list"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_control_parameters_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_control_parameters_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="p">):</span>
+        <span class="sd">"""Set the control parameters list. It is used when the"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="BaseParameter.set_parameter"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameter_vector</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Set the parameter value after checking the constraints</span>
+<span class="sd">        @param np.array optimized_parameter_vector: The optimized parameter coming from the optimization algorithm</span>
+<span class="sd">        @return:</span>
+<span class="sd">        """</span>
+        <span class="c1">#</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_parameter</span><span class="p">(</span><span class="n">optimized_parameter_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="BaseParameter.get_parameter"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.get_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">get_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameter_vector</span><span class="p">):</span>
+        <span class="sd">"""</span>
+
+<span class="sd">        @param optimized_parameter_vector:</span>
+<span class="sd">        @return:</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_parameter</span><span class="p">(</span><span class="n">optimized_parameter_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div>
+
+    <span class="k">def</span> <span class="nf">_set_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+        <span class="sd">"""</span>
+
+<span class="sd">        @param float parameter:</span>
+<span class="sd">        @return:</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_limits</span><span class="p">(</span><span class="n">parameter</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_check_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">):</span>
+        <span class="sd">"""</span>
+<span class="sd">        Check if the optimized parameter respect the amplitude limits before sending to the main controls</span>
+<span class="sd">        @param float parameter: Parameter coming from the optimization</span>
+<span class="sd">        @return float: Return the parameter after applying the constraints</span>
+<span class="sd">        """</span>
+        <span class="c1">#</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_limit</span>
+        <span class="c1">#</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_limit</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">parameter</span><span class="p">),</span> <span class="n">b</span><span class="p">)</span></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

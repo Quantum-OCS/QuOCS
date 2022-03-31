@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.parameters.TimeParameter</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.parameters.TimeParameter</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.parameters.TimeParameter</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">from</span> <span class="nn">quocslib.parameters.BaseParameter</span> <span class="kn">import</span> <span class="n">BaseParameter</span>
+
+
+<div class="viewcode-block" id="TimeParameter"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter">[docs]</a><span class="k">class</span> <span class="nc">TimeParameter</span><span class="p">(</span><span class="n">BaseParameter</span><span class="p">):</span>
+    <span class="sd">"""Class for the time. In case the user chooses to optimize the time, the code redefines the time in function of an</span>
+<span class="sd">    optimal parameter alpha:</span>
+<span class="sd">    t = t_0 + alpha(t_max - t_min)</span>
+<span class="sd">    where t_0 is the guess time, and t_max and t_min the limits for the optimal time.</span>
+<span class="sd">    The limits for the optimal parameter alpha are then defined as:</span>
+<span class="sd">    alpha_in = 0</span>
+<span class="sd">    alpha_max = (t_max - t_0)/(t_max - t_min)</span>
+<span class="sd">    alpha_min = (t_min - t_0)/(t_max - t_min)</span>
+<span class="sd">    alpha_variation = (amplitude_variation)/(t_max - t_min)</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">time_name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+        <span class="n">initial_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">is_optimization</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">"""</span>
+
+<span class="sd">        :param map_index:</span>
+<span class="sd">        :param str time_name: Name of the time parameter assigned by the user</span>
+<span class="sd">        :param float initial_value: Initial value or fixed value of the time</span>
+<span class="sd">        :param bool is_optimization: True if the user wants also to optimize the time</span>
+<span class="sd">        :param float lower_limit: Lower limit for the time</span>
+<span class="sd">        :param float upper_limit: Upper limit for the time</span>
+<span class="sd">        :param float amplitude_variation: Simplex points distance</span>
+<span class="sd">        """</span>
+        <span class="c1"># time name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_name</span> <span class="o">=</span> <span class="n">time_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization</span> <span class="o">=</span> <span class="n">is_optimization</span>
+        <span class="c1"># Initialize the value of the time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">initial_value</span>
+        <span class="c1"># Calculate the time variation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_variation</span> <span class="o">=</span> <span class="n">upper_limit</span> <span class="o">-</span> <span class="n">lower_limit</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
+            <span class="c1"># Define the optimization coefficient alpha to be used in the optimization. Check the info for details</span>
+            <span class="n">max_variation</span> <span class="o">=</span> <span class="n">upper_limit</span> <span class="o">-</span> <span class="n">lower_limit</span>
+            <span class="n">alpha_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">upper_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_variation</span>
+            <span class="n">alpha_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">lower_limit</span> <span class="o">-</span> <span class="n">initial_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">max_variation</span>
+            <span class="n">alpha_in</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">alpha_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span> <span class="o">/</span> <span class="n">max_variation</span>
+            <span class="n">parameter_name</span> <span class="o">=</span> <span class="s2">"alpha_"</span> <span class="o">+</span> <span class="n">time_name</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+                <span class="n">map_index</span><span class="o">=</span><span class="n">map_index</span><span class="p">,</span>
+                <span class="n">parameter_name</span><span class="o">=</span><span class="n">parameter_name</span><span class="p">,</span>
+                <span class="n">initial_value</span><span class="o">=</span><span class="n">alpha_in</span><span class="p">,</span>
+                <span class="n">lower_limit</span><span class="o">=</span><span class="n">alpha_min</span><span class="p">,</span>
+                <span class="n">upper_limit</span><span class="o">=</span><span class="n">alpha_max</span><span class="p">,</span>
+                <span class="n">amplitude_variation</span><span class="o">=</span><span class="n">alpha_variation</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># else:</span>
+        <span class="c1"># Otherwise just call the parent constructor</span>
+        <span class="c1">#    super().__init__(parameter_name=time_name, initial_value=initial_value)</span>
+
+<div class="viewcode-block" id="TimeParameter.get_time"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.TimeParameter.TimeParameter.get_time">[docs]</a>    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">"""Return the time. In case of time optimization, use the alpha parameter to get the optimized time"""</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
+            <span class="c1"># value is the optimized parameter</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_variation</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+        <span class="k">return</span> <span class="n">time</span></div></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

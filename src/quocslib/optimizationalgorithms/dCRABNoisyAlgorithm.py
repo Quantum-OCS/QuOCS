@@ -34,18 +34,18 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
+        stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         # TODO: Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
 
         dsm_attribute = dynamic_import(
-                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                        class_type='dsm_settings'
-                                        )
+                                module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                                class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                class_type='dsm_settings'
+                                )
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                          stopping_criteria,
                                          callback=self.is_optimization_running)

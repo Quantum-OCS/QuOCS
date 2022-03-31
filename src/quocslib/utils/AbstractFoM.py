@@ -31,8 +31,8 @@ class AbstractFoM(metaclass=ABCMeta):
          the FoM key inside
         :param list pulses_list: List of np.array. Every np.array is a pulse.
         :param list time_grids_list: List of np.array. Every np.array is a time grid at each time grid corresponds
-        a pulse.
+        to a pulse.
         :param list parameters_list: List of floats.
-        :return: dict The dictionary must contain at least the "FoM" key with the figure of merit float. Other possible
+        :return dict: The dictionary must contain at least the "FoM" key with the figure of merit float. Other possible
         keys can provide useful information for errors or other.
         """
