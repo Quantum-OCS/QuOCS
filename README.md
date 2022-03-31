@@ -3,9 +3,9 @@
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_linux.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_windows.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 
-QuOCS (Quantum Optimal Control Suite) is a python software package for theoretical and experimental optimizations with optimal control.
+QuOCS (Quantum Optimal Control Suite) is a python software package for model- and experiment-based optimizations of quantum processes.
 It uses the excellent Numpy and Scipy packages as numerical backends.
-QuOCS aims to provide a user-friendly interface to solve optimization problems. A wide variety of efficient optimal control algorithms are available:
+QuOCS aims to provide a user-friendly interface to solve optimization problems. A variety of popular optimal control algorithms are available:
 * GRAPE (GRadient Ascent Pulse Engineering) Algorithm
 * dCRAB (dressed Chopped RAndom Basis) Algorithm
 * AD-GRAPE (Automatic Differentiation) Algorithm
