@@ -82,6 +82,7 @@ Using QuOCS is intuitive and simple. The main steps are:
     ```
 3. Define the optimizer by initializing it with the uploaded optimization dictionary and FoM object. After that the execution can be run.
     ```python
+    from quocslib.Optimizer import Optimizer
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary,
                                  FoM_object)
