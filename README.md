@@ -54,7 +54,7 @@ Using QuOCS is intuitive and simple. The main steps are:
 1. Create and load the optimization dictionary. This json file contains all the optimization settings (as example see [this file](https://github.com/Quantum-OCS/QuOCS/blob/main/tests/dCRAB_Fourier_NM_OneQubit.json)).
     ```python
     from quocslib.utils.inputoutput import readjson
-    optimization_dictionary = readjson("opt_dictionary.json"))[1]
+    optimization_dictionary = readjson("opt_dictionary.json"))
     ```
 2. Create Figure of Merit object. This is an instance of a class that contains the physical problem to be optimized. In the following, you can see an example of how to define this class. The input and output of `get_FoM` should not be changed.
 

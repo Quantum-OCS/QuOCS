@@ -34,7 +34,7 @@ def readjson(filename: str) -> [int, dict]:
         err_stat = 1
         print('\n!!! The json file \"'+filename+'\" was not found.')
     finally:
-        return err_stat, user_data
+        return user_data
 
 
 class ObjectEncoder(json.JSONEncoder):

@@ -59,7 +59,7 @@ def read_pulses_file(controls_file_extension: str = "txt") -> bool:
                 controls_dict = {"time_grid1": controls[0, :], "pulse1": controls[1, :]}
                 controls = controls_dict
             elif controls_file_extension == "json":
-                controls = readjson(controls_path)[1]
+                controls = readjson(controls_path)
             else:
                 # TODO do something here
                 print("{0} extension not recognized".format(controls_file_extension))

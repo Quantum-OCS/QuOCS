@@ -20,7 +20,7 @@ from quocslib.utils.inputoutput import readjson
 
 
 folder = os.path.dirname(os.path.realpath(__file__))
-total_dict = readjson(os.path.join(folder, "map_dictionary.json"))[1]
+total_dict = readjson(os.path.join(folder, "map_dictionary.json"))
 
 
 def dynamic_import(attribute=None, module_name: str = None,

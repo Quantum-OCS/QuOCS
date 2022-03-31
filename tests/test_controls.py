@@ -30,7 +30,7 @@ mean value for the start simplex generation.
 @pytest.fixture
 def controls_obj():
     dir_of_this_file = os.path.dirname(os.path.realpath(__file__))
-    controls_dict = readjson(os.path.join(dir_of_this_file, "controls_dictionary.json"))[1]
+    controls_dict = readjson(os.path.join(dir_of_this_file, "controls_dictionary.json"))
     local_controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"])
     local_controls_obj.select_basis()
     return local_controls_obj
@@ -82,4 +82,4 @@ def test_controls(controls_obj):
 #
 #
 # if __name__ == '__main__':
-#     main(readjson(os.path.join(os.getcwd(), "controls_dictionary.json"))[1])
+#     main(readjson(os.path.join(os.getcwd(), "controls_dictionary.json")))
