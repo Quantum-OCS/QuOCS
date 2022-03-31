@@ -14,6 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
+from datetime import datetime
 
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
@@ -29,11 +30,14 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         """
         # Call to the super class constructor
         super().__init__()
-        # Maximum iteration number
+        # Maximum function evaluation number
         self.max_eval = stopping_criteria.setdefault("max_eval", 100)
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
+        self.FoM_goal = stopping_criteria.setdefault("FoM_goal", -10**10)
+        self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
+        self.start_time = datetime.now()
         self.is_converged = False
 
     def check_stopping_criteria(self, sim: np.array = None, fsim: np.array = None,
@@ -54,4 +58,10 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_time_out()
         if self.is_converged: return
