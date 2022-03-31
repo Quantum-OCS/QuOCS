@@ -9,7 +9,7 @@ QuOCS aims to provide a user-friendly interface to solve optimization problems. 
 * GRAPE (GRadient Ascent Pulse Engineering) Algorithm
 * dCRAB (dressed Chopped RAndom Basis) Algorithm
 * AD-GRAPE (Automatic Differentiation) Algorithm
-* Direct Search Algorithm, i.e. Nelder Mead, Powell...
+* Direct Search Algorithm, i.e. Nelder Mead, CMA-ES...
 
 
 QuOCS is open source and its interface structure allows for user-friendly customizability (see [customization](#customization) section). It can be used on all Unix-based platforms and on Windows.
