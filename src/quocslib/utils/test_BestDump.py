@@ -40,6 +40,7 @@ def test_dump_controls_record():
     assert (controls["pulse1"] == test_pulse).all()
     assert (controls["time_grid1"] == test_timegrid).all()
     assert (controls["parameter1"] == test_params).all()
+    os.chmod(outfile_path, 0o777)
     os.remove(outfile_path)
 
 
