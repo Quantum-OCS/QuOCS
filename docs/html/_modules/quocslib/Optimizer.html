@@ -76,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -141,11 +147,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="o">.</span><span class="n">results_path</span>
 
+        <span class="n">algorithm_dict</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s1">'algorithm_settings'</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-            <span class="n">attribute</span><span class="o">=</span><span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"opti_algorithm_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">module_name</span><span class="o">=</span><span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"opti_algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"opti_algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"opti_algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">attribute</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
             <span class="n">class_type</span><span class="o">=</span><span class="s1">'algorithm'</span>
         <span class="p">)</span>
 

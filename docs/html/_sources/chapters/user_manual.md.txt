@@ -13,7 +13,9 @@ The requirements are:
 * setuptools >= 44.0.0
 * numpy >= 1.19.1
 * scipy >= 1.5.1
+* If you want to use the AD Algorithm, the installation of [JAX](https://github.com/google/jax) (Autograd and XLA) is required.
 
+### Editable mode
 If you want to customize the algortihm and basis inside QuOCS (see [customization](#customization)), the package has to be installed in the editable mode. You can easily do that with the following commands:
 
 ```bash
