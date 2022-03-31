@@ -32,8 +32,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
+        stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         # TODO Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running

@@ -3,15 +3,15 @@
     "opti_algorithm_name": "DirectSearch",
     "algorithm_settings": {
         "super_iteration_number": 1,
-        "max_eval_per_SI": 100
-    },
-    "dsm_settings": {
-        "general_settings": {
-            "dsm_algorithm_name": "NelderMead"
-        },
-        "stopping_criteria": {
-            "xatol": 1e-14,
-            "frtol": 1e-4
+        "max_eval_per_SI": 100,
+        "dsm_settings": {
+            "general_settings": {
+                "dsm_algorithm_name": "NelderMead"
+            },
+            "stopping_criteria": {
+                "xatol": 1e-14,
+                "frtol": 1e-4
+            }
         }
     },
     "pulses": [],

@@ -14,16 +14,16 @@
         },
         "re_evaluation": {
             "re_evaluation_steps": [0.3, 0.5, 0.51]
-        }
-    },
-    "dsm_settings": {
-        "general_settings": {
-            "dsm_algorithm_name": "NelderMead",
-            "is_adaptive": true
         },
-        "stopping_criteria": {
-            "xatol": 1e-2,
-            "frtol": 1e-2
+        "dsm_settings": {
+            "general_settings": {
+                "dsm_algorithm_name": "NelderMead",
+                "is_adaptive": true
+            },
+            "stopping_criteria": {
+                "xatol": 1e-2,
+                "frtol": 1e-2
+            }
         }
     },
     "pulses": [{"pulse_name": "Pulse_1",

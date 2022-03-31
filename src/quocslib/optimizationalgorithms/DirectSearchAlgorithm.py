@@ -36,8 +36,8 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
+        stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         if "dsm_name" in direct_search_method_settings:
             print("dsm_name is used direct search methods. This option is deprecated. Use \n"
                   "dsm_algorithm_module: quocslib.freegradients.NelderMead\n"
