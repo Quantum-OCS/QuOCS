@@ -22,9 +22,9 @@ def test_dCRAB_Fourier_NM_OneQubit():
     optimization_dictionary = {
         "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
         "Disclaimer": "Do not use this json file for optimization",
-        "opti_algorithm_name": "dCRAB",
         "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit",
         "algorithm_settings": {
+            "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
             "max_eval_per_SI": 100
         },

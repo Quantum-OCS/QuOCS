@@ -1,7 +1,7 @@
 {
     "optimization_client_name": "Pure_Parameter_Opt_with_Rosenbrock_NM",
-    "opti_algorithm_name": "DirectSearch",
     "algorithm_settings": {
+        "algorithm_name": "DirectSearch",
         "super_iteration_number": 1,
         "max_eval_per_SI": 100
     },
