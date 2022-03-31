@@ -37,10 +37,10 @@ def test_dump_controls_record():
     outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
     controls = np.load(outfile_path)
     # print(controls.files)
-    assert (controls["pulse1"] == test_pulse).all()
-    assert (controls["time_grid1"] == test_timegrid).all()
-    assert (controls["parameter1"] == test_params).all()
-    os.chmod(outfile_path, 0o777)
+    with np.load(outfile_path) as controls:
+        assert (controls["pulse1"] == test_pulse).all()
+        assert (controls["time_grid1"] == test_timegrid).all()
+        assert (controls["parameter1"] == test_params).all()
     os.remove(outfile_path)
 
 
