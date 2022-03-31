@@ -135,7 +135,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
         result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
-                                        max_iterations_number=max_iteration_number,
+                                        max_eval=max_iteration_number,
                                         sigma_v=self.controls.get_sigma_variation())
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],

@@ -7,13 +7,10 @@
 <title>quocslib.stoppingcriteria.StoppingCriteria</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -140,7 +137,35 @@
     <span class="c1"># TODO Implement handle exit check</span>
 <div class="viewcode-block" id="StoppingCriteria.check_user_stop"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_user_stop">[docs]</a>    <span class="k">def</span> <span class="nf">check_user_stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="kc">False</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="StoppingCriteria.check_func_eval"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval">[docs]</a>    <span class="k">def</span> <span class="nf">check_func_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_evaluations</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="c1"># Trivial stopping criterion</span>
+        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Exceeded number of allowed function evaluations."</span>
+        <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">func_evaluations</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span><span class="p">:</span>
+            <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StoppingCriteria.check_simplex_criterion"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">[docs]</a>    <span class="k">def</span> <span class="nf">check_simplex_criterion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="c1"># Simplex criterion</span>
+        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Convergence of the simplex."</span>
+        <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span><span class="p">:</span>
+            <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StoppingCriteria.check_f_size"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_f_size">[docs]</a>    <span class="k">def</span> <span class="nf">check_f_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="c1"># Convergence FoM criterion</span>
+        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Convergence of the FoM."</span>
+        <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">maxDeltaFoMRel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f_sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">f_sim</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f_sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">,</span> <span class="ne">FloatingPointError</span><span class="p">):</span>
+            <span class="n">maxDeltaFoMRel</span> <span class="o">=</span> <span class="n">f_sim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">maxDeltaFoMRel</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span><span class="p">:</span>
+            <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div></div>
 </code></pre></div>
 </div>
 <div class="page-nav">
@@ -148,7 +173,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

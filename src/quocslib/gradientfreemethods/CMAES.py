@@ -32,7 +32,7 @@ class CMAES(DirectSearchMethod):
         The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
         distributions of points in the control landscape
         :param dict settings: settings for the CMAES algorithm
-        :param dict stopping_criteria: stopping criteria such as max_iterations_number
+        :param dict stopping_criteria: stopping criteria such as max_eval
         """
         super().__init__()
         self.callback = callback
@@ -44,14 +44,14 @@ class CMAES(DirectSearchMethod):
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
     def run_dsm(self, func, x0, args=(), sigma_v: np.array = None, initial_simplex=None,
-                max_iterations_number: int = None, **kwargs) -> dict:
+                max_eval: int = None, **kwargs) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_iterations_number: Maximum iteration number of function evaluations
+        :param int max_eval: Maximum iteration number of function evaluations
         :return:
         """
 
@@ -204,7 +204,7 @@ class CMAES(DirectSearchMethod):
                 #     FoM_best = fsim[0]
                 #     is_terminated = True
                 #     terminateReason = "CMAES criterion"  # TR 2020_04_15: Is this description helpful? Shouldn't it be more specific?
-                # if iterations > max_iterations_number:
+                # if iterations > max_eval:
                 #     is_terminated = True
                 #     terminateReason = "Reached maximum iterations number"
 

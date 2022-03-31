@@ -4,16 +4,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.optimalalgorithms.ADAlgorithm</title>
+<title>quocslib.optimizationalgorithms.ADAlgorithm</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -95,14 +92,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.optimalalgorithms.ADAlgorithm</li>
+<li>quocslib.optimizationalgorithms.ADAlgorithm</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.optimalalgorithms.ADAlgorithm</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.optimizationalgorithms.ADAlgorithm</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -127,12 +124,12 @@
 <span class="k">except</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ImportError</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
+<span class="kn">from</span> <span class="nn">quocslib.optimizationalgorithms.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
 <span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
 <span class="kn">from</span> <span class="nn">quocslib.timeevolution.piecewise_integrator</span> <span class="kn">import</span> <span class="n">pw_final_evolution</span>
 
 
-<div class="viewcode-block" id="ADAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">ADAlgorithm</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="ADAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">ADAlgorithm</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    This is the template for an algorithm class. The three important function are:</span>
 <span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
@@ -179,7 +176,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">optimized_pulses</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_res</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="ADAlgorithm.functional"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.functional">[docs]</a>    <span class="k">def</span> <span class="nf">functional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">rho0</span><span class="p">,</span> <span class="n">rhoT</span><span class="p">,</span> <span class="n">sys_type</span><span class="p">):</span>
+<div class="viewcode-block" id="ADAlgorithm.functional"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.functional">[docs]</a>    <span class="k">def</span> <span class="nf">functional</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">rho0</span><span class="p">,</span> <span class="n">rhoT</span><span class="p">,</span> <span class="n">sys_type</span><span class="p">):</span>
         <span class="sd">"""Compute the fidelity functional for the given problem defined in the class</span>
 
 <span class="sd">        :param jnp.array drive: a flat array that contains the pulse amplitudes</span>
@@ -222,7 +219,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="ADAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.ADAlgorithm.ADAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="ADAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""This runs the main loop of the optimization, assuming that everything</span>
 <span class="sd">        has been configured correctly this should use LBFGS, or a chosen algorithm,</span>
 <span class="sd">        to optimize the pulse</span>
@@ -280,7 +277,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

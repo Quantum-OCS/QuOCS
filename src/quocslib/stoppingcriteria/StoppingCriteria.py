@@ -36,3 +36,31 @@ class StoppingCriteria:
     def check_user_stop(self):
         if False:
             self.is_converged = True
+
+    def check_func_eval(self, func_evaluations: int) -> [bool, str]:
+        # Trivial stopping criterion
+        terminate_reason = "Exceeded number of allowed function evaluations."
+        is_converged = False
+        if func_evaluations >= self.max_eval:
+            is_converged = True
+        return [is_converged, terminate_reason]
+
+    def check_simplex_criterion(self, sim: np.array) -> [bool, str]:
+        # Simplex criterion
+        terminate_reason = "Convergence of the simplex."
+        is_converged = False
+        if np.max(np.ravel(np.abs(sim[1:] - sim[0]))) <= self.xatol:
+            is_converged = True
+        return [is_converged, terminate_reason]
+
+    def check_f_size(self, f_sim: np.array) -> [bool, str]:
+        # Convergence FoM criterion
+        terminate_reason = "Convergence of the FoM."
+        is_converged = False
+        try:
+            maxDeltaFoMRel = np.max(np.abs(f_sim[0] - f_sim[1:])) / (np.abs(f_sim[0]))
+        except (ZeroDivisionError, FloatingPointError):
+            maxDeltaFoMRel = f_sim[1]
+        if maxDeltaFoMRel <= self.frtol:
+            is_converged = True
+        return [is_converged, terminate_reason]

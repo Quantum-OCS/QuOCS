@@ -4,16 +4,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.freegradientmethods.DirectSearchMethod</title>
+<title>quocslib.gradientfreemethods.DirectSearchMethod</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -95,14 +92,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.freegradientmethods.DirectSearchMethod</li>
+<li>quocslib.gradientfreemethods.DirectSearchMethod</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.freegradientmethods.DirectSearchMethod</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.gradientfreemethods.DirectSearchMethod</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -120,20 +117,20 @@
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 
 
-<div class="viewcode-block" id="Wrap"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap">[docs]</a><span class="k">class</span> <span class="nc">Wrap</span><span class="p">:</span>
+<div class="viewcode-block" id="Wrap"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.Wrap">[docs]</a><span class="k">class</span> <span class="nc">Wrap</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calls_number</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Wrap.function_wrapper"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.function_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">wrapper_args</span><span class="p">):</span>
+<div class="viewcode-block" id="Wrap.function_wrapper"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.Wrap.function_wrapper">[docs]</a>    <span class="k">def</span> <span class="nf">function_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">wrapper_args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">wrapper_args</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">wrapper_args</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Wrap.wrap_function"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.Wrap.wrap_function">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+<div class="viewcode-block" id="Wrap.wrap_function"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.Wrap.wrap_function">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls_number</span><span class="p">,</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">function</span>
@@ -141,7 +138,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calls_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">function_wrapper</span></div></div>
 
 
-<div class="viewcode-block" id="DirectSearchMethod"><a class="viewcode-back" href="../../../source/quocslib.freegradientmethods.html#quocslib.freegradientmethods.DirectSearchMethod.DirectSearchMethod">[docs]</a><span class="k">class</span> <span class="nc">DirectSearchMethod</span><span class="p">:</span>
+<div class="viewcode-block" id="DirectSearchMethod"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">[docs]</a><span class="k">class</span> <span class="nc">DirectSearchMethod</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># TODO Set the initial wrapper function with the target function and the optional arguments</span>
         <span class="c1"># TODO Integrate here the callback function for user interruption</span>
@@ -159,7 +156,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

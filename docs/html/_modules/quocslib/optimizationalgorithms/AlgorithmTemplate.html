@@ -4,16 +4,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.optimalalgorithms.AlgorithmTemplate</title>
+<title>quocslib.optimizationalgorithms.AlgorithmTemplate</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -95,14 +92,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.optimalalgorithms.AlgorithmTemplate</li>
+<li>quocslib.optimizationalgorithms.AlgorithmTemplate</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.optimalalgorithms.AlgorithmTemplate</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.optimizationalgorithms.AlgorithmTemplate</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -120,14 +117,14 @@
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
+<span class="kn">from</span> <span class="nn">quocslib.optimizationalgorithms.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
 <span class="kn">from</span> <span class="nn">quocslib.Controls</span> <span class="kn">import</span> <span class="n">Controls</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.dynamicimport</span> <span class="kn">import</span> <span class="n">dynamic_import</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.tools.linearalgebra</span> <span class="kn">import</span> <span class="n">simplex_creation</span>
 
 
-<div class="viewcode-block" id="AlgorithmTemplate"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate">[docs]</a><span class="k">class</span> <span class="nc">AlgorithmTemplate</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="AlgorithmTemplate"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate">[docs]</a><span class="k">class</span> <span class="nc">AlgorithmTemplate</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
     <span class="sd">"""</span>
 <span class="sd">    This is the template for an algorithm class. The three important function are:</span>
 <span class="sd">    * the constructor with the optimization dictionary and the communication object as parameters</span>
@@ -151,8 +148,8 @@
             <span class="s2">"general_settings"</span>
         <span class="p">]</span>
         <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="s2">"FreeGradientTemplate"</span><span class="p">,</span>
-            <span class="n">module_name</span><span class="o">=</span><span class="s2">"quocslib.freegradientmethods.FreeGradientTemplate"</span><span class="p">,</span>
+            <span class="n">class_name</span><span class="o">=</span><span class="s2">"GradientFreeTemplate"</span><span class="p">,</span>
+            <span class="n">module_name</span><span class="o">=</span><span class="s2">"quocslib.gradientfreemethods.GradientFreeTemplate"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">dsm_attribute</span><span class="p">(</span>
             <span class="n">direct_search_method_settings</span><span class="p">,</span>
@@ -189,7 +186,7 @@
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">response_dict</span>
 
-<div class="viewcode-block" id="AlgorithmTemplate.run"><a class="viewcode-back" href="../../../source/quocslib.optimalalgorithms.html#quocslib.optimalalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="AlgorithmTemplate.run"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Main loop of the optimization"""</span>
         <span class="k">for</span> <span class="n">super_it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
             <span class="c1"># Check if the optimization was stopped by the user</span>
@@ -217,12 +214,8 @@
         <span class="c1"># Initial point for the Start Simplex</span>
         <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span>
         <span class="c1"># Run the direct search algorithm</span>
-        <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span>
-            <span class="n">x0</span><span class="p">,</span>
-            <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
-            <span class="n">max_iterations_number</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
+                                        <span class="n">max_eval</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
@@ -255,7 +248,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

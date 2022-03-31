@@ -38,13 +38,37 @@ def test_dump_controls_record(dump_obj):
                            True)
 
     outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
-
     controls = np.load(outfile_path)
-
     # print(controls.files)
-
     assert (controls["pulse1"] == test_pulse).all()
     assert (controls["time_grid1"] == test_timegrid).all()
     assert (controls["parameter1"] == test_params).all()
+    os.remove(outfile_path)
 
+
+def test_dump_controls_NO_record(dump_obj):
+
+    test_pulse = np.array([1, 2, 3])
+    test_timegrid = np.array([4, 5, 6])
+    test_params = np.array([7, 8, 9])
+
+    dump_obj.dump_controls([test_pulse],
+                           [test_timegrid],
+                           [test_params],
+                           False)
+
+    outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
+    file_exists = os.path.exists(outfile_path)
+    assert not file_exists
+
+
+def test_other_dumps(dump_obj):
+
+    test_pulse = np.array([1, 2, 3])
+    outfile_name = "my_test.txt"
+    dump_obj.other_dumps(outfile_name, test_pulse)
+    outfile_path = os.path.join(dump_obj.best_controls_path, outfile_name)
+    test_file_load = np.loadtxt(outfile_path)
+    # print(test_file_load)
+    assert (test_file_load == test_pulse).all()
     os.remove(outfile_path)

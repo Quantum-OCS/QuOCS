@@ -30,18 +30,14 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # Call to the super class constructor
         super().__init__()
         # Maximum iteration number
-        self.max_iterations_number = stopping_criteria.setdefault("max_iterations_number", 100)
+        self.max_eval = stopping_criteria.setdefault("max_eval", 100)
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
         self.is_converged = False
 
-    def check_stopping_criteria(
-        self,
-        sim: np.array = None,
-        fsim: np.array = None,
-        function_evaluations: int = None,
-    ) -> None:
+    def check_stopping_criteria(self, sim: np.array = None, fsim: np.array = None,
+                                function_evaluations: int = None) -> None:
         """
 
         :param sim:
@@ -49,29 +45,13 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         :param function_evaluations:
         :return:
         """
-        if self.is_converged:
-            return
-        # Trivial stopping criterion
-        self.function_evaluations = function_evaluations
-        max_iter = self.max_iterations_number
-        if function_evaluations >= max_iter:
-            self.terminate_reason = "Exceed number of evaluations"
-            self.is_converged = True
-            return
-        # 1st criterion
-        xatol = self.xatol
-        if np.max(np.ravel(np.abs(sim[1:] - sim[0]))) <= xatol:
-            self.terminate_reason = "Convergence of the simplex"
-            self.is_converged = True
-            return
-        # 2nd criterion
-        # Adapt the variable for stopping criteria
-        frtol = self.frtol
-        try:
-            maxDeltaFoMRel = np.max(np.abs(fsim[0] - fsim[1:])) / (np.abs(fsim[0]))
-        except (ZeroDivisionError, FloatingPointError):
-            maxDeltaFoMRel = fsim[1]
-        if maxDeltaFoMRel <= frtol:
-            self.terminate_reason = "Convergence of the FoM"
-            self.is_converged = True
-            return
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_func_eval(function_evaluations)
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_simplex_criterion(sim)
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_f_size(fsim)
+        if self.is_converged: return
