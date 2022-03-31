@@ -20,13 +20,10 @@ import numpy as np
 from quocslib.utils.BestDump import BestDump
 
 
-@pytest.fixture
-def dump_obj():
+def test_dump_controls_record():
+
     folder = os.path.dirname(os.path.realpath(__file__))
-    return BestDump(folder, "000")
-
-
-def test_dump_controls_record(dump_obj):
+    dump_obj = BestDump(folder, "000")
 
     test_pulse = np.array([1, 2, 3])
     test_timegrid = np.array([4, 5, 6])
@@ -40,13 +37,17 @@ def test_dump_controls_record(dump_obj):
     outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
     controls = np.load(outfile_path)
     # print(controls.files)
-    assert (controls["pulse1"] == test_pulse).all()
-    assert (controls["time_grid1"] == test_timegrid).all()
-    assert (controls["parameter1"] == test_params).all()
+    with np.load(outfile_path) as controls:
+        assert (controls["pulse1"] == test_pulse).all()
+        assert (controls["time_grid1"] == test_timegrid).all()
+        assert (controls["parameter1"] == test_params).all()
     os.remove(outfile_path)
 
 
-def test_dump_controls_NO_record(dump_obj):
+def test_dump_controls_NO_record():
+
+    folder = os.path.dirname(os.path.realpath(__file__))
+    dump_obj = BestDump(folder, "111")
 
     test_pulse = np.array([1, 2, 3])
     test_timegrid = np.array([4, 5, 6])
@@ -57,12 +58,15 @@ def test_dump_controls_NO_record(dump_obj):
                            [test_params],
                            False)
 
-    outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
+    outfile_path = os.path.join(dump_obj.best_controls_path, "111_best_controls.npz")
     file_exists = os.path.exists(outfile_path)
     assert not file_exists
 
 
-def test_other_dumps(dump_obj):
+def test_other_dumps():
+
+    folder = os.path.dirname(os.path.realpath(__file__))
+    dump_obj = BestDump(folder, "000")
 
     test_pulse = np.array([1, 2, 3])
     outfile_name = "my_test.txt"
