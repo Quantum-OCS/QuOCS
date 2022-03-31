@@ -59,8 +59,9 @@ Using QuOCS is intuitive and simple. The main steps are:
 2. Create Figure of Merit object. This is an instance of a class that contains the physical problem to be optimized. In the following, you can see an example of how to define this class. The input and output of `get_FoM` should not be changed.
 
     ```python
+    from quocslib.utils.AbstractFoM import AbstractFoM
     # Define problem class
-    class OneQubit(AbstractFom):
+    class OneQubit(AbstractFoM):
 
         def __init__(self, args_dict:dict = None):
             """ Initialize the dynamics variables"""
