@@ -7,10 +7,13 @@
 <title>Getting Started!</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
 <script src="../_static/doctools.js"></script>
+
+
 <script defer="" src="../_static/theme.js"></script>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="../search.html" rel="search" title="Search"/>
@@ -111,18 +114,32 @@
 <hr/>
 <div class="content" role="main" v-pre="">
 <div class="section" id="getting-started">
-<h1>Getting Started!<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#getting-started">¶</a></h1>
+<h1>Getting Started!<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#getting-started">¶</a></h1>
 <div class="section" id="installation">
-<h2>Installation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation">¶</a></h2>
-<p>QuOCS can be easily installed using <code class="docutils literal notranslate">pip</code></p>
+<h2>Installation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation">¶</a></h2>
+<p>QuOCS is available on <code class="docutils literal notranslate">pip</code>. You can install QuOCS by doing</p>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
-<span class="code-lang">python</span></div>
-<div class="highlight"><pre><code><span class="n">pip</span> <span class="n">install</span> <span class="n">quocs</span>
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>pip install quocs-lib
+</code></pre></div></div>
+<p>The requirements are:</p>
+<ul class="simple">
+<li><p>setuptools &gt;= 44.0.0</p></li>
+<li><p>numpy &gt;= 1.19.1</p></li>
+<li><p>scipy &gt;= 1.5.1</p></li>
+</ul>
+<p>If you want to customize the algortihm and basis inside QuOCS (see <span class="xref myst">customization</span>), the package has to be installed in the editable mode. You can easily do that with the following commands:</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>git clone https://github.com/Quantum-OCS/QuOCS.git
+<span class="nb">cd</span> QuOCS
+pip install -e .
 </code></pre></div></div>
 </div>
 <div class="section" id="documentation">
-<h2>Documentation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#documentation">¶</a></h2>
+<h2>Documentation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#documentation">¶</a></h2>
 <p>The documentation can be found on <a class="reference external" href="https://quantum-ocs.github.io/QuOCS/html/index.html" rel="nofollow noopener">Github<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></p>
 </div>
 </div>

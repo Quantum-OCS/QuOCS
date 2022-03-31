@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Feature List</title>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+
+
+<script defer="" src="../_static/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li>Feature List</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<div class="section" id="feature-list">
+<h1>Feature List<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#feature-list">¶</a></h1>
+<div class="section" id="test-problems">
+<h2>Test Problems<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#test-problems">¶</a></h2>
+</div>
+<div class="section" id="quantum-optimal-control-algorithms">
+<h2>Quantum Optimal Control Algorithms<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quantum-optimal-control-algorithms">¶</a></h2>
+<div class="section" id="dcrab">
+<h3>dCRAB<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#dcrab">¶</a></h3>
+<p><em>Description</em>:</p>
+<p>The dressed CHopped RAndom Basis algorithm (dCRAB) avoids local optima in optimisations with a
+low number of parameters through super-parameters [1]. Superparameters specify the basis-elements used
+during one sub-optimisation, called super-iteration (SI). They describe f.e. frequencies of the
+Fourier basis or times at which to position step functions for the sigmoid basis.</p>
+<p><em>json</em>:</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">default</span></div>
+<div class="highlight"><pre><code><span class="s2">"algorithm_settings"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"opti_algorithm_name"</span><span class="p">:</span><span class="s2">"dCRAB"</span><span class="p">,</span>
+    <span class="s2">"super_iteration_number"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">"max_eval_per_SI"</span><span class="p">:</span> <span class="mi">50</span>
+    <span class="s2">"is_compensated_drift"</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s2">"random_number_generator"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"seed_number"</span><span class="p">:</span> <span class="mi">420</span>
+    <span class="p">},</span>
+    <span class="s2">"re_evaluation"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"re_evaluation_steps"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.51</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+<p><em>Settings</em>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate">"super_iteration_number"</code> The maximum number of superiterations, i.w. sub-optimisations, determines how many set of super-parameters are used
+to sequentially optimise the problem</p></li>
+<li><p><code class="docutils literal notranslate">"max_eval_per_SI"</code> Number of iterations per super-iteration.</p></li>
+</ul>
+<p><em>References</em>:</p>
+<p>[1] N. Rach, M. M. Müller, T. Calarco, and S. Montangero, “Dressing the chopped-random-basis optimization: A bandwidth-limited access to the trap-free landscape,” Phys. Rev. A - At. Mol. Opt. Phys., vol. 92, no. 6, p. 62343, 2015, doi: 10.1103/PhysRevA.92.062343.</p>
+</div>
+<div class="section" id="grape">
+<h3>GRAPE<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#grape">¶</a></h3>
+</div>
+<div class="section" id="automatik-differentiation">
+<h3>Automatik Differentiation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#automatik-differentiation">¶</a></h3>
+</div>
+</div>
+<div class="section" id="updating-algorithms">
+<h2>Updating Algorithms<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#updating-algorithms">¶</a></h2>
+<div class="section" id="nelder-mead">
+<h3>Nelder-Mead<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#nelder-mead">¶</a></h3>
+</div>
+<div class="section" id="cmaes">
+<h3>CMAES<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#cmaes">¶</a></h3>
+</div>
+<div class="section" id="bfgs">
+<h3>BFGS<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#bfgs">¶</a></h3>
+</div>
+<div class="section" id="l-bfgs-b">
+<h3>L-BFGS-B<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#l-bfgs-b">¶</a></h3>
+</div>
+</div>
+<div class="section" id="stopping-criteria">
+<h2>Stopping Criteria<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#stopping-criteria">¶</a></h2>
+<div class="section" id="convergence">
+<h3>Convergence<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#convergence">¶</a></h3>
+</div>
+<div class="section" id="goal">
+<h3>Goal<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#goal">¶</a></h3>
+</div>
+<div class="section" id="time-out">
+<h3>Time-out<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#time-out">¶</a></h3>
+</div>
+<div class="section" id="step-size">
+<h3>Step-Size<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#step-size">¶</a></h3>
+</div>
+</div>
+<div class="section" id="noise-and-drift-compensation">
+<h2>Noise and Drift Compensation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#noise-and-drift-compensation">¶</a></h2>
+<div class="section" id="re-evaluate-steps">
+<h3>Re-evaluate steps<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#re-evaluate-steps">¶</a></h3>
+</div>
+<div class="section" id="re-measure-previous-best">
+<h3>Re-measure previous best<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#re-measure-previous-best">¶</a></h3>
+</div>
+</div>
+<div class="section" id="pulse-features">
+<h2>Pulse features<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#pulse-features">¶</a></h2>
+<div class="section" id="amplitude-limits">
+<h3>Amplitude limits<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#amplitude-limits">¶</a></h3>
+</div>
+<div class="section" id="duration">
+<h3>Duration<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#duration">¶</a></h3>
+</div>
+<div class="section" id="variation-scale">
+<h3>Variation scale<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#variation-scale">¶</a></h3>
+</div>
+<div class="section" id="bases">
+<h3>Bases<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#bases">¶</a></h3>
+<ul class="simple">
+<li><p>Fourier</p></li>
+<li><p>Sigmoid</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="parameter-features">
+<h2>Parameter features<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#parameter-features">¶</a></h2>
+<div class="section" id="id1">
+<h3>Amplitude limits<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#id1">¶</a></h3>
+</div>
+</div>
+<div class="section" id="gradient-based-specific-features">
+<h2>Gradient-based specific features<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#gradient-based-specific-features">¶</a></h2>
+<div class="section" id="time-evolution">
+<h3>Time Evolution<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#time-evolution">¶</a></h3>
+</div>
+<div class="section" id="noise-processes">
+<h3>Noise Processes<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#noise-processes">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

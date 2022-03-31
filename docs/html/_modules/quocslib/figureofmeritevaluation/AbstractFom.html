@@ -4,13 +4,16 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.figureofmeritevaluation.AbstractFom</title>
+<title>quocslib.figureofmeritevaluation.AbstractFoM</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -92,14 +95,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.figureofmeritevaluation.AbstractFom</li>
+<li>quocslib.figureofmeritevaluation.AbstractFoM</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.figureofmeritevaluation.AbstractFom</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.figureofmeritevaluation.AbstractFoM</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -119,10 +122,10 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
 
-<div class="viewcode-block" id="AbstractFoM"><a class="viewcode-back" href="../../../source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFoM">[docs]</a><span class="k">class</span> <span class="nc">AbstractFoM</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<div class="viewcode-block" id="AbstractFoM"><a class="viewcode-back" href="../../../source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFoM.AbstractFoM">[docs]</a><span class="k">class</span> <span class="nc">AbstractFoM</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">"""Abstract class for figure of merit evaluation"""</span>
 
-<div class="viewcode-block" id="AbstractFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFom.AbstractFoM.get_FoM">[docs]</a>    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="AbstractFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.figureofmeritevaluation.html#quocslib.figureofmeritevaluation.AbstractFoM.AbstractFoM.get_FoM">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Abstract method for figure of merit evaluation. It returns a dictionary with</span>
 <span class="sd">        the FoM key inside"""</span></div></div>

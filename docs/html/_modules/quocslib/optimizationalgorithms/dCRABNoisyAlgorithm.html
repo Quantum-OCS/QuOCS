@@ -7,10 +7,13 @@
 <title>quocslib.optimizationalgorithms.dCRABNoisyAlgorithm</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -136,18 +139,18 @@
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Direct Search method</span>
         <span class="c1">###########################################################################################</span>
-        <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"stopping_criteria"</span><span class="p">]</span>
-        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"general_settings"</span><span class="p">]</span>
+        <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"stopping_criteria"</span><span class="p">]</span>
+        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"general_settings"</span><span class="p">]</span>
         <span class="c1"># TODO: Use dynamic import here to define the inner free gradient method</span>
         <span class="c1"># The callback function is called once in a while in the inner direct search method to check</span>
         <span class="c1">#  if the optimization is still running</span>
 
         <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-                                        <span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                                        <span class="n">class_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                                        <span class="n">name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                                        <span class="n">class_type</span><span class="o">=</span><span class="s1">'dsm_settings'</span>
-                                        <span class="p">)</span>
+                                <span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                <span class="n">class_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                <span class="n">name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                <span class="n">class_type</span><span class="o">=</span><span class="s1">'dsm_settings'</span>
+                                <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">dsm_attribute</span><span class="p">(</span><span class="n">direct_search_method_settings</span><span class="p">,</span>
                                          <span class="n">stopping_criteria</span><span class="p">,</span>
                                          <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">)</span>
