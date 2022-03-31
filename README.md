@@ -51,7 +51,7 @@ A selection of demonstration notebooks is available, which demonstrate some of t
 
 Using QuOCS is intuitive and simple. The main steps are:
 
-1. Create and load the optimization dictionary. This json file contains all the optimization settings.
+1. Create and load the optimization dictionary. This json file contains all the optimization settings (as example see [this file](https://github.com/Quantum-OCS/QuOCS/blob/main/tests/dCRAB_Fourier_NM_OneQubit.json)).
     ```python
     from quocslib.utils.inputoutput import readjson
     optimization_dictionary = readjson("opt_dictionary.json"))[1]
