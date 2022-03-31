@@ -1,9 +1,7 @@
 {
     "optimization_client_name": "Pure_Parameter_Opt_with_Rosenbrock_NM",
     "algorithm_settings": {
-        "algorithm_name": "DirectSearch",
-        "super_iteration_number": 1,
-        "max_eval_per_SI": 100
+        "algorithm_name": "DirectSearch"
     },
     "dsm_settings": {
         "general_settings": {
@@ -11,7 +9,8 @@
         },
         "stopping_criteria": {
             "xatol": 1e-14,
-            "frtol": 1e-4
+            "frtol": 1e-4,
+            "max_eval": 100
         }
     },
     "pulses": [],
