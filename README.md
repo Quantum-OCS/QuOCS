@@ -1,5 +1,10 @@
 # QuOCS: The optimization library
 
+![logo](./logo/logo_quocs_color.pdf)
+<img src="./logo/logo_quocs_color.svg">
+
+[![Pip Package](pypi_badge.svg)](https://pypi.org/project/quocs-lib/)
+
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_linux.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_windows.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_macOS.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
