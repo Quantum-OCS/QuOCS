@@ -15,10 +15,40 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from abc import ABCMeta, abstractmethod
+import numpy as np
 
 
 class AbstractFoM(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
+
+    def get_control_hamiltonians(self):
+        """
+        Method to get the control Hamiltonians. It is compulsory for gradient-based optimization
+        """
+
+    def get_propagator(self,
+                       pulses_list: list = [],
+                       time_grids_list: list = [],
+                       parameters_list: list = []
+                       ) -> np.array:
+        """
+        Method to get the propagator. It is compulsory for gradient-based optimization
+        """
+
+    def get_target_state(self):
+        """
+        Method to get the target state. It is compulsory for gradient-based optimization
+        """
+
+    def get_initial_state(self):
+        """
+        Method to get the target state. It is compulsory for gradient-based optimization
+        """
+
+    def get_drift_Hamiltonian(self):
+        """
+        Method to get the drift Hamiltonian. It is compulsory for gradient-based optimization
+        """
 
     @abstractmethod
     def get_FoM(self,
