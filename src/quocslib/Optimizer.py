@@ -45,7 +45,8 @@ class Optimizer:
         )
 
         self.opt_alg_obj = self.optimizer_attribute(optimization_dict=optimization_dict,
-                                                    communication_obj=self.communication_obj)
+                                                    communication_obj=self.communication_obj,
+                                                    FoM_object=FoM_object)
 
     def execute(self):
         """ Write this docstring """
