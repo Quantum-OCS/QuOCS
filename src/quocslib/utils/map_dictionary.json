@@ -5,9 +5,6 @@
                       "dCRAB":
                           {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
                           "class_name": "dCRABAlgorithm"},
-                      "dCRABNoisy":
-                          {"module_name": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
-                          "class_name": "dCRABNoisyAlgorithm"},
                       "DirectSearch":
                           {"module_name": "quocslib.optimizationalgorithms.DirectSearchAlgorithm",
                           "class_name": "DirectSearchAlgorithm"},

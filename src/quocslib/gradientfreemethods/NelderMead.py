@@ -25,7 +25,8 @@ from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
 class NelderMead(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
+    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None,
+                 stop_optimization_callback: callable = None):
         """
         Nelder-Mead is an updating algorithm based on the simplex method.
         :param dict settings: settings for the NM algorithm
@@ -38,6 +39,7 @@ class NelderMead(DirectSearchMethod):
         self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
+        stopping_criteria.setdefault("stop_function", stop_optimization_callback)
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
     def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval=None, **kwargs) -> dict:

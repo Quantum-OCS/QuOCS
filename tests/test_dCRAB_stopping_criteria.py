@@ -18,15 +18,10 @@ from quocslib.Optimizer import Optimizer
 import pytest
 
 
-def test_dCRAB_Fourier_NM_OneQubit():
+def test_stopping_after_FoM_goal():
 
     optimization_dictionary = {
-        "Comment":
-        "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
-        "Disclaimer":
-        "Do not use this json file for optimization",
-        "optimization_client_name":
-        "Optimization_dCRAB_Fourier_NM_OneQubit",
+        "optimization_client_name": "Check_FoM_goal_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -37,8 +32,7 @@ def test_dCRAB_Fourier_NM_OneQubit():
                     "is_adaptive": True
                 },
                 "stopping_criteria": {
-                    "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "FoM_goal": 0.1
                 }
             }
         },
@@ -81,14 +75,12 @@ def test_dCRAB_Fourier_NM_OneQubit():
         "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
         "optimization_factor": 1.0
     }
-    main(optimization_dictionary, args_dict)
-
-
-def main(optimization_dictionary: dict, args_dict: dict):
-
     # Create FoM object
     FoM_object = OneQubit(args_dict=args_dict)
 
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
     optimization_obj.execute()
+
+    optimization_obj.results_path
+

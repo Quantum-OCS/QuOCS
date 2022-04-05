@@ -29,15 +29,10 @@ class CMAESStoppingCriteria(StoppingCriteria):
         :param dict stopping_criteria:
         """
         # Call to the super class constructor
-        super().__init__()
-        # Maximum function evaluation number
-        self.max_eval = stopping_criteria.setdefault("max_eval", 100)
+        super().__init__(stopping_criteria)
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
-        self.FoM_goal = stopping_criteria.setdefault("FoM_goal", -10**10)
-        self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
-        self.start_time = datetime.now()
         self.is_converged = False
         self.terminate_reason = ""
 

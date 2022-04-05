@@ -30,9 +30,14 @@ def readjson(filename: str) -> [int, dict]:
     try:
         with open(filename, "r") as file:
             user_data = json.load(file)
-    except Exception as ex:
+    except json.decoder.JSONDecodeError:
         err_stat = 1
-        print('\n!!! The json file \"' + filename + '\" was not found.')
+        print('\n!!! The json file \"' + filename + '\" is not formatted properly.')
+    except Exception as ex:
+        print(ex)
+        err_stat = 1
+        print('\n!!! The json file \"' + filename + '\" was not found\n'
+                                                    'or some other error occured while reading the file.')
     finally:
         return user_data
 

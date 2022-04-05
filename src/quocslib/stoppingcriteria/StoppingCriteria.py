@@ -19,10 +19,15 @@ from datetime import datetime
 
 
 class StoppingCriteria:
-    def __init__(self):
+
+    def __init__(self, stopping_criteria: dict = None):
         """
         Parent class for the stopping criteria
         """
+        self.FoM_goal = stopping_criteria.setdefault("FoM_goal", -10**10)
+        self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
+        self.start_time = datetime.now()
+        self.stop_opt_function = stopping_criteria.setdefault("stop_function", None)
         pass
 
     @abstractmethod
@@ -95,6 +100,8 @@ class StoppingCriteria:
         is_converged = False
         if FoM <= self.FoM_goal:
             is_converged = True
+            # this is a bit confusing but here we set is_running to False
+            self.stop_opt_function()
         return [is_converged, terminate_reason]
 
     def check_time_out(self) -> [bool, str]:

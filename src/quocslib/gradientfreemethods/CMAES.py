@@ -26,7 +26,8 @@ from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteri
 class CMAES(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None, **kwargs):
+    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None,
+                 set_running_callback: callable = None, **kwargs):
         """
         The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
         distributions of points in the control landscape
@@ -40,6 +41,7 @@ class CMAES(DirectSearchMethod):
         self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
+        stopping_criteria.setdefault("stop_function", set_running_callback)
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
     def run_dsm(self,
