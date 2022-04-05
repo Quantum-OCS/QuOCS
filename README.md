@@ -1,12 +1,12 @@
 # QuOCS: The optimization library
-
-<img src="./logo/logo_quocs_color.png"
-     width="400" />
      
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_linux.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_windows.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 [![Build Status](https://github.com/Quantum-OCS/QuOCS/actions/workflows/unit_testing_macOS.yml/badge.svg)](https://github.com/Quantum-OCS/QuOCS/actions)
 
+<img src="./logo/logo_quocs_color.png"
+     width="400" />
+    
 QuOCS (Quantum Optimal Control Suite) is a python software package for model- and experiment-based optimizations of quantum processes.
 It uses the excellent Numpy and Scipy packages as numerical backends.
 QuOCS aims to provide a user-friendly interface to solve optimization problems. A variety of popular optimal control algorithms are available:
