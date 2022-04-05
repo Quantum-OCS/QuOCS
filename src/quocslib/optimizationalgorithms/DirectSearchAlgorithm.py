@@ -27,7 +27,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
     initStatus = 0
     terminate_reason = "-1"
 
-    def __init__(self, optimization_dict: dict = None, communication_obj=None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         :param optimization_dict:
         :param communication_obj:
