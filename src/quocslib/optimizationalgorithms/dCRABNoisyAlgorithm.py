@@ -18,13 +18,13 @@ from scipy.stats import norm
 
 from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.Controls import Controls
-from quocslib.gradientfreemethods.NelderMead import NelderMead
 from quocslib.tools.linearalgebra import simplex_creation
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.utils.dynamicimport import dynamic_import
 
+
 class dCRABNoisyAlgorithm(OptimizationAlgorithm):
-    def __init__(self, optimization_dict: dict = None, communication_obj=None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.
@@ -41,14 +41,14 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         #  if the optimization is still running
 
         dsm_attribute = dynamic_import(
-                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                        class_type='dsm_settings'
-                                        )
+            module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+            class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+            name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+            class_type='dsm_settings'
+        )
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
-                                         stopping_criteria,
-                                         callback=self.is_optimization_running)
+                                     stopping_criteria,
+                                     callback=self.is_optimization_running)
 
         # self.dsm_obj = NelderMead(direct_search_method_settings,
         #                           stopping_criteria,
@@ -275,7 +275,8 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
                 if probability < p_level:
                     return mu_1
                 # else: go on with further re-evaluations
-                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
+                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
+                    optimized_control_parameters, iterations)
                 self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                 # Increase step number after function evaluation
                 self.step_number += 1
