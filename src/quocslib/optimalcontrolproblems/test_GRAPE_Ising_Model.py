@@ -19,11 +19,10 @@ from quocslib.Optimizer import Optimizer
 
 def test_GRAPE_Ising_Model():
     optimization_dictionary = {
-        "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
         "Disclaimer": "Do not use this json file for optimization",
         "optimization_client_name": "Optimization_GRAPE_IsingModel",
-        "opti_algorithm_name": "GRAPE",
-        "algorithm_settings": {},
+        "algorithm_settings": {
+            "algorithm_name": "GRAPE"},
         "pulses": [{"pulse_name": "Pulse_1",
                     "upper_limit": 15.0,
                     "lower_limit": -15.0,
