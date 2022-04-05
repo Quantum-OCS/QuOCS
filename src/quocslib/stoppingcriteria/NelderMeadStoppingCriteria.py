@@ -37,17 +37,17 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
     def check_stopping_criteria(self,
                                 sim: np.array = None,
                                 fsim: np.array = None,
-                                function_evaluations: int = None) -> None:
+                                func_evaluations_single_direct_search: int = None) -> None:
         """
 
         :param sim:
         :param fsim:
-        :param function_evaluations:
+        :param func_evaluations_single_direct_search:
         :return:
         """
         if self.is_converged: return
 
-        self.is_converged, self.terminate_reason = self.check_func_eval(function_evaluations)
+        self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(func_evaluations_single_direct_search)
         if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_simplex_criterion(sim)

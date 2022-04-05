@@ -16,7 +16,7 @@ _json_:
 "algorithm_settings": {
     "opti_algorithm_name":      "dCRAB",
     "super_iteration_number":   5,
-    "max_eval_per_SI":          100
+    "max_eval_total":          100
     "is_compensated_drift":     true,
     "random_number_generator": {
         "seed_number": 42

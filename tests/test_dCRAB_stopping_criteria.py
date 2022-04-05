@@ -25,7 +25,7 @@ def test_stopping_after_FoM_goal():
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
-            "max_eval_per_SI": 100,
+            "max_eval_total": 100,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",

@@ -60,11 +60,10 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         alg_parameters = optimization_dict["algorithm_settings"]
         # Max number of SI
         self.max_num_si = int(alg_parameters["super_iteration_number"])
-        # TODO: Change evaluation number for the first and second super iteration
+        # TODO: old: Change evaluation number for the first and second super iteration... new: think of something
+        #  else, e.g. adaption on how close one is to the desired FoM or so
         # Max number of iterations at SI1
-        self.max_eval_per_SI = int(alg_parameters["max_eval_per_SI"])
-        # Max number of iterations from SI2
-        self.max_eval_per_SI2 = int(alg_parameters["max_eval_per_SI"])
+        self.max_eval_total = int(alg_parameters["max_eval_total"])
         # Starting FoM and sigma
         self.best_FoM = 1e10
         self.best_sigma = 0.0
@@ -178,10 +177,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             # Initialize the random super_parameters
             self.controls.select_basis()
             # Direct search method
-            if super_it == 1:
-                self._dsm_build(self.max_eval_per_SI)
-            else:
-                self._dsm_build(self.max_eval_per_SI2)
+            self._dsm_build(self.max_eval_total)
             # Update the base current pulses
             self._update_base_pulses()
 
@@ -220,7 +216,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
-                                        max_eval=max_iteration_number)
+                                        max_eval_total=max_iteration_number)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed
          ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]

@@ -24,6 +24,8 @@ class StoppingCriteria:
         """
         Parent class for the stopping criteria
         """
+        self.max_eval_total = None
+        self.max_eval = stopping_criteria.setdefault("max_eval", 100)
         self.FoM_goal = stopping_criteria.setdefault("FoM_goal", -10**10)
         self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
         self.start_time = datetime.now()
@@ -42,17 +44,17 @@ class StoppingCriteria:
         if False:
             self.is_converged = True
 
-    def check_func_eval(self, func_evaluations: int) -> [bool, str]:
+    def check_func_eval_single_direct_search(self, func_evaluations_single_direct_search: int) -> [bool, str]:
         """
         Check whether the maximum number of function evaluations has been exceeded
 
-        :param float func_evaluations: number of current function evaluation
+        :param float func_evaluations_single_direct_search: number of current function evaluation
         :return bool is_converged: True if the stopping criterion is fulfilled
         :return str terminate_reason: reason for the terminatiom
         """
         terminate_reason = "Exceeded number of allowed function evaluations."
         is_converged = False
-        if func_evaluations >= self.max_eval:
+        if func_evaluations_single_direct_search >= self.max_eval:
             is_converged = True
         return [is_converged, terminate_reason]
 
@@ -101,7 +103,7 @@ class StoppingCriteria:
         if FoM <= self.FoM_goal:
             is_converged = True
             # this is a bit confusing but here we set is_running to False
-            self.stop_opt_function()
+            # self.stop_opt_function()
         return [is_converged, terminate_reason]
 
     def check_time_out(self) -> [bool, str]:

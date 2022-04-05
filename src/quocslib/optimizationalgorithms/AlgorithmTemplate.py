@@ -110,7 +110,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
-                                        max_eval=max_iteration_number)
+                                        max_eval_total=max_iteration_number)
         # Update the results
         [FoM, self.xx, self.terminate_reason] = [
             result_l["F_min_val"],

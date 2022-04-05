@@ -36,10 +36,10 @@ class CMAESStoppingCriteria(StoppingCriteria):
         self.is_converged = False
         self.terminate_reason = ""
 
-    def check_stopping_criteria(self, fsim: np.array = None, function_evaluations: int = None) -> None:
+    def check_stopping_criteria(self, fsim: np.array = None, func_evaluations_single_direct_search: int = None) -> None:
         """
         :param f_sim:
-        :param function_evaluations:
+        :param func_evaluations_single_direct_search:
         :return:
         """
         if self.is_converged: return
@@ -58,7 +58,7 @@ class CMAESStoppingCriteria(StoppingCriteria):
         #     self.terminate_reason = terminate_reason
         #     return
 
-        self.is_converged, self.terminate_reason = self.check_func_eval(function_evaluations)
+        self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(func_evaluations_single_direct_search)
         if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)
