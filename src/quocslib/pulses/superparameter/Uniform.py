@@ -16,16 +16,17 @@
 import numpy as np
 
 from quocslib.pulses.superparameter.SuperParameterDistribution import (
-    SuperParameterDistribution,
-)
+    SuperParameterDistribution, )
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class Uniform(SuperParameterDistribution):
-    def __init__(self,
-                 basis_vectors_number,
-                 super_parameter_distribution_dictionary,
-                 rng: RandomNumberGenerator = None,):
+    def __init__(
+        self,
+        basis_vectors_number,
+        super_parameter_distribution_dictionary,
+        rng: RandomNumberGenerator = None,
+    ):
         """Spend here few words, compulsory arguments for the parent class"""
         self.basis_vectors_number = basis_vectors_number
         super().__init__(**super_parameter_distribution_dictionary)

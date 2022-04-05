@@ -27,13 +27,13 @@ def main(optimization_dictionary: dict):
     interface_job_name = optimization_dictionary["optimization_client_name"]
     FoM_obj = FilesUpdateFoM(controls_folder=".", FoM_folder=".", file_extension="txt")
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              FoM_obj=FoM_obj, handle_exit_obj=HandleExit(), dump_attribute=BestDump)
-    optimizer_attribute = dynamic_import(
-        attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
-        module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
-    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
-                                        communication_obj=communication_obj)
+                                              FoM_obj=FoM_obj,
+                                              handle_exit_obj=HandleExit(),
+                                              dump_attribute=BestDump)
+    optimizer_attribute = dynamic_import(attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
+                                         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
+                                         class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
+    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary, communication_obj=communication_obj)
     print("The optimizer was initialized successfully")
     optimizer_obj.begin()
     print("The optimizer begin successfully")

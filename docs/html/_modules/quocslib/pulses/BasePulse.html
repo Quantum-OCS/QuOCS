@@ -7,13 +7,10 @@
 <title>quocslib.pulses.BasePulse</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -136,23 +133,21 @@
     <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
     <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">pulse_name</span><span class="o">=</span><span class="s2">"pulse"</span><span class="p">,</span>
-        <span class="n">bins_number</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span>
-        <span class="n">time_name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-        <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-        <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-        <span class="n">initial_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">scaling_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">is_shrinked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">shaping_options</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">overwrite_base_pulse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">pulse_name</span><span class="o">=</span><span class="s2">"pulse"</span><span class="p">,</span>
+                 <span class="n">bins_number</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span>
+                 <span class="n">time_name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
+                 <span class="n">lower_limit</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">upper_limit</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">amplitude_variation</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">initial_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">scaling_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">is_shrinked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">shaping_options</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">overwrite_base_pulse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Here we defined all the basic features a pulse should have.</span>
 
@@ -185,26 +180,20 @@
         <span class="c1"># Amplitude variation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_variation</span> <span class="o">=</span> <span class="n">amplitude_variation</span>
         <span class="c1"># Create the parameter indexes list. It is used</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span>
         <span class="c1"># Update the map_index number for the next pulse</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># Shaping options</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Testing shaping option list mode"</span><span class="p">)</span>
-        <span class="n">shaping_option_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"add_base_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span>
-            <span class="s2">"add_initial_guess"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span>
-            <span class="s2">"limit_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">,</span>
-            <span class="s2">"scale_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="n">shaping_option_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"add_base_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span>
+                               <span class="s2">"add_initial_guess"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span>
+                               <span class="s2">"limit_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">,</span>
+                               <span class="s2">"scale_pulse"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">shaping_options</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">,</span>
-            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">add_base_pulse</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">add_initial_guess</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">scale_pulse</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">limit_pulse</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shaping_options</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">op_str</span> <span class="ow">in</span> <span class="n">shaping_options</span><span class="p">:</span>
@@ -239,9 +228,7 @@
 
 <div class="viewcode-block" id="BasePulse.set_control_parameters_list"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_control_parameters_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_control_parameters_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="p">):</span>
         <span class="sd">"""Set the control parameters list. It is used when the Chopped Basis changes during SIs"""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span></div>
 
     <span class="k">def</span> <span class="nf">_set_time_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Set the time grid"""</span>
@@ -284,10 +271,9 @@
             <span class="n">v_optimal_pulse</span> <span class="o">=</span> <span class="n">optimal_pulse</span> <span class="o">-</span> <span class="n">distance_u_l_value</span>
             <span class="c1"># Move the bounds to the center of the axis respect the optimal pulses</span>
             <span class="c1"># distance_u_l_bound = (u_bound + l_bound) / 2.0</span>
-            <span class="n">v_u_bound</span><span class="p">,</span> <span class="n">v_l_bound</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">u_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span><span class="p">,</span>
-                <span class="n">l_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span><span class="p">,</span>
-            <span class="p">]</span>
+            <span class="n">v_u_bound</span><span class="p">,</span> <span class="n">v_l_bound</span> <span class="o">=</span> <span class="p">[</span><span class="n">u_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span><span class="p">,</span>
+                                    <span class="n">l_bound</span> <span class="o">-</span> <span class="n">distance_u_l_value</span>
+                                    <span class="p">]</span>
             <span class="c1"># Check which is the greatest virtual distance</span>
             <span class="n">v_u_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">v_optimal_pulse</span><span class="p">)</span>
             <span class="n">v_l_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">v_optimal_pulse</span><span class="p">)</span>
@@ -324,9 +310,7 @@
             <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
 
             <span class="c1"># if the whole pulse is higher or lower than the limits take the limits</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&gt;=</span> <span class="n">ub</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&gt;=</span> <span class="n">ub</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-                <span class="n">temp_max</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&lt;=</span> <span class="n">lb</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&gt;=</span> <span class="n">ub</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&gt;=</span> <span class="n">ub</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&lt;=</span> <span class="n">lb</span><span class="p">):</span>
                 <span class="n">ui</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">uiTotal</span><span class="p">,</span> <span class="n">ub</span><span class="p">),</span> <span class="n">lb</span><span class="p">)</span>  <span class="c1"># cut off the pulse</span>
 
             <span class="c1"># otherwise shrink the pulse if it exceeds the limits accordingly</span>
@@ -357,17 +341,13 @@
 
         <span class="k">return</span> <span class="n">ui</span>
 
-<div class="viewcode-block" id="BasePulse.get_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.get_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">get_pulse</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameters_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="BasePulse.get_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.get_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">get_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameters_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">"""Set the optimized control parameters, the time grid, and return the pulse"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_control_parameters</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_time_grid</span><span class="p">(</span><span class="n">final_time</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_build_pulse</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BasePulse.set_base_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_base_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_pulse</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BasePulse.set_base_pulse"><a class="viewcode-back" href="../../../source/quocslib.pulses.html#quocslib.pulses.BasePulse.BasePulse.set_base_pulse">[docs]</a>    <span class="k">def</span> <span class="nf">set_base_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">final_time</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Set the base optimal pulse"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_control_parameters</span><span class="p">(</span><span class="n">optimized_control_parameters</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_time_grid</span><span class="p">(</span><span class="n">final_time</span><span class="p">)</span>
@@ -427,9 +407,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_shrinked</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shrink_pulse</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_get_shaped_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -441,7 +419,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

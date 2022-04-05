@@ -19,16 +19,13 @@ np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria,
-)
+    NelderMeadStoppingCriteria, )
 
 
 class GradientFreeTemplate(DirectSearchMethod):
     callback: callable
 
-    def __init__(
-        self, settings: dict, stopping_criteria: dict, callback: callable = None
-    ):
+    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
         :param dict settings:
         :param dict stopping_criteria:
@@ -43,14 +40,14 @@ class GradientFreeTemplate(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval=None) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_iterations_number: Maximum iteration number of function evaluations
+        :param int max_eval: Maximum iteration number of function evaluations
         :return:
         """
         # Creation of the communication function for the OptimizationAlgorithm object
@@ -58,8 +55,8 @@ class GradientFreeTemplate(DirectSearchMethod):
         # Set to false is_converged
         self.sc_obj.is_converged = False
         # Update function evaluations number
-        if max_iterations_number is not None:
-            self.sc_obj.max_iterations_number = max_iterations_number
+        if max_eval is not None:
+            self.sc_obj.max_eval = max_eval
         # Initialize the iteration number
         iterations = 0
         # Initialize hyper-parameters if any
@@ -96,7 +93,7 @@ class GradientFreeTemplate(DirectSearchMethod):
         else:
             sim = initial_simplex.copy()
         # Function evaluation array
-        fsim = np.zeros((dim + 1,), float)
+        fsim = np.zeros((dim + 1, ), float)
         # Initial evaluation of the start simplex
         # TODO parallelization for start simplex initialization, i.e. send single data file for multiple evaluations!
         for k in range(dim + 1):

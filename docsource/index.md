@@ -8,6 +8,8 @@
 
 ./chapters/user_manual
 ./chapters/what_is_oc
+./chapters/customization
+./chapters/feature_list
 ```
 
 ```{toctree}

@@ -4,16 +4,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>quocslib.utils.FilesUpdateFoM</title>
+<title>quocslib.utils.FilesUpdateFom</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -95,14 +92,14 @@
 <ul class="breadcrumbs">
 <li><a href="../../../index.html">Docs</a> »</li>
 <li><a href="../../index.html">Module code</a> »</li>
-<li>quocslib.utils.FilesUpdateFoM</li>
+<li>quocslib.utils.FilesUpdateFom</li>
 </ul>
 <ul class="page-nav">
 </ul>
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<h1>Source code for quocslib.utils.FilesUpdateFoM</h1><div class="highlight"><pre>
+<h1>Source code for quocslib.utils.FilesUpdateFom</h1><div class="highlight"><pre>
 <code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="c1">#  Copyright 2021-  QuOCS Team</span>
 <span class="c1">#</span>
@@ -126,7 +123,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 
-<div class="viewcode-block" id="FilesUpdateFoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM">[docs]</a><span class="k">class</span> <span class="nc">FilesUpdateFoM</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
+<div class="viewcode-block" id="FilesUpdateFoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM">[docs]</a><span class="k">class</span> <span class="nc">FilesUpdateFoM</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
     <span class="sd">"""An evaluation method for the figure of merit via files exchange. The communication object accesses to the</span>
 <span class="sd">    get_FoM function.</span>
 <span class="sd">    The get_FoM removes the "FoM.txt" file and creates a json, a txt or a npz file in the controls</span>
@@ -165,7 +162,7 @@
         <span class="c1"># Maximum time in seconds to wait for the figure of merit evaluation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_time</span> <span class="o">=</span> <span class="n">max_time</span>
 
-<div class="viewcode-block" id="FilesUpdateFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
+<div class="viewcode-block" id="FilesUpdateFoM.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -183,7 +180,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">"Reading the </span><span class="si">{0}</span><span class="s2"> file "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_path</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_FoM_values</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="FilesUpdateFoM.read_FoM_values"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.read_FoM_values">[docs]</a>    <span class="k">def</span> <span class="nf">read_FoM_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="FilesUpdateFoM.read_FoM_values"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.read_FoM_values">[docs]</a>    <span class="k">def</span> <span class="nf">read_FoM_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Read the figure of merit FoM.txt file</span>
 <span class="sd">        :return: dict The figure of merit dictionary</span>
@@ -209,7 +206,7 @@
             <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">,</span> <span class="s2">"status_code"</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span><span class="p">}</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">FoM</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="FilesUpdateFoM.put_controls_into_user_path"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFoM.FilesUpdateFoM.put_controls_into_user_path">[docs]</a>    <span class="k">def</span> <span class="nf">put_controls_into_user_path</span><span class="p">(</span>
+<div class="viewcode-block" id="FilesUpdateFoM.put_controls_into_user_path"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.FilesUpdateFom.FilesUpdateFoM.put_controls_into_user_path">[docs]</a>    <span class="k">def</span> <span class="nf">put_controls_into_user_path</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
@@ -268,7 +265,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

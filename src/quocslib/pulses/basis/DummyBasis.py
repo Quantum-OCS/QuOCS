@@ -51,13 +51,9 @@ class DummyBasis(ChoppedBasis):
         # Basis dependent settings
         #################
         # Scale coefficients: average distance of the points in the intial simplex
-        self.scale_coefficients = (
-            self.amplitude_variation
-            / np.sqrt(2)
-            * np.ones((self.control_parameters_number,))
-        )
+        self.scale_coefficients = (self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number, )))
         # Initial value of the parameters in the pulse parametrization
-        self.offset_coefficients = np.zeros((self.control_parameters_number,))
+        self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
@@ -77,7 +73,6 @@ class DummyBasis(ChoppedBasis):
         # Basis dependent settings
         #################
         for ii in range(self.super_parameter_number):
-            pulse += xx[2 * ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + xx[
-                2 * ii + 1
-            ] * np.cos(2 * np.pi * w[ii] * t / final_time)
+            pulse += xx[2 * ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + xx[2 * ii + 1] * np.cos(
+                2 * np.pi * w[ii] * t / final_time)
         return pulse

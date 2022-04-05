@@ -76,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -103,25 +109,26 @@
 <div class="content" role="main" v-pre="">
 <h1>All modules for which code is available</h1>
 <ul><li><a href="quocslib/Controls.html">quocslib.Controls</a></li>
-<li><a href="quocslib/OptimizationAlgorithm.html">quocslib.OptimizationAlgorithm</a></li>
+<li><a href="quocslib/Optimizer.html">quocslib.Optimizer</a></li>
 <li><a href="quocslib/communication/AllInOneCommunication.html">quocslib.communication.AllInOneCommunication</a></li>
 <li><a href="quocslib/figureofmeritevaluation/AbstractFoM.html">quocslib.figureofmeritevaluation.AbstractFoM</a></li>
-<li><a href="quocslib/freegradientmethods/CMAES.html">quocslib.freegradientmethods.CMAES</a></li>
-<li><a href="quocslib/freegradientmethods/DirectSearchMethod.html">quocslib.freegradientmethods.DirectSearchMethod</a></li>
-<li><a href="quocslib/freegradientmethods/FreeGradientTemplate.html">quocslib.freegradientmethods.FreeGradientTemplate</a></li>
-<li><a href="quocslib/freegradientmethods/NelderMead.html">quocslib.freegradientmethods.NelderMead</a></li>
+<li><a href="quocslib/gradientfreemethods/CMAES.html">quocslib.gradientfreemethods.CMAES</a></li>
+<li><a href="quocslib/gradientfreemethods/DirectSearchMethod.html">quocslib.gradientfreemethods.DirectSearchMethod</a></li>
+<li><a href="quocslib/gradientfreemethods/GradientFreeTemplate.html">quocslib.gradientfreemethods.GradientFreeTemplate</a></li>
+<li><a href="quocslib/gradientfreemethods/NelderMead.html">quocslib.gradientfreemethods.NelderMead</a></li>
 <li><a href="quocslib/handleexit/AbstractHandleExit.html">quocslib.handleexit.AbstractHandleExit</a></li>
 <li><a href="quocslib/handleexit/HandleExit.html">quocslib.handleexit.HandleExit</a></li>
-<li><a href="quocslib/optimalalgorithms/ADAlgorithm.html">quocslib.optimalalgorithms.ADAlgorithm</a></li>
-<li><a href="quocslib/optimalalgorithms/AlgorithmTemplate.html">quocslib.optimalalgorithms.AlgorithmTemplate</a></li>
-<li><a href="quocslib/optimalalgorithms/DirectSearchAlgorithm.html">quocslib.optimalalgorithms.DirectSearchAlgorithm</a></li>
-<li><a href="quocslib/optimalalgorithms/GRAPEAlgorithm.html">quocslib.optimalalgorithms.GRAPEAlgorithm</a></li>
-<li><a href="quocslib/optimalalgorithms/dCRABAlgorithm.html">quocslib.optimalalgorithms.dCRABAlgorithm</a></li>
-<li><a href="quocslib/optimalalgorithms/dCRABNoisyAlgorithm.html">quocslib.optimalalgorithms.dCRABNoisyAlgorithm</a></li>
 <li><a href="quocslib/optimalcontrolproblems/OneQubitProblem.html">quocslib.optimalcontrolproblems.OneQubitProblem</a></li>
 <li><a href="quocslib/optimalcontrolproblems/OneQubitProblem_2fields.html">quocslib.optimalcontrolproblems.OneQubitProblem_2fields</a></li>
 <li><a href="quocslib/optimalcontrolproblems/RosenbrockProblem.html">quocslib.optimalcontrolproblems.RosenbrockProblem</a></li>
 <li><a href="quocslib/optimalcontrolproblems/su2.html">quocslib.optimalcontrolproblems.su2</a></li>
+<li><a href="quocslib/optimizationalgorithms/ADAlgorithm.html">quocslib.optimizationalgorithms.ADAlgorithm</a></li>
+<li><a href="quocslib/optimizationalgorithms/AlgorithmTemplate.html">quocslib.optimizationalgorithms.AlgorithmTemplate</a></li>
+<li><a href="quocslib/optimizationalgorithms/DirectSearchAlgorithm.html">quocslib.optimizationalgorithms.DirectSearchAlgorithm</a></li>
+<li><a href="quocslib/optimizationalgorithms/GRAPEAlgorithm.html">quocslib.optimizationalgorithms.GRAPEAlgorithm</a></li>
+<li><a href="quocslib/optimizationalgorithms/OptimizationAlgorithm.html">quocslib.optimizationalgorithms.OptimizationAlgorithm</a></li>
+<li><a href="quocslib/optimizationalgorithms/dCRABAlgorithm.html">quocslib.optimizationalgorithms.dCRABAlgorithm</a></li>
+<li><a href="quocslib/optimizationalgorithms/dCRABNoisyAlgorithm.html">quocslib.optimizationalgorithms.dCRABNoisyAlgorithm</a></li>
 <li><a href="quocslib/parameters/BaseParameter.html">quocslib.parameters.BaseParameter</a></li>
 <li><a href="quocslib/parameters/Parameter.html">quocslib.parameters.Parameter</a></li>
 <li><a href="quocslib/parameters/TimeParameter.html">quocslib.parameters.TimeParameter</a></li>
@@ -139,10 +146,11 @@
 <li><a href="quocslib/utils/AbstractHandleExit.html">quocslib.utils.AbstractHandleExit</a></li>
 <li><a href="quocslib/utils/BestDump.html">quocslib.utils.BestDump</a></li>
 <li><a href="quocslib/utils/DummyDump.html">quocslib.utils.DummyDump</a></li>
-<li><a href="quocslib/utils/FilesUpdateFoM.html">quocslib.utils.FilesUpdateFoM</a></li>
+<li><a href="quocslib/utils/FilesUpdateFom.html">quocslib.utils.FilesUpdateFom</a></li>
 <li><a href="quocslib/utils/dynamicimport.html">quocslib.utils.dynamicimport</a></li>
 <li><a href="quocslib/utils/inputoutput.html">quocslib.utils.inputoutput</a></li>
 <li><a href="quocslib/utils/logger.html">quocslib.utils.logger</a></li>
+<li><a href="quocslib/utils/test_BestDump.html">quocslib.utils.test_BestDump</a></li>
 </ul>
 </div>
 <div class="page-nav">
@@ -150,7 +158,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

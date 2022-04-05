@@ -7,7 +7,7 @@
   "optimization_client_name": "Optimization_dCRAB_Test_Sigmoid",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "maximum_function_evaluations_number": 200
+            "max_eval_per_SI": 200
         },
         "dsm_settings": {
             "general_settings": {

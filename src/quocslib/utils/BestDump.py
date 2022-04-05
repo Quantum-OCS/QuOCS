@@ -21,7 +21,6 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class BestDump(AbstractDump):
-
     def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
         """
         Dumping class for controls and other data which should be the most useful option for most users.
@@ -31,14 +30,18 @@ class BestDump(AbstractDump):
         self.best_controls_path = results_path
         self.date_time = date_time
 
-    def dump_controls(self, pulses: list = [], timegrids: list = [],
-                      parameters: list = [], is_record: bool = False, **kwargs) -> None:
+    def dump_controls(self,
+                      pulses: list = [],
+                      timegrids: list = [],
+                      parameters: list = [],
+                      is_record: bool = False,
+                      **kwargs) -> None:
         """
         Save the controls in the results folder
-        :param list pulses : the list containing the pulses that were optimized
-        :param list timegrids : the list containing the time grids that were used in the optimization
-        :param list parameters : the list containing the parameters that were optimized
-        :param bool is_record : information if the current controls are a new record
+        :param list pulses: the list containing the pulses that were optimized
+        :param list timegrids: the list containing the time grids that were used in the optimization
+        :param list parameters: the list containing the parameters that were optimized
+        :param bool is_record: information if the current controls are a new record
         """
         if not is_record:
             return
@@ -61,14 +64,14 @@ class BestDump(AbstractDump):
         full_dict = {**controls_dict, **kwargs}
 
         # Save the file
-        controls_path = os.path.join(self.best_controls_path, self.date_time+"_best_controls.npz")
+        controls_path = os.path.join(self.best_controls_path, self.date_time + "_best_controls.npz")
         np.savez(controls_path, **full_dict)
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """
         Save other results into a txt numpy file
-        :param str : filename
-        :param np.array : data
+        :param str: filename
+        :param np.array: data
         """
         # Create the path
         path = os.path.join(self.best_controls_path, filename)

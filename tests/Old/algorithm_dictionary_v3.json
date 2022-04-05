@@ -7,7 +7,7 @@
   "optimization_client_name": "Optimization_directSearchMethod_Test",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "maximum_function_evaluations_number": 16
+            "max_eval_per_SI": 16
   },
   "dsm_settings": {
       "general_settings": {

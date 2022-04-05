@@ -7,13 +7,10 @@
 <title>quocslib.optimalcontrolproblems.OneQubitProblem</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -123,6 +120,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.linalg</span> <span class="kn">import</span> <span class="n">expm</span><span class="p">,</span> <span class="n">norm</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
+<span class="kn">import</span> <span class="nn">os</span>
 
 
 <div class="viewcode-block" id="OneQubit"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit">[docs]</a><span class="k">class</span> <span class="nc">OneQubit</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
@@ -130,58 +128,70 @@
         <span class="k">if</span> <span class="n">args_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">args_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">psi_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-            <span class="nb">eval</span><span class="p">(</span>
-                <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"target_state"</span><span class="p">,</span> <span class="s2">"[1.0/np.sqrt(2), -1j/np.sqrt(2)]"</span><span class="p">)</span>
-            <span class="p">),</span>
-            <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">psi_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-            <span class="nb">eval</span><span class="p">(</span><span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"initial_state"</span><span class="p">,</span> <span class="s2">"[1.0, 0.0]"</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">psi_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"target_state"</span><span class="p">,</span> <span class="s2">"[1.0/np.sqrt(2), -1j/np.sqrt(2)]"</span><span class="p">)),</span>
+                                     <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">psi_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"initial_state"</span><span class="p">,</span> <span class="s2">"[1.0, 0.0]"</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"complex"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delta1"</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">delta2</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"delta2"</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+
         <span class="c1"># Noise in the figure of merit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_noisy"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"noise_factor"</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"std_factor"</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OneQubit.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="c1"># Drifting FoM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include_drift</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"include_drift"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_drift_val_over_iterartion</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"linear_drift_val_over_iterartion"</span><span class="p">,</span> <span class="mf">0.002</span><span class="p">)</span>
+
+        <span class="c1"># Maximization or minimization</span>
+        <span class="c1"># Minimization -1.0</span>
+        <span class="c1"># Maximization 1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"optimization_factor"</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_save_name</span> <span class="o">=</span> <span class="s2">"FoM.txt"</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># def __del__(self):</span>
+    <span class="c1">#     np.savetxt(os.path.join(self.save_path, self.FoM_save_name), self.FoM_list)</span>
+
+<div class="viewcode-block" id="OneQubit.save_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.save_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">save_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_save_name</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OneQubit.set_save_path"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.set_save_path">[docs]</a>    <span class="k">def</span> <span class="nf">set_save_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_path</span> <span class="o">=</span> <span class="n">save_path</span></div>
+
+<div class="viewcode-block" id="OneQubit.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.OneQubitProblem.OneQubit.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pulses</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">parameters</span><span class="p">:</span>
+            <span class="c1"># checks if list is empty, otherwise it sets delta1 to the first para</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">timegrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">timegrids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">dt</span> <span class="o">=</span> <span class="n">timegrid</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">timegrid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_evolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_evolution</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta2</span><span class="p">)</span>
         <span class="n">psi_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">psi_0</span><span class="p">)</span>
         <span class="n">infidelity</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_fidelity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">psi_target</span><span class="p">,</span> <span class="n">psi_f</span><span class="p">)</span>
         <span class="n">std</span> <span class="o">=</span> <span class="mf">1e-4</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_noisy</span><span class="p">:</span>
-            <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span>
-                <span class="o">*</span> <span class="mi">2</span>
-                <span class="o">*</span> <span class="p">(</span>
-                    <span class="mf">0.5</span>
-                    <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
-                        <span class="mi">1</span><span class="p">,</span>
-                    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">noise</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_factor</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="n">infidelity</span> <span class="o">+=</span> <span class="n">noise</span>
-            <span class="n">std</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span>
-                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span>
-                    <span class="mi">1</span><span class="p">,</span>
-                <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="p">)</span>
+            <span class="n">std</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">infidelity</span><span class="p">),</span> <span class="s2">"std"</span><span class="p">:</span> <span class="n">std</span><span class="p">}</span></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_drift</span><span class="p">:</span>
+            <span class="n">infidelity</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_drift_val_over_iterartion</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">infidelity</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_eval_number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">infidelity</span><span class="p">),</span> <span class="s2">"std"</span><span class="p">:</span> <span class="n">std</span><span class="p">}</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_time_evolution</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_time_evolution</span><span class="p">(</span><span class="n">fc</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="p">):</span>
         <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">ham_t</span> <span class="o">=</span> <span class="n">hamiltonian_d1_d2</span><span class="p">((</span><span class="n">fc</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fc</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">ham_t</span> <span class="o">=</span> <span class="n">hamiltonian_d1_d2</span><span class="p">((</span><span class="n">fc</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fc</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">delta1</span><span class="o">=</span><span class="n">delta1</span><span class="p">,</span> <span class="n">delta2</span><span class="o">=</span><span class="n">delta2</span><span class="p">)</span>
             <span class="n">U_temp</span> <span class="o">=</span> <span class="n">U</span>
             <span class="n">U</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">expm</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">ham_t</span> <span class="o">*</span> <span class="n">dt</span><span class="p">),</span> <span class="n">U_temp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">U</span>
@@ -196,7 +206,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

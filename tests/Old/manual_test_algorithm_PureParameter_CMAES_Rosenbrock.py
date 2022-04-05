@@ -16,7 +16,6 @@
 
 import os
 
-
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.utils.dynamicimport import dynamic_import
@@ -29,16 +28,16 @@ def main(optimization_dictionary: dict):
     args_dict = {}
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
-    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name, FoM_obj=Rosenbrock(args_dict),
-                                              handle_exit_obj=HandleExit(), dump_attribute=BestDump)
+    communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
+                                              FoM_obj=Rosenbrock(args_dict),
+                                              handle_exit_obj=HandleExit(),
+                                              dump_attribute=BestDump)
     # Get the optimizer attribute
-    optimizer_attribute = dynamic_import(
-        attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
-        module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
+    optimizer_attribute = dynamic_import(attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
+                                         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
+                                         class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
     # Create the optimizer object
-    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
-                                        communication_obj=communication_obj)
+    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary, communication_obj=communication_obj)
     print("The optimizer was initialized successfully")
     optimizer_obj.begin()
     print("The optimizer begin successfully")

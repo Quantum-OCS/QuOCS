@@ -40,12 +40,8 @@ class Fourier(ChoppedBasis):
         # Constructor of the parent class, i.e. Chopped Basis
         super().__init__(map_index=map_index, rng=rng, **pulse_dictionary)
         # Define scale and offset coefficients
-        self.scale_coefficients = (
-            self.amplitude_variation
-            / np.sqrt(2)
-            * np.ones((self.control_parameters_number,))
-        )
-        self.offset_coefficients = np.zeros((self.control_parameters_number,))
+        self.scale_coefficients = (self.amplitude_variation / np.sqrt(2) * np.ones((self.control_parameters_number, )))
+        self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
@@ -58,7 +54,6 @@ class Fourier(ChoppedBasis):
         w = self.super_parameter_distribution_obj.w
         t = self.time_grid
         for ii in range(self.super_parameter_number):
-            pulse += xx[2 * ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + xx[
-                2 * ii + 1
-            ] * np.cos(2 * np.pi * w[ii] * t / final_time)
+            pulse += xx[2 * ii] * np.sin(2 * np.pi * w[ii] * t / final_time) + xx[2 * ii + 1] * np.cos(
+                2 * np.pi * w[ii] * t / final_time)
         return pulse

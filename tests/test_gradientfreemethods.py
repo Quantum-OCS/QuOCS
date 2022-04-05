@@ -12,28 +12,27 @@ def rosenbrock(x, DebugMode, details):
 def test_CMAES():
     N = 2
     sigma_v = 0.3 * np.ones(N, )
-    max_iteration_number = 2 * 10 ** 4
+    max_eval = 2 * 10**4
     opt_dict = {"sigma_v": sigma_v}
     x0 = np.random.rand(N)
     details = {"type": "Run Test"}
     function = rosenbrock
 
     settings = {}
-    stopping_criteria = {"max_iterations_number": max_iteration_number}
+    stopping_criteria = {"max_eval": max_eval, "time_lim": 0.5, "FoM_goal": 0.01}
     optimisation_obj = CMAES(settings, stopping_criteria)
-    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details,))
+    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details, ))
 
 
 def test_NelderMead():
     N = 2
-    sigma_v = 0.3 * np.ones(N, )
-    max_iteration_number = 2 * 10 ** 4
-    opt_dict = {"sigma_v": sigma_v}
+    max_eval = 100  #2 * 10 ** 4
+    opt_dict = {}
     x0 = np.random.rand(N)
     details = {"type": "Run Test"}
     function = rosenbrock
 
     settings = {}
-    stopping_criteria = {"max_iterations_number": max_iteration_number}
+    stopping_criteria = {"max_eval": max_eval, "time_lim": 0.5, "FoM_goal": 0.01}
     optimisation_obj = NelderMead(settings, stopping_criteria)
-    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details,))
+    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details, ))

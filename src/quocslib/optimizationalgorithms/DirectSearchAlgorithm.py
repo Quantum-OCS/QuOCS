@@ -36,8 +36,8 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
-        stopping_criteria = optimization_dict["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["dsm_settings"]["general_settings"]
+        stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         if "dsm_name" in direct_search_method_settings:
             print("dsm_name is used direct search methods. This option is deprecated. Use \n"
                   "dsm_algorithm_module: quocslib.freegradients.NelderMead\n"
@@ -47,11 +47,10 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                                       callback=self.is_optimization_running)
         else:
             dsm_attribute = dynamic_import(
-                                           module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                           class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                           name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                           class_type='dsm_settings'
-            )
+                module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+                class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                class_type='dsm_settings')
 
             self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                          stopping_criteria,
@@ -64,8 +63,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         # Pulses, Parameters object ###########################################################
         ###########################################################################################
-        self.controls = Controls(optimization_dict["pulses"],
-                                 optimization_dict["times"],
+        self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
                                  optimization_dict["parameters"])
 
     def _get_response_for_client(self):
@@ -78,9 +76,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         is_record = False
         if self.FoM_dict["FoM"] < self.best_FoM:
             is_record = True
-        response_dict = {"is_record": is_record,
-                         "FoM": self.FoM_dict["FoM"],
-                         "iteration_number": self.iteration_number}
+        response_dict = {"is_record": is_record, "FoM": self.FoM_dict["FoM"], "iteration_number": self.iteration_number}
         return response_dict
 
     def run(self):
@@ -106,12 +102,13 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         # Initialize the best xx vector for this SI
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
+        result_l = self.dsm_obj.run_dsm(self._routine_call,
+                                        x0,
+                                        initial_simplex=start_simplex,
                                         sigma_v=self.controls.get_sigma_variation())
         # Update the results
-        [self.best_FoM, self.xx, self.terminate_reason] = [result_l["F_min_val"],
-                                                           result_l["X_opti_vec"],
-                                                           result_l["terminate_reason"]]
+        [self.best_FoM, self.xx,
+         self.terminate_reason] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"]]
 
     def _get_controls(self, xx):
         # pulses_list, time_grids_list, parameters_list
@@ -121,7 +118,9 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         return controls_dict
 
     def _get_final_results(self):
-        final_dict = {"Figure of merit": self.best_FoM,
-                      "parameters": self.xx,
-                      "terminate_reason": self.terminate_reason}
+        final_dict = {
+            "Figure of merit": self.best_FoM,
+            "parameters": self.xx,
+            "terminate_reason": self.terminate_reason
+        }
         return final_dict

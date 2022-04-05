@@ -19,8 +19,7 @@ np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria,
-)
+    NelderMeadStoppingCriteria, )
 
 
 class NelderMead(DirectSearchMethod):
@@ -30,7 +29,7 @@ class NelderMead(DirectSearchMethod):
         """
         Nelder-Mead is an updating algorithm based on the simplex method.
         :param dict settings: settings for the NM algorithm
-        :param dict stopping_criteria: stopping criteria such as max_iterations_number
+        :param dict stopping_criteria: stopping criteria such as max_eval
         """
         super().__init__()
         self.callback = callback
@@ -41,14 +40,14 @@ class NelderMead(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_iterations_number=None, **kwargs) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval=None, **kwargs) -> dict:
         """
 
         :param callable func: Function to be called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_iterations_number: Maximum iteration number of function evaluations
+        :param int max_eval: Maximum iteration number of function evaluations
         :return:
         """
         # Creation of the communication function for the OptimizationAlgorithm object
@@ -56,8 +55,8 @@ class NelderMead(DirectSearchMethod):
         # Set to false is_converged
         self.sc_obj.is_converged = False
         # Update function evaluations number
-        if max_iterations_number is not None:
-            self.sc_obj.max_iterations_number = max_iterations_number
+        if max_eval is not None:
+            self.sc_obj.max_eval = max_eval
         # Initialize the iteration number
         iterations = 0
         # Landscape dimension
@@ -88,7 +87,7 @@ class NelderMead(DirectSearchMethod):
         else:
             sim = initial_simplex.copy()
         # Function evaluation array
-        fsim = np.zeros((dim + 1,), float)
+        fsim = np.zeros((dim + 1, ), float)
         # Initial evaluation of the start simplex
         # TODO parallelization for start simplex initialization, i.e. send single data file for multiple evaluations!
         for k in range(dim + 1):

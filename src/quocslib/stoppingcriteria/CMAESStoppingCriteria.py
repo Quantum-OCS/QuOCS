@@ -14,13 +14,9 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
+from datetime import datetime
 
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
-
-from quocslib.stoppingcriteria.generalstoppingcriteria import (
-    _check_func_eval,
-    _check_f_size,
-)
 
 
 class CMAESStoppingCriteria(StoppingCriteria):
@@ -34,33 +30,47 @@ class CMAESStoppingCriteria(StoppingCriteria):
         """
         # Call to the super class constructor
         super().__init__()
-        # Maximum iteration number
-        self.max_iterations_number = stopping_criteria.setdefault("max_iterations_number", 100)
-        # f_atol and x_atol
-        self.x_atol = stopping_criteria.setdefault("xatol", 1e-6)
-        self.f_atol = stopping_criteria.setdefault("frtol", 1e-6)
+        # Maximum function evaluation number
+        self.max_eval = stopping_criteria.setdefault("max_eval", 100)
+        # frtol and xatol
+        self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
+        self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
+        self.FoM_goal = stopping_criteria.setdefault("FoM_goal", -10**10)
+        self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
+        self.start_time = datetime.now()
         self.is_converged = False
         self.terminate_reason = ""
 
-    def check_stopping_criteria(self, f_sim: np.array = None, function_evaluations: int = None) -> None:
+    def check_stopping_criteria(self, fsim: np.array = None, function_evaluations: int = None) -> None:
         """
         :param f_sim:
         :param function_evaluations:
         :return:
         """
-        if self.is_converged:
-            return
+        if self.is_converged: return
 
-        # Check function evaluation
-        is_converged, terminate_reason = _check_func_eval(function_evaluations, self.max_iterations_number)
-        if is_converged:
-            self.is_converged = True
-            self.terminate_reason = terminate_reason
-            return
+        # # Check function evaluation
+        # is_converged, terminate_reason = self.check_func_eval(function_evaluations)
+        # if is_converged:
+        #     self.is_converged = True
+        #     self.terminate_reason = terminate_reason
+        #     return
 
-        # Convergence FoM criterion
-        is_converged, terminate_reason = _check_f_size(f_sim, self.f_atol)
-        if is_converged:
-            self.is_converged = True
-            self.terminate_reason = terminate_reason
-            return
+        # # Convergence FoM criterion
+        # is_converged, terminate_reason = self.check_f_size(f_sim)
+        # if is_converged:
+        #     self.is_converged = True
+        #     self.terminate_reason = terminate_reason
+        #     return
+
+        self.is_converged, self.terminate_reason = self.check_func_eval(function_evaluations)
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_f_size(fsim)
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
+        if self.is_converged: return
+
+        self.is_converged, self.terminate_reason = self.check_time_out()
+        if self.is_converged: return

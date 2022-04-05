@@ -35,23 +35,14 @@ class ChoppedBasis(BasePulse):
         super_parameter_distribution_dict = basis["random_super_parameter_distribution"]
         # Distribution attribute
         distribution_attribute = dynamic_import(
-            attribute=super_parameter_distribution_dict.setdefault(
-                "distribution_attribute", None
-            ),
-            module_name=super_parameter_distribution_dict.setdefault(
-                "distribution_module", None
-            ),
-            class_name=super_parameter_distribution_dict.setdefault(
-                "distribution_class", None
-            ),
-            name=super_parameter_distribution_dict.setdefault(
-                "distribution_name", None
-            ),
-            class_type='superparameter_distribution'
-        )
-        self.super_parameter_distribution_obj = distribution_attribute(
-            self.super_parameter_number, super_parameter_distribution_dict, rng=self.rng
-        )
+            attribute=super_parameter_distribution_dict.setdefault("distribution_attribute", None),
+            module_name=super_parameter_distribution_dict.setdefault("distribution_module", None),
+            class_name=super_parameter_distribution_dict.setdefault("distribution_class", None),
+            name=super_parameter_distribution_dict.setdefault("distribution_name", None),
+            class_type='superparameter_distribution')
+        self.super_parameter_distribution_obj = distribution_attribute(self.super_parameter_number,
+                                                                       super_parameter_distribution_dict,
+                                                                       rng=self.rng)
 
     # Implement here other modules for Chopped Random Basis
 

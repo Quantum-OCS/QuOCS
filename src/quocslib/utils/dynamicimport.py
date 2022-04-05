@@ -18,14 +18,15 @@ import importlib
 import os
 from quocslib.utils.inputoutput import readjson
 
-
 folder = os.path.dirname(os.path.realpath(__file__))
-total_dict = readjson(os.path.join(folder, "map_dictionary.json"))[1]
+total_dict = readjson(os.path.join(folder, "map_dictionary.json"))
 
 
-def dynamic_import(
-    attribute=None, module_name: str = None, class_name: str = None, name: str = None, class_type: str = None
-) -> callable:
+def dynamic_import(attribute=None,
+                   module_name: str = None,
+                   class_name: str = None,
+                   name: str = None,
+                   class_type: str = None) -> callable:
     """
     Function for dynamic import.
     :param attribute: The attribute of the class you want to use. It is an optional argument.
@@ -61,11 +62,7 @@ def dynamic_import(
 
         # TODO Substitute the Exception with a proper Error
         except Exception as ex:
-            print(
-                "{0}.py module does not exist or {1} is not the class in that module".format(
-                    module_name, class_name
-                )
-            )
+            print("{0}.py module does not exist or {1} is not the class in that module".format(module_name, class_name))
             return None
 
     elif all([module_name is not None, class_name is not None]):
@@ -78,17 +75,8 @@ def dynamic_import(
             return attribute
         # TODO Substitute the Exception with a proper Error
         except Exception as ex:
-            print(
-                "{0}.py module does not exist or {1} is not the class in that module".format(
-                    module_name, class_name
-                )
-            )
+            print("{0}.py module does not exist or {1} is not the class in that module".format(module_name, class_name))
             return None
     else:
-        print(
-            "module_name: {0} and/or class_name: {1} are None".format(
-                module_name, class_name
-            )
-        )
+        print("module_name: {0} and/or class_name: {1} are None".format(module_name, class_name))
         return None
-

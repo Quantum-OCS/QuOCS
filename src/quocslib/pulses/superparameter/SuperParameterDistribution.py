@@ -22,7 +22,7 @@ class SuperParameterDistribution:
 
     def __init__(self, lower_limit: float = 0.0, upper_limit: float = 5, **kwargs):
         # Create the array to store the basis vector super_parameters
-        self.w = np.zeros((self.basis_vectors_number,), dtype="float")
+        self.w = np.zeros((self.basis_vectors_number, ), dtype="float")
         self.lower_limit_w = lower_limit
         self.upper_limit_w = upper_limit
 

@@ -7,13 +7,10 @@
 <title>quocslib.Controls</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../_static/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -133,13 +130,7 @@
 <span class="sd">    All these quantities are defined in this class and can be accessed by calling the modules here.</span>
 <span class="sd">    """</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pulses_list</span><span class="p">,</span>
-        <span class="n">times_list</span><span class="p">,</span>
-        <span class="n">parameters_list</span><span class="p">,</span>
-        <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">,</span> <span class="n">times_list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Constructor of the general class containing all the controls used during the optimization</span>
 
@@ -160,11 +151,11 @@
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="n">pulses_list</span><span class="p">:</span>
             <span class="c1"># Basis attribute inside the dictionary or module and class relative import</span>
             <span class="n">basis</span> <span class="o">=</span> <span class="n">pulse</span><span class="p">[</span><span class="s2">"basis"</span><span class="p">]</span>
-            <span class="n">basis_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-                <span class="n">attribute</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                <span class="n">module_name</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                <span class="n">class_name</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="p">)</span>
+            <span class="n">basis_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                             <span class="n">module_name</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                             <span class="n">class_name</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                             <span class="n">name</span><span class="o">=</span><span class="n">basis</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"basis_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                             <span class="n">class_type</span><span class="o">=</span><span class="s1">'basis'</span><span class="p">)</span>
             <span class="c1"># Create the pulse obj</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basis_attribute</span><span class="p">(</span><span class="n">map_index</span><span class="p">,</span> <span class="n">pulse</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
             <span class="c1"># Update the map index for the next control</span>
@@ -254,26 +245,18 @@
 
 <span class="sd">        :return np.array</span>
 <span class="sd">        """</span>
-        <span class="n">sigma_variation_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_control_parameters_number</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float"</span>
-        <span class="p">)</span>
+        <span class="n">sigma_variation_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_control_parameters_number</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float"</span><span class="p">)</span>
         <span class="c1"># Pulses</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="p">:</span>
-            <span class="n">sigma_variation_coefficients</span><span class="p">[</span>
-                <span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale_coefficients</span>
+            <span class="n">sigma_variation_coefficients</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">scale_coefficients</span>
         <span class="c1"># Parameters</span>
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_objs_list</span><span class="p">:</span>
-            <span class="n">sigma_variation_coefficients</span><span class="p">[</span>
-                <span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">amplitude_variation</span>
+            <span class="n">sigma_variation_coefficients</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">amplitude_variation</span>
         <span class="c1"># Times</span>
         <span class="k">for</span> <span class="n">time_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">:</span>
             <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
-                <span class="n">sigma_variation_coefficients</span><span class="p">[</span>
-                    <span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span>
-                <span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">amplitude_variation</span>
+                <span class="n">sigma_variation_coefficients</span><span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">amplitude_variation</span>
         <span class="k">return</span> <span class="n">sigma_variation_coefficients</span></div>
 
 <div class="viewcode-block" id="Controls.get_mean_value"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Controls.Controls.get_mean_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_mean_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
@@ -281,14 +264,10 @@
 
 <span class="sd">        :return np.array:</span>
 <span class="sd">        """</span>
-        <span class="n">mean_value_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_control_parameters_number</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float"</span>
-        <span class="p">)</span>
+        <span class="n">mean_value_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_control_parameters_number</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"float"</span><span class="p">)</span>
         <span class="c1"># Pulses</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="p">:</span>
-            <span class="n">mean_value_coefficients</span><span class="p">[</span>
-                <span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">offset_coefficients</span>
+            <span class="n">mean_value_coefficients</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">offset_coefficients</span>
         <span class="c1"># Parameters</span>
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_objs_list</span><span class="p">:</span>
             <span class="n">mean_value_coefficients</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">parameter</span><span class="o">.</span><span class="n">value</span>
@@ -302,25 +281,17 @@
         <span class="k">for</span> <span class="n">time_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">:</span>
             <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span>
-                    <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">])</span>
         <span class="c1"># Set the pulses</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="p">:</span>
             <span class="n">time_name</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">time_name</span>
-            <span class="n">pulse</span><span class="o">.</span><span class="n">set_base_pulse</span><span class="p">(</span>
-                <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
-                <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">(),</span>
-            <span class="p">)</span>
+            <span class="n">pulse</span><span class="o">.</span><span class="n">set_base_pulse</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
+                                 <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">())</span>
         <span class="c1"># Set the parameters</span>
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_objs_list</span><span class="p">:</span>
-            <span class="n">parameter</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span>
-                <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span>
-            <span class="p">)</span></div>
+            <span class="n">parameter</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Controls.get_controls_lists"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Controls.Controls.get_controls_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_controls_lists</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameters_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+<div class="viewcode-block" id="Controls.get_controls_lists"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Controls.Controls.get_controls_lists">[docs]</a>    <span class="k">def</span> <span class="nf">get_controls_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameters_vector</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
         <span class="sd">"""</span>
 <span class="sd">        Set the optimized control parameters and get the controls</span>
 
@@ -334,26 +305,17 @@
         <span class="k">for</span> <span class="n">time_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">:</span>
             <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">time</span><span class="o">.</span><span class="n">is_optimization</span><span class="p">:</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span>
-                    <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span>
-                <span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">set_parameter</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">time</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">])</span>
         <span class="c1"># Get the pulses and the timegrids</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="p">:</span>
             <span class="n">time_name</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">time_name</span>
-            <span class="n">pulses_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">pulse</span><span class="o">.</span><span class="n">get_pulse</span><span class="p">(</span>
-                    <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
-                    <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">(),</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">pulses_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">get_pulse</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
+                                                <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">()))</span>
             <span class="n">time_grids_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
         <span class="c1"># Get the parameters</span>
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_objs_list</span><span class="p">:</span>
             <span class="n">parameters_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">parameter</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span>
-                    <span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]</span>
-                <span class="p">)</span>
-            <span class="p">)</span>
+                <span class="n">parameter</span><span class="o">.</span><span class="n">get_parameter</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">parameter</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">]))</span>
 
         <span class="k">return</span> <span class="n">pulses_list</span><span class="p">,</span> <span class="n">time_grids_list</span><span class="p">,</span> <span class="n">parameters_list</span></div></div>
 </code></pre></div>
@@ -363,7 +325,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

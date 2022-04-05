@@ -44,10 +44,10 @@ quocslib.utils.DummyDump module
    :undoc-members:
    :show-inheritance:
 
-quocslib.utils.FilesUpdateFoM module
+quocslib.utils.FilesUpdateFom module
 ------------------------------------
 
-.. automodule:: quocslib.utils.FilesUpdateFoM
+.. automodule:: quocslib.utils.FilesUpdateFom
    :members:
    :undoc-members:
    :show-inheritance:
@@ -72,6 +72,14 @@ quocslib.utils.logger module
 ----------------------------
 
 .. automodule:: quocslib.utils.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+quocslib.utils.test\_BestDump module
+------------------------------------
+
+.. automodule:: quocslib.utils.test_BestDump
    :members:
    :undoc-members:
    :show-inheritance:

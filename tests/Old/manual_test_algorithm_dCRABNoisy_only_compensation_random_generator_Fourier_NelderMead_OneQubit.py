@@ -25,19 +25,17 @@ from quocslib.utils.BestDump import BestDump
 
 
 def main(optimization_dictionary: dict):
-    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
-                 "is_noisy": False}
+    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]", "is_noisy": False}
     # Initialize the communication object
     interface_job_name = optimization_dictionary["optimization_client_name"]
     communication_obj = AllInOneCommunication(interface_job_name=interface_job_name,
-                                              FoM_obj=OneQubit(args_dict=args_dict), handle_exit_obj=HandleExit(),
+                                              FoM_obj=OneQubit(args_dict=args_dict),
+                                              handle_exit_obj=HandleExit(),
                                               dump_attribute=BestDump)
-    optimizer_attribute = dynamic_import(
-        attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
-        module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
-        class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
-    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary,
-                                        communication_obj=communication_obj)
+    optimizer_attribute = dynamic_import(attribute=optimization_dictionary.setdefault("opti_algorithm_attribute", None),
+                                         module_name=optimization_dictionary.setdefault("opti_algorithm_module", None),
+                                         class_name=optimization_dictionary.setdefault("opti_algorithm_class", None))
+    optimizer_obj = optimizer_attribute(optimization_dict=optimization_dictionary, communication_obj=communication_obj)
     print("The optimizer was initialized successfully")
     optimizer_obj.begin()
     print("The optimizer begin successfully")

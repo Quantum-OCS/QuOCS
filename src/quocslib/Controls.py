@@ -27,7 +27,6 @@ class Controls:
     This is the main class for the optimization quantities, i.e. pulses, parameters, and times.
     All these quantities are defined in this class and can be accessed by calling the modules here.
     """
-
     def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None):
         """
         Constructor of the general class containing all the controls used during the optimization
@@ -207,8 +206,9 @@ class Controls:
         # Get the pulses and the timegrids
         for pulse in self.pulse_objs_list:
             time_name = pulse.time_name
-            pulses_list.append(pulse.get_pulse(optimized_parameters_vector[pulse.control_parameters_list],
-                                                final_time=self.times_obj_dictionary[time_name].get_time()))
+            pulses_list.append(
+                pulse.get_pulse(optimized_parameters_vector[pulse.control_parameters_list],
+                                final_time=self.times_obj_dictionary[time_name].get_time()))
             time_grids_list.append(pulse.time_grid)
         # Get the parameters
         for parameter in self.parameter_objs_list:

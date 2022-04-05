@@ -20,7 +20,6 @@ from quocslib.Controls import Controls
 from quocslib.utils.inputoutput import readjson
 from quocslib.pulses.basis.Fourier import Fourier
 from quocslib.pulses.super_parameter.Uniform import Uniform
-
 """
 Test for controls initialization using an external basis and control distribution
 """

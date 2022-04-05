@@ -82,15 +82,13 @@ class BasePulse:
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
         # Shaping options
+        print("Testing shaping option list mode")
         shaping_option_dict = {"add_base_pulse": self.add_base_pulse,
                                "add_initial_guess": self.add_initial_guess,
                                "limit_pulse": self.limit_pulse,
                                "scale_pulse": self.scale_pulse}
         if shaping_options is None:
-            self.shaping_options = [self.add_base_pulse,
-                                    self.add_initial_guess,
-                                    self.scale_pulse,
-                                    self.limit_pulse]
+            self.shaping_options = [self.add_base_pulse, self.add_initial_guess, self.scale_pulse, self.limit_pulse]
         else:
             self.shaping_options = []
             for op_str in shaping_options:
@@ -168,9 +166,7 @@ class BasePulse:
             v_optimal_pulse = optimal_pulse - distance_u_l_value
             # Move the bounds to the center of the axis respect the optimal pulses
             # distance_u_l_bound = (u_bound + l_bound) / 2.0
-            v_u_bound, v_l_bound = [u_bound - distance_u_l_value,
-                                    l_bound - distance_u_l_value
-                                    ]
+            v_u_bound, v_l_bound = [u_bound - distance_u_l_value, l_bound - distance_u_l_value]
             # Check which is the greatest virtual distance
             v_u_value = np.max(v_optimal_pulse)
             v_l_value = np.min(v_optimal_pulse)
@@ -196,7 +192,6 @@ class BasePulse:
         return optimal_pulse
 
         def _shrink_pulse_2(self, optimal_pulse: np.ndarray) -> np.ndarray:
-
             """Shrink the optimal pulse to respect the amplitude limits"""
 
             uiTotal = optimal_pulse

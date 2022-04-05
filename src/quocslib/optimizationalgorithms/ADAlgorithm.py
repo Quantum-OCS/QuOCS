@@ -15,7 +15,6 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from ast import Import
 
-
 try:
     import jax.numpy as jnp
     import jax.scipy as jsp
@@ -147,9 +146,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
         :return dict: returns a dict that contains the pulses, parameters and timegrid
         """
-        [pulses, timegrids, parameters] = self.controls.get_controls_lists(
-            optimized_control_parameters
-        )
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         #
         controls_dict = {
             "pulses": pulses,

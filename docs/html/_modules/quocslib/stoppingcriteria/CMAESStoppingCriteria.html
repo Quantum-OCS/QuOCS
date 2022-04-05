@@ -7,13 +7,10 @@
 <title>quocslib.stoppingcriteria.CMAESStoppingCriteria</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
-
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
-
-
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -119,13 +116,10 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.stoppingcriteria.StoppingCriteria</span> <span class="kn">import</span> <span class="n">StoppingCriteria</span>
 
-<span class="kn">from</span> <span class="nn">quocslib.stoppingcriteria.generalstoppingcriteria</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">_check_func_eval</span><span class="p">,</span>
-    <span class="n">_check_f_size</span><span class="p">,</span>
-<span class="p">)</span>
 
 
 <div class="viewcode-block" id="CMAESStoppingCriteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">[docs]</a><span class="k">class</span> <span class="nc">CMAESStoppingCriteria</span><span class="p">(</span><span class="n">StoppingCriteria</span><span class="p">):</span>
@@ -139,42 +133,51 @@
 <span class="sd">        """</span>
         <span class="c1"># Call to the super class constructor</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># Maximum iteration number</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
-        <span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"iterations_number"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span> <span class="o">=</span> <span class="n">max_iterations_number</span>
-        <span class="c1"># f_atol and x_atol</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_atol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"xatol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">f_atol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"frtol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+        <span class="c1"># Maximum function evaluation number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_eval"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="c1"># frtol and xatol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"xatol"</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"frtol"</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"FoM_goal"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"time_lim"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">""</span>
 
-<div class="viewcode-block" id="CMAESStoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="k">def</span> <span class="nf">check_stopping_criteria</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">f_sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">function_evaluations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="CMAESStoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="k">def</span> <span class="nf">check_stopping_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fsim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">function_evaluations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        :param f_sim:</span>
 <span class="sd">        :param function_evaluations:</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
-            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
 
-        <span class="c1"># Check function evaluation</span>
-        <span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span> <span class="o">=</span> <span class="n">_check_func_eval</span><span class="p">(</span>
-            <span class="n">function_evaluations</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_iterations_number</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">is_converged</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="n">terminate_reason</span>
-            <span class="k">return</span>
+        <span class="c1"># # Check function evaluation</span>
+        <span class="c1"># is_converged, terminate_reason = self.check_func_eval(function_evaluations)</span>
+        <span class="c1"># if is_converged:</span>
+        <span class="c1">#     self.is_converged = True</span>
+        <span class="c1">#     self.terminate_reason = terminate_reason</span>
+        <span class="c1">#     return</span>
 
-        <span class="c1"># Convergence FoM criterion</span>
-        <span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span> <span class="o">=</span> <span class="n">_check_f_size</span><span class="p">(</span><span class="n">f_sim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f_atol</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">is_converged</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="n">terminate_reason</span>
-            <span class="k">return</span></div></div>
+        <span class="c1"># # Convergence FoM criterion</span>
+        <span class="c1"># is_converged, terminate_reason = self.check_f_size(f_sim)</span>
+        <span class="c1"># if is_converged:</span>
+        <span class="c1">#     self.is_converged = True</span>
+        <span class="c1">#     self.terminate_reason = terminate_reason</span>
+        <span class="c1">#     return</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_func_eval</span><span class="p">(</span><span class="n">function_evaluations</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_f_size</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_goal_reached</span><span class="p">(</span><span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_time_out</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span></div></div>
 </code></pre></div>
 </div>
 <div class="page-nav">
@@ -182,7 +185,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

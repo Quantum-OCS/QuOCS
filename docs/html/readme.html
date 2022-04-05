@@ -76,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -104,6 +110,48 @@
 <div class="section" id="how-to-create-the-documentation-sphinx-githubpages">
 <h1>How to create the documentation (Sphinx+GithubPages)<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#how-to-create-the-documentation-sphinx-githubpages">¶</a></h1>
 <p>This readme provide a summary for the required steps to build the documentation.</p>
+<div class="section" id="installation-of-sphinx-and-needed-packages">
+<h2>Installation of Sphinx and needed packages<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation-of-sphinx-and-needed-packages">¶</a></h2>
+<p>on Linux run</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>sudo apt install python3-sphinx -y
+</code></pre></div></div>
+<p>On a mac do</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>brew install sphinx-doc
+</code></pre></div></div>
+<p>Wee need a few packages. To get them run</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>pip install sphinxawesome_theme myst_parser sphinx_press_theme
+</code></pre></div></div>
+</div>
+<div class="section" id="re-building-the-doc-after-code-changes">
+<h2>Re-building the doc after code changes<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#re-building-the-doc-after-code-changes">¶</a></h2>
+<p>Remove the contents of <code class="docutils literal notranslate">docsource/source</code> to avoid problems if filenames have changed.
+Also remove <code class="docutils literal notranslate">docs/doctrees</code> and <code class="docutils literal notranslate">docs/html</code>.</p>
+<p>Use a terminal to go into the <code class="docutils literal notranslate">docsource</code> folder. Then run</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>sphinx-apidoc -f -o source/ ../src/quocslib/
+</code></pre></div></div>
+<p>This will create the source files.</p>
+<p>Then to build the documentation do</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">bash</span></div>
+<div class="highlight"><pre><code>make github
+</code></pre></div></div>
+<p>also in the <code class="docutils literal notranslate">docsource</code> folder.</p>
+</div>
+<div class="section" id="building-from-scratch">
+<h2>Building from scratch<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#building-from-scratch">¶</a></h2>
 <ul class="simple">
 <li><p>Create folder <code class="docutils literal notranslate">docsource/</code>. In this folder:</p>
 <ul>
@@ -128,12 +176,13 @@
 <p>With these steps the documentation inside <strong>GithubPages</strong> should work.</p>
 </div>
 </div>
+</div>
 <div class="page-nav">
 <div class="inner"><ul class="page-nav">
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>
