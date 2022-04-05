@@ -37,7 +37,7 @@ class ADAlgorithm(OptimizationAlgorithm):
     * _get_final_results: return the final result of the optimization algorithm
     """
 
-    def __init__(self, optimization_dict: dict = None, communication_obj=None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
         OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
