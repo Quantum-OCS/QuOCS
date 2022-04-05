@@ -19,8 +19,7 @@ np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria,
-)
+    NelderMeadStoppingCriteria, )
 
 
 class NelderMead(DirectSearchMethod):
@@ -88,7 +87,7 @@ class NelderMead(DirectSearchMethod):
         else:
             sim = initial_simplex.copy()
         # Function evaluation array
-        fsim = np.zeros((dim + 1,), float)
+        fsim = np.zeros((dim + 1, ), float)
         # Initial evaluation of the start simplex
         # TODO parallelization for start simplex initialization, i.e. send single data file for multiple evaluations!
         for k in range(dim + 1):

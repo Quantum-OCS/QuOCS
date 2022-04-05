@@ -34,7 +34,6 @@ class AllInOneCommunication:
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
                  comm_signals_list: [list, list, list] = None):
-
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -49,7 +48,7 @@ class AllInOneCommunication:
         """
         # Communication signals
         if comm_signals_list is None:
-            self.message_signal, self.FoM_plot_signal, self.controls_update_signal = (None, None,  None)
+            self.message_signal, self.FoM_plot_signal, self.controls_update_signal = (None, None, None)
         else:
             (self.message_signal, self.FoM_plot_signal, self.controls_update_signal) = comm_signals_list
         # Pre job name
@@ -103,7 +102,7 @@ class AllInOneCommunication:
 
     def print_optimization_dictionary(self, optimization_dictionary: dict) -> None:
         """Print optimization dictionary into a file"""
-        writejsonfile(os.path.join(self.results_path, self.date_time + "_" +"optimization_dictionary.json"),
+        writejsonfile(os.path.join(self.results_path, self.date_time + "_" + "optimization_dictionary.json"),
                       optimization_dictionary)
 
     def get_user_running(self) -> bool:
@@ -120,8 +119,7 @@ class AllInOneCommunication:
         """
         self.controls_dict = controls_dict
         if self.controls_update_signal is not None:
-            self.controls_update_signal.emit(controls_dict["pulses"],
-                                             controls_dict["timegrids"],
+            self.controls_update_signal.emit(controls_dict["pulses"], controls_dict["timegrids"],
                                              controls_dict["parameters"])
 
     def get_data(self) -> dict:
@@ -146,8 +144,7 @@ class AllInOneCommunication:
         :param dict response_for_client: It is a dictionary defined in the optimal algorithm
         :return:
         """
-        iteration_number, FoM = (response_for_client["iteration_number"],
-                                 response_for_client["FoM"])
+        iteration_number, FoM = (response_for_client["iteration_number"], response_for_client["FoM"])
         status_code = response_for_client.setdefault("status_code", 0)
         # Check for interrupting signals
         if status_code != 0:

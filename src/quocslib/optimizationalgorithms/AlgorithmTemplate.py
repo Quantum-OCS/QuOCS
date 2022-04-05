@@ -31,7 +31,6 @@ class AlgorithmTemplate(OptimizationAlgorithm):
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
-
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
@@ -42,9 +41,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         # Inner free gradient method
         ###########################################################################################
         stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
-        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"][
-            "general_settings"
-        ]
+        direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         dsm_attribute = dynamic_import(
             class_name="GradientFreeTemplate",
             module_name="quocslib.gradientfreemethods.GradientFreeTemplate",
@@ -106,13 +103,13 @@ class AlgorithmTemplate(OptimizationAlgorithm):
 
     def _dsm_build(self, max_iteration_number: int) -> None:
         """Build the direct search method and run it"""
-        start_simplex = simplex_creation(
-            self.controls.get_mean_value(), self.controls.get_sigma_variation()
-        )
+        start_simplex = simplex_creation(self.controls.get_mean_value(), self.controls.get_sigma_variation())
         # Initial point for the Start Simplex
         x0 = self.controls.get_mean_value()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
+        result_l = self.dsm_obj.run_dsm(self._routine_call,
+                                        x0,
+                                        initial_simplex=start_simplex,
                                         max_eval=max_iteration_number)
         # Update the results
         [FoM, self.xx, self.terminate_reason] = [

@@ -19,7 +19,6 @@ from datetime import datetime
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
-
 class CMAESStoppingCriteria(StoppingCriteria):
     terminate_reason: str
     is_converged: bool
@@ -63,7 +62,6 @@ class CMAESStoppingCriteria(StoppingCriteria):
         #     self.is_converged = True
         #     self.terminate_reason = terminate_reason
         #     return
-
 
         self.is_converged, self.terminate_reason = self.check_func_eval(function_evaluations)
         if self.is_converged: return

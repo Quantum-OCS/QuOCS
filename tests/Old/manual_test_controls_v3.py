@@ -19,7 +19,6 @@ import os
 from quocslib.Controls import Controls
 from quocslib.pulses.basis.Fourier import Fourier
 from quocslib.pulses.super_parameter.Uniform import Uniform
-
 """
 Test for controls initialization using an external basis and control distribution
 """
@@ -48,36 +47,39 @@ def main(controls_dict):
 
 if __name__ == '__main__':
     control_dict = {
-        "Comment": "This is test dictionary for the controls: dCRAB, Fourier, Uniform Distribution. 1 pulse, 1 time, 1 parameter",
-        "Disclaimer": "Do not use this json file for optimization",
-        "pulses": [{"pulse_name": "Pulse111",
-                    "upper_limit": 1.0,
-                    "lower_limit": -1.0,
-                    "bins_number": 101,
-                    "time_name": "time111",
-                    "amplitude_variation": 0.12,
-                    "basis": {
-                        "basis_class": None,
-                        "basis_module": None,
-                        "basis_attribute": None,
-                        "basis_vector_number": 2,
-                        "random_super_parameter_distribution": {
-                            "distribution_class": None,
-                            "distribution_module": None,
-                            "distribution_attribute": None,
-                            "lower_limit": 0.1,
-                            "upper_limit": 5.0
-                        }
-                    },
-                    "scaling_function": {
-                        "function_type": "list_function",
-                        "list_function": [1.0 for _ in range(101)]
-                    },
-                    "initial_guess": {
-                        "function_type": "list_function",
-                        "list_function": [0.0 for _ in range(101)]
-                    }
-                    }],
+        "Comment":
+        "This is test dictionary for the controls: dCRAB, Fourier, Uniform Distribution. 1 pulse, 1 time, 1 parameter",
+        "Disclaimer":
+        "Do not use this json file for optimization",
+        "pulses": [{
+            "pulse_name": "Pulse111",
+            "upper_limit": 1.0,
+            "lower_limit": -1.0,
+            "bins_number": 101,
+            "time_name": "time111",
+            "amplitude_variation": 0.12,
+            "basis": {
+                "basis_class": None,
+                "basis_module": None,
+                "basis_attribute": None,
+                "basis_vector_number": 2,
+                "random_super_parameter_distribution": {
+                    "distribution_class": None,
+                    "distribution_module": None,
+                    "distribution_attribute": None,
+                    "lower_limit": 0.1,
+                    "upper_limit": 5.0
+                }
+            },
+            "scaling_function": {
+                "function_type": "list_function",
+                "list_function": [1.0 for _ in range(101)]
+            },
+            "initial_guess": {
+                "function_type": "list_function",
+                "list_function": [0.0 for _ in range(101)]
+            }
+        }],
         "parameters": [{
             "parameter_name": "Parameter111",
             "lower_limit": -2.0,

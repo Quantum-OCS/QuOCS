@@ -96,4 +96,4 @@ class OneQubit(AbstractFoM):
 
     @staticmethod
     def _get_fidelity(psi1, psi2):
-        return np.abs(np.dot(psi1.conj().T, psi2)) ** 2 / (norm(psi1) * norm(psi2))
+        return np.abs(np.dot(psi1.conj().T, psi2))**2 / (norm(psi1) * norm(psi2))

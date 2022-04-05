@@ -22,28 +22,24 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 
 class Optimizer:
-
-    def __init__(self,
-                 optimization_dict: dict = None,
-                 FoM_object: AbstractFoM = None):
+    def __init__(self, optimization_dict: dict = None, FoM_object: AbstractFoM = None):
         """
         Write this docstring
         """
         self.interface_job_name = optimization_dict.setdefault("optimization_client_name", "run")
         self.communication_obj = AllInOneCommunication(interface_job_name=self.interface_job_name,
-                                                       FoM_obj=FoM_object, handle_exit_obj=HandleExit(),
+                                                       FoM_obj=FoM_object,
+                                                       handle_exit_obj=HandleExit(),
                                                        dump_attribute=BestDump)
 
         self.results_path = self.communication_obj.results_path
 
         algorithm_dict = optimization_dict['algorithm_settings']
-        self.optimizer_attribute = dynamic_import(
-            attribute=algorithm_dict.setdefault("algorithm_attribute", None),
-            module_name=algorithm_dict.setdefault("algorithm_module", None),
-            class_name=algorithm_dict.setdefault("algorithm_class", None),
-            name=algorithm_dict.setdefault("algorithm_name", None),
-            class_type='algorithm'
-        )
+        self.optimizer_attribute = dynamic_import(attribute=algorithm_dict.setdefault("algorithm_attribute", None),
+                                                  module_name=algorithm_dict.setdefault("algorithm_module", None),
+                                                  class_name=algorithm_dict.setdefault("algorithm_class", None),
+                                                  name=algorithm_dict.setdefault("algorithm_name", None),
+                                                  class_type='algorithm')
 
         self.opt_alg_obj = self.optimizer_attribute(optimization_dict=optimization_dict,
                                                     communication_obj=self.communication_obj)

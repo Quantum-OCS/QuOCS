@@ -17,7 +17,6 @@ import numpy as np
 
 # np.seterr(all="raise")
 
-
 from scipy import linalg
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
@@ -43,8 +42,14 @@ class CMAES(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), sigma_v: np.array = None, initial_simplex=None,
-                max_eval: int = None, **kwargs) -> dict:
+    def run_dsm(self,
+                func,
+                x0,
+                args=(),
+                sigma_v: np.array = None,
+                initial_simplex=None,
+                max_eval: int = None,
+                **kwargs) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
@@ -68,9 +73,7 @@ class CMAES(DirectSearchMethod):
         sigma = 1.0
         # coordinate wise standard deviation (step-size) TR 2020_04_15: use ReasonableAmplVar (see later in for loop)
         if sigma_v is None or len(sigma_v) != N:
-            sigma_v = 0.3 * np.ones(
-                N,
-            )
+            sigma_v = 0.3 * np.ones(N, )
 
         # Strategy parameter setting: Selection population size, offspring number TR 2020_04_15: according to The CMA
         # Evolution Strategy: A Tutorial (Hansen) this can be increased number of parents/points for recombination
@@ -88,22 +91,22 @@ class CMAES(DirectSearchMethod):
         # t-const for cumulation fror sigma control
         cs = (mueff + 2) / (N + mueff + 5)
         # learning rate for rank-one update of C
-        c1 = 2 / ((N + 1.3) ** 2 + mueff)
+        c1 = 2 / ((N + 1.3)**2 + mueff)
         # learning rate for rank-mu update of C
-        cmu = np.minimum(1 - c1, 2 * (mueff - 2 + 1 / mueff) / ((N + 2) ** 2 + mueff))
+        cmu = np.minimum(1 - c1, 2 * (mueff - 2 + 1 / mueff) / ((N + 2)**2 + mueff))
         # damping for sigma
         damps = 1 + 2 * np.maximum(0, np.sqrt((mueff - 1) / (N + 1)) - 1) + cs
 
         # Initialize dynamic (internal) strategy parameters and constants
-        pc = np.zeros((N,))
-        ps = np.zeros((N,))
+        pc = np.zeros((N, ))
+        ps = np.zeros((N, ))
         B = np.eye(N)
         # Build initial D matrix with scale vector
         D = sigma_v
 
         # Initial covariance matrix
         C = B * np.diag(D**2) * B.T
-        invsqrtC = B * np.diag(D ** (-1)) * B.T
+        invsqrtC = B * np.diag(D**(-1)) * B.T
         # Eigenvalue approximation
         eigeneval = 0
         # Expectation value
@@ -130,12 +133,7 @@ class CMAES(DirectSearchMethod):
                 # TR 2020_04_15: Hansen (2016) here also has arz: arz[:,k] = randn(N,)  standard normally
                 # distributed vector TR 2020_04_15: here we should make sigma dependent on the reasonable amplitude
                 # variation, right?
-                arx[:, k] = xmean + sigma * B.dot(
-                    D
-                    * np.random.randn(
-                        N,
-                    )
-                )
+                arx[:, k] = xmean + sigma * B.dot(D * np.random.randn(N, ))
                 # Starting point at the beginning of the SI
                 if counteval == 0:
                     arx[:, k] = xmean
@@ -167,19 +165,15 @@ class CMAES(DirectSearchMethod):
                 ps = (1 - cs) * ps + np.sqrt(cs * (2 - cs) * mueff) * z / sigma
 
                 # hsig = np.linalg.norm(ps) / np.sqrt(1 - (1 - cs) ** (2 * counteval / l_pop)) / chiN < 2 + 4. / (N + 1)
-                hsig = np.linalg.norm(ps) / np.sqrt(
-                    1 - np.power((1 - cs), (2 * counteval / l_pop))
-                ) / chiN < 1.4 + 2 / (N + 1)
+                hsig = np.linalg.norm(ps) / np.sqrt(1 - np.power((1 - cs),
+                                                                 (2 * counteval / l_pop))) / chiN < 1.4 + 2 / (N + 1)
                 # Evolution path update
                 pc = (1 - cc) * pc + hsig * np.sqrt(cc * (2 - cc) * mueff) * y / sigma
 
                 # Adapt covariance matrix C, i.e. rank mu update
                 artmp = (1 / sigma) * (arx[:, ind[0:mu]] - np.tile(xold, (mu, 1)).T)
-                C = (
-                    (1 - c1 - cmu) * C
-                    + c1 * (np.outer(pc, pc) + (1 - hsig) * cc * (2 - cc) * C)
-                    + cmu * artmp.dot(np.diag(weights).dot(artmp.T))
-                )
+                C = ((1 - c1 - cmu) * C + c1 * (np.outer(pc, pc) + (1 - hsig) * cc * (2 - cc) * C) +
+                     cmu * artmp.dot(np.diag(weights).dot(artmp.T)))
 
                 # Adapt step size sigma
                 sigma = sigma * np.exp((cs / damps) * (np.linalg.norm(ps) / chiN - 1))
@@ -221,4 +215,3 @@ class CMAES(DirectSearchMethod):
         }
 
         return result_custom
-

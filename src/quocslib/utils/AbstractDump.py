@@ -20,7 +20,6 @@ import os
 
 class AbstractDump(metaclass=ABCMeta):
     """Abstract class for dumping data"""
-
     @abstractmethod
     def __init__(self, results_path: str = ".", **kwargs):
         """
@@ -33,8 +32,7 @@ class AbstractDump(metaclass=ABCMeta):
                       pulses_list: list = [],
                       time_grids_list: list = [],
                       parameters_list: list = [],
-                      **kwargs
-                      ) -> None:
+                      **kwargs) -> None:
         """
         Abstract method for dumping the controls.
         :param list pulses_list: List of np.array. Every np.array is a pulse.

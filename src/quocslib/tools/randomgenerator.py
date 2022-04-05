@@ -33,17 +33,12 @@ class RandomNumberGenerator:
                 import randomgen
                 from randomgen import RandomGenerator, MT19937
 
-                self.message = "Import the randomgen library version: {}".format(
-                    randomgen.__version__
-                )
+                self.message = "Import the randomgen library version: {}".format(randomgen.__version__)
                 self.rng = RandomGenerator(MT19937(seed=seed_number))
                 self.type = "randomgen"
             except ImportError:
                 raise ImportError(
-                    "Please install randomgen using a compatible version of numpy {0}".format(
-                        numpy_version
-                    )
-                )
+                    "Please install randomgen using a compatible version of numpy {0}".format(numpy_version))
         else:
             self.rng = np.random.default_rng(seed_number)
             self.type = "numpy"

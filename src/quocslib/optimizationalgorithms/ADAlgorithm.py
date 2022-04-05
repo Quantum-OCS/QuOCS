@@ -15,7 +15,6 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from ast import Import
 
-
 try:
     import jax.numpy as jnp
     import jax.scipy as jsp
@@ -36,7 +35,6 @@ class ADAlgorithm(OptimizationAlgorithm):
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
-
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
@@ -147,9 +145,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
         :return dict: returns a dict that contains the pulses, parameters and timegrid
         """
-        [pulses, timegrids, parameters] = self.controls.get_controls_lists(
-            optimized_control_parameters
-        )
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         #
         controls_dict = {
             "pulses": pulses,

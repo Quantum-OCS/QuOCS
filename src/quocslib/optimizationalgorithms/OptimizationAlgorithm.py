@@ -18,7 +18,7 @@ import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 
-INITIAL_FOM: float = 10 ** 10
+INITIAL_FOM: float = 10**10
 
 
 class OptimizationAlgorithm:
@@ -29,9 +29,7 @@ class OptimizationAlgorithm:
     iteration_number: int
     FoM_dict: dict
 
-    def __init__(self,
-                 communication_obj: AllInOneCommunication = None,
-                 optimization_dict: dict = None):
+    def __init__(self, communication_obj: AllInOneCommunication = None, optimization_dict: dict = None):
         """
         The constructor of the OptimizationAlgorithm class. All the algorithms has to inherit it. It provides all the basic
         modules an optimizer should have. All the arguments are passed to the communication object. Find all the info

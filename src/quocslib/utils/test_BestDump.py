@@ -29,10 +29,7 @@ def test_dump_controls_record():
     test_timegrid = np.array([4, 5, 6])
     test_params = np.array([7, 8, 9])
 
-    dump_obj.dump_controls([test_pulse],
-                           [test_timegrid],
-                           [test_params],
-                           True)
+    dump_obj.dump_controls([test_pulse], [test_timegrid], [test_params], True)
 
     outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
     controls = np.load(outfile_path)
@@ -53,10 +50,7 @@ def test_dump_controls_NO_record():
     test_timegrid = np.array([4, 5, 6])
     test_params = np.array([7, 8, 9])
 
-    dump_obj.dump_controls([test_pulse],
-                           [test_timegrid],
-                           [test_params],
-                           False)
+    dump_obj.dump_controls([test_pulse], [test_timegrid], [test_params], False)
 
     outfile_path = os.path.join(dump_obj.best_controls_path, "111_best_controls.npz")
     file_exists = os.path.exists(outfile_path)

@@ -38,15 +38,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
 
-        dsm_attribute = dynamic_import(
-                                        module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                        class_type='dsm_settings'
-                                        )
+        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault(
+            "dsm_algorithm_module", None),
+                                       class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                       name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                       class_type='dsm_settings')
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
-                                         stopping_criteria,
-                                         callback=self.is_optimization_running)
+                                     stopping_criteria,
+                                     callback=self.is_optimization_running)
         self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables
@@ -65,8 +64,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Pulses, Parameters object
         ###########################################################################################
         # Initialize the control object
-        self.controls = Controls(optimization_dict["pulses"],
-                                 optimization_dict["times"],
+        self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
                                  optimization_dict["parameters"])
         # Initialize the optimized control vector
         self.best_xx = self.controls.get_mean_value()
@@ -91,10 +89,12 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             self.best_xx = self.xx.copy()
             is_record = True
         status_code = self.FoM_dict.setdefault("status_code", 0)
-        response_dict = {"is_record": is_record,
-                         "FoM": FoM,
-                         "iteration_number": self.iteration_number,
-                         "status_code": status_code}
+        response_dict = {
+            "is_record": is_record,
+            "FoM": FoM,
+            "iteration_number": self.iteration_number,
+            "status_code": status_code
+        }
         # Load the current parameters
         if status_code == 0:
             self.FoM_list.append(FoM)
@@ -134,14 +134,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Initialize the best xx vector for this SI
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._routine_call, x0, initial_simplex=start_simplex,
+        result_l = self.dsm_obj.run_dsm(self._routine_call,
+                                        x0,
+                                        initial_simplex=start_simplex,
                                         max_eval=max_iteration_number,
                                         sigma_v=self.controls.get_sigma_variation())
         # Update the results
-        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
-                                                           result_l["X_opti_vec"],
-                                                           result_l["terminate_reason"],
-                                                           result_l["NfunevalsUsed"]]
+        [FoM, xx, self.terminate_reason, NfunevalsUsed
+         ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Termination Reason: {termination_reason}, "
                    "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
@@ -154,18 +154,18 @@ class dCRABAlgorithm(OptimizationAlgorithm):
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
-        controls_dict = {"pulses": pulses,
-                         "parameters": parameters,
-                         "timegrids": timegrids}
+        controls_dict = {"pulses": pulses, "parameters": parameters, "timegrids": timegrids}
         return controls_dict
 
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
-        final_dict = {"Figure of merit": self.best_FoM,
-                      "total number of function evaluations": self.iteration_number,
-                      "dcrab_freq_list": self.dcrab_super_parameter_list,
-                      "dcrab_para_list": self.dcrab_parameters_list,
-                      "terminate_reason": self.terminate_reason}
+        final_dict = {
+            "Figure of merit": self.best_FoM,
+            "total number of function evaluations": self.iteration_number,
+            "dcrab_freq_list": self.dcrab_super_parameter_list,
+            "dcrab_para_list": self.dcrab_parameters_list,
+            "terminate_reason": self.terminate_reason
+        }
         return final_dict
 
     def get_best_controls(self) -> list:

@@ -23,6 +23,7 @@ from quocslib.tools.linearalgebra import simplex_creation
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.utils.dynamicimport import dynamic_import
 
+
 class dCRABNoisyAlgorithm(OptimizationAlgorithm):
     def __init__(self, optimization_dict: dict = None, communication_obj=None):
         """
@@ -40,15 +41,14 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
 
-        dsm_attribute = dynamic_import(
-                                module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
-                                class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
-                                name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
-                                class_type='dsm_settings'
-                                )
+        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault(
+            "dsm_algorithm_module", None),
+                                       class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
+                                       name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
+                                       class_type='dsm_settings')
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
-                                         stopping_criteria,
-                                         callback=self.is_optimization_running)
+                                     stopping_criteria,
+                                     callback=self.is_optimization_running)
 
         # self.dsm_obj = NelderMead(direct_search_method_settings,
         #                           stopping_criteria,
@@ -136,11 +136,13 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
                 self.best_FoM = FoM
                 self.best_xx = self.xx.copy()
                 self.is_record = True
-        response_dict = {"is_record": self.is_record,
-                         "FoM": FoM,
-                         "iteration_number": self.iteration_number,
-                         "super_it": self.super_it,
-                         "status_code": status_code}
+        response_dict = {
+            "is_record": self.is_record,
+            "FoM": FoM,
+            "iteration_number": self.iteration_number,
+            "super_it": self.super_it,
+            "status_code": status_code
+        }
         ################################################################################################################
         # Print message in the log
         ################################################################################################################
@@ -215,13 +217,13 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         # Initialize the best xx vector for this SI
         self.best_xx = self.controls.get_mean_value().copy()
         # Run the direct search algorithm
-        result_l = self.dsm_obj.run_dsm(self._inner_routine_call, x0, initial_simplex=start_simplex,
+        result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
+                                        x0,
+                                        initial_simplex=start_simplex,
                                         max_eval=max_iteration_number)
         # Update the results
-        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
-                                                           result_l["X_opti_vec"],
-                                                           result_l["terminate_reason"],
-                                                           result_l["NfunevalsUsed"]]
+        [FoM, xx, self.terminate_reason, NfunevalsUsed
+         ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]
         # Message at the end of the SI
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
@@ -275,7 +277,8 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
                 if probability < p_level:
                     return mu_1
                 # else: go on with further re-evaluations
-                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
+                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
+                    optimized_control_parameters, iterations)
                 self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                 # Increase step number after function evaluation
                 self.step_number += 1
@@ -332,8 +335,8 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
         mu_z = mu_2 - mu_1
-        std_comb = np.sqrt(sigma_1 ** 2 + sigma_2 ** 2)
-        if np.abs(std_comb) < 10 ** (-14):
+        std_comb = np.sqrt(sigma_1**2 + sigma_2**2)
+        if np.abs(std_comb) < 10**(-14):
             # Warning message
             message = ("Combined standard deviation std_comb = {0} < 10**(-14) . To avoid numerical instabilities "
                        "std_comb will be set equal to 1.0".format(std_comb))
@@ -349,19 +352,19 @@ class dCRABNoisyAlgorithm(OptimizationAlgorithm):
         """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
 
-        controls_dict = {"pulses": pulses,
-                         "parameters": parameters,
-                         "timegrids": timegrids}
+        controls_dict = {"pulses": pulses, "parameters": parameters, "timegrids": timegrids}
         return controls_dict
 
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
-        final_dict = {"Figure of merit": self.best_FoM,
-                      "Std": self.best_sigma,
-                      "total number of function evaluations": self.iteration_number,
-                      "dcrab_freq_list": self.dcrab_super_parameter_list,
-                      "dcrab_para_list": self.dcrab_parameters_list,
-                      "terminate_reason": self.terminate_reason}
+        final_dict = {
+            "Figure of merit": self.best_FoM,
+            "Std": self.best_sigma,
+            "total number of function evaluations": self.iteration_number,
+            "dcrab_freq_list": self.dcrab_super_parameter_list,
+            "dcrab_para_list": self.dcrab_parameters_list,
+            "terminate_reason": self.terminate_reason
+        }
         return final_dict
 
     def get_best_controls(self) -> list:

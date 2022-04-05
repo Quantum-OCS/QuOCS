@@ -47,14 +47,12 @@ def gram_schmidt(A):
         # each of the previous vectors.
         for k in range(j):
             u_k = A[:, k]
-            A[:, j] -= np.dot(u_k, A[:, j]) * u_k / np.linalg.norm(u_k) ** 2
+            A[:, j] -= np.dot(u_k, A[:, j]) * u_k / np.linalg.norm(u_k)**2
         A[:, j] = A[:, j] / np.linalg.norm(A[:, j])
     return A
 
 
-def simplex_creation(
-    mean_value: np.array, sigma_variation: np.array, rng: RandomNumberGenerator = None
-) -> np.array:
+def simplex_creation(mean_value: np.array, sigma_variation: np.array, rng: RandomNumberGenerator = None) -> np.array:
     """
     Creation of the simplex
 
@@ -74,16 +72,12 @@ def simplex_creation(
         random_array = np.random.rand(ctrl_par_number)
     else:
         random_array = rng.get_random_numbers(ctrl_par_number)
-    random_array = random_array.reshape(
-        ctrl_par_number,
-    )
+    random_array = random_array.reshape(ctrl_par_number, )
     simplex_matrix[0, :] += np.sqrt(3) * (random_array - 0.5) * 2
     # Orthogonalize set of vectors with gram_schmidt, and rescale with the normalization length
     simplex_matrix_orthonormal = gram_schmidt(simplex_matrix.T)
     # Rescale the vector with the sigma variation
-    simplex_matrix_orthogonal_rescaled = simplex_matrix_orthonormal @ np.diag(
-        sigma_variation
-    )
+    simplex_matrix_orthogonal_rescaled = simplex_matrix_orthonormal @ np.diag(sigma_variation)
     # Add the first row containing only zeros
     x_t_norm = np.append(x0_scale, simplex_matrix_orthogonal_rescaled, axis=0)
     # Offset matrix
@@ -99,28 +93,15 @@ if __name__ == "__main__":
     ampl_var_1 = 2.0
     ampl_var_2 = 0.7
     f_norm = 1 / np.sqrt(2)
-    p_1 = (ampl_var_1 * f_norm) * np.ones(
-        2,
-    )
-    p_2 = (ampl_var_2 * f_norm) * np.ones(
-        2,
-    )
+    p_1 = (ampl_var_1 * f_norm) * np.ones(2, )
+    p_2 = (ampl_var_2 * f_norm) * np.ones(2, )
     sc_vec = np.append(p_1, p_2)
 
     x0_scale = np.zeros((1, Nc))
     # Simplex matrix ( without first row )
     simplex_m = np.diag(sc_vec)
     # Add random number
-    simplex_m[0, :] += (
-        (sc_vec[0] / 10.0)
-        * (
-            np.random.rand(
-                Nc,
-            )
-            - 0.5
-        )
-        * 2
-    )
+    simplex_m[0, :] += ((sc_vec[0] / 10.0) * (np.random.rand(Nc, ) - 0.5) * 2)
 
     simplex_m_r = gram_schmidt(simplex_m.T, sc_vec).T
     # Rescale accordingly to amplitude variation

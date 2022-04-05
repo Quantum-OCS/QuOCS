@@ -45,10 +45,8 @@ class Sigmoid(ChoppedBasis):
         # Constructor of the parent class Chopped Basis
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
-        self.scale_coefficients = self.amplitude_variation * np.ones(
-            (self.control_parameters_number,)
-        )
-        self.offset_coefficients = np.zeros((self.control_parameters_number,))
+        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
+        self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
@@ -64,15 +62,7 @@ class Sigmoid(ChoppedBasis):
         taus = self.super_parameter_distribution_obj.w  # times
         t = self.time_grid
         for ii in range(self.super_parameter_number):
-            pulse += (
-                Aopti[ii + 1]
-                / 2
-                * (erf((t - taus[ii]) / (np.sqrt(2) * self.sigma)) + 1)
-            )
+            pulse += (Aopti[ii + 1] / 2 * (erf((t - taus[ii]) / (np.sqrt(2) * self.sigma)) + 1))
         pulse += Aopti[0] / 2 * (erf((t - self.offset) / (np.sqrt(2) * self.sigma)) + 1)
-        pulse += (
-            -np.sum(Aopti)
-            / 2
-            * (erf((t - (final_time - self.offset)) / (np.sqrt(2) * self.sigma)) + 1)
-        )
+        pulse += (-np.sum(Aopti) / 2 * (erf((t - (final_time - self.offset)) / (np.sqrt(2) * self.sigma)) + 1))
         return pulse

@@ -19,8 +19,6 @@ import pytest
 from quocslib.Controls import Controls
 from quocslib.utils.inputoutput import readjson
 import numpy as np
-
-
 """
 Script to check controls initialization, basis vector (random super_parameters), getting sigma variation and
 mean value for the start simplex generation.

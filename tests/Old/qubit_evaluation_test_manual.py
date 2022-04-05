@@ -29,7 +29,7 @@ controls_path = "controls."
 
 
 def main1():
-    pulses_list = [np.random.random((100,))]
+    pulses_list = [np.random.random((100, ))]
     time_grids_list = [np.linspace(0.0, 3.0, 100)]
     FoM = qubit_obj.get_FoM(pulses=pulses_list, timegrids=time_grids_list, parameters=[])
     print(FoM)
@@ -39,7 +39,7 @@ def main(controls_file_extension: str = "txt"):
 
     while read_pulses_file(controls_file_extension=controls_file_extension):
         print("Evaluation completed at time {0}".format(datetime.now().time()))
-    print("No more pulses after {0} seconds".format(max_counter*sleep_time))
+    print("No more pulses after {0} seconds".format(max_counter * sleep_time))
 
 
 def read_pulses_file(controls_file_extension: str = "txt") -> bool:

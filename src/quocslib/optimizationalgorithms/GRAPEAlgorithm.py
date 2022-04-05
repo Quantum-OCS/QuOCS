@@ -34,7 +34,6 @@ class GRAPEAlgorithm:
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
-
     def __init__(self, optimization_dict: dict = None):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
@@ -70,9 +69,7 @@ class GRAPEAlgorithm:
         # create some storage arrays for the forward and backward propagated state
         self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
         self.rho_storage[0] = self.rho_init
-        self.corho_storage = np.array(
-            [self.rho_target for i in range(self.n_slices + 1)]
-        )
+        self.corho_storage = np.array([self.rho_target for i in range(self.n_slices + 1)])
         self.corho_storage[-1] = self.rho_target
         self.propagator_storage = np.array([self.A for i in range(self.n_slices)])
 
@@ -98,24 +95,14 @@ class GRAPEAlgorithm:
         # pulse_dict = [
         #     {"basis": PiecewiseBasis(basis={}, **pw_basis_dict)}
         # ] * self.num_pulses
-        pulse_dict = [
-            {"basis": {"basis_attribute": PiecewiseBasis}, **pw_basis_dict
-             }
-        ] * self.num_pulses
+        pulse_dict = [{"basis": {"basis_attribute": PiecewiseBasis}, **pw_basis_dict}] * self.num_pulses
         time_dict = [{"time_name": ""}] * self.num_pulses
         param_dict = [{"parameter_name": ""}] * self.num_pulses
 
         # Initialize the control object
-        self.controls = Controls(
-            pulse_dict,
-            time_dict,
-            param_dict,
-            rng=None
-        )
+        self.controls = Controls(pulse_dict, time_dict, param_dict, rng=None)
 
-    def functional(
-        self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type
-    ):
+    def functional(self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type):
         """Compute the fidelity functional for the defined problem
 
         :param np.array drive: this should be a flat array that will be resized into N_ctrls x N_slices
@@ -154,12 +141,7 @@ class GRAPEAlgorithm:
         for k in range(K):
             for t in range(n_slices):
                 if sys_type == "StateTransfer":
-                    g = (
-                        1j
-                        * dt
-                        * corho_store[t].T.conj()
-                        @ commutator(B[k], rho_store[t])
-                    )
+                    g = (1j * dt * corho_store[t].T.conj() @ commutator(B[k], rho_store[t]))
                     grads[k, t] = np.real(np.trace(g))
                 else:
                     grads[k, t] = 0.0
@@ -196,9 +178,7 @@ class GRAPEAlgorithm:
         func_topt = self._get_functional()
         # now we can optimize
         # need to be able to include things
-        oo = scipy.optimize.minimize(
-            func_topt, init, method="L-BFGS-B", jac=True, options=self.alg_parameters
-        )
+        oo = scipy.optimize.minimize(func_topt, init, method="L-BFGS-B", jac=True, options=self.alg_parameters)
 
         # need to be able to implement pulses in Marco's way, ask him later
         self.best_FoM = oo.fun

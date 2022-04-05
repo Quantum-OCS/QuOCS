@@ -22,6 +22,7 @@ from quocslib.utils.inputoutput import readjson
 from quocslib.Optimizer import Optimizer
 import pytest
 
+
 def plot_FoM(result_path, FoM_filename):
 
     if 'Windows' in platform.platform():
@@ -126,9 +127,9 @@ def test_mixed_dCRAB_Fourier_NM_OneQubit():
     folder = os.path.dirname(os.path.realpath(__file__))
     optimization_dictionary = readjson(os.path.join(folder, "mixed_dCRAB_Fourier_NM_OneQubit.json"))
     # define some parameters for the optimization
-    args_dict = {"initial_state": "[1.0 , 0.0]",
-                 "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
+    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
     main(optimization_dictionary, args_dict)
+
 
 # --------------------------------------------------------------------
 
@@ -140,5 +141,3 @@ def test_mixed_dCRAB_Fourier_NM_OneQubit():
 #                  "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
 #                  "is_noisy": True}
 #     main(optimization_dictionary, args_dict)
-
-

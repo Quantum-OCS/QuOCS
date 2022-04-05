@@ -18,13 +18,15 @@ import importlib
 import os
 from quocslib.utils.inputoutput import readjson
 
-
 folder = os.path.dirname(os.path.realpath(__file__))
 total_dict = readjson(os.path.join(folder, "map_dictionary.json"))
 
 
-def dynamic_import(attribute=None, module_name: str = None,
-                   class_name: str = None, name: str = None, class_type: str = None) -> callable:
+def dynamic_import(attribute=None,
+                   module_name: str = None,
+                   class_name: str = None,
+                   name: str = None,
+                   class_type: str = None) -> callable:
     """
     Function for dynamic import.
     :param attribute: The attribute of the class you want to use. It is an optional argument.
@@ -78,4 +80,3 @@ def dynamic_import(attribute=None, module_name: str = None,
     else:
         print("module_name: {0} and/or class_name: {1} are None".format(module_name, class_name))
         return None
-

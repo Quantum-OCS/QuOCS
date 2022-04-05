@@ -30,16 +30,13 @@ class FilesUpdateFoM(AbstractFoM):
     In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or
     an error occur during the evaluation an error will set in the
     """
-
-    def __init__(
-        self,
-        controls_folder: str = ".",
-        is_splitted: bool = False,
-        file_extension: str = "json",
-        FoM_folder: str = ".",
-        max_time: float = 60 * 2,
-        **kwargs
-    ) -> None:
+    def __init__(self,
+                 controls_folder: str = ".",
+                 is_splitted: bool = False,
+                 file_extension: str = "json",
+                 FoM_folder: str = ".",
+                 max_time: float = 60 * 2,
+                 **kwargs) -> None:
         """
 
         :param str controls_folder: Path of the controls folder
@@ -48,9 +45,7 @@ class FilesUpdateFoM(AbstractFoM):
         :param kwargs: Other parameters
         """
         # Control folder
-        self.controls_path = os.path.join(
-            controls_folder, "controls.{0}".format(file_extension)
-        )
+        self.controls_path = os.path.join(controls_folder, "controls.{0}".format(file_extension))
         # File extension
         self.file_extension = file_extension
         # Split the controls in multiple files
@@ -60,9 +55,7 @@ class FilesUpdateFoM(AbstractFoM):
         # Maximum time in seconds to wait for the figure of merit evaluation
         self.max_time = max_time
 
-    def get_FoM(
-        self, pulses: list = [], timegrids: list = [], parameters: list = []
-    ) -> dict:
+    def get_FoM(self, pulses: list = [], timegrids: list = [], parameters: list = []) -> dict:
         """
         Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file
         """
@@ -104,9 +97,7 @@ class FilesUpdateFoM(AbstractFoM):
             return {"FoM": FoM, "status_code": -3}
         return {"FoM": FoM}
 
-    def put_controls_into_user_path(
-        self, pulses_list: list, time_grids_list: list, parameters_list: list
-    ) -> None:
+    def put_controls_into_user_path(self, pulses_list: list, time_grids_list: list, parameters_list: list) -> None:
         """
         Save the controls in the controls.npz file
         :param list pulses_list: List of np.arrays. One np.array for each pulse
@@ -124,9 +115,7 @@ class FilesUpdateFoM(AbstractFoM):
             # TODO Return a negative status code
             print("The extension {0} is not recognized".format(file_extension))
 
-    def _put_controls_txt(
-        self, pulses_list: list, time_grids_list: list, parameters_list: list
-    ):
+    def _put_controls_txt(self, pulses_list: list, time_grids_list: list, parameters_list: list):
         """Ordered the controls like pulse1, time_grid1, pulse2, time_grid2, ... para1, para2 ... and save into a
         txt file.
         """
@@ -137,9 +126,7 @@ class FilesUpdateFoM(AbstractFoM):
 
             np.savetxt(controls_file, parameters_list, fmt="%f")
 
-    def _put_controls_json(
-        self, pulses_list: list, time_grids_list: list, parameters_list: list
-    ):
+    def _put_controls_json(self, pulses_list: list, time_grids_list: list, parameters_list: list):
         """Save into a json file"""
         # Save the pulses and the respective timegrids into a dictionary
         controls_dict = {}

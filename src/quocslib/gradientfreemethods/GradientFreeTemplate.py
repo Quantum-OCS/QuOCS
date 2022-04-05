@@ -19,16 +19,13 @@ np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria,
-)
+    NelderMeadStoppingCriteria, )
 
 
 class GradientFreeTemplate(DirectSearchMethod):
     callback: callable
 
-    def __init__(
-        self, settings: dict, stopping_criteria: dict, callback: callable = None
-    ):
+    def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
         :param dict settings:
         :param dict stopping_criteria:
@@ -96,7 +93,7 @@ class GradientFreeTemplate(DirectSearchMethod):
         else:
             sim = initial_simplex.copy()
         # Function evaluation array
-        fsim = np.zeros((dim + 1,), float)
+        fsim = np.zeros((dim + 1, ), float)
         # Initial evaluation of the start simplex
         # TODO parallelization for start simplex initialization, i.e. send single data file for multiple evaluations!
         for k in range(dim + 1):

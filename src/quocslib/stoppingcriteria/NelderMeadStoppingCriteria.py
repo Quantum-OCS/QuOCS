@@ -40,7 +40,9 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         self.start_time = datetime.now()
         self.is_converged = False
 
-    def check_stopping_criteria(self, sim: np.array = None, fsim: np.array = None,
+    def check_stopping_criteria(self,
+                                sim: np.array = None,
+                                fsim: np.array = None,
                                 function_evaluations: int = None) -> None:
         """
 
