@@ -1,7 +1,6 @@
 # QuOCS: The optimization library
 
-![logo](./logo/logo_quocs_color.pdf)
-<img src="./logo/logo_quocs_color.svg">
+<img src="./logo/logo_quocs_color.png">
 
 [![Pip Package](pypi_badge.svg)](https://pypi.org/project/quocs-lib/)
 
