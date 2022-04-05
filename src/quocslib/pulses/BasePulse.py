@@ -32,15 +32,15 @@ class BasePulse:
     final_time: float
 
     def __init__(self,
-                 map_index=-1,
-                 pulse_name="pulse",
-                 bins_number=101,
-                 time_name="time",
-                 lower_limit=0.0,
-                 upper_limit=1.0,
-                 amplitude_variation=0.1,
-                 initial_guess=None,
-                 scaling_function=None,
+                 map_index: int = -1,
+                 pulse_name: str = "pulse",
+                 bins_number: int = 101,
+                 time_name: str = "time",
+                 lower_limit: float = 0.0,
+                 upper_limit: float = 1.0,
+                 amplitude_variation: float = 1.0,
+                 initial_guess: np.array = None,
+                 scaling_function: np.array = None,
                  is_shrinked: bool = False,
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
@@ -82,7 +82,6 @@ class BasePulse:
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
         # Shaping options
-        print("Testing shaping option list mode")
         shaping_option_dict = {"add_base_pulse": self.add_base_pulse,
                                "add_initial_guess": self.add_initial_guess,
                                "limit_pulse": self.limit_pulse,
