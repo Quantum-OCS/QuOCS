@@ -19,6 +19,7 @@ from datetime import datetime
 
 
 class StoppingCriteria:
+
     def __init__(self):
         """
         Parent class for the stopping criteria

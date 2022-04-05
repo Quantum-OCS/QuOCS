@@ -21,6 +21,7 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 
 class OneQubit2Fields(AbstractFoM):
+
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}

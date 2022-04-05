@@ -94,9 +94,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Calculate the controls
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         # Pass the controls to the get propagator function
-        U_store = self.propagator_func(pulses_list=pulses,
-                                       time_grids_list=timegrids,
-                                       parameters_list=parameters)
+        U_store = self.propagator_func(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         n_slices = self.n_slices
         sys_type = self.sys_type
         rho_store = self.rho_storage
@@ -126,12 +124,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         for k in range(K):
             for t in range(n_slices):
                 if sys_type == "StateTransfer":
-                    g = (
-                            1j
-                            * dt
-                            * corho_store[t].T.conj()
-                            @ commutator(B[k], rho_store[t])
-                    )
+                    g = (1j * dt * corho_store[t].T.conj() @ commutator(B[k], rho_store[t]))
                     grads[k, t] = np.real(np.trace(g))
                 else:
                     grads[k, t] = 0.0
@@ -142,8 +135,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     def inner_routine_call(self, optimized_control_parameters: np.array):
         """ Function evaluation call for the L-BFGS-B algorithm """
         grads = self.get_gradient(optimized_control_parameters=optimized_control_parameters)
-        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters,
-                                 iterations=0)
+        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM, grads
 
     def run(self) -> None:

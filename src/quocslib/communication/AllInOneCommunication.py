@@ -28,6 +28,7 @@ from quocslib import __VERSION__ as quocslib_version
 
 
 class AllInOneCommunication:
+
     def __init__(self,
                  interface_job_name: str = "OptimizationTest",
                  FoM_obj: AbstractFoM = None,

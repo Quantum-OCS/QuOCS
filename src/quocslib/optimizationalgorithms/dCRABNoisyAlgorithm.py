@@ -24,6 +24,7 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 
 class dCRABNoisyAlgorithm(OptimizationAlgorithm):
+
     def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the

@@ -55,8 +55,7 @@ class IsingModel(AbstractFoM):
     def get_propagator(self,
                        pulses_list: list = [],
                        time_grids_list: list = [],
-                       parameters_list: list = []
-                       ) -> np.array:
+                       parameters_list: list = []) -> np.array:
         drive = pulses_list[0].reshape(1, len(pulses_list[0]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0]
@@ -65,10 +64,7 @@ class IsingModel(AbstractFoM):
         self.prop_store = pw_evolution(self.prop_store, drive, self.H_drift, [self.H_control], n_slices, dt)
         return self.prop_store
 
-    def get_FoM(self,
-                pulses: list = [],
-                parameters: list = [],
-                timegrids: list = []) -> dict:
+    def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         """ """
         # Compute the final propagator
         U_final = functools.reduce(lambda a, b: a @ b, self.prop_store)
@@ -102,7 +98,7 @@ def fidelity_funct(rho_evolved, rho_aim):
 
 def get_static_hamiltonian(nqu, J, g):
 
-    dim = 2 ** nqu
+    dim = 2**nqu
     H0 = np.zeros((dim, dim), dtype=np.complex128)
     for j in range(nqu):
         # set up holding array
@@ -141,7 +137,7 @@ def get_static_hamiltonian(nqu, J, g):
 
 def get_control_hamiltonian(nqu: int):
     # get the controls
-    dim = 2 ** nqu
+    dim = 2**nqu
     H_at_t = np.zeros((dim, dim), dtype=np.complex128)
     for j in range(nqu):
         # set up holding array

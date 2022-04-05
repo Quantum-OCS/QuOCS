@@ -39,8 +39,8 @@ class PiecewiseBasis(BasePulse):
         #################
         # Basis dependent settings
         #################
-        self.offset_coefficients = np.zeros((self.control_parameters_number,))
-        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number,))
+        self.offset_coefficients = np.zeros((self.control_parameters_number, ))
+        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
 
     # def setdefault(a, b, c):
     #     class Skipper:

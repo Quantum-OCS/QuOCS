@@ -29,8 +29,7 @@ class AbstractFoM(metaclass=ABCMeta):
     def get_propagator(self,
                        pulses_list: list = [],
                        time_grids_list: list = [],
-                       parameters_list: list = []
-                       ) -> np.array:
+                       parameters_list: list = []) -> np.array:
         """
         Method to get the propagator. It is compulsory for gradient-based optimization
         """
