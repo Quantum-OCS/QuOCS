@@ -74,10 +74,12 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Pulses, Parameters, Times object
         ###########################################################################################
         # Define array objects for the gradient calculation
-        self.controls = Controls(optimization_dict["pulses"],
-                                 optimization_dict["times"],
-                                 optimization_dict["parameters"],
-                                 rng=self.rng)
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+            rng=self.rng,
+        )
         ###########################################################################################
         # Objects for gradient optimization
         ###########################################################################################
@@ -90,7 +92,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.corho_storage[-1] = self.target_state
 
     def get_gradient(self, optimized_control_parameters: np.array):
-        """ Get the gradient from the propagators calculated in the FoM object """
+        """Get the gradient from the propagators calculated in the FoM object"""
         # Calculate the controls
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         # Pass the controls to the get propagator function
@@ -133,7 +135,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         return grads
 
     def inner_routine_call(self, optimized_control_parameters: np.array):
-        """ Function evaluation call for the L-BFGS-B algorithm """
+        """Function evaluation call for the L-BFGS-B algorithm"""
         grads = self.get_gradient(optimized_control_parameters=optimized_control_parameters)
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM, grads
@@ -148,11 +150,6 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Optimization with L-BFGS-B
         results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True)
         print(results)
-        # need to be able to implement pulses in Marco's way, ask him later
-        # self.best_FoM = oo.fun
-        # self.optimized_pulses = oo.x  # TODO we might want to reshape this
-        # self.opt_res = oo
-        # self.iteration_number = oo.nfev
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
