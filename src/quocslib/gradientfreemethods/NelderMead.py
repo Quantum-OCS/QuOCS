@@ -14,6 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
+from datetime import datetime
 
 np.seterr(all="raise")
 
@@ -42,7 +43,8 @@ class NelderMead(DirectSearchMethod):
         stopping_criteria.setdefault("stop_function", stop_optimization_callback)
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval_total=None, **kwargs) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval_total=None,
+                drift_comp_minutes=0.0, **kwargs) -> dict:
         """
 
         :param callable func: Function to be called at every function evaluation
@@ -62,6 +64,8 @@ class NelderMead(DirectSearchMethod):
         iterations = 0
         # Landscape dimension
         dim = len(x0)
+        # set start time of direct search
+        self.search_start_time = datetime.now()
         # Hyper-parameters for adaptive and not adaptive NM
         if self.is_adaptive:
             f_dim = float(dim)
@@ -148,6 +152,18 @@ class NelderMead(DirectSearchMethod):
             # Sort the array by the lowest function value since we are performing a minimization
             ind = np.argsort(fsim)
             [sim, fsim] = [np.take(sim, ind, 0), np.take(fsim, ind, 0)]
+            # do drift compensation
+            if drift_comp_minutes > 0:
+                current_time = datetime.now()
+                drift_comp_timer = (current_time - self.search_start_time).total_seconds() / 60.0
+                if drift_comp_timer >= drift_comp_minutes:
+                    prev_FoM = fsim[0]
+                    fsim[0] = func(sim[0], iterations)
+                    new_FoM = fsim[0]
+                    # ToDo: How do I print to the log from here?
+                    message = f"Previous best FoM: {prev_FoM}, Current best FoM after drift " \
+                              f"compensation (after {drift_comp_minutes} minutes): {new_FoM}"
+                    print(message)
             # Increase the NM iteration
             iterations += 1
             # Update function evaluations number

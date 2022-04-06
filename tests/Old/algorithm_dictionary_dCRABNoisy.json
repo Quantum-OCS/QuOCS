@@ -8,7 +8,9 @@
   "algorithm_settings": {
     "super_iteration_number": 5,
     "max_eval_total": 200,
-    "is_compensated_drift": true,
+    "compensate_drift": {
+      "compensate_after_SI": true
+    },
     "re_evaluation": {
       "re_evaluation_steps": [
         0.3,
