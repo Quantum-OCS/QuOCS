@@ -18,6 +18,8 @@ _json_:
     "super_iteration_number": 5,
     "max_eval_total": 100,
     "total_time_lim": 30,
+    "FoM_goal": 0.00001,
+    "optimization_direction": "minimizaiton",
     "compensate_drift": {
                 "compensate_after_SI": True,
                 "compensate_after_minutes": 0.01
@@ -37,6 +39,8 @@ _Settings_:
 * `"super_iteration_number"`: The maximum number of superiterations, i.e. sub-optimisations, are used to sequentially optimize the problem
 * `"max_eval_total"`: Maximum number of function evaluations.
 * `"total_time_lim"`: Maximum total time spent on the optimization in minutes.
+* `"FoM_goal"`: this cancels the optimization after the goal FoM has been reached
+* `"optimization_direction"`: define if it is a "maximization" or a "minimization".
 * `"compensate_drift"`: Dictionary containing additional options for drift compensation.
 	- `"compensate_after_SI"`: re-evaluates the current best pulse and updates the FoM at the beginning of each SI.
 	- `"compensate_after_minutes"`: periodaically updates the current best FoM after a given time in minutes-
@@ -65,11 +69,10 @@ _json_:
 		"is_adaptive": True
 	}, 
 	"stopping_criteria": {
-		"FoM_goal": 0.00001,
 		"max_eval": 100,
 		"time_lim": 5,
 		"xatol": 1e-2,
-                 "frtol": 1e-2
+		"frtol": 1e-2
 	}
 }
 ~~~
@@ -80,7 +83,6 @@ _Settings_:
 	-  `"dsm_algorithm_name"`: for the search algorithm (currently `"NelderMead"`and `"CMAES"`)
 	- `"is_adaptive"`: to make use of the adaptive version of Nelder Mead (no effect or CMA-ES)
 * `"stopping_criteria"`: Determines when a direct search is cancelled to proceed with the next SI (if the optimization is run within an enclosing algorithm) or when to stop the direct search
-	- `"FoM_goal"`: this cancels the optimization cepmletely (also any enclosing algorithm line dCRAB) since we have reached our goal.
 	- `"max_eval"`: maximum evaluations within a direct search, i.e. a sub-iteration for dCRAB
 	- `"time_lim"`: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB
 	- `"xatol"`: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES

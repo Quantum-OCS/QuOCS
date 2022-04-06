@@ -142,6 +142,8 @@ Fourier basis or times at which to position step functions for the sigmoid basis
     "super_iteration_number": 5,
     "max_eval_total": 100,
     "total_time_lim": 30,
+    "FoM_goal": 0.00001,
+    "optimization_direction": "minimizaiton",
     "compensate_drift": {
                 "compensate_after_SI": True,
                 "compensate_after_minutes": 0.01
@@ -160,6 +162,8 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 <li><p><code class="docutils literal notranslate">"super_iteration_number"</code>: The maximum number of superiterations, i.e. sub-optimisations, are used to sequentially optimize the problem</p></li>
 <li><p><code class="docutils literal notranslate">"max_eval_total"</code>: Maximum number of function evaluations.</p></li>
 <li><p><code class="docutils literal notranslate">"total_time_lim"</code>: Maximum total time spent on the optimization in minutes.</p></li>
+<li><p><code class="docutils literal notranslate">"FoM_goal"</code>: this cancels the optimization after the goal FoM has been reached</p></li>
+<li><p><code class="docutils literal notranslate">"optimization_direction"</code>: define if it is a “maximization” or a “minimization”.</p></li>
 <li><p><code class="docutils literal notranslate">"compensate_drift"</code>: Dictionary containing additional options for drift compensation.</p>
 <ul>
 <li><p><code class="docutils literal notranslate">"compensate_after_SI"</code>: re-evaluates the current best pulse and updates the FoM at the beginning of each SI.</p></li>
@@ -194,11 +198,10 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 		"is_adaptive": True
 	}, 
 	"stopping_criteria": {
-		"FoM_goal": 0.00001,
 		"max_eval": 100,
 		"time_lim": 5,
 		"xatol": 1e-2,
-                 "frtol": 1e-2
+		"frtol": 1e-2
 	}
 }
 </code></pre></div></div>
@@ -212,7 +215,6 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 </li>
 <li><p><code class="docutils literal notranslate">"stopping_criteria"</code>: Determines when a direct search is cancelled to proceed with the next SI (if the optimization is run within an enclosing algorithm) or when to stop the direct search</p>
 <ul>
-<li><p><code class="docutils literal notranslate">"FoM_goal"</code>: this cancels the optimization cepmletely (also any enclosing algorithm line dCRAB) since we have reached our goal.</p></li>
 <li><p><code class="docutils literal notranslate">"max_eval"</code>: maximum evaluations within a direct search, i.e. a sub-iteration for dCRAB</p></li>
 <li><p><code class="docutils literal notranslate">"time_lim"</code>: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB</p></li>
 <li><p><code class="docutils literal notranslate">"xatol"</code>: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>

@@ -26,13 +26,13 @@ def test_stopping_after_FoM_goal():
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
             "max_eval_total": 100,
+            "FoM_goal": 0.1,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
                     "is_adaptive": True
                 },
                 "stopping_criteria": {
-                    "FoM_goal": 0.1,
                     "max_eval": 50,
                 }
             }
@@ -95,13 +95,13 @@ def test_stopping_after_SI_max_eval():
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
             "max_eval_total": 10000,
+            "FoM_goal": 0.0000001,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
                     "is_adaptive": True
                 },
                 "stopping_criteria": {
-                    "FoM_goal": 0.0000001,
                     "max_eval": 50,
                 }
             }
@@ -164,13 +164,13 @@ def test_stopping_after_total_max_eval():
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
             "max_eval_total": 100,
+            "FoM_goal": 0.0000001,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
                     "is_adaptive": True
                 },
                 "stopping_criteria": {
-                    "FoM_goal": 0.0000001,
                     "max_eval": 500,
                 }
             }

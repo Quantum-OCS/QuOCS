@@ -51,8 +51,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
 
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                      stopping_criteria,
-                                     callback=self.is_optimization_running,
-                                     stop_optimization_callback=self.stop_optimization)
+                                     callback=self.is_optimization_running)
 
         # self.dsm_obj = NelderMead(direct_search_method_settings,
         #                           stopping_criteria,
@@ -67,10 +66,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.max_num_si = int(alg_parameters["super_iteration_number"])
         # TODO: old: Change evaluation number for the first and second super iteration... new: think of something
         #  else, e.g. adaption on how close one is to the desired FoM or so
-        # Max number of iterations at SI1
-        self.max_eval_total = int(alg_parameters["max_eval_total"])
         # Starting FoM and sigma
-        self.best_FoM = 1e10
+        # self.best_FoM = 1e10  # defined in parent class
         self.best_sigma = 0.0
         # Update the FoM for drift
         self.compensate_drift_after_SI = drift_compensations_parameters.setdefault("compensate_after_SI", False)
@@ -191,7 +188,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             # Initialize the random super_parameters
             self.controls.select_basis()
             # Direct search method
-            self._dsm_build(self.max_eval_total)
+            self._dsm_build()
             # Update the base current pulses
             self._update_base_pulses()
 
@@ -218,7 +215,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.dcrab_parameters_list.append(self.best_xx)
         self.dcrab_super_parameter_list.append(self.controls.get_random_super_parameter())
 
-    def _dsm_build(self, max_iteration_number: int) -> None:
+    def _dsm_build(self) -> None:
         """Build the direct search method and run it"""
         start_simplex = simplex_creation(self.controls.get_mean_value(),
                                          self.controls.get_sigma_variation(),
@@ -231,7 +228,6 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
-                                        max_eval_total=max_iteration_number,
                                         drift_comp_minutes=self.compensate_drift_after_minutes)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],

@@ -151,23 +151,20 @@
         <span class="c1"># Stopping criteria object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">NelderMeadStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GradientFreeTemplate.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_eval_total</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="GradientFreeTemplate.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drift_comp_minutes</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param callable func: Function tbe called at every function evaluation</span>
 <span class="sd">        :param np.array x0: initial point</span>
 <span class="sd">        :param tuple args: Further arguments</span>
 <span class="sd">        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation</span>
-<span class="sd">        :param int max_eval_total: Maximum iteration number of function evaluations in total</span>
+<span class="sd">        :param float drift_comp_minutes: Compensate for drift after this number of minutes</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
         <span class="c1"># Creation of the communication function for the OptimizationAlgorithm object</span>
         <span class="n">calls_number</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_wrapper</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
         <span class="c1"># Set to false is_converged</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="c1"># Update function evaluations number</span>
-        <span class="k">if</span> <span class="n">max_eval_total</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">max_eval_total</span> <span class="o">=</span> <span class="n">max_eval_total</span>
         <span class="c1"># Initialize the iteration number</span>
         <span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># Initialize hyper-parameters if any</span>
@@ -272,7 +269,8 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">():</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"User stopped the optimization"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"User stopped the optimization or higher order "</span> \
+                                                   <span class="s2">"stopping criterion has been reached"</span>
             <span class="c1"># Check stopping criteria</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_stopping_criteria</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">fsim</span><span class="p">,</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="c1"># END of while loop</span>

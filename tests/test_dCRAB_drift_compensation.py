@@ -100,6 +100,7 @@ def test_drift_compensation():
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
             "max_eval_total": 200,
+            "FoM_goal": 0.00001,
             "compensate_drift": {
                 "compensate_after_SI": True,
                 "compensate_after_minutes": 0.01
@@ -110,7 +111,6 @@ def test_drift_compensation():
                     "is_adaptive": True
                 },
                 "stopping_criteria": {
-                    "FoM_goal": 0.00001,
                     "max_eval": 100,
                 }
             }
