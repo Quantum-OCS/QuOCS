@@ -1,18 +1,3 @@
-[tool.poetry]
-name = "quocs"
-version = "0.1.0"
-description = "A quantum optimal control package"
-authors = ["Marco Rossignolo, Alastair Marshall, Thomas Reisser, Alice Pagano, Phila Rembold"]
-license = "Apache-2.0 License"
-
-[tool.poetry.dependencies]
-python = "^3.6"
-setuptools = "^44.0.0"
-numpy = "^1.19.1"
-scipy = "^1.5.1"
-
-[tool.poetry.dev-dependencies]
-
 [build-system]
 requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"
