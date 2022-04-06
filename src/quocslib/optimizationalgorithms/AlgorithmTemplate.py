@@ -41,6 +41,9 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         # Inner free gradient method
         ###########################################################################################
         stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        # put global time limit into stopping_criteria so we don't have to pass it through functions
+        optimization_dict["algorithm_settings"].setdefault("total_time_lim", 10**10)
+        stopping_criteria.setdefault("total_time_lim", optimization_dict["algorithm_settings"]["total_time_lim"])
         direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         dsm_attribute = dynamic_import(
             class_name="GradientFreeTemplate",

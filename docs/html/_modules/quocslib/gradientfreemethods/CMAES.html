@@ -7,10 +7,13 @@
 <title>quocslib.gradientfreemethods.CMAES</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -119,7 +128,6 @@
 
 <span class="c1"># np.seterr(all="raise")</span>
 
-
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
 
 <span class="kn">from</span> <span class="nn">quocslib.gradientfreemethods.DirectSearchMethod</span> <span class="kn">import</span> <span class="n">DirectSearchMethod</span>
@@ -129,12 +137,13 @@
 <div class="viewcode-block" id="CMAES"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.CMAES.CMAES">[docs]</a><span class="k">class</span> <span class="nc">CMAES</span><span class="p">(</span><span class="n">DirectSearchMethod</span><span class="p">):</span>
     <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">stop_optimization_callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing</span>
 <span class="sd">        distributions of points in the control landscape</span>
 <span class="sd">        :param dict settings: settings for the CMAES algorithm</span>
-<span class="sd">        :param dict stopping_criteria: stopping criteria such as max_eval</span>
+<span class="sd">        :param dict stopping_criteria: stopping criteria</span>
 <span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
@@ -143,17 +152,24 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_adaptive"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="c1"># TODO Create it using dynamical import module</span>
         <span class="c1"># Stopping criteria object</span>
+        <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"stop_function"</span><span class="p">,</span> <span class="n">stop_optimization_callback</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">CMAESStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CMAES.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.CMAES.CMAES.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">sigma_v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">max_eval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="CMAES.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.CMAES.CMAES.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">func</span><span class="p">,</span>
+                <span class="n">x0</span><span class="p">,</span>
+                <span class="n">args</span><span class="o">=</span><span class="p">(),</span>
+                <span class="n">sigma_v</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">max_eval_total</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param callable func: Function tbe called at every function evaluation</span>
 <span class="sd">        :param np.array x0: initial point</span>
 <span class="sd">        :param tuple args: Further arguments</span>
 <span class="sd">        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation</span>
-<span class="sd">        :param int max_eval: Maximum iteration number of function evaluations</span>
+<span class="sd">        :param int max_eval_total: Maximum iteration number of function evaluations in total</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
 
@@ -163,6 +179,9 @@
         <span class="c1"># Set to false is_converged</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="c1"># update the total max of function evaluations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">max_eval_total</span> <span class="o">=</span> <span class="n">max_eval_total</span>
+
         <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
 
         <span class="n">xmean</span> <span class="o">=</span> <span class="n">x0</span>
@@ -170,9 +189,7 @@
         <span class="n">sigma</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="c1"># coordinate wise standard deviation (step-size) TR 2020_04_15: use ReasonableAmplVar (see later in for loop)</span>
         <span class="k">if</span> <span class="n">sigma_v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sigma_v</span><span class="p">)</span> <span class="o">!=</span> <span class="n">N</span><span class="p">:</span>
-            <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
-                <span class="n">N</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">sigma_v</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span>
 
         <span class="c1"># Strategy parameter setting: Selection population size, offspring number TR 2020_04_15: according to The CMA</span>
         <span class="c1"># Evolution Strategy: A Tutorial (Hansen) this can be increased number of parents/points for recombination</span>
@@ -190,22 +207,22 @@
         <span class="c1"># t-const for cumulation fror sigma control</span>
         <span class="n">cs</span> <span class="o">=</span> <span class="p">(</span><span class="n">mueff</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="n">mueff</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
         <span class="c1"># learning rate for rank-one update of C</span>
-        <span class="n">c1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">N</span> <span class="o">+</span> <span class="mf">1.3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mueff</span><span class="p">)</span>
+        <span class="n">c1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">((</span><span class="n">N</span> <span class="o">+</span> <span class="mf">1.3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">mueff</span><span class="p">)</span>
         <span class="c1"># learning rate for rank-mu update of C</span>
-        <span class="n">cmu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">mueff</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">N</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">mueff</span><span class="p">))</span>
+        <span class="n">cmu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">mueff</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">/</span> <span class="p">((</span><span class="n">N</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">mueff</span><span class="p">))</span>
         <span class="c1"># damping for sigma</span>
         <span class="n">damps</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">mueff</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">cs</span>
 
         <span class="c1"># Initialize dynamic (internal) strategy parameters and constants</span>
-        <span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,))</span>
-        <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,))</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">))</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">))</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
         <span class="c1"># Build initial D matrix with scale vector</span>
         <span class="n">D</span> <span class="o">=</span> <span class="n">sigma_v</span>
 
         <span class="c1"># Initial covariance matrix</span>
         <span class="n">C</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">invsqrtC</span> <span class="o">=</span> <span class="n">B</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
         <span class="c1"># Eigenvalue approximation</span>
         <span class="n">eigeneval</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># Expectation value</span>
@@ -232,12 +249,7 @@
                 <span class="c1"># TR 2020_04_15: Hansen (2016) here also has arz: arz[:,k] = randn(N,)  standard normally</span>
                 <span class="c1"># distributed vector TR 2020_04_15: here we should make sigma dependent on the reasonable amplitude</span>
                 <span class="c1"># variation, right?</span>
-                <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span>
-                    <span class="n">D</span>
-                    <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span>
-                        <span class="n">N</span><span class="p">,</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">B</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">D</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="p">))</span>
                 <span class="c1"># Starting point at the beginning of the SI</span>
                 <span class="k">if</span> <span class="n">counteval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">arx</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmean</span>
@@ -269,19 +281,15 @@
                 <span class="n">ps</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">)</span> <span class="o">*</span> <span class="n">ps</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cs</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cs</span><span class="p">)</span> <span class="o">*</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span> <span class="o">/</span> <span class="n">sigma</span>
 
                 <span class="c1"># hsig = np.linalg.norm(ps) / np.sqrt(1 - (1 - cs) ** (2 * counteval / l_pop)) / chiN &lt; 2 + 4. / (N + 1)</span>
-                <span class="n">hsig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
-                    <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">counteval</span> <span class="o">/</span> <span class="n">l_pop</span><span class="p">))</span>
-                <span class="p">)</span> <span class="o">/</span> <span class="n">chiN</span> <span class="o">&lt;</span> <span class="mf">1.4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">hsig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cs</span><span class="p">),</span>
+                                                                 <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">counteval</span> <span class="o">/</span> <span class="n">l_pop</span><span class="p">)))</span> <span class="o">/</span> <span class="n">chiN</span> <span class="o">&lt;</span> <span class="mf">1.4</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="c1"># Evolution path update</span>
                 <span class="n">pc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">pc</span> <span class="o">+</span> <span class="n">hsig</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">mueff</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span> <span class="o">/</span> <span class="n">sigma</span>
 
                 <span class="c1"># Adapt covariance matrix C, i.e. rank mu update</span>
                 <span class="n">artmp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">arx</span><span class="p">[:,</span> <span class="n">ind</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">mu</span><span class="p">]]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">xold</span><span class="p">,</span> <span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-                <span class="n">C</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span>
-                    <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span>
-                    <span class="o">+</span> <span class="n">cmu</span> <span class="o">*</span> <span class="n">artmp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">artmp</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
-                <span class="p">)</span>
+                <span class="n">C</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">-</span> <span class="n">cmu</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="n">pc</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hsig</span><span class="p">)</span> <span class="o">*</span> <span class="n">cc</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">cc</span><span class="p">)</span> <span class="o">*</span> <span class="n">C</span><span class="p">)</span> <span class="o">+</span>
+                     <span class="n">cmu</span> <span class="o">*</span> <span class="n">artmp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">artmp</span><span class="o">.</span><span class="n">T</span><span class="p">)))</span>
 
                 <span class="c1"># Adapt step size sigma</span>
                 <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">cs</span> <span class="o">/</span> <span class="n">damps</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">chiN</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -323,7 +331,6 @@
         <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">result_custom</span></div></div>
-
 </code></pre></div>
 </div>
 <div class="page-nav">
@@ -331,7 +338,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

@@ -7,10 +7,13 @@
 <title>quocslib.optimizationalgorithms.OptimizationAlgorithm</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -120,7 +129,7 @@
 <span class="kn">from</span> <span class="nn">quocslib.communication.AllInOneCommunication</span> <span class="kn">import</span> <span class="n">AllInOneCommunication</span>
 <span class="kn">from</span> <span class="nn">quocslib</span> <span class="kn">import</span> <span class="n">__VERSION__</span> <span class="k">as</span> <span class="n">QUOCSLIB_VERSION</span>
 
-<span class="n">INITIAL_FOM</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">10</span>
+<span class="n">INITIAL_FOM</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span>
 
 
 <div class="viewcode-block" id="OptimizationAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">OptimizationAlgorithm</span><span class="p">:</span>
@@ -131,9 +140,7 @@
     <span class="n">iteration_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">FoM_dict</span><span class="p">:</span> <span class="nb">dict</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">communication_obj</span><span class="p">:</span> <span class="n">AllInOneCommunication</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">communication_obj</span><span class="p">:</span> <span class="n">AllInOneCommunication</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        The constructor of the OptimizationAlgorithm class. All the algorithms has to inherit it. It provides all the basic</span>
 <span class="sd">        modules an optimizer should have. All the arguments are passed to the communication object. Find all the info</span>
@@ -259,8 +266,12 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Must override method in the Optimal Algorithm class"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="OptimizationAlgorithm.is_optimization_running"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.is_optimization_running">[docs]</a>    <span class="k">def</span> <span class="nf">is_optimization_running</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">"""Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode"""</span>
+        <span class="sd">"""Function to check if the optimization is still running"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">get_user_running</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OptimizationAlgorithm.stop_optimization"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.stop_optimization">[docs]</a>    <span class="k">def</span> <span class="nf">stop_optimization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""Function to stop the optimization (inner direct search algorithm)"""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">set_is_running_state</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="OptimizationAlgorithm.end"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.end">[docs]</a>    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Finalize the transmission with  the client"""</span>
@@ -277,7 +288,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

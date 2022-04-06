@@ -133,28 +133,24 @@
 
 
 <div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">FoM_object</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">FoM_object</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Write this docstring</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interface_job_name</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"optimization_client_name"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span> <span class="o">=</span> <span class="n">AllInOneCommunication</span><span class="p">(</span><span class="n">interface_job_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">interface_job_name</span><span class="p">,</span>
-                                                       <span class="n">FoM_obj</span><span class="o">=</span><span class="n">FoM_object</span><span class="p">,</span> <span class="n">handle_exit_obj</span><span class="o">=</span><span class="n">HandleExit</span><span class="p">(),</span>
+                                                       <span class="n">FoM_obj</span><span class="o">=</span><span class="n">FoM_object</span><span class="p">,</span>
+                                                       <span class="n">handle_exit_obj</span><span class="o">=</span><span class="n">HandleExit</span><span class="p">(),</span>
                                                        <span class="n">dump_attribute</span><span class="o">=</span><span class="n">BestDump</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="o">.</span><span class="n">results_path</span>
 
         <span class="n">algorithm_dict</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s1">'algorithm_settings'</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
-            <span class="n">attribute</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">module_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">class_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-            <span class="n">class_type</span><span class="o">=</span><span class="s1">'algorithm'</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_attribute"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                                  <span class="n">module_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                                  <span class="n">class_name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                                  <span class="n">name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                                                  <span class="n">class_type</span><span class="o">=</span><span class="s1">'algorithm'</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span><span class="p">(</span><span class="n">optimization_dict</span><span class="o">=</span><span class="n">optimization_dict</span><span class="p">,</span>
                                                     <span class="n">communication_obj</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="p">)</span>
@@ -171,7 +167,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

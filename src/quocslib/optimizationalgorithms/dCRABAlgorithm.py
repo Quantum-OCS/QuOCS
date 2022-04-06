@@ -35,6 +35,10 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Direct Search method
         ###########################################################################################
         stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
+        # put global time limit into stopping_criteria so we don't have to pass it through functions
+        optimization_dict["algorithm_settings"].setdefault("total_time_lim", 10**10)
+        stopping_criteria.setdefault("total_time_lim", optimization_dict["algorithm_settings"]["total_time_lim"])
+        optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"].setdefault('k3', 3)
         direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
         # TODO: Use dynamic import here to define the inner free gradient method
         # The callback function is called once in a while in the inner direct search method to check
@@ -68,7 +72,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.best_FoM = 1e10
         self.best_sigma = 0.0
         # Update the drift Hamiltonian
-        self.is_compensate_drift = alg_parameters.setdefault("is_compensated_drift", True)
+        self.is_compensate_drift = alg_parameters.setdefault("is_compensated_drift", False)
         # Re-evaluation steps option
         if "re_evaluation" in alg_parameters:
             re_evaluation_parameters = alg_parameters["re_evaluation"]
@@ -169,6 +173,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
                 return
+            try:
+                # reset the timeout of the dsm for each SI
+                self.dsm_obj.sc_obj.reset_direct_search_start_time()
+                message = "Direct search start time has been reset."
+                self.comm_obj.print_logger(message, level=20)
+            except:
+                message = "Direct search start time could not be reset!"
+                self.comm_obj.print_logger(message, level=30)
             # Set super iteration number
             self.super_it = super_it
             # Compensate the drift Hamiltonian
@@ -218,14 +230,17 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                         initial_simplex=start_simplex,
                                         max_eval_total=max_iteration_number)
         # Update the results
-        [FoM, xx, self.terminate_reason, NfunevalsUsed
-         ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]
+        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
+                                                           result_l["X_opti_vec"],
+                                                           result_l["terminate_reason"],
+                                                           result_l["NfunevalsUsed"]]
         # Message at the end of the SI
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
-                   "Best FoM: {best_FoM}\n".format(super_it=self.super_it,
+                   "Best FoM: {best_FoM}, Terminate reason: {reason}\n".format(super_it=self.super_it,
                                                    NfunevalsUsed=NfunevalsUsed,
                                                    termination_reason=self.terminate_reason,
-                                                   best_FoM=self.best_FoM))
+                                                   best_FoM=self.best_FoM,
+                                                   reason=self.terminate_reason))
         self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
