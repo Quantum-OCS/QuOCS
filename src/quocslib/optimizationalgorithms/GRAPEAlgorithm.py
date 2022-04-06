@@ -101,8 +101,11 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         sys_type = self.sys_type
         rho_store = self.rho_storage
         corho_store = self.corho_storage
+
         time_grid = timegrids[0]
-        dt = time_grid[1] - time_grid[0]
+        # dt = time_grid[1] - time_grid[0]
+        dt = time_grid[-1] / len(time_grid)
+
         # Number of control Hamiltonians
         K = len([self.control_Hamiltonians])
         # control hamiltonians
