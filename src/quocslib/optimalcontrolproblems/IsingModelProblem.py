@@ -22,7 +22,7 @@ import functools
 
 class IsingModel(AbstractFoM):
     """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187 """
+    https://arxiv.org/abs/2110.06187"""
 
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
@@ -46,20 +46,26 @@ class IsingModel(AbstractFoM):
     def get_control_Hamiltonians(self):
         return self.H_control
 
+    def get_drift_Hamiltonian(self):
+        return self.H_drift
+
     def get_target_state(self):
         return self.rho_target
 
     def get_initial_state(self):
         return self.rho_0
 
-    def get_propagator(self,
-                       pulses_list: list = [],
-                       time_grids_list: list = [],
-                       parameters_list: list = []) -> np.array:
+    def get_propagator(
+        self,
+        pulses_list: list = [],
+        time_grids_list: list = [],
+        parameters_list: list = [],
+    ) -> np.array:
         drive = pulses_list[0].reshape(1, len(pulses_list[0]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0]
-        dt = time_grid[1] - time_grid[0]
+        # dt = time_grid[1] - time_grid[0]
+        dt = time_grid[-1] / len(time_grid)
         # Compute the time evolution
         self.prop_store = pw_evolution(self.prop_store, drive, self.H_drift, [self.H_control], n_slices, dt)
         return self.prop_store
