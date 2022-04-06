@@ -17,7 +17,11 @@ _json_:
     "opti_algorithm_name": "dCRAB",
     "super_iteration_number": 5,
     "max_eval_total": 100,
-    "is_compensated_drift": true,
+    "total_time_lim": 30,
+    "compensate_drift": {
+                "compensate_after_SI": True,
+                "compensate_after_minutes": 0.01
+            },
     "random_number_generator": {
         "seed_number": 42
     },
@@ -28,12 +32,18 @@ _json_:
 ~~~
 
 _Settings_:
-- `"super_iteration_number"` The maximum number of superiterations, i.w. sub-optimisations, determines how many set of super-parameters are used 
-to sequentially optimise the problem
-- `"max_eval_total"` Maximum number of function evaluations.
-- `"is_compensated_drift"`
-- `"random_number_generator"`>`"seed_number"`
-- `"re_evaluation"`>`"re_evaluation_steps"`
+
+* `"opti_algorithm_name"`: The algorithm used for optimization.
+* `"super_iteration_number"`: The maximum number of superiterations, i.e. sub-optimisations, are used to sequentially optimize the problem
+* `"max_eval_total"`: Maximum number of function evaluations.
+* `"total_time_lim"`: Maximum total time spent on the optimization in minutes.
+* `"compensate_drift"`: Dictionary containing additional options for drift compensation.
+	- `"compensate_after_SI"`: re-evaluates the current best pulse and updates the FoM at the beginning of each SI.
+	- `"compensate_after_minutes"`: periodaically updates the current best FoM after a given time in minutes-
+* `"random_number_generator"`
+	- `"seed_number"`: specify a seed for reproducible optimization for benchmarking, debugging and comparison of certain parameters.
+* `"re_evaluation"`
+	- `"re_evaluation_steps"`: specify a list of probabilities with potential best controls are re-evaluated to make sure they have better performance. This option is useful for measurements with a known standard deviation. Please contact the developers for more information or try with the default values (no `"re_evaluation_steps"` key) or use the one given here as an example.
 
 
 _References_:
@@ -49,11 +59,32 @@ lalala [1]
 
 _json_: 
 ~~~json
-
+"dsm_settings": {
+	"general_settings": {
+		"dsm_algorithm_name": "NelderMead",
+		"is_adaptive": True
+	}, 
+	"stopping_criteria": {
+		"FoM_goal": 0.00001,
+		"max_eval": 100,
+		"time_lim": 5,
+		"xatol": 1e-2,
+                 "frtol": 1e-2
+	}
+}
 ~~~
 
 _Settings_:
-- `"option"` lalala
+
+* `"general_settings"`: General settings for the direct search
+	-  `"dsm_algorithm_name"`: for the search algorithm (currently `"NelderMead"`and `"CMAES"`)
+	- `"is_adaptive"`: to make use of the adaptive version of Nelder Mead (no effect or CMA-ES)
+* `"stopping_criteria"`: Determines when a direct search is cancelled to proceed with the next SI (if the optimization is run within an enclosing algorithm) or when to stop the direct search
+	- `"FoM_goal"`: this cancels the optimization cepmletely (also any enclosing algorithm line dCRAB) since we have reached our goal.
+	- `"max_eval"`: maximum evaluations within a direct search, i.e. a sub-iteration for dCRAB
+	- `"time_lim"`: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB
+	- `"xatol"`: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES
+	- `"frtol"`: criterion to cancel the direct search based on the relative differences of the FoM in the simplex (for Nelder Mead) or equivalent for e.g. CMA-ES
 
 
 _References_:

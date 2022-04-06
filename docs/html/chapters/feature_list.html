@@ -137,27 +137,45 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code><span class="nt">"algorithm_settings"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">"opti_algorithm_name"</span><span class="p">:</span> <span class="s2">"dCRAB"</span><span class="p">,</span>
-    <span class="nt">"super_iteration_number"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-    <span class="nt">"max_eval_total"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-    <span class="nt">"is_compensated_drift"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="nt">"random_number_generator"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"seed_number"</span><span class="p">:</span> <span class="mi">42</span>
-    <span class="p">},</span>
-    <span class="nt">"re_evaluation"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"re_evaluation_steps"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.51</span><span class="p">]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><code>"algorithm_settings": {
+    "opti_algorithm_name": "dCRAB",
+    "super_iteration_number": 5,
+    "max_eval_total": 100,
+    "total_time_lim": 30,
+    "compensate_drift": {
+                "compensate_after_SI": True,
+                "compensate_after_minutes": 0.01
+            },
+    "random_number_generator": {
+        "seed_number": 42
+    },
+    "re_evaluation": {
+        "re_evaluation_steps": [0.3, 0.5, 0.51]
+    }
+}
 </code></pre></div></div>
 <p><em>Settings</em>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate">"super_iteration_number"</code> The maximum number of superiterations, i.w. sub-optimisations, determines how many set of super-parameters are used
-to sequentially optimise the problem</p></li>
-<li><p><code class="docutils literal notranslate">"max_eval_total"</code> Maximum number of function evaluations.</p></li>
-<li><p><code class="docutils literal notranslate">"is_compensated_drift"</code></p></li>
-<li><p><code class="docutils literal notranslate">"random_number_generator"</code>&gt;<code class="docutils literal notranslate">"seed_number"</code></p></li>
-<li><p><code class="docutils literal notranslate">"re_evaluation"</code>&gt;<code class="docutils literal notranslate">"re_evaluation_steps"</code></p></li>
+<li><p><code class="docutils literal notranslate">"opti_algorithm_name"</code>: The algorithm used for optimization.</p></li>
+<li><p><code class="docutils literal notranslate">"super_iteration_number"</code>: The maximum number of superiterations, i.e. sub-optimisations, are used to sequentially optimize the problem</p></li>
+<li><p><code class="docutils literal notranslate">"max_eval_total"</code>: Maximum number of function evaluations.</p></li>
+<li><p><code class="docutils literal notranslate">"total_time_lim"</code>: Maximum total time spent on the optimization in minutes.</p></li>
+<li><p><code class="docutils literal notranslate">"compensate_drift"</code>: Dictionary containing additional options for drift compensation.</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"compensate_after_SI"</code>: re-evaluates the current best pulse and updates the FoM at the beginning of each SI.</p></li>
+<li><p><code class="docutils literal notranslate">"compensate_after_minutes"</code>: periodaically updates the current best FoM after a given time in minutes-</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"random_number_generator"</code></p>
+<ul>
+<li><p><code class="docutils literal notranslate">"seed_number"</code>: specify a seed for reproducible optimization for benchmarking, debugging and comparison of certain parameters.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"re_evaluation"</code></p>
+<ul>
+<li><p><code class="docutils literal notranslate">"re_evaluation_steps"</code>: specify a list of probabilities with potential best controls are re-evaluated to make sure they have better performance. This option is useful for measurements with a known standard deviation. Please contact the developers for more information or try with the default values (no <code class="docutils literal notranslate">"re_evaluation_steps"</code> key) or use the one given here as an example.</p></li>
+</ul>
+</li>
 </ul>
 <p><em>References</em>:</p>
 <p>[1] N. Rach, M. M. Müller, T. Calarco, and S. Montangero, “Dressing the chopped-random-basis optimization: A bandwidth-limited access to the trap-free landscape,” Phys. Rev. A - At. Mol. Opt. Phys., vol. 92, no. 6, p. 62343, 2015, doi: 10.1103/PhysRevA.92.062343.</p>
@@ -170,11 +188,37 @@ to sequentially optimise the problem</p></li>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>
+<div class="highlight"><pre><code>"dsm_settings": {
+	"general_settings": {
+		"dsm_algorithm_name": "NelderMead",
+		"is_adaptive": True
+	}, 
+	"stopping_criteria": {
+		"FoM_goal": 0.00001,
+		"max_eval": 100,
+		"time_lim": 5,
+		"xatol": 1e-2,
+                 "frtol": 1e-2
+	}
+}
 </code></pre></div></div>
 <p><em>Settings</em>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate">"option"</code> lalala</p></li>
+<li><p><code class="docutils literal notranslate">"general_settings"</code>: General settings for the direct search</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"dsm_algorithm_name"</code>: for the search algorithm (currently <code class="docutils literal notranslate">"NelderMead"</code>and <code class="docutils literal notranslate">"CMAES"</code>)</p></li>
+<li><p><code class="docutils literal notranslate">"is_adaptive"</code>: to make use of the adaptive version of Nelder Mead (no effect or CMA-ES)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"stopping_criteria"</code>: Determines when a direct search is cancelled to proceed with the next SI (if the optimization is run within an enclosing algorithm) or when to stop the direct search</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"FoM_goal"</code>: this cancels the optimization cepmletely (also any enclosing algorithm line dCRAB) since we have reached our goal.</p></li>
+<li><p><code class="docutils literal notranslate">"max_eval"</code>: maximum evaluations within a direct search, i.e. a sub-iteration for dCRAB</p></li>
+<li><p><code class="docutils literal notranslate">"time_lim"</code>: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB</p></li>
+<li><p><code class="docutils literal notranslate">"xatol"</code>: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
+<li><p><code class="docutils literal notranslate">"frtol"</code>: criterion to cancel the direct search based on the relative differences of the FoM in the simplex (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
+</ul>
+</li>
 </ul>
 <p><em>References</em>:
 [1]</p>
