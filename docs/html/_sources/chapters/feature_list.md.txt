@@ -19,7 +19,7 @@ _json_:
     "max_eval_total": 100,
     "total_time_lim": 30,
     "FoM_goal": 0.00001,
-    "optimization_direction": "minimizaiton",
+    "optimization_direction": "minimization",
     "compensate_drift": {
                 "compensate_after_SI": True,
                 "compensate_after_minutes": 0.01
