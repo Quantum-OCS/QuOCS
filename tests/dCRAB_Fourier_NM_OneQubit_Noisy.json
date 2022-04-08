@@ -5,7 +5,7 @@
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
         "super_iteration_number": 5,
-        "max_eval_total": 50,
+        "max_eval_total": 5000,
         "compensate_drift": {
             "compensate_after_SI": true
         },
