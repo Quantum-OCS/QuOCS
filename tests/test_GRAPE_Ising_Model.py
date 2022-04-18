@@ -19,28 +19,33 @@ from quocslib.Optimizer import Optimizer
 
 def test_GRAPE_Ising_Model():
     optimization_dictionary = {
-        "Disclaimer": "Do not use this json file for optimization",
-        "optimization_client_name": "Optimization_GRAPE_IsingModel",
+        "Disclaimer":
+        "Do not use this json file for optimization",
+        "optimization_client_name":
+        "Optimization_GRAPE_IsingModel",
         "algorithm_settings": {
-            "algorithm_name": "GRAPE"},
-        "pulses": [{"pulse_name": "Pulse_1",
-                    "upper_limit": 15.0,
-                    "lower_limit": -15.0,
-                    "bins_number": 100,
-                    "time_name": "time_1",
-                    "basis": {
-                        "basis_name": "PiecewiseBasis",
-                        "bins_number": 100
-                    },
-                    "scaling_function": {
-                        "function_type": "lambda_function",
-                        "lambda_function": "lambda t: 1.0 + 0.0*t"
-                    },
-                    "initial_guess": {
-                        "function_type": "lambda_function",
-                        "lambda_function": "lambda t: 0.0 + 0.0*t"
-                    }
-                    }],
+            "algorithm_name": "GRAPE"
+        },
+        "pulses": [{
+            "pulse_name": "Pulse_1",
+            "upper_limit": 100.0,
+            "lower_limit": -100.0,
+            "bins_number": 100,
+            "amplitude_variation": 20.0,
+            "time_name": "time_1",
+            "basis": {
+                "basis_name": "PiecewiseBasis",
+                "bins_number": 100
+            },
+            "scaling_function": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda t: 1.0 + 0.0*t"
+            },
+            "initial_guess": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda t: 0.0 + 0.0*t"
+            }
+        }],
         "parameters": [],
         "times": [{
             "time_name": "time_1",

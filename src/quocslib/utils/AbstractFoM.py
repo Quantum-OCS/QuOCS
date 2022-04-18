@@ -25,33 +25,44 @@ class AbstractFoM(metaclass=ABCMeta):
         """
         Method to get the control Hamiltonians. It is compulsory for gradient-based optimization
         """
+        raise NotImplementedError
 
-    def get_propagator(self,
-                       pulses_list: list = [],
-                       time_grids_list: list = [],
-                       parameters_list: list = []
-                       ) -> np.array:
+    def get_propagator(
+        self,
+        pulses_list: list = [],
+        time_grids_list: list = [],
+        parameters_list: list = [],
+    ) -> np.array:
         """
         Method to get the propagator. It is compulsory for gradient-based optimization
         """
+        raise NotImplementedError
 
     def get_target_state(self):
         """
         Method to get the target state. It is compulsory for gradient-based optimization
         """
+        raise NotImplementedError
 
     def get_initial_state(self):
         """
         Method to get the target state. It is compulsory for gradient-based optimization
         """
+        raise NotImplementedError
 
     def get_drift_Hamiltonian(self):
         """
         Method to get the drift Hamiltonian. It is compulsory for gradient-based optimization
         """
+        raise NotImplementedError
 
     @abstractmethod
-    def get_FoM(self, pulses_list: list = [], time_grids_list: list = [], parameters_list: list = []) -> dict:
+    def get_FoM(
+        self,
+        pulses_list: list = [],
+        time_grids_list: list = [],
+        parameters_list: list = [],
+    ) -> dict:
         """
         Abstract method for figure of merit evaluation. It returns a dictionary with
          the FoM key inside
@@ -62,3 +73,4 @@ class AbstractFoM(metaclass=ABCMeta):
         :return: dict The dictionary must contain at least the "FoM" key with the figure of merit float. Other possible
         keys can provide useful information for errors or other.
         """
+        raise NotImplementedError

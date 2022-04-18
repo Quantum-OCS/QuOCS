@@ -35,8 +35,15 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     """
 
     def _get_response_for_client(self) -> dict:
-        print("Write some response for client")
-        return {"iteration_number": 0, "FoM": self.FoM_dict["FoM"]}
+        FoM = self.FoM_dict["FoM"]
+        if self.get_is_record(FoM):
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+                                                                                                   best_FoM=FoM)
+            self.comm_obj.print_logger(message=message, level=20)
+            self.best_FoM = FoM
+            self.best_xx = self.xx.copy()
+            self.is_record = True
+        return {"iteration_number": self.iteration_number, "FoM": FoM}
 
     def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
@@ -74,10 +81,12 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Pulses, Parameters, Times object
         ###########################################################################################
         # Define array objects for the gradient calculation
-        self.controls = Controls(optimization_dict["pulses"],
-                                 optimization_dict["times"],
-                                 optimization_dict["parameters"],
-                                 rng=self.rng)
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+            rng=self.rng,
+        )
         ###########################################################################################
         # Objects for gradient optimization
         ###########################################################################################
@@ -90,19 +99,20 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.corho_storage[-1] = self.target_state
 
     def get_gradient(self, optimized_control_parameters: np.array):
-        """ Get the gradient from the propagators calculated in the FoM object """
+        """Get the gradient from the propagators calculated in the FoM object"""
         # Calculate the controls
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         # Pass the controls to the get propagator function
-        U_store = self.propagator_func(pulses_list=pulses,
-                                       time_grids_list=timegrids,
-                                       parameters_list=parameters)
+        U_store = self.propagator_func(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         n_slices = self.n_slices
         sys_type = self.sys_type
         rho_store = self.rho_storage
         corho_store = self.corho_storage
+
         time_grid = timegrids[0]
-        dt = time_grid[1] - time_grid[0]
+        # dt = time_grid[1] - time_grid[0]
+        dt = time_grid[-1] / len(time_grid)
+
         # Number of control Hamiltonians
         K = len([self.control_Hamiltonians])
         # control hamiltonians
@@ -126,12 +136,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         for k in range(K):
             for t in range(n_slices):
                 if sys_type == "StateTransfer":
-                    g = (
-                            1j
-                            * dt
-                            * corho_store[t].T.conj()
-                            @ commutator(B[k], rho_store[t])
-                    )
+                    g = (1j * dt * corho_store[t].T.conj() @ commutator(B[k], rho_store[t]))
                     grads[k, t] = np.real(np.trace(g))
                 else:
                     grads[k, t] = 0.0
@@ -140,27 +145,25 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         return grads
 
     def inner_routine_call(self, optimized_control_parameters: np.array):
-        """ Function evaluation call for the L-BFGS-B algorithm """
+        """Function evaluation call for the L-BFGS-B algorithm"""
         grads = self.get_gradient(optimized_control_parameters=optimized_control_parameters)
-        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters,
-                                 iterations=0)
+        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM, grads
 
     def run(self) -> None:
         """Main loop of the optimization"""
         # Initial set of random parameters
         # I have to use random parameters to avoid initial local trap (null gradient)
+        # Create array with values between [-1.0, 1.0]
         random_variation = 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
+        # Scale it accordingly to the amplitude variation
         initial_variation = random_variation * self.controls.get_sigma_variation()
+        # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
         # Optimization with L-BFGS-B
         results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True)
-        print(results)
-        # need to be able to implement pulses in Marco's way, ask him later
-        # self.best_FoM = oo.fun
-        # self.optimized_pulses = oo.x  # TODO we might want to reshape this
-        # self.opt_res = oo
-        # self.iteration_number = oo.nfev
+        # Print L-BFGS-B results in the log file
+        self.comm_obj.print_logger(results, level=20)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""

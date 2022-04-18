@@ -30,6 +30,7 @@ class FilesUpdateFoM(AbstractFoM):
     In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or
     an error occur during the evaluation an error will set in the
     """
+
     def __init__(self,
                  controls_folder: str = ".",
                  is_splitted: bool = False,

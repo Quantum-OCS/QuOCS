@@ -28,6 +28,7 @@ class TimeParameter(BaseParameter):
     alpha_min = (t_min - t_0)/(t_max - t_min)
     alpha_variation = (amplitude_variation)/(t_max - t_min)
     """
+
     def __init__(
         self,
         map_index=-1,

@@ -19,6 +19,7 @@ from packaging import version
 
 
 class RandomNumberGenerator:
+
     def __init__(self, seed_number: int = None):
         """ Add the docstrings here """
         numpy_version = np.__version__

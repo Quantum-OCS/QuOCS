@@ -39,8 +39,8 @@ class PiecewiseBasis(BasePulse):
         #################
         # Basis dependent settings
         #################
-        self.offset_coefficients = np.zeros((self.control_parameters_number,))
-        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number,))
+        self.offset_coefficients = np.zeros((self.control_parameters_number, ))
+        self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
 
     # def setdefault(a, b, c):
     #     class Skipper:
@@ -49,7 +49,6 @@ class PiecewiseBasis(BasePulse):
     #
     #     return lambda x, y: Skipper()
 
-    # TODO check if this function is really called by GRAPE
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
         #################

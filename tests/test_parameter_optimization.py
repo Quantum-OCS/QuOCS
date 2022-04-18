@@ -9,6 +9,7 @@ import pytest
 
 
 class RosenFoM(AbstractFoM):
+
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
