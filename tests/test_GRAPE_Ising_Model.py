@@ -28,9 +28,10 @@ def test_GRAPE_Ising_Model():
         },
         "pulses": [{
             "pulse_name": "Pulse_1",
-            "upper_limit": 15.0,
-            "lower_limit": -15.0,
+            "upper_limit": 100.0,
+            "lower_limit": -100.0,
             "bins_number": 100,
+            "amplitude_variation": 20.0,
             "time_name": "time_1",
             "basis": {
                 "basis_name": "PiecewiseBasis",
