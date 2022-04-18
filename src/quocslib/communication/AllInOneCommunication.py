@@ -17,8 +17,6 @@
 import os
 import time
 
-import numpy as np
-
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.utils.DummyDump import DummyDump
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
@@ -110,9 +108,9 @@ class AllInOneCommunication:
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         return self.he_obj.is_user_running
 
-    def set_is_running_state(self, value:bool) -> None:
+    def set_is_running_state(self, value: bool) -> None:
         """Set if the optimization is running"""
-        self.he_obj.is_user_running = value
+        self.he_obj.set_is_user_running(value)
         self.logger.info("Setting is_running state: {0}".format(self.he_obj.is_user_running))
 
     def send_controls(self, controls_dict: dict) -> None:
