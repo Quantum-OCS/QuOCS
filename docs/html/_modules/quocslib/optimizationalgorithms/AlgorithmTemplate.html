@@ -7,10 +7,13 @@
 <title>quocslib.optimizationalgorithms.AlgorithmTemplate</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -133,7 +142,6 @@
 <span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
 <span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
 <span class="sd">    """</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
@@ -144,9 +152,10 @@
         <span class="c1"># Inner free gradient method</span>
         <span class="c1">###########################################################################################</span>
         <span class="n">stopping_criteria</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"stopping_criteria"</span><span class="p">]</span>
-        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"dsm_settings"</span><span class="p">][</span>
-            <span class="s2">"general_settings"</span>
-        <span class="p">]</span>
+        <span class="c1"># put global time limit into stopping_criteria so we don't have to pass it through functions</span>
+        <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"total_time_lim"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"total_time_lim"</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"total_time_lim"</span><span class="p">])</span>
+        <span class="n">direct_search_method_settings</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">][</span><span class="s2">"dsm_settings"</span><span class="p">][</span><span class="s2">"general_settings"</span><span class="p">]</span>
         <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span>
             <span class="n">class_name</span><span class="o">=</span><span class="s2">"GradientFreeTemplate"</span><span class="p">,</span>
             <span class="n">module_name</span><span class="o">=</span><span class="s2">"quocslib.gradientfreemethods.GradientFreeTemplate"</span><span class="p">,</span>
@@ -161,7 +170,7 @@
         <span class="c1">###########################################################################################</span>
         <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
         <span class="c1"># Starting FoM</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># self.best_FoM = 1e10  # defined in parent class</span>
         <span class="c1">###########################################################################################</span>
         <span class="c1"># Pulses, Parameters, Times object</span>
         <span class="c1">###########################################################################################</span>
@@ -208,14 +217,14 @@
 
     <span class="k">def</span> <span class="nf">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Build the direct search method and run it"""</span>
-        <span class="n">start_simplex</span> <span class="o">=</span> <span class="n">simplex_creation</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="n">start_simplex</span> <span class="o">=</span> <span class="n">simplex_creation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">())</span>
         <span class="c1"># Initial point for the Start Simplex</span>
         <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span>
         <span class="c1"># Run the direct search algorithm</span>
-        <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
-                                        <span class="n">max_eval</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
+        <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">,</span>
+                                        <span class="n">x0</span><span class="p">,</span>
+                                        <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
+                                        <span class="n">max_eval_total</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
@@ -248,7 +257,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

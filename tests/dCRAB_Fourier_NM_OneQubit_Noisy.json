@@ -3,11 +3,12 @@
     "Disclaimer": "Do not use this json file for optimization",
     "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit_Noisy",
     "algorithm_settings": {
-        "algorithm_module": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
-        "algorithm_class": "dCRABNoisyAlgorithm",
+        "algorithm_name": "dCRAB",
         "super_iteration_number": 5,
-        "max_eval_per_SI": 50,
-        "is_compensated_drift": true,
+        "max_eval_total": 5000,
+        "compensate_drift": {
+            "compensate_after_SI": true
+        },
         "random_number_generator": {
             "seed_number": 420
         },

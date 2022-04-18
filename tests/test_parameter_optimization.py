@@ -51,4 +51,5 @@ def test_parameter_optimization():
     # get the optimization settings from the json dictionary
     folder = os.path.dirname(os.path.realpath(__file__))
     optimization_dictionary = readjson(os.path.join(folder, "opt_Rosen_NM.json"))
-    main(optimization_dictionary)
+    print(optimization_dictionary)
+    # main(optimization_dictionary)

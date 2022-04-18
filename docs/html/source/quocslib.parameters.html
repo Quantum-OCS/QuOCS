@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.parameters package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -19,7 +19,7 @@
 <link href="../search.html" rel="search" title="Search"/>
 <link href="quocslib.pulses.html" rel="next" title="quocslib.pulses package"/>
 <link href="quocslib.optimizationalgorithms.html" rel="prev" title="quocslib.optimizationalgorithms package"/>
-</head>
+</meta></head>
 <body>
 <div id="app">
 <div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
@@ -117,16 +117,16 @@
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<div class="section" id="quocslib-parameters-package">
+<section id="quocslib-parameters-package">
 <h1>quocslib.parameters package<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib-parameters-package">¶</a></h1>
-<div class="section" id="submodules">
+<section id="submodules">
 <h2>Submodules<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#submodules">¶</a></h2>
-</div>
-<div class="section" id="module-quocslib.parameters.BaseParameter">
+</section>
+<section id="module-quocslib.parameters.BaseParameter">
 <span id="quocslib-parameters-baseparameter-module"></span><h2>quocslib.parameters.BaseParameter module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.parameters.BaseParameter">¶</a></h2>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.parameters.BaseParameter.BaseParameter">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.parameters.BaseParameter.</code><code class="sig-name descname">BaseParameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">parameter_name</span><span class="o">=</span><span class="default_value">'parameter'</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">lower_limit</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">upper_limit</span><span class="o">=</span><span class="default_value">1.1</span></em>, <em class="sig-param"><span class="n">amplitude_variation</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/BaseParameter.html#BaseParameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.BaseParameter.BaseParameter">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">quocslib.parameters.BaseParameter.</code><code class="sig-name descname">BaseParameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">parameter_name</span><span class="o">=</span><span class="default_value">'parameter'</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">lower_limit</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">upper_limit</span><span class="o">=</span><span class="default_value">1.1</span></em>, <em class="sig-param"><span class="n">amplitude_variation</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/BaseParameter.html#BaseParameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.BaseParameter.BaseParameter">¶</a></dt>
 <dd>
 <p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
 <p>Parameter Class where every parameter to be optimized is defined. It is used as a parent class of the Time class in
@@ -153,22 +153,22 @@ order to optimize the time of the pulse whenever the user specified it in the co
 @return:</p>
 </dd></dl>
 </dd></dl>
-</div>
-<div class="section" id="module-quocslib.parameters.Parameter">
+</section>
+<section id="module-quocslib.parameters.Parameter">
 <span id="quocslib-parameters-parameter-module"></span><h2>quocslib.parameters.Parameter module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.parameters.Parameter">¶</a></h2>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.parameters.Parameter.Parameter">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.parameters.Parameter.</code><code class="sig-name descname">Parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span></em>, <em class="sig-param"><span class="n">parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/Parameter.html#Parameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.Parameter.Parameter">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">quocslib.parameters.Parameter.</code><code class="sig-name descname">Parameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span></em>, <em class="sig-param"><span class="n">parameter</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/Parameter.html#Parameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.Parameter.Parameter">¶</a></dt>
 <dd>
 <p>Bases: <a class="reference internal" href="#quocslib.parameters.BaseParameter.BaseParameter" title="quocslib.parameters.BaseParameter.BaseParameter"><code class="xref py py-class docutils literal notranslate">quocslib.parameters.BaseParameter.BaseParameter</code></a></p>
 <p>Class for parameters. Inherits completely the base parameter without any change</p>
 </dd></dl>
-</div>
-<div class="section" id="module-quocslib.parameters.TimeParameter">
+</section>
+<section id="module-quocslib.parameters.TimeParameter">
 <span id="quocslib-parameters-timeparameter-module"></span><h2>quocslib.parameters.TimeParameter module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.parameters.TimeParameter">¶</a></h2>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.parameters.TimeParameter.TimeParameter">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.parameters.TimeParameter.</code><code class="sig-name descname">TimeParameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">time_name</span><span class="o">=</span><span class="default_value">'time'</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">is_optimization</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lower_limit</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">upper_limit</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">amplitude_variation</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/TimeParameter.html#TimeParameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.TimeParameter.TimeParameter">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">quocslib.parameters.TimeParameter.</code><code class="sig-name descname">TimeParameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">map_index</span><span class="o">=</span><span class="default_value">- 1</span></em>, <em class="sig-param"><span class="n">time_name</span><span class="o">=</span><span class="default_value">'time'</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">is_optimization</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">lower_limit</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">upper_limit</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">amplitude_variation</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/parameters/TimeParameter.html#TimeParameter"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.parameters.TimeParameter.TimeParameter">¶</a></dt>
 <dd>
 <p>Bases: <a class="reference internal" href="#quocslib.parameters.BaseParameter.BaseParameter" title="quocslib.parameters.BaseParameter.BaseParameter"><code class="xref py py-class docutils literal notranslate">quocslib.parameters.BaseParameter.BaseParameter</code></a></p>
 <p>Class for the time. In case the user chooses to optimize the time, the code redefines the time in function of an
@@ -187,11 +187,11 @@ alpha_variation = (amplitude_variation)/(t_max - t_min)</p>
 <p>Return the time. In case of time optimization, use the alpha parameter to get the optimized time</p>
 </dd></dl>
 </dd></dl>
-</div>
-<div class="section" id="module-quocslib.parameters">
+</section>
+<section id="module-quocslib.parameters">
 <span id="module-contents"></span><h2>Module contents<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.parameters">¶</a></h2>
-</div>
-</div>
+</section>
+</section>
 </div>
 <div class="page-nav">
 <div class="inner"><ul class="page-nav">
@@ -204,7 +204,7 @@ alpha_variation = (amplitude_variation)/(t_max - t_min)</p>
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

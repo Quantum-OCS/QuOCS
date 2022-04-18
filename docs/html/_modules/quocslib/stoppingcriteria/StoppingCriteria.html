@@ -7,10 +7,13 @@
 <title>quocslib.stoppingcriteria.StoppingCriteria</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -122,10 +131,13 @@
 
 <div class="viewcode-block" id="StoppingCriteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">[docs]</a><span class="k">class</span> <span class="nc">StoppingCriteria</span><span class="p">:</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Parent class for the stopping criteria</span>
 <span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_eval"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"time_lim"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direct_search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="StoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="nd">@abstractmethod</span>
@@ -140,19 +152,61 @@
         <span class="k">if</span> <span class="kc">False</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="StoppingCriteria.check_func_eval"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval">[docs]</a>    <span class="k">def</span> <span class="nf">check_func_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_evaluations</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="StoppingCriteria.check_func_eval_single_direct_search"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval_single_direct_search">[docs]</a>    <span class="k">def</span> <span class="nf">check_func_eval_single_direct_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_evaluations_single_direct_search</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">"""</span>
 <span class="sd">        Check whether the maximum number of function evaluations has been exceeded</span>
 
-<span class="sd">        :param float func_evaluations: number of current function evaluation</span>
+<span class="sd">        :param float func_evaluations_single_direct_search: number of current function evaluation</span>
 <span class="sd">        :return bool is_converged: True if the stopping criterion is fulfilled</span>
 <span class="sd">        :return str terminate_reason: reason for the terminatiom</span>
 <span class="sd">        """</span>
-        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Exceeded number of allowed function evaluations."</span>
+        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Exceeded number of allowed function evaluations per direct search."</span>
         <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">func_evaluations</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">func_evaluations_single_direct_search</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span><span class="p">:</span>
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
+
+    <span class="c1"># def check_func_eval_total(self, func_evaluations_single_direct_search: int) -&gt; [bool, str]:</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     Check whether the total maximum number of function evaluations has been exceeded</span>
+    <span class="c1">#</span>
+    <span class="c1">#     :param float func_evaluations_single_direct_search: number of current function evaluation</span>
+    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
+    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#</span>
+    <span class="c1">#     # ToDo: This is extremely complicated and ther has to ba a simple way to do this properly.</span>
+    <span class="c1">#     #  Also this might break for very low max_eval and max_eval_total</span>
+    <span class="c1">#     #  AND this actually breaks if we continue after reaching max_eval_total !!!</span>
+    <span class="c1">#     #  But we don't reach that because we stop the optimization anyway</span>
+    <span class="c1">#</span>
+    <span class="c1">#     if self.max_eval_total is not None:</span>
+    <span class="c1">#</span>
+    <span class="c1">#         local_func_eval_track = 0</span>
+    <span class="c1">#</span>
+    <span class="c1">#         if self.temporary_func_eval_track &gt; func_evaluations_single_direct_search:</span>
+    <span class="c1">#             self.total_func_eval_track += self.temporary_func_eval_track</span>
+    <span class="c1">#             self.temporary_func_eval_track = 0</span>
+    <span class="c1">#</span>
+    <span class="c1">#         local_func_eval_track = self.total_func_eval_track + func_evaluations_single_direct_search</span>
+    <span class="c1">#         self.temporary_func_eval_track = func_evaluations_single_direct_search</span>
+    <span class="c1">#</span>
+    <span class="c1">#         terminate_reason = "Exceeded number of allowed function evaluations in total."</span>
+    <span class="c1">#         is_converged = False</span>
+    <span class="c1">#</span>
+    <span class="c1">#         if local_func_eval_track &gt;= self.max_eval_total:</span>
+    <span class="c1">#             is_converged = True</span>
+    <span class="c1">#             # this is a bit confusing but here we set is_running to False if is is linked</span>
+    <span class="c1">#             if self.stop_opt_function is not None:</span>
+    <span class="c1">#                 self.stop_opt_function()</span>
+    <span class="c1">#         return [is_converged, terminate_reason]</span>
+    <span class="c1">#</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         terminate_reason = "Exceeded number of allowed function evaluations in total."</span>
+    <span class="c1">#         is_converged = False</span>
+    <span class="c1">#         return [is_converged, terminate_reason]</span>
+
+
 
 <div class="viewcode-block" id="StoppingCriteria.check_simplex_criterion"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">[docs]</a>    <span class="k">def</span> <span class="nf">check_simplex_criterion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -186,34 +240,61 @@
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="StoppingCriteria.check_goal_reached"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_goal_reached">[docs]</a>    <span class="k">def</span> <span class="nf">check_goal_reached</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FoM</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">"""</span>
-<span class="sd">        Check whether the FoM goal has been reached</span>
+    <span class="c1"># def check_goal_reached(self, FoM: float) -&gt; [bool, str]:</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     Check whether the FoM goal has been reached</span>
+    <span class="c1">#</span>
+    <span class="c1">#     :param float FoM: current FoM</span>
+    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
+    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     terminate_reason = "FoM goal reached."</span>
+    <span class="c1">#     is_converged = False</span>
+    <span class="c1">#     if FoM &lt;= self.FoM_goal:</span>
+    <span class="c1">#         is_converged = True</span>
+    <span class="c1">#         # this is a bit confusing but here we set is_running to False if is is linked</span>
+    <span class="c1">#         if self.stop_opt_function is not None:</span>
+    <span class="c1">#             self.stop_opt_function()</span>
+    <span class="c1">#     return [is_converged, terminate_reason]</span>
 
-<span class="sd">        :param float FoM: current FoM</span>
-<span class="sd">        :return bool is_converged: True if the stopping criterion is fulfilled</span>
-<span class="sd">        :return str terminate_reason: reason for the terminatiom</span>
+<div class="viewcode-block" id="StoppingCriteria.reset_direct_search_start_time"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.reset_direct_search_start_time">[docs]</a>    <span class="k">def</span> <span class="nf">reset_direct_search_start_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Reset the direct_search_start_time for a new SI</span>
 <span class="sd">        """</span>
-        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"FoM goal reached."</span>
-        <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">FoM</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span><span class="p">:</span>
-            <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direct_search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="StoppingCriteria.check_time_out"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_time_out">[docs]</a>    <span class="k">def</span> <span class="nf">check_time_out</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="StoppingCriteria.check_direct_search_time_out"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_direct_search_time_out">[docs]</a>    <span class="k">def</span> <span class="nf">check_direct_search_time_out</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">"""</span>
-<span class="sd">        Check whether the optimization has been running for too long.</span>
+<span class="sd">        Check whether the optimization in a direct search has been running for too long.</span>
 
 <span class="sd">        :return bool is_converged: True if the stopping criterion is fulfilled</span>
 <span class="sd">        :return str terminate_reason: reason for the terminatiom</span>
 <span class="sd">        """</span>
         <span class="n">end_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="n">minutes_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
-        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Optimization time exceeds limit."</span>
+        <span class="n">minutes_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">direct_search_start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
+        <span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Optimization time for direct search exceeded limit."</span>
         <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">minutes_diff</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span><span class="p">:</span>
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div></div>
+
+    <span class="c1"># def check_total_time_out(self) -&gt; [bool, str]:</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     Check whether the optimization has been running for too long.</span>
+    <span class="c1">#</span>
+    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
+    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
+    <span class="c1">#     """</span>
+    <span class="c1">#     end_time = datetime.now()</span>
+    <span class="c1">#     minutes_diff = (end_time - self.total_start_time).total_seconds() / 60.0</span>
+    <span class="c1">#     terminate_reason = "Total optimization time exceeded limit."</span>
+    <span class="c1">#     is_converged = False</span>
+    <span class="c1">#     if minutes_diff &gt;= self.total_time_lim:</span>
+    <span class="c1">#         is_converged = True</span>
+    <span class="c1">#         # this is a bit confusing but here we set is_running to False if is is linked</span>
+    <span class="c1">#         if self.stop_opt_function is not None:</span>
+    <span class="c1">#             self.stop_opt_function()</span>
+    <span class="c1">#     return [is_converged, terminate_reason]</span>
 </code></pre></div>
 </div>
 <div class="page-nav">
@@ -221,7 +302,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

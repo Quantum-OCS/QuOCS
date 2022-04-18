@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
 <title>How to create the documentation (Sphinx+GithubPages)</title>
 <link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <script defer="" src="_static/theme.js"></script>
 <link href="genindex.html" rel="index" title="Index"/>
 <link href="search.html" rel="search" title="Search"/>
-</head>
+</meta></head>
 <body>
 <div id="app">
 <div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
@@ -107,10 +107,10 @@
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<div class="section" id="how-to-create-the-documentation-sphinx-githubpages">
+<section id="how-to-create-the-documentation-sphinx-githubpages">
 <h1>How to create the documentation (Sphinx+GithubPages)<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#how-to-create-the-documentation-sphinx-githubpages">¶</a></h1>
 <p>This readme provide a summary for the required steps to build the documentation.</p>
-<div class="section" id="installation-of-sphinx-and-needed-packages">
+<section id="installation-of-sphinx-and-needed-packages">
 <h2>Installation of Sphinx and needed packages<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#installation-of-sphinx-and-needed-packages">¶</a></h2>
 <p>on Linux run</p>
 <div class="code-wrapper" data-controller="code">
@@ -130,8 +130,8 @@
 <span class="code-lang">bash</span></div>
 <div class="highlight"><pre><code>pip install sphinxawesome_theme myst_parser sphinx_press_theme
 </code></pre></div></div>
-</div>
-<div class="section" id="re-building-the-doc-after-code-changes">
+</section>
+<section id="re-building-the-doc-after-code-changes">
 <h2>Re-building the doc after code changes<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#re-building-the-doc-after-code-changes">¶</a></h2>
 <p>Remove the contents of <code class="docutils literal notranslate">docsource/source</code> to avoid problems if filenames have changed.
 Also remove <code class="docutils literal notranslate">docs/doctrees</code> and <code class="docutils literal notranslate">docs/html</code>.</p>
@@ -149,8 +149,8 @@ Also remove <code class="docutils literal notranslate">docs/doctrees</code> and 
 <div class="highlight"><pre><code>make github
 </code></pre></div></div>
 <p>also in the <code class="docutils literal notranslate">docsource</code> folder.</p>
-</div>
-<div class="section" id="building-from-scratch">
+</section>
+<section id="building-from-scratch">
 <h2>Building from scratch<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#building-from-scratch">¶</a></h2>
 <ul class="simple">
 <li><p>Create folder <code class="docutils literal notranslate">docsource/</code>. In this folder:</p>
@@ -174,15 +174,15 @@ Also remove <code class="docutils literal notranslate">docs/doctrees</code> and 
 </li>
 </ul>
 <p>With these steps the documentation inside <strong>GithubPages</strong> should work.</p>
-</div>
-</div>
+</section>
+</section>
 </div>
 <div class="page-nav">
 <div class="inner"><ul class="page-nav">
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

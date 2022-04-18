@@ -7,17 +7,17 @@
   "optimization_client_name": "Optimization_dCRAB_Test",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "max_eval_per_SI": 200
+            "max_eval_total": 200
         },
         "dsm_settings": {
             "general_settings": {
-                "dsm_name": "nelder_mead",
-                "is_adaptive": true
+                "dsm_algorithm_module": "quocslib.gradientfreemethods.CMAES",
+                "dsm_algorithm_class": "CMAES"
             },
             "stopping_criteria": {
-                "iterations_number": 100,
-                "xatol": 1e-2,
-                "frtol": 1e-2
+                "iterations_number": 500,
+                "xatol": 1e-4,
+                "frtol": 1e-4
             }
         },
   "pulses": [{"pulse_name": "Pulse111",
@@ -53,6 +53,4 @@
     "time_name": "time111",
     "initial_value": 3.0
   }]
-
-
 }

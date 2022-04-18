@@ -31,7 +31,7 @@ class CMAES(DirectSearchMethod):
         The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
         distributions of points in the control landscape
         :param dict settings: settings for the CMAES algorithm
-        :param dict stopping_criteria: stopping criteria such as max_eval
+        :param dict stopping_criteria: stopping criteria
         """
         super().__init__()
         self.callback = callback
@@ -48,7 +48,7 @@ class CMAES(DirectSearchMethod):
                 args=(),
                 sigma_v: np.array = None,
                 initial_simplex=None,
-                max_eval: int = None,
+                drift_comp_minutes=0.0,
                 **kwargs) -> dict:
         """
 
@@ -56,7 +56,7 @@ class CMAES(DirectSearchMethod):
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_eval: Maximum iteration number of function evaluations
+        :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :return:
         """
 
@@ -190,7 +190,8 @@ class CMAES(DirectSearchMethod):
                 if self.callback is not None:
                     if not self.callback():
                         self.sc_obj.is_converged = True
-                        self.sc_obj.terminate_reason = "User stopped the optimization"
+                        self.sc_obj.terminate_reason = "User stopped the optimization or higher order " \
+                                                       "stopping criterion has been reached"
                 # Check stopping criteria
                 self.sc_obj.check_stopping_criteria(fsim, calls_number[0])
                 # # CMAES criterium

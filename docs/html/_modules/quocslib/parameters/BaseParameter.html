@@ -7,10 +7,13 @@
 <title>quocslib.parameters.BaseParameter</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../../_static/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -123,7 +132,6 @@
 <span class="sd">    Parameter Class where every parameter to be optimized is defined. It is used as a parent class of the Time class in</span>
 <span class="sd">    order to optimize the time of the pulse whenever the user specified it in the configuration class.</span>
 <span class="sd">    """</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">map_index</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -153,17 +161,13 @@
         <span class="c1"># The parameters control number is ever equal to 1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="c1"># Create the control parameters list to get the optimized parameter from the optimized vector</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span>
         <span class="c1"># Update the map_index number for the next pulse</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <div class="viewcode-block" id="BaseParameter.set_control_parameters_list"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_control_parameters_list">[docs]</a>    <span class="k">def</span> <span class="nf">set_control_parameters_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">map_index</span><span class="p">):</span>
         <span class="sd">"""Set the control parameters list. It is used when the"""</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)</span>
-        <span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">map_index</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">control_parameters_number</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="BaseParameter.set_parameter"><a class="viewcode-back" href="../../../source/quocslib.parameters.html#quocslib.parameters.BaseParameter.BaseParameter.set_parameter">[docs]</a>    <span class="k">def</span> <span class="nf">set_parameter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_parameter_vector</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -209,7 +213,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

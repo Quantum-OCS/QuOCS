@@ -14,6 +14,8 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
+from datetime import datetime
+import logging
 
 np.seterr(all="raise")
 
@@ -29,7 +31,7 @@ class NelderMead(DirectSearchMethod):
         """
         Nelder-Mead is an updating algorithm based on the simplex method.
         :param dict settings: settings for the NM algorithm
-        :param dict stopping_criteria: stopping criteria such as max_eval
+        :param dict stopping_criteria: stopping criteria
         """
         super().__init__()
         self.callback = callback
@@ -40,27 +42,27 @@ class NelderMead(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, max_eval=None, **kwargs) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None,
+                drift_comp_minutes=0.0, **kwargs) -> dict:
         """
 
         :param callable func: Function to be called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_eval: Maximum iteration number of function evaluations
+        :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :return:
         """
         # Creation of the communication function for the OptimizationAlgorithm object
         calls_number, func = self._get_wrapper(args, func)
         # Set to false is_converged
         self.sc_obj.is_converged = False
-        # Update function evaluations number
-        if max_eval is not None:
-            self.sc_obj.max_eval = max_eval
         # Initialize the iteration number
         iterations = 0
         # Landscape dimension
         dim = len(x0)
+        # set start time of direct search
+        self.search_start_time = datetime.now()
         # Hyper-parameters for adaptive and not adaptive NM
         if self.is_adaptive:
             f_dim = float(dim)
@@ -147,6 +149,18 @@ class NelderMead(DirectSearchMethod):
             # Sort the array by the lowest function value since we are performing a minimization
             ind = np.argsort(fsim)
             [sim, fsim] = [np.take(sim, ind, 0), np.take(fsim, ind, 0)]
+            # do drift compensation
+            if drift_comp_minutes > 0:
+                current_time = datetime.now()
+                drift_comp_timer = (current_time - self.search_start_time).total_seconds() / 60.0
+                if drift_comp_timer >= drift_comp_minutes:
+                    prev_FoM = fsim[0]
+                    fsim[0] = func(sim[0], iterations)
+                    new_FoM = fsim[0]
+                    message = f"Previous best FoM: {prev_FoM}, Current best FoM after drift " \
+                              f"compensation (after {drift_comp_minutes} minutes): {new_FoM}"
+                    logger = logging.getLogger("oc_logger")
+                    logger.info(message)
             # Increase the NM iteration
             iterations += 1
             # Update function evaluations number
@@ -155,7 +169,8 @@ class NelderMead(DirectSearchMethod):
             if self.callback is not None:
                 if not self.callback():
                     self.sc_obj.is_converged = True
-                    self.sc_obj.terminate_reason = "User stopped the optimization"
+                    self.sc_obj.terminate_reason = "User stopped the optimization or higher order " \
+                                                   "stopping criterion has been reached"
             # Check stopping criteria
             self.sc_obj.check_stopping_criteria(sim, fsim, calls_number[0])
         # END of while loop

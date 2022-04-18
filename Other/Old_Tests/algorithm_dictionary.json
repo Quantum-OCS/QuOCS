@@ -4,10 +4,10 @@
   "opti_algorithm_attribute": null,
   "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABAlgorithm",
   "opti_algorithm_class": "dCRABAlgorithm",
-  "optimization_client_name": "Optimization_dCRAB_Test_Sigmoid",
+  "optimization_client_name": "Optimization_dCRAB_Test",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "max_eval_per_SI": 200
+            "max_eval_total": 16
         },
         "dsm_settings": {
             "general_settings": {
@@ -16,29 +16,27 @@
             },
             "stopping_criteria": {
                 "iterations_number": 100,
-                "xatol": 1e-2,
-                "frtol": 1e-2
+                "xatol": 1e-14,
+                "frtol": 1e-14
             }
         },
   "pulses": [{"pulse_name": "Pulse111",
-                "upper_limit": 15.0,
-                "lower_limit": -15.0,
+                "upper_limit": 1.0,
+                "lower_limit": -1.0,
                 "bins_number": 101,
                 "time_name": "time111",
-                "amplitude_variation": 0.3,
+                "amplitude_variation": 0.12,
                 "basis": {
-                    "basis_class": "Sigmoid",
-                    "basis_module": "quocslib.pulses.basis.Sigmoid",
+                    "basis_class": "Fourier",
+                    "basis_module": "quocslib.pulses.basis.Fourier",
                     "basis_attribute": null,
                     "basis_vector_number": 2,
-                    "offset": 0.1,
-                    "sigma": 0.1,
                     "random_super_parameter_distribution": {
                         "distribution_class": "Uniform",
                         "distribution_module": "quocslib.pulses.superparameter.Uniform",
                         "distribution_attribute": null,
-                        "lower_limit": 0.5,
-                        "upper_limit": 2.5
+                        "lower_limit": 0.1,
+                        "upper_limit": 5.0
                     }
                 },
                 "scaling_function": {
@@ -47,13 +45,19 @@
                 },
                 "initial_guess": {
                     "function_type": "lambda_function",
-                    "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
+                    "lambda_function": "lambda t: 0.0*t"
                 }
               }],
-  "parameters": [],
+  "parameters": [{
+                "parameter_name": "Parameter111",
+                "lower_limit": -2.0,
+                "upper_limit": 2.0,
+                "initial_value": 0.0,
+                "amplitude_variation": 0.5
+            }],
   "times": [{
     "time_name": "time111",
-    "initial_value": 3.0
+    "initial_value": 5.0
   }]
 
 

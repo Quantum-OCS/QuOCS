@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
 <title>Feature List</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -19,7 +19,7 @@
 <link href="../search.html" rel="search" title="Search"/>
 <link href="../source/modules.html" rel="next" title="quocslib"/>
 <link href="customization.html" rel="prev" title="Customization"/>
-</head>
+</meta></head>
 <body>
 <div id="app">
 <div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
@@ -122,11 +122,11 @@
 </div>
 <hr/>
 <div class="content" role="main" v-pre="">
-<div class="section" id="feature-list">
+<section id="feature-list">
 <h1>Feature List<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#feature-list">¶</a></h1>
-<div class="section" id="quantum-optimal-control-algorithms">
+<section id="quantum-optimal-control-algorithms">
 <h2>Quantum Optimal Control Algorithms<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quantum-optimal-control-algorithms">¶</a></h2>
-<div class="section" id="dcrab">
+<section id="dcrab">
 <h3>dCRAB<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#dcrab">¶</a></h3>
 <p><em>Description</em>:</p>
 <p>The dressed CHopped RAndom Basis algorithm (dCRAB) avoids local optima in optimisations with a
@@ -138,31 +138,53 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 <div class="code-header">
 <span class="code-lang">json</span></div>
 <div class="highlight"><pre><code>"algorithm_settings": {
-    "opti_algorithm_name":      "dCRAB",
-    "super_iteration_number":   5,
-    "max_eval_per_SI":          100
-    "is_compensated_drift":     true,
+    "opti_algorithm_name": "dCRAB",
+    "super_iteration_number": 5,
+    "max_eval_total": 100,
+    "total_time_lim": 30,
+    "FoM_goal": 0.00001,
+    "optimization_direction": "minimization",
+    "compensate_drift": {
+                "compensate_after_SI": True,
+                "compensate_after_minutes": 0.01
+            },
     "random_number_generator": {
         "seed_number": 42
     },
     "re_evaluation": {
         "re_evaluation_steps": [0.3, 0.5, 0.51]
     }
-    }
+}
 </code></pre></div></div>
 <p><em>Settings</em>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate">"super_iteration_number"</code> The maximum number of superiterations, i.w. sub-optimisations, determines how many set of super-parameters are used
-to sequentially optimise the problem</p></li>
-<li><p><code class="docutils literal notranslate">"max_eval_per_SI"</code> Number of iterations per super-iteration.</p></li>
-<li><p><code class="docutils literal notranslate">"is_compensated_drift"</code></p></li>
-<li><p><code class="docutils literal notranslate">"random_number_generator"</code>&gt;<code class="docutils literal notranslate">"seed_number"</code></p></li>
-<li><p><code class="docutils literal notranslate">"re_evaluation"</code>&gt;<code class="docutils literal notranslate">"re_evaluation_steps"</code></p></li>
+<li><p><code class="docutils literal notranslate">"opti_algorithm_name"</code>: The algorithm used for optimization.</p></li>
+<li><p><code class="docutils literal notranslate">"super_iteration_number"</code>: The maximum number of superiterations, i.e. sub-optimisations, are used to sequentially optimize the problem</p></li>
+<li><p><code class="docutils literal notranslate">"max_eval_total"</code>: Maximum number of function evaluations.</p></li>
+<li><p><code class="docutils literal notranslate">"total_time_lim"</code>: Maximum total time spent on the optimization in minutes.</p></li>
+<li><p><code class="docutils literal notranslate">"FoM_goal"</code>: this cancels the optimization after the goal FoM has been reached</p></li>
+<li><p><code class="docutils literal notranslate">"optimization_direction"</code>: define if it is a “maximization” or a “minimization”.</p></li>
+<li><p><code class="docutils literal notranslate">"compensate_drift"</code>: Dictionary containing additional options for drift compensation.</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"compensate_after_SI"</code>: re-evaluates the current best pulse and updates the FoM at the beginning of each SI.</p></li>
+<li><p><code class="docutils literal notranslate">"compensate_after_minutes"</code>: periodaically updates the current best FoM after a given time in minutes-</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"random_number_generator"</code></p>
+<ul>
+<li><p><code class="docutils literal notranslate">"seed_number"</code>: specify a seed for reproducible optimization for benchmarking, debugging and comparison of certain parameters.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"re_evaluation"</code></p>
+<ul>
+<li><p><code class="docutils literal notranslate">"re_evaluation_steps"</code>: specify a list of probabilities with potential best controls are re-evaluated to make sure they have better performance. This option is useful for measurements with a known standard deviation. Please contact the developers for more information or try with the default values (no <code class="docutils literal notranslate">"re_evaluation_steps"</code> key) or use the one given here as an example.</p></li>
+</ul>
+</li>
 </ul>
 <p><em>References</em>:</p>
 <p>[1] N. Rach, M. M. Müller, T. Calarco, and S. Montangero, “Dressing the chopped-random-basis optimization: A bandwidth-limited access to the trap-free landscape,” Phys. Rev. A - At. Mol. Opt. Phys., vol. 92, no. 6, p. 62343, 2015, doi: 10.1103/PhysRevA.92.062343.</p>
-</div>
-<div class="section" id="direct-search">
+</section>
+<section id="direct-search">
 <h3>Direct Search<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#direct-search">¶</a></h3>
 <p><em>Description</em>:</p>
 <p>lalala [1]</p>
@@ -170,16 +192,40 @@ to sequentially optimise the problem</p></li>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>
+<div class="highlight"><pre><code>"dsm_settings": {
+	"general_settings": {
+		"dsm_algorithm_name": "NelderMead",
+		"is_adaptive": True
+	}, 
+	"stopping_criteria": {
+		"max_eval": 100,
+		"time_lim": 5,
+		"xatol": 1e-2,
+		"frtol": 1e-2
+	}
+}
 </code></pre></div></div>
 <p><em>Settings</em>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate">"option"</code> lalala</p></li>
+<li><p><code class="docutils literal notranslate">"general_settings"</code>: General settings for the direct search</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"dsm_algorithm_name"</code>: for the search algorithm (currently <code class="docutils literal notranslate">"NelderMead"</code>and <code class="docutils literal notranslate">"CMAES"</code>)</p></li>
+<li><p><code class="docutils literal notranslate">"is_adaptive"</code>: to make use of the adaptive version of Nelder Mead (no effect or CMA-ES)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate">"stopping_criteria"</code>: Determines when a direct search is cancelled to proceed with the next SI (if the optimization is run within an enclosing algorithm) or when to stop the direct search</p>
+<ul>
+<li><p><code class="docutils literal notranslate">"max_eval"</code>: maximum evaluations within a direct search, i.e. a sub-iteration for dCRAB</p></li>
+<li><p><code class="docutils literal notranslate">"time_lim"</code>: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB</p></li>
+<li><p><code class="docutils literal notranslate">"xatol"</code>: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
+<li><p><code class="docutils literal notranslate">"frtol"</code>: criterion to cancel the direct search based on the relative differences of the FoM in the simplex (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
+</ul>
+</li>
 </ul>
 <p><em>References</em>:
 [1]</p>
-</div>
-<div class="section" id="grape">
+</section>
+<section id="grape">
 <h3>GRAPE<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#grape">¶</a></h3>
 <p><em>Description</em>:</p>
 <p>lalala [1]</p>
@@ -195,8 +241,8 @@ to sequentially optimise the problem</p></li>
 </ul>
 <p><em>References</em>:
 [1]</p>
-</div>
-<div class="section" id="automatic-differentiation">
+</section>
+<section id="automatic-differentiation">
 <h3>Automatic Differentiation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#automatic-differentiation">¶</a></h3>
 <p><em>Description</em>:</p>
 <p>lalala [1]</p>
@@ -212,45 +258,45 @@ to sequentially optimise the problem</p></li>
 </ul>
 <p><em>References</em>:
 [1]</p>
-</div>
-</div>
-<div class="section" id="updating-algorithms">
+</section>
+</section>
+<section id="updating-algorithms">
 <h2>Updating Algorithms<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#updating-algorithms">¶</a></h2>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>"dsm_settings": {
-    "general_settings": {
-        "dsm_algorithm_name": "NelderMead",
-        "is_adaptive": true
-    },
-    "stopping_criteria": {
-        "xatol": 1e-2,
-        "frtol": 1e-2
-    }
+<div class="highlight"><pre><code><span class="nt">"dsm_settings"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"general_settings"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"dsm_algorithm_name"</span><span class="p">:</span> <span class="s2">"NelderMead"</span><span class="p">,</span>
+        <span class="nt">"is_adaptive"</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+    <span class="nt">"stopping_criteria"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"xatol"</span><span class="p">:</span> <span class="mf">1e-2</span><span class="p">,</span>
+        <span class="nt">"frtol"</span><span class="p">:</span> <span class="mf">1e-2</span>
+    <span class="p">}</span>
 </code></pre></div></div>
-<div class="section" id="direct-search-methods">
+<section id="direct-search-methods">
 <h3>Direct search Methods<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#direct-search-methods">¶</a></h3>
 <ul class="simple">
 <li><p>Nelder-Mead</p></li>
 <li><p>CMAES</p></li>
 </ul>
-</div>
-<div class="section" id="gradient-based-optimisation">
+</section>
+<section id="gradient-based-optimisation">
 <h3>Gradient-Based Optimisation<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#gradient-based-optimisation">¶</a></h3>
 <ul class="simple">
 <li><p>BFGS</p></li>
 <li><p>L-BFGS-B</p></li>
 </ul>
-</div>
-<div class="section" id="gradient-based-specific-features">
+</section>
+<section id="gradient-based-specific-features">
 <h3>Gradient-based specific features<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#gradient-based-specific-features">¶</a></h3>
 <ul class="simple">
 <li><p>Time Evolution</p></li>
 <li><p>Noise Processes</p></li>
 </ul>
-</div>
-<div class="section" id="stopping-criteria">
+</section>
+<section id="stopping-criteria">
 <h3>Stopping Criteria<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#stopping-criteria">¶</a></h3>
 <ul class="simple">
 <li><p>Convergence</p></li>
@@ -258,11 +304,11 @@ to sequentially optimise the problem</p></li>
 <li><p>Time-out</p></li>
 <li><p>Step-Size</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="pulses">
+</section>
+</section>
+<section id="pulses">
 <h2>Pulses<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#pulses">¶</a></h2>
-<div class="section" id="features">
+<section id="features">
 <h3>Features<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#features">¶</a></h3>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
@@ -286,68 +332,68 @@ to sequentially optimise the problem</p></li>
             },
 }],
 </code></pre></div></div>
-</div>
-<div class="section" id="basis">
+</section>
+<section id="basis">
 <h3>Basis<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#basis">¶</a></h3>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>"basis": {
-    "basis_class": "Fourier",
-    "basis_module": "quocslib.pulses.basis.Fourier",
-    "basis_attribute": null,
-    "basis_vector_number": 2,
-    "random_super_parameter_distribution": {
-        "distribution_class": "Uniform",
-        "distribution_module": "quocslib.pulses.superparameter.Uniform",
-        "distribution_attribute": null,
-        "lower_limit": 0.1,
-        "upper_limit": 5.0
-    }
+<div class="highlight"><pre><code><span class="nt">"basis"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">"basis_class"</span><span class="p">:</span> <span class="s2">"Fourier"</span><span class="p">,</span>
+    <span class="nt">"basis_module"</span><span class="p">:</span> <span class="s2">"quocslib.pulses.basis.Fourier"</span><span class="p">,</span>
+    <span class="nt">"basis_attribute"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="nt">"basis_vector_number"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">"random_super_parameter_distribution"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"distribution_class"</span><span class="p">:</span> <span class="s2">"Uniform"</span><span class="p">,</span>
+        <span class="nt">"distribution_module"</span><span class="p">:</span> <span class="s2">"quocslib.pulses.superparameter.Uniform"</span><span class="p">,</span>
+        <span class="nt">"distribution_attribute"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="nt">"lower_limit"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="nt">"upper_limit"</span><span class="p">:</span> <span class="mf">5.0</span>
+<span class="p">}</span>
 </code></pre></div></div>
-</div>
-<div class="section" id="times">
+</section>
+<section id="times">
 <h3>Times<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#times">¶</a></h3>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>"times": [{
-    "time_name": "time_1",
-    "initial_value": 3.0
-}]
+<div class="highlight"><pre><code><span class="nt">"times"</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">"time_name"</span><span class="p">:</span> <span class="s2">"time_1"</span><span class="p">,</span>
+    <span class="nt">"initial_value"</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="p">}]</span>
 </code></pre></div></div>
-</div>
-</div>
-<div class="section" id="parameters">
+</section>
+</section>
+<section id="parameters">
 <h2>Parameters<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#parameters">¶</a></h2>
 <div class="code-wrapper" data-controller="code">
 <div class="code-header">
 <span class="code-lang">json</span></div>
-<div class="highlight"><pre><code>"parameters": [{
-            "parameter_name": "delta1",
-            "lower_limit": -2.0,
-            "upper_limit": 2.0,
-            "initial_value": 0.01,
-            "amplitude_variation": 0.5
-        }],
+<div class="highlight"><pre><code><span class="nt">"parameters"</span><span class="p">:</span> <span class="p">[{</span>
+            <span class="nt">"parameter_name"</span><span class="p">:</span> <span class="s2">"delta1"</span><span class="p">,</span>
+            <span class="nt">"lower_limit"</span><span class="p">:</span> <span class="mf">-2.0</span><span class="p">,</span>
+            <span class="nt">"upper_limit"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+            <span class="nt">"initial_value"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="nt">"amplitude_variation"</span><span class="p">:</span> <span class="mf">0.5</span>
+<span class="p">}],</span>
 </code></pre></div></div>
-</div>
-<div class="section" id="test-problems">
+</section>
+<section id="test-problems">
 <h2>Test Problems<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#test-problems">¶</a></h2>
-<div class="section" id="onequbitproblem-py">
+<section id="onequbitproblem-py">
 <h3>OneQubitProblem.py<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#onequbitproblem-py">¶</a></h3>
-</div>
-<div class="section" id="onequbitproblem-2fields-py">
+</section>
+<section id="onequbitproblem-2fields-py">
 <h3>OneQubitProblem_2fields.py<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#onequbitproblem-2fields-py">¶</a></h3>
-</div>
-<div class="section" id="rosenbrockproblem-py">
+</section>
+<section id="rosenbrockproblem-py">
 <h3>RosenbrockProblem.py<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#rosenbrockproblem-py">¶</a></h3>
-</div>
-<div class="section" id="su2-py">
+</section>
+<section id="su2-py">
 <h3>su2.py<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#su2-py">¶</a></h3>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 </div>
 <div class="page-nav">
 <div class="inner"><ul class="page-nav">
@@ -360,7 +406,7 @@ to sequentially optimise the problem</p></li>
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

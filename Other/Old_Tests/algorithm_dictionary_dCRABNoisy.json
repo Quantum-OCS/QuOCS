@@ -4,11 +4,19 @@
   "opti_algorithm_attribute": null,
   "opti_algorithm_module": "quocslib.optimizationalgorithms.dCRABNoisyAlgorithm",
   "opti_algorithm_class": "dCRABNoisyAlgorithm",
-  "optimization_client_name": "Optimization_dCRABNoisy_only_compensation_Test",
+  "optimization_client_name": "Optimization_dCRABNoisy_Test",
   "algorithm_settings": {
     "super_iteration_number": 5,
-    "max_eval_per_SI": 200,
-    "is_compensated_drift": true
+    "max_eval_total": 200,
+    "compensate_drift": {
+      "compensate_after_SI": true
+    },
+    "re_evaluation": {
+      "re_evaluation_steps": [
+        0.3,
+        0.5,
+        0.51
+      ]}
   },
   "dsm_settings": {
     "general_settings": {

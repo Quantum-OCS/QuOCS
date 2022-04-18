@@ -7,7 +7,7 @@
   "optimization_client_name": "Optimization_dCRAB_Test",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "max_eval_per_SI": 200
+            "max_eval_total": 200
         },
         "dsm_settings": {
             "general_settings": {
@@ -21,14 +21,14 @@
             }
         },
   "pulses": [{"pulse_name": "Pulse111",
-                "upper_limit": 1.5,
-                "lower_limit": -1.5,
+                "upper_limit": 15.0,
+                "lower_limit": -15.0,
                 "bins_number": 101,
                 "time_name": "time111",
                 "amplitude_variation": 0.3,
                 "basis": {
-                    "basis_class": "Walsh",
-                    "basis_module": "quocslib.pulses.basis.Walsh",
+                    "basis_class": "Fourier",
+                    "basis_module": "quocslib.pulses.basis.Fourier",
                     "basis_attribute": null,
                     "basis_vector_number": 2,
                     "random_super_parameter_distribution": {
@@ -46,9 +46,7 @@
                 "initial_guess": {
                     "function_type": "lambda_function",
                     "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
-                },
-                "shaping_options": ["add_base_pulse", "add_initial_guess", "limit_pulse", "scale_pulse"],
-                "is_shrinked": true
+                }
               }],
   "parameters": [],
   "times": [{
