@@ -35,8 +35,15 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     """
 
     def _get_response_for_client(self) -> dict:
-        print("Write some response for client")
-        return {"iteration_number": 0, "FoM": self.FoM_dict["FoM"]}
+        FoM = self.FoM_dict["FoM"]
+        if self.get_is_record(FoM):
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
+                FoM=self.best_FoM, best_FoM=FoM)
+            self.comm_obj.print_logger(message=message, level=20)
+            self.best_FoM = FoM
+            self.best_xx = self.xx.copy()
+            self.is_record = True
+        return {"iteration_number": self.iteration_number, "FoM": FoM}
 
     def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
@@ -147,12 +154,16 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         """Main loop of the optimization"""
         # Initial set of random parameters
         # I have to use random parameters to avoid initial local trap (null gradient)
+        # Create array with values between [-1.0, 1.0]
         random_variation = 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
+        # Scale it accordingly to the amplitude variation
         initial_variation = random_variation * self.controls.get_sigma_variation()
+        # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
         # Optimization with L-BFGS-B
         results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True)
-        print(results)
+        # Print L-BFGS-B results in the log file
+        self.comm_obj.print_logger(results, level=20)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
