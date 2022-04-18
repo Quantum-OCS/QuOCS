@@ -37,8 +37,8 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     def _get_response_for_client(self) -> dict:
         FoM = self.FoM_dict["FoM"]
         if self.get_is_record(FoM):
-            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
-                FoM=self.best_FoM, best_FoM=FoM)
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+                                                                                                   best_FoM=FoM)
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
             self.best_xx = self.xx.copy()
