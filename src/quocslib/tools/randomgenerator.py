@@ -19,6 +19,7 @@ from packaging import version
 
 
 class RandomNumberGenerator:
+
     def __init__(self, seed_number: int = None):
         numpy_version = np.__version__
         self.message = ""

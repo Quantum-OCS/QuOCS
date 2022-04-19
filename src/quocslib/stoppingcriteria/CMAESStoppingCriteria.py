@@ -61,7 +61,8 @@ class CMAESStoppingCriteria(StoppingCriteria):
         # self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)
         # if self.is_converged: return
 
-        self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(func_evaluations_single_direct_search)
+        self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(
+            func_evaluations_single_direct_search)
         if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)

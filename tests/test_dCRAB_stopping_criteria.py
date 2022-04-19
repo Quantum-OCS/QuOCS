@@ -21,7 +21,8 @@ import pytest
 def test_stopping_after_FoM_goal():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_FoM_goal_stopping_criterion",
+        "optimization_client_name":
+        "Check_FoM_goal_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -86,11 +87,11 @@ def test_stopping_after_FoM_goal():
     optimization_obj.results_path
 
 
-
 def test_stopping_after_SI_max_eval():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_SI_max_eval_stopping_criterion",
+        "optimization_client_name":
+        "Check_SI_max_eval_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -155,11 +156,11 @@ def test_stopping_after_SI_max_eval():
     optimization_obj.results_path
 
 
-
 def test_stopping_after_total_max_eval():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_total_max_eval_stopping_criterion",
+        "optimization_client_name":
+        "Check_total_max_eval_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -227,7 +228,8 @@ def test_stopping_after_total_max_eval():
 def test_stopping_after_direct_search_time_limit():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_direct_search_time_limit_stopping_criterion",
+        "optimization_client_name":
+        "Check_direct_search_time_limit_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -295,7 +297,8 @@ def test_stopping_after_direct_search_time_limit():
 def test_stopping_after_total_time_limit():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_total_time_limit_stopping_criterion",
+        "optimization_client_name":
+        "Check_total_time_limit_stopping_criterion",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,

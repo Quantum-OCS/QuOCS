@@ -27,6 +27,7 @@ class Controls:
     This is the main class for the optimization quantities, i.e. pulses, parameters, and times.
     All these quantities are defined in this class and can be accessed by calling the modules here.
     """
+
     def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None):
         """
         Constructor of the general class containing all the controls used during the optimization

@@ -95,7 +95,8 @@ def plot_controls(result_path):
 def test_drift_compensation():
 
     optimization_dictionary = {
-        "optimization_client_name": "Check_drift_compensation",
+        "optimization_client_name":
+        "Check_drift_compensation",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
@@ -160,11 +161,11 @@ def test_drift_compensation():
 
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
-    
+
     FoM_object.set_save_path(optimization_obj.results_path)
-    
+
     optimization_obj.execute()
-    
+
     FoM_object.save_FoM()
 
     # Plot the results

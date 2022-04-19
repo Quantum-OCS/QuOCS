@@ -37,13 +37,14 @@ def readjson(filename: str) -> [int, dict]:
         print(ex)
         err_stat = 1
         print('\n!!! The json file \"' + filename + '\" was not found\n'
-                                                    'or some other error occured while reading the file.')
+              'or some other error occured while reading the file.')
     finally:
         return user_data
 
 
 class ObjectEncoder(json.JSONEncoder):
     """Convert numpy array to list"""
+
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()

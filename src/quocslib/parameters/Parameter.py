@@ -20,5 +20,6 @@ class Parameter(BaseParameter):
     """
     Class for parameters. Inherits completely the base parameter without any change
     """
+
     def __init__(self, map_index, parameter):
         super().__init__(map_index, **parameter)

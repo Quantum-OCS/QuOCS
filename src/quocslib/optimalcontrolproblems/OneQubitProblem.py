@@ -22,6 +22,7 @@ import os
 
 
 class OneQubit(AbstractFoM):
+
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}

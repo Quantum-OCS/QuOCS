@@ -49,7 +49,9 @@ class PiecewiseBasis(BasePulse):
         #################
 
     def setdefault(a, b, c):
+
         class Skipper:
+
             def __init__(self):
                 self.last_index = 0
 

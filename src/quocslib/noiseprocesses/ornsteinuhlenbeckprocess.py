@@ -5,6 +5,7 @@ class OrnsteinUhlenbeck:
     """
     Capture the important features of OU noise
     """
+
     def __init__(self, tau=1.0, c=1.0, x0=0.0, dt=0.01):
         self.tau = tau
         self.c = c

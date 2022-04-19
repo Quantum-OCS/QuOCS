@@ -95,8 +95,6 @@ class StoppingCriteria:
     #         is_converged = False
     #         return [is_converged, terminate_reason]
 
-
-
     def check_simplex_criterion(self, sim: np.array) -> [bool, str]:
         """
         Check whether the simplex has converged

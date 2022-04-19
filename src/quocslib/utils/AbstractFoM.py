@@ -19,6 +19,7 @@ from abc import ABCMeta, abstractmethod
 
 class AbstractFoM(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
+
     @abstractmethod
     def get_FoM(self, pulses_list: list = [], time_grids_list: list = [], parameters_list: list = []) -> dict:
         """
