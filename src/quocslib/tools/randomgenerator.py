@@ -13,6 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+import logging
 
 import numpy as np
 from packaging import version
@@ -21,6 +22,7 @@ from packaging import version
 class RandomNumberGenerator:
 
     def __init__(self, seed_number: int = None):
+        logger = logging.getLogger("oc_logger")
         numpy_version = np.__version__
         self.message = ""
         self.rng = None
@@ -34,13 +36,16 @@ class RandomNumberGenerator:
                 import randomgen
                 from randomgen import RandomGenerator, MT19937
 
-                self.message = "Import the randomgen library version: {}".format(randomgen.__version__)
+                self.message = "Import the randomgen library, version: {}".format(randomgen.__version__)
+                logger.info(self.message)
                 self.rng = RandomGenerator(MT19937(seed=seed_number))
                 self.type = "randomgen"
             except ImportError:
                 raise ImportError(
                     "Please install randomgen using a compatible version of numpy {0}".format(numpy_version))
         else:
+            self.message = "Random number generator from the numpy library, version {0}".format(numpy_version)
+            logger.info(self.message)
             self.rng = np.random.default_rng(seed_number)
             self.type = "numpy"
 
@@ -53,11 +58,3 @@ class RandomNumberGenerator:
                 return self.rng.random(n)
             else:
                 return self.rng.random_sample(n)
-
-
-# def get_random_numbers(n: int, rng: np.random.Generator = None):
-#     """ Return an array of random numbers between 0 and 1 based on the random generator """
-#     if rng is None:
-#         return np.random.rand(n)
-#     else:
-#         return rng.random(n)

@@ -55,9 +55,6 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                      stopping_criteria,
                                      callback=self.is_optimization_running)
 
-        # self.dsm_obj = NelderMead(direct_search_method_settings,
-        #                           stopping_criteria,
-        #                           callback=self.is_optimization_running)
         self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables

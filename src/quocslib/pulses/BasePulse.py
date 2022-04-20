@@ -44,8 +44,7 @@ class BasePulse:
                  is_shrinked: bool = False,
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
-                 rng: RandomNumberGenerator = None,
-                 **kwargs):
+                 rng: RandomNumberGenerator = None):
         """
         Here we defined all the basic features a pulse should have.
 
@@ -60,8 +59,6 @@ class BasePulse:
         :param dict scaling_function: dictionary with scaling function information
         :param kwargs: Other arguments
         """
-        # The arguments did not use here, use for the other class
-        # super().__init__(**kwargs)
         # Pulse name
         self.pulse_name = pulse_name
         # Bins number
@@ -81,8 +78,6 @@ class BasePulse:
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
-        # Shaping options
-        print("Testing shaping option list mode")
         shaping_option_dict = {
             "add_base_pulse": self.add_base_pulse,
             "add_initial_guess": self.add_initial_guess,

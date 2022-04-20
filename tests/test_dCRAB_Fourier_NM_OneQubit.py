@@ -150,3 +150,15 @@ def test_dCRAB_Fourier_NM_OneQubit_Noisy():
     # define some parameters for the optimization
     args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]", "is_noisy": True}
     main(optimization_dictionary, args_dict)
+
+
+def test_dCRAB_Fourier_NM_OneQubit_Seed():
+    # get the optimization settings from the json dictionary
+    folder = os.path.dirname(os.path.realpath(__file__))
+    optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit.json"))
+    optimization_dictionary["optimization_client_name"] = "Optimization_dCRAB_Fourier_NM_OneQubit_Seed"
+    seed_dict = {"seed_number": 420}
+    optimization_dictionary["algorithm_settings"]["random_number_generator"] = seed_dict
+    # define some parameters for the optimization
+    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]"}
+    main(optimization_dictionary, args_dict)

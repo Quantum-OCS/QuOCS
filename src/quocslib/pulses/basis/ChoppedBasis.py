@@ -31,7 +31,7 @@ class ChoppedBasis(BasePulse):
         :param basis:
         :param kwargs:
         """
-        super().__init__(**kwargs)
+        super().__init__(rng=rng, **kwargs)
         super_parameter_distribution_dict = basis["random_super_parameter_distribution"]
         # Distribution attribute
         distribution_attribute = dynamic_import(

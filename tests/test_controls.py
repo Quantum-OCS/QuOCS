@@ -17,6 +17,7 @@
 import os, sys
 import pytest
 from quocslib.Controls import Controls
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.utils.inputoutput import readjson
 import numpy as np
 """
@@ -29,7 +30,8 @@ mean value for the start simplex generation.
 def controls_obj():
     dir_of_this_file = os.path.dirname(os.path.realpath(__file__))
     controls_dict = readjson(os.path.join(dir_of_this_file, "controls_dictionary.json"))
-    local_controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"])
+    rng = RandomNumberGenerator(seed_number=1234)
+    local_controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"], rng=rng)
     local_controls_obj.select_basis()
     return local_controls_obj
 
@@ -61,23 +63,9 @@ def test_controls(controls_obj):
     return True
 
 
-# def main(controls_dict):
-#     # Initialize controls
-#     controls_obj = Controls(controls_dict["pulses"], controls_dict["times"], controls_dict["parameters"])
-#     # Set random super_parameters
-#     controls_obj.select_basis()
-#     # Sigma variation
-#     print("sigma_variation = {0}".format(controls_obj.get_sigma_variation()))
-#     # Mean value
-#     print("mean_value = {0}".format(controls_obj.get_mean_value()))
-#     # Get control lists
-#     controls_list = [pulses_list, time_grids_list, parameters_list] = \
-#         controls_obj.get_controls_lists(controls_obj.get_mean_value())
-#     for control in controls_list:
-#         print("Control: {0}".format(control))
-#     controls_obj.update_base_controls(controls_obj.get_mean_value())
-#     print("The initialization is concluded")
-#
-#
-# if __name__ == '__main__':
-#     main(readjson(os.path.join(os.getcwd(), "controls_dictionary.json")))
+def test_seed_generation(controls_obj):
+    rng_list = []
+    for pulse in controls_obj.pulse_objs_list:
+        rng_list.append(pulse.rng)
+
+    return True
