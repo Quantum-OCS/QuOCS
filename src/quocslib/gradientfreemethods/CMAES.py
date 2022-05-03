@@ -26,12 +26,13 @@ from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteri
 class CMAES(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None, **kwargs):
+    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None,
+                 stop_optimization_callback: callable = None, **kwargs):
         """
         The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
         distributions of points in the control landscape
         :param dict settings: settings for the CMAES algorithm
-        :param dict stopping_criteria: stopping criteria such as max_eval
+        :param dict stopping_criteria: stopping criteria
         """
         super().__init__()
         self.callback = callback
@@ -40,6 +41,7 @@ class CMAES(DirectSearchMethod):
         self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
+        stopping_criteria.setdefault("stop_function", stop_optimization_callback)
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
     def run_dsm(self,
@@ -48,7 +50,7 @@ class CMAES(DirectSearchMethod):
                 args=(),
                 sigma_v: np.array = None,
                 initial_simplex=None,
-                max_eval: int = None,
+                max_eval_total: int = None,
                 **kwargs) -> dict:
         """
 
@@ -56,7 +58,7 @@ class CMAES(DirectSearchMethod):
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_eval: Maximum iteration number of function evaluations
+        :param int max_eval_total: Maximum iteration number of function evaluations in total
         :return:
         """
 
@@ -65,6 +67,9 @@ class CMAES(DirectSearchMethod):
 
         # Set to false is_converged
         self.sc_obj.is_converged = False
+
+        # update the total max of function evaluations
+        self.sc_obj.max_eval_total = max_eval_total
 
         N = len(x0)
 

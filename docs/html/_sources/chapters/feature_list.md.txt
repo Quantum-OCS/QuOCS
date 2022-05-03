@@ -14,23 +14,23 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 _json_: 
 ~~~json
 "algorithm_settings": {
-    "opti_algorithm_name":      "dCRAB",
-    "super_iteration_number":   5,
-    "max_eval_per_SI":          100
-    "is_compensated_drift":     true,
+    "opti_algorithm_name": "dCRAB",
+    "super_iteration_number": 5,
+    "max_eval_total": 100,
+    "is_compensated_drift": true,
     "random_number_generator": {
         "seed_number": 42
     },
     "re_evaluation": {
         "re_evaluation_steps": [0.3, 0.5, 0.51]
     }
-    }
+}
 ~~~
 
 _Settings_:
 - `"super_iteration_number"` The maximum number of superiterations, i.w. sub-optimisations, determines how many set of super-parameters are used 
 to sequentially optimise the problem
-- `"max_eval_per_SI"` Number of iterations per super-iteration.
+- `"max_eval_total"` Maximum number of function evaluations.
 - `"is_compensated_drift"`
 - `"random_number_generator"`>`"seed_number"`
 - `"re_evaluation"`>`"re_evaluation_steps"`
@@ -163,7 +163,7 @@ _References_:
         "distribution_attribute": null,
         "lower_limit": 0.1,
         "upper_limit": 5.0
-    }
+}
 ~~~
 ### Times
 ~~~json
@@ -181,7 +181,7 @@ _References_:
             "upper_limit": 2.0,
             "initial_value": 0.01,
             "amplitude_variation": 0.5
-        }],
+}],
 ~~~
 
 

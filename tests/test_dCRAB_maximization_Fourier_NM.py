@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
 from quocslib.Optimizer import Optimizer
+import pytest
 
 
 def test_dCRAB_Fourier_NM_OneQubit():
@@ -29,7 +30,7 @@ def test_dCRAB_Fourier_NM_OneQubit():
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,
-            "max_eval_per_SI": 100,
+            "max_eval_total": 100,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
@@ -73,12 +74,11 @@ def test_dCRAB_Fourier_NM_OneQubit():
         }]
     }
 
-    optimization_dictionary.setdefault("optimization_direction", "maximization")
     # define some parameters for the optimization
     args_dict = {
         "initial_state": "[1.0 , 0.0]",
         "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
-        "optimization_factor": 1.0
+        "optimization_factor": -1.0
     }
     main(optimization_dictionary, args_dict)
 

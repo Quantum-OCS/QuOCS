@@ -52,14 +52,6 @@ quocslib.optimizationalgorithms.dCRABAlgorithm module
    :undoc-members:
    :show-inheritance:
 
-quocslib.optimizationalgorithms.dCRABNoisyAlgorithm module
-----------------------------------------------------------
-
-.. automodule:: quocslib.optimizationalgorithms.dCRABNoisyAlgorithm
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

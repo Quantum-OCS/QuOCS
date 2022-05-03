@@ -155,8 +155,12 @@ class OptimizationAlgorithm:
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
     def is_optimization_running(self) -> bool:
-        """Module to stop the inner direct search algorithm, or to handle a possible recovery or pause mode"""
+        """Function to check if the optimization is still running"""
         return self.comm_obj.get_user_running()
+
+    def stop_optimization(self) -> None:
+        """Function to stop the optimization (inner direct search algorithm)"""
+        self.comm_obj.set_is_running_state(value=False)
 
     def end(self) -> None:
         """Finalize the transmission with  the client"""

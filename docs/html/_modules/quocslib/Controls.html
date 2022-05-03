@@ -7,10 +7,13 @@
 <title>quocslib.Controls</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/doctools.js"></script>
+
+
 <script defer="" src="../../_static/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -73,6 +76,12 @@
 <li class="toctree-l1">
 <a class="reference internal" href="../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
 </li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../chapters/feature_list.html">Feature List</a>
+</li>
 </ul>
 </div>
 <div class="sidebar-group">
@@ -129,7 +138,6 @@
 <span class="sd">    This is the main class for the optimization quantities, i.e. pulses, parameters, and times.</span>
 <span class="sd">    All these quantities are defined in this class and can be accessed by calling the modules here.</span>
 <span class="sd">    """</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses_list</span><span class="p">,</span> <span class="n">times_list</span><span class="p">,</span> <span class="n">parameters_list</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Constructor of the general class containing all the controls used during the optimization</span>
@@ -309,8 +317,9 @@
         <span class="c1"># Get the pulses and the timegrids</span>
         <span class="k">for</span> <span class="n">pulse</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_objs_list</span><span class="p">:</span>
             <span class="n">time_name</span> <span class="o">=</span> <span class="n">pulse</span><span class="o">.</span><span class="n">time_name</span>
-            <span class="n">pulses_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">get_pulse</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
-                                                <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">()))</span>
+            <span class="n">pulses_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">pulse</span><span class="o">.</span><span class="n">get_pulse</span><span class="p">(</span><span class="n">optimized_parameters_vector</span><span class="p">[</span><span class="n">pulse</span><span class="o">.</span><span class="n">control_parameters_list</span><span class="p">],</span>
+                                <span class="n">final_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">times_obj_dictionary</span><span class="p">[</span><span class="n">time_name</span><span class="p">]</span><span class="o">.</span><span class="n">get_time</span><span class="p">()))</span>
             <span class="n">time_grids_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse</span><span class="o">.</span><span class="n">time_grid</span><span class="p">)</span>
         <span class="c1"># Get the parameters</span>
         <span class="k">for</span> <span class="n">parameter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_objs_list</span><span class="p">:</span>
@@ -325,7 +334,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

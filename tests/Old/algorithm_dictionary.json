@@ -7,7 +7,7 @@
   "optimization_client_name": "Optimization_dCRAB_Test",
   "algorithm_settings": {
             "super_iteration_number": 5,
-            "max_eval_per_SI": 16
+            "max_eval_total": 16
         },
         "dsm_settings": {
             "general_settings": {
