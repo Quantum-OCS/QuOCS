@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pytest numpy scipy matplotlib
+          pip install requests pytest numpy scipy matplotlib jax
           pip install -e .
       - name: Prepare Repo
         uses: actions/checkout@master
