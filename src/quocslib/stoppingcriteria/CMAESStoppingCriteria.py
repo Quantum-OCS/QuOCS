@@ -58,8 +58,8 @@ class CMAESStoppingCriteria(StoppingCriteria):
         #     self.terminate_reason = terminate_reason
         #     return
 
-        self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)
-        if self.is_converged: return
+        # self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)
+        # if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(func_evaluations_single_direct_search)
         if self.is_converged: return
@@ -67,11 +67,11 @@ class CMAESStoppingCriteria(StoppingCriteria):
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)
         if self.is_converged: return
 
-        self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
-        if self.is_converged: return
+        # self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
+        # if self.is_converged: return
 
-        self.is_converged, self.terminate_reason = self.check_total_time_out()
-        if self.is_converged: return
+        # self.is_converged, self.terminate_reason = self.check_total_time_out()
+        # if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_direct_search_time_out()
         if self.is_converged: return

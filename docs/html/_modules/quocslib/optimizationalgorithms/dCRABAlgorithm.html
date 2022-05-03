@@ -162,8 +162,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span> <span class="o">=</span> <span class="n">dsm_attribute</span><span class="p">(</span><span class="n">direct_search_method_settings</span><span class="p">,</span>
                                      <span class="n">stopping_criteria</span><span class="p">,</span>
-                                     <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">,</span>
-                                     <span class="n">stop_optimization_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">)</span>
+                                     <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_optimization_running</span><span class="p">)</span>
 
         <span class="c1"># self.dsm_obj = NelderMead(direct_search_method_settings,</span>
         <span class="c1">#                           stopping_criteria,</span>
@@ -173,17 +172,17 @@
         <span class="c1"># Optimal algorithm variables</span>
         <span class="c1">###########################################################################################</span>
         <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
+        <span class="n">drift_compensations_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"compensate_drift"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="c1"># Max number of SI</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_num_si</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"super_iteration_number"</span><span class="p">])</span>
         <span class="c1"># TODO: old: Change evaluation number for the first and second super iteration... new: think of something</span>
         <span class="c1">#  else, e.g. adaption on how close one is to the desired FoM or so</span>
-        <span class="c1"># Max number of iterations at SI1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">max_eval_total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"max_eval_total"</span><span class="p">])</span>
         <span class="c1"># Starting FoM and sigma</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="mf">1e10</span>
+        <span class="c1"># self.best_FoM = 1e10  # defined in parent class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="c1"># Update the drift Hamiltonian</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_compensate_drift</span> <span class="o">=</span> <span class="n">alg_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_compensated_drift"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># Update the FoM for drift</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_SI</span> <span class="o">=</span> <span class="n">drift_compensations_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"compensate_after_SI"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_minutes</span> <span class="o">=</span> <span class="n">drift_compensations_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"compensate_after_minutes"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="c1"># Re-evaluation steps option</span>
         <span class="k">if</span> <span class="s2">"re_evaluation"</span> <span class="ow">in</span> <span class="n">alg_parameters</span><span class="p">:</span>
             <span class="n">re_evaluation_parameters</span> <span class="o">=</span> <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"re_evaluation"</span><span class="p">]</span>
@@ -295,16 +294,16 @@
             <span class="c1"># Set super iteration number</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span> <span class="o">=</span> <span class="n">super_it</span>
             <span class="c1"># Compensate the drift Hamiltonian</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_compensate_drift</span> <span class="ow">and</span> <span class="n">super_it</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_update_FoM</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_SI</span> <span class="ow">and</span> <span class="n">super_it</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_FoM</span><span class="p">(</span><span class="s2">"after SI"</span><span class="p">)</span>
             <span class="c1"># Initialize the random super_parameters</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">select_basis</span><span class="p">()</span>
             <span class="c1"># Direct search method</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_eval_total</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dsm_build</span><span class="p">()</span>
             <span class="c1"># Update the base current pulses</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_update_base_pulses</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">_update_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_update_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Update the value of the best FoM using the current best controls"""</span>
         <span class="n">previous_best_FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span>
         <span class="c1"># Get the current best control optimization vector</span>
@@ -313,7 +312,8 @@
         <span class="n">iteration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_routine_call</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">iteration</span><span class="p">)</span>
         <span class="c1"># Info message</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best FoM: </span><span class="si">{</span><span class="n">previous_best_FoM</span><span class="si">}</span><span class="s2"> , Current best FoM after drift compensation: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best FoM: </span><span class="si">{</span><span class="n">previous_best_FoM</span><span class="si">}</span><span class="s2">, Current best FoM after drift "</span> \
+                  <span class="sa">f</span><span class="s2">"compensation (</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="si">}</span><span class="s2">"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
         <span class="c1"># At this point is not necessary to set again is_record to False since is newly re-define at the beginning of</span>
         <span class="c1"># the _inner_routine_call function</span>
@@ -326,7 +326,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_parameters_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dcrab_super_parameter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_random_super_parameter</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_iteration_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_dsm_build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""Build the direct search method and run it"""</span>
         <span class="n">start_simplex</span> <span class="o">=</span> <span class="n">simplex_creation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">(),</span>
                                          <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_sigma_variation</span><span class="p">(),</span>
@@ -339,7 +339,7 @@
         <span class="n">result_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inner_routine_call</span><span class="p">,</span>
                                         <span class="n">x0</span><span class="p">,</span>
                                         <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
-                                        <span class="n">max_eval_total</span><span class="o">=</span><span class="n">max_iteration_number</span><span class="p">)</span>
+                                        <span class="n">drift_comp_minutes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_minutes</span><span class="p">)</span>
         <span class="c1"># Update the results</span>
         <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
                                                            <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>

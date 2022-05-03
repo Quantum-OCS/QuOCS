@@ -60,7 +60,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         ###########################################################################################
         alg_parameters = optimization_dict["algorithm_settings"]
         # Starting FoM
-        self.best_FoM = 1e10
+        # self.best_FoM = 1e10  # defined in parent class
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################

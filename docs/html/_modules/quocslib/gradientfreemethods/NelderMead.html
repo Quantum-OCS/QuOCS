@@ -125,6 +125,8 @@
 <span class="c1">#  limitations under the License.</span>
 <span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">seterr</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="s2">"raise"</span><span class="p">)</span>
 
@@ -136,8 +138,7 @@
 <div class="viewcode-block" id="NelderMead"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.NelderMead.NelderMead">[docs]</a><span class="k">class</span> <span class="nc">NelderMead</span><span class="p">(</span><span class="n">DirectSearchMethod</span><span class="p">):</span>
     <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">stop_optimization_callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">settings</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Nelder-Mead is an updating algorithm based on the simplex method.</span>
 <span class="sd">        :param dict settings: settings for the NM algorithm</span>
@@ -150,29 +151,29 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"is_adaptive"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="c1"># TODO Create it using dynamical import module</span>
         <span class="c1"># Stopping criteria object</span>
-        <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"stop_function"</span><span class="p">,</span> <span class="n">stop_optimization_callback</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span> <span class="o">=</span> <span class="n">NelderMeadStoppingCriteria</span><span class="p">(</span><span class="n">stopping_criteria</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NelderMead.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.NelderMead.NelderMead.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_eval_total</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<div class="viewcode-block" id="NelderMead.run_dsm"><a class="viewcode-back" href="../../../source/quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.NelderMead.NelderMead.run_dsm">[docs]</a>    <span class="k">def</span> <span class="nf">run_dsm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">initial_simplex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">drift_comp_minutes</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""</span>
 
 <span class="sd">        :param callable func: Function to be called at every function evaluation</span>
 <span class="sd">        :param np.array x0: initial point</span>
 <span class="sd">        :param tuple args: Further arguments</span>
 <span class="sd">        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation</span>
-<span class="sd">        :param int max_eval_total: Maximum iteration number of function evaluations in total</span>
+<span class="sd">        :param float drift_comp_minutes: Compensate for drift after this number of minutes</span>
 <span class="sd">        :return:</span>
 <span class="sd">        """</span>
         <span class="c1"># Creation of the communication function for the OptimizationAlgorithm object</span>
         <span class="n">calls_number</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_wrapper</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
         <span class="c1"># Set to false is_converged</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="c1"># update the total max of function evaluations</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">max_eval_total</span> <span class="o">=</span> <span class="n">max_eval_total</span>
         <span class="c1"># Initialize the iteration number</span>
         <span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="c1"># Landscape dimension</span>
         <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+        <span class="c1"># set start time of direct search</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="c1"># Hyper-parameters for adaptive and not adaptive NM</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span><span class="p">:</span>
             <span class="n">f_dim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
@@ -259,6 +260,18 @@
             <span class="c1"># Sort the array by the lowest function value since we are performing a minimization</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
             <span class="p">[</span><span class="n">sim</span><span class="p">,</span> <span class="n">fsim</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">fsim</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+            <span class="c1"># do drift compensation</span>
+            <span class="k">if</span> <span class="n">drift_comp_minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                <span class="n">drift_comp_timer</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
+                <span class="k">if</span> <span class="n">drift_comp_timer</span> <span class="o">&gt;=</span> <span class="n">drift_comp_minutes</span><span class="p">:</span>
+                    <span class="n">prev_FoM</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">iterations</span><span class="p">)</span>
+                    <span class="n">new_FoM</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best FoM: </span><span class="si">{</span><span class="n">prev_FoM</span><span class="si">}</span><span class="s2">, Current best FoM after drift "</span> \
+                              <span class="sa">f</span><span class="s2">"compensation (after </span><span class="si">{</span><span class="n">drift_comp_minutes</span><span class="si">}</span><span class="s2"> minutes): </span><span class="si">{</span><span class="n">new_FoM</span><span class="si">}</span><span class="s2">"</span>
+                    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"oc_logger"</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
             <span class="c1"># Increase the NM iteration</span>
             <span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># Update function evaluations number</span>
@@ -267,7 +280,8 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">():</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"User stopped the optimization"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"User stopped the optimization or higher order "</span> \
+                                                   <span class="s2">"stopping criterion has been reached"</span>
             <span class="c1"># Check stopping criteria</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_stopping_criteria</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">fsim</span><span class="p">,</span> <span class="n">calls_number</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="c1"># END of while loop</span>

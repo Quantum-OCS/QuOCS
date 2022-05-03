@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 from quocslib.handleexit.HandleExit import HandleExit
+from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
@@ -23,15 +24,24 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 class Optimizer:
 
-    def __init__(self, optimization_dict: dict = None, FoM_object: AbstractFoM = None):
+    def __init__(self,
+                 optimization_dict: dict = None,
+                 FoM_object: AbstractFoM = None,
+                 comm_signals_list: [list, list, list] = None,
+                 handle_exit_obj: AbstractHandleExit = None):
         """
         Write this docstring
         """
+        # Handle exit
+        if handle_exit_obj is None:
+            handle_exit_obj = HandleExit()
+
         self.interface_job_name = optimization_dict.setdefault("optimization_client_name", "run")
         self.communication_obj = AllInOneCommunication(interface_job_name=self.interface_job_name,
                                                        FoM_obj=FoM_object,
-                                                       handle_exit_obj=HandleExit(),
-                                                       dump_attribute=BestDump)
+                                                       handle_exit_obj=handle_exit_obj,
+                                                       dump_attribute=BestDump,
+                                                       comm_signals_list=comm_signals_list)
 
         self.results_path = self.communication_obj.results_path
 

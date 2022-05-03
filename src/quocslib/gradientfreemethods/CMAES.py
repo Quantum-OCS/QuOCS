@@ -26,8 +26,7 @@ from quocslib.stoppingcriteria.CMAESStoppingCriteria import CMAESStoppingCriteri
 class CMAES(DirectSearchMethod):
     callback: callable
 
-    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None,
-                 stop_optimization_callback: callable = None, **kwargs):
+    def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None, **kwargs):
         """
         The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
         distributions of points in the control landscape
@@ -41,7 +40,6 @@ class CMAES(DirectSearchMethod):
         self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
-        stopping_criteria.setdefault("stop_function", stop_optimization_callback)
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
 
     def run_dsm(self,
@@ -50,7 +48,7 @@ class CMAES(DirectSearchMethod):
                 args=(),
                 sigma_v: np.array = None,
                 initial_simplex=None,
-                max_eval_total: int = None,
+                drift_comp_minutes=0.0,
                 **kwargs) -> dict:
         """
 
@@ -58,7 +56,7 @@ class CMAES(DirectSearchMethod):
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
-        :param int max_eval_total: Maximum iteration number of function evaluations in total
+        :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :return:
         """
 
@@ -67,9 +65,6 @@ class CMAES(DirectSearchMethod):
 
         # Set to false is_converged
         self.sc_obj.is_converged = False
-
-        # update the total max of function evaluations
-        self.sc_obj.max_eval_total = max_eval_total
 
         N = len(x0)
 
@@ -195,7 +190,8 @@ class CMAES(DirectSearchMethod):
                 if self.callback is not None:
                     if not self.callback():
                         self.sc_obj.is_converged = True
-                        self.sc_obj.terminate_reason = "User stopped the optimization"
+                        self.sc_obj.terminate_reason = "User stopped the optimization or higher order " \
+                                                       "stopping criterion has been reached"
                 # Check stopping criteria
                 self.sc_obj.check_stopping_criteria(fsim, calls_number[0])
                 # # CMAES criterium

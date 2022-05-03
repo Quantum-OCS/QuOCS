@@ -17,6 +17,7 @@ from abc import abstractmethod
 import numpy as np
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
+from datetime import datetime
 
 INITIAL_FOM: float = 10**10
 
@@ -40,26 +41,38 @@ class OptimizationAlgorithm:
         self.comm_obj = communication_obj
         # Print optimization dictionary into a file
         self.comm_obj.print_optimization_dictionary(optimization_dict)
+        # Get the algorithm settings
+        alg_parameters = optimization_dict["algorithm_settings"]
         # Initialize the total iteration number, i.e. the total function evaluations of the algorithm
         self.iteration_number = 0
         # Update status
         self.init_status = True
         # Random number generator
         self.rng = None
+        # define message for global stopping criterion
+        self.higher_order_terminate_reason = ""
+        # Max number of total function evaluations
+        self.max_eval_total = int(alg_parameters.setdefault("max_eval_total", 10**10))
+        # Max total time of evaluation
+        self.total_time_lim = alg_parameters.setdefault("total_time_lim", 10**10)
+        # Goal FoM
+        self.FoM_goal = alg_parameters.setdefault("FoM_goal", None)
+        # initialize the optimizaiton start time
+        self.optimizaiton_start_time = 0
         # Maximization or minimization
         # optimization_direction
-        optimization_direction = optimization_dict.setdefault("optimization_direction", "minimization")
-        if optimization_direction == "minimization":
+        self.optimization_direction = alg_parameters.setdefault("optimization_direction", "minimization")
+        if self.optimization_direction == "minimization":
             self.optimization_factor = -1.0
-        elif optimization_direction == "maximization":
+        elif self.optimization_direction == "maximization":
             self.optimization_factor = 1.0
         else:
             message = "You can choose between maximization/minimization " \
-                      "only, but {0} is provided".format(optimization_direction)
+                      "only, but {0} is provided".format(self.optimization_direction)
             self.comm_obj.print_logger(message=message, level=40)
             raise TypeError
         self.best_FoM = self.optimization_factor * (-1.0) * INITIAL_FOM
-        message = "The optimization direction is {0}".format(optimization_direction)
+        message = "The optimization direction is {0}".format(self.optimization_direction)
         self.comm_obj.print_logger(message=message, level=20)
 
     def begin(self) -> None:
@@ -74,6 +87,8 @@ class OptimizationAlgorithm:
         self.comm_obj.send_communication_data()
         # Notify it to the client
         self.comm_obj.update_init_msg_server(upd_name=self.comm_obj.client_job_name)
+        # set start time of optimization
+        self.optimizaiton_start_time = datetime.now()
 
     def _routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
         """
@@ -84,6 +99,32 @@ class OptimizationAlgorithm:
         :param: int iterations: Iteration number of the inner free gradient method
         :return: float: Return the figure of merit to the inner free gradient method
         """
+        # check if total maximum number of evals has been reached
+        if self.iteration_number >= self.max_eval_total:
+            self.higher_order_terminate_reason = "Maximum number of total function evaluations reached"
+            self.stop_optimization()
+
+        # check if FoM_goal has been reached
+        if self.FoM_goal is not None:
+            if self.optimization_direction == "maximization":
+                if self.best_FoM >= self.FoM_goal:
+                    self.higher_order_terminate_reason = "Goal FoM reached reached"
+                    self.stop_optimization()
+            else:
+                if self.best_FoM <= self.FoM_goal:
+                    self.higher_order_terminate_reason = "Goal FoM reached reached"
+                    self.stop_optimization()
+
+        # check total optimization time limit
+        if self.total_time_lim < 10**10:
+            curr_time = datetime.now()
+            time_passed = (curr_time - self.optimizaiton_start_time).total_seconds() / 60.0
+
+            if time_passed >= self.total_time_lim:
+                self.higher_order_terminate_reason = "Maximum optimization runtime reached"
+                self.stop_optimization()
+
+        # self.optimizaiton_start_time = datetime.now()
         # Check if the optimization is still running
         is_running = self.comm_obj.get_user_running()
         if not is_running:
@@ -167,6 +208,10 @@ class OptimizationAlgorithm:
         # Check client update
         self.comm_obj.check_msg_client()
         # End communication
-        self.comm_obj.end_communication(self._get_final_results())
+        # ToDo: fix this... this is kind of a workaround for now
+        end_comm_message_dict = self._get_final_results()
+        if self.higher_order_terminate_reason != "":
+            end_comm_message_dict["Termination Reason"] = self.higher_order_terminate_reason
+        self.comm_obj.end_communication(end_comm_message_dict)
         # Update server message
         self.comm_obj.update_msg_server()

@@ -52,8 +52,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
 
         self.dsm_obj = dsm_attribute(direct_search_method_settings,
                                      stopping_criteria,
-                                     callback=self.is_optimization_running,
-                                     stop_optimization_callback=self.stop_optimization)
+                                     callback=self.is_optimization_running)
 
         # self.dsm_obj = NelderMead(direct_search_method_settings,
         #                           stopping_criteria,
@@ -63,17 +62,17 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Optimal algorithm variables
         ###########################################################################################
         alg_parameters = optimization_dict["algorithm_settings"]
+        drift_compensations_parameters = optimization_dict["algorithm_settings"].setdefault("compensate_drift", {})
         # Max number of SI
         self.max_num_si = int(alg_parameters["super_iteration_number"])
         # TODO: old: Change evaluation number for the first and second super iteration... new: think of something
         #  else, e.g. adaption on how close one is to the desired FoM or so
-        # Max number of iterations at SI1
-        self.max_eval_total = int(alg_parameters["max_eval_total"])
         # Starting FoM and sigma
-        self.best_FoM = 1e10
+        # self.best_FoM = 1e10  # defined in parent class
         self.best_sigma = 0.0
-        # Update the drift Hamiltonian
-        self.is_compensate_drift = alg_parameters.setdefault("is_compensated_drift", False)
+        # Update the FoM for drift
+        self.compensate_drift_after_SI = drift_compensations_parameters.setdefault("compensate_after_SI", False)
+        self.compensate_drift_after_minutes = drift_compensations_parameters.setdefault("compensate_after_minutes", 0.0)
         # Re-evaluation steps option
         if "re_evaluation" in alg_parameters:
             re_evaluation_parameters = alg_parameters["re_evaluation"]
@@ -185,16 +184,16 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             # Set super iteration number
             self.super_it = super_it
             # Compensate the drift Hamiltonian
-            if self.is_compensate_drift and super_it >= 2:
-                self._update_FoM()
+            if self.compensate_drift_after_SI and super_it >= 2:
+                self._update_FoM("after SI")
             # Initialize the random super_parameters
             self.controls.select_basis()
             # Direct search method
-            self._dsm_build(self.max_eval_total)
+            self._dsm_build()
             # Update the base current pulses
             self._update_base_pulses()
 
-    def _update_FoM(self) -> None:
+    def _update_FoM(self, mode: str = "") -> None:
         """Update the value of the best FoM using the current best controls"""
         previous_best_FoM = self.best_FoM
         # Get the current best control optimization vector
@@ -203,7 +202,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         iteration, self.is_record, self.step_number = 0, True, 0
         self.best_FoM = self._routine_call(x0, iteration)
         # Info message
-        message = f"Previous best FoM: {previous_best_FoM} , Current best FoM after drift compensation: {self.best_FoM}"
+        message = f"Previous best FoM: {previous_best_FoM}, Current best FoM after drift " \
+                  f"compensation ({mode}): {self.best_FoM}"
         self.comm_obj.print_logger(message=message, level=20)
         # At this point is not necessary to set again is_record to False since is newly re-define at the beginning of
         # the _inner_routine_call function
@@ -216,7 +216,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.dcrab_parameters_list.append(self.best_xx)
         self.dcrab_super_parameter_list.append(self.controls.get_random_super_parameter())
 
-    def _dsm_build(self, max_iteration_number: int) -> None:
+    def _dsm_build(self) -> None:
         """Build the direct search method and run it"""
         start_simplex = simplex_creation(self.controls.get_mean_value(),
                                          self.controls.get_sigma_variation(),
@@ -229,7 +229,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
-                                        max_eval_total=max_iteration_number)
+                                        drift_comp_minutes=self.compensate_drift_after_minutes)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
                                                            result_l["X_opti_vec"],

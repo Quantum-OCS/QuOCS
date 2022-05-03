@@ -158,8 +158,8 @@
 <span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_func_eval_total</span><span class="p">(</span><span class="n">func_evaluations_single_direct_search</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+        <span class="c1"># self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)</span>
+        <span class="c1"># if self.is_converged: return</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_func_eval_single_direct_search</span><span class="p">(</span>
             <span class="n">func_evaluations_single_direct_search</span><span class="p">)</span>
@@ -171,11 +171,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_f_size</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_goal_reached</span><span class="p">(</span><span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+        <span class="c1"># self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])</span>
+        <span class="c1"># if self.is_converged: return</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_total_time_out</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
+        <span class="c1"># self.is_converged, self.terminate_reason = self.check_total_time_out()</span>
+        <span class="c1"># if self.is_converged: return</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_direct_search_time_out</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span></div></div>

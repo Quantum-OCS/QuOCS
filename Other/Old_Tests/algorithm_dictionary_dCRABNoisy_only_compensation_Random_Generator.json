@@ -8,7 +8,9 @@
   "algorithm_settings": {
     "super_iteration_number": 5,
     "max_eval_total": 200,
-    "is_compensated_drift": true,
+    "compensate_drift": {
+      "compensate_after_SI": true
+    },
     "random_number_generator": {
       "seed_number": 2022
     }
