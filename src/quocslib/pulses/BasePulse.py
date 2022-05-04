@@ -32,19 +32,20 @@ class BasePulse:
     final_time: float
 
     def __init__(self,
-                 map_index=-1,
-                 pulse_name="pulse",
-                 bins_number=101,
-                 time_name="time",
-                 lower_limit=0.0,
-                 upper_limit=1.0,
-                 amplitude_variation=0.1,
-                 initial_guess=None,
-                 scaling_function=None,
+                 map_index: int = -1,
+                 pulse_name: str = "pulse",
+                 bins_number: int = 101,
+                 time_name: str = "time",
+                 lower_limit: float = 0.0,
+                 upper_limit: float = 1.0,
+                 amplitude_variation: float = 1.0,
+                 initial_guess: np.array = None,
+                 scaling_function: np.array = None,
                  is_shrinked: bool = False,
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
-                 rng: RandomNumberGenerator = None):
+                 rng: RandomNumberGenerator = None,
+                 **kwargs):
         """
         Here we defined all the basic features a pulse should have.
 

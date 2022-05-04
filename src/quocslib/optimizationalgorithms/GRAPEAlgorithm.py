@@ -18,14 +18,13 @@ from scipy.optimize import minimize
 import scipy
 
 from quocslib.Controls import Controls
-from quocslib.utils.dynamicimport import dynamic_import
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 
-from quocslib.timeevolution.piecewise_integrator import pw_evolution
 from quocslib.tools.linearalgebra import commutator
-from quocslib.pulses.basis.PiecewiseBasis import PiecewiseBasis
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
-class GRAPEAlgorithm:
+class GRAPEAlgorithm(OptimizationAlgorithm):
     """
     This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
     The three important function are:
@@ -35,94 +34,106 @@ class GRAPEAlgorithm:
     * _get_final_results: return the final result of the optimization algorithm
     """
 
-    def __init__(self, optimization_dict: dict = None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
-        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls
+        are defined.
         """
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
-        # Optimal algorithm variables if any
+        # Optimal algorithm variables
         ###########################################################################################
-        # Is empty
-        self.alg_parameters = optimization_dict["algorithm_settings"]
-        # Starting FoM
-        self.best_FoM = 1e10
+        # Get functions and variable for the gradient optimization
+        self.propagator_func = FoM_object.get_propagator
+        self.initial_state = FoM_object.get_initial_state()
+        self.target_state = FoM_object.get_target_state()
+        self.drift_Hamiltonian = FoM_object.get_drift_Hamiltonian()
+        self.control_Hamiltonians = FoM_object.get_control_Hamiltonians()
+        self.FoM_list = []
+        self.sys_type = optimization_dict.setdefault("sys_type", "StateTransfer")
+
+        alg_parameters = optimization_dict["algorithm_settings"]
+        # Seed for the random number generator
+        seed_number = 2022
+        if "random_number_generator" in alg_parameters:
+            try:
+                seed_number = alg_parameters["random_number_generator"]["seed_number"]
+            except (TypeError, KeyError):
+                seed_number = 2022
+                message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+                    seed_number)
+                self.comm_obj.print_logger(message, level=30)
+        self.rng = RandomNumberGenerator(seed_number=seed_number)
+
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
-        # we will sculpt this a little since you have to be careful what you pass here
-        # times are just the points we discretise at
+        # Define array objects for the gradient calculation
+        self.controls = Controls(
+            optimization_dict["pulses"],
+            optimization_dict["times"],
+            optimization_dict["parameters"],
+            rng=self.rng,
+        )
+        ###########################################################################################
+        # Objects for gradient optimization
+        ###########################################################################################
+        # Get the bins number of the first pulse
+        self.n_slices = n_slices = self.controls.pulse_objs_list[0].bins_number
+        self.propagator_storage = np.array([np.zeros_like(self.drift_Hamiltonian) for _ in range(n_slices)])
+        self.rho_storage = np.array([np.zeros_like(self.target_state) for _ in range(n_slices + 1)])
+        self.rho_storage[0] = self.initial_state
+        self.corho_storage = np.array([np.zeros_like(self.target_state) for _ in range(n_slices + 1)])
+        self.corho_storage[-1] = self.target_state
+        ###########################################################################################
+        # Other useful variables
+        ###########################################################################################
+        self.FoM_list: list = []
+        self.iteration_number_list: list = []
 
-        # might need to control if you change something
-
-        self.A = optimization_dict["A"]
-        self.B = optimization_dict["B"]
-        self.n_slices = optimization_dict["n_slices"]
-        self.rho_init = optimization_dict["rho_init"]
-        self.rho_target = optimization_dict["rho_target"]
-        self.dt = optimization_dict["dt"]
-        self.sys_type = optimization_dict["sys_type"]
-        self.dim = np.size(self.A, 1)
-        self.num_pulses = len(self.B)
-        self.initial_guess = optimization_dict["initial_guess"]
-        self.FoM_list = []
-
-        # create some storage arrays for the forward and backward propagated state
-        self.rho_storage = np.array([self.rho_init for i in range(self.n_slices + 1)])
-        self.rho_storage[0] = self.rho_init
-        self.corho_storage = np.array([self.rho_target for i in range(self.n_slices + 1)])
-        self.corho_storage[-1] = self.rho_target
-        self.propagator_storage = np.array([self.A for i in range(self.n_slices)])
-
-        self.iteration_number = None
-
-        pw_basis_dict = {
-            "pulse_name": "GRAPE",
-            "bins_number": optimization_dict["n_slices"],
-            "time_name": "",
-            "lower_limit": -np.Inf,
-            "upper_limit": np.Inf,
-            "amplitude_variation": None,
-            "initial_guess": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda x: self.initial_guess",
-            },
-            "scaling_function": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda x: x",
-            },
+    def _get_response_for_client(self) -> dict:
+        FoM = self.FoM_dict["FoM"]
+        status_code = self.FoM_dict.setdefault("status_code", 0)
+        if self.get_is_record(FoM):
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+                                                                                                   best_FoM=FoM)
+            self.comm_obj.print_logger(message=message, level=20)
+            self.best_FoM = FoM
+            self.best_xx = self.xx.copy()
+            self.is_record = True
+        response_dict = {
+            "is_record": self.is_record,
+            "FoM": FoM,
+            "iteration_number": self.iteration_number,
+            "status_code": status_code
         }
-        # This declaration is wrong
-        # pulse_dict = [
-        #     {"basis": PiecewiseBasis(basis={}, **pw_basis_dict)}
-        # ] * self.num_pulses
-        pulse_dict = [{"basis": {"basis_attribute": PiecewiseBasis}, **pw_basis_dict}] * self.num_pulses
-        time_dict = [{"time_name": ""}] * self.num_pulses
-        param_dict = [{"parameter_name": ""}] * self.num_pulses
+        # Load the current figure of merit and iteration number in the summary list of dCRAB
+        if status_code == 0:
+            self.FoM_list.append(FoM)
+            self.iteration_number_list.append(self.iteration_number)
+        return response_dict
 
-        # Initialize the control object
-        self.controls = Controls(pulse_dict, time_dict, param_dict, rng=None)
+    def get_gradient(self, optimized_control_parameters: np.array):
+        """Get the gradient from the propagators calculated in the FoM object"""
+        # Calculate the controls
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
+        # Pass the controls to the get propagator function
+        U_store = self.propagator_func(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
+        n_slices = self.n_slices
+        sys_type = self.sys_type
+        rho_store = self.rho_storage
+        corho_store = self.corho_storage
 
-    def functional(self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type):
-        """Compute the fidelity functional for the defined problem
+        time_grid = timegrids[0]
+        # dt = time_grid[1] - time_grid[0]
+        dt = time_grid[-1] / len(time_grid)
 
-        :param np.array drive: this should be a flat array that will be resized into N_ctrls x N_slices
-        :param np.matrix A: drift Hamiltonian
-        :param List[np.matrix] B: control Hamiltonians in a list of N_ctrls long
-        :param int n_slices: the number of pulse slices
-        :param float dt: the duration of each timeslice
-        :param List[np.matrix] U_store: a store for all the propagators
-        :param List[np.matrix] rho_store: a store for all the forward propagated states
-        :param List[np.matrix] corho_store: a store for all the reverse propagated states
-        :param str sys_type: either specifying state transfer or other
-        :return Tuple[float, np.array]: Returns a tuple containing the gradient and the figure of merit
-        """
-        K = self.num_pulses
-        drive = drive.reshape((K, n_slices))
-        # TODO: Make this statement more clear
-        # Update the propagator_storage class variable
-        pw_evolution(U_store, drive, A, B, n_slices, dt)
-
+        # Number of control Hamiltonians
+        K = len([self.control_Hamiltonians])
+        # control hamiltonians
+        B = [self.control_Hamiltonians]
+        # Forward and backward propagation
         for t in range(n_slices):
             U = U_store[t]
             # depending on system type do different evolution
@@ -136,8 +147,7 @@ class GRAPEAlgorithm:
                 corho_store[t] = U.T.conj() @ corho_store[t + 1] @ U
             else:
                 corho_store[t] = corho_store[t + 1] @ U.T.conj()
-
-        # then compute the gradients
+        # Calculate the gradient
         grads = np.zeros((K, n_slices))
         for k in range(K):
             for t in range(n_slices):
@@ -147,52 +157,33 @@ class GRAPEAlgorithm:
                 else:
                     grads[k, t] = 0.0
         grads = grads.flatten()
-        if sys_type == "StateTransfer":
-            fid = 1 - np.abs(np.trace(corho_store[-1].T.conj() @ rho_store[-1]))
-        else:
-            fid = 0.0
+        # Return the gradient to the main updating function
+        return grads
 
-        self.FoM_list.append(fid)
+    def inner_routine_call(self, optimized_control_parameters: np.array):
+        """Function evaluation call for the L-BFGS-B algorithm"""
+        grads = self.get_gradient(optimized_control_parameters=optimized_control_parameters)
+        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
+        return FoM, grads
 
-        return fid, grads
-
-    def _get_functional(self):
-        """Generates a lambda x: where x is the control
-
-        :return lambda:
-        """
-        return lambda x: self.functional(
-            x,
-            self.A,
-            self.B,
-            self.n_slices,
-            self.dt,
-            self.propagator_storage,
-            self.rho_storage,
-            self.corho_storage,
-            self.sys_type,
-        )
-
-    def run(self, init) -> None:
+    def run(self) -> None:
         """Main loop of the optimization"""
-
-        func_topt = self._get_functional()
-        # now we can optimize
-        # need to be able to include things
-        oo = scipy.optimize.minimize(func_topt, init, method="L-BFGS-B", jac=True, options=self.alg_parameters)
-
-        # need to be able to implement pulses in Marco's way, ask him later
-        self.best_FoM = oo.fun
-        self.optimized_pulses = oo.x  # TODO we might want to reshape this
-        self.opt_res = oo
-        self.iteration_number = oo.nfev
+        # Initial set of random parameters
+        # I have to use random parameters to avoid initial local trap (null gradient)
+        # Create array with values between [-1.0, 1.0]
+        random_variation = 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
+        # Scale it accordingly to the amplitude variation
+        initial_variation = random_variation * self.controls.get_sigma_variation()
+        # Define the initial
+        init_xx = self.controls.get_mean_value() + initial_variation
+        # Optimization with L-BFGS-B
+        results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True)
+        # Print L-BFGS-B results in the log file
+        self.comm_obj.print_logger(results, level=20)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
-        # [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
-        pulses = [self.optimized_pulses]
-        timegrids = [np.ones(self.n_slices) * self.dt]
-        parameters = []
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
         #
         controls_dict = {
             "pulses": pulses,

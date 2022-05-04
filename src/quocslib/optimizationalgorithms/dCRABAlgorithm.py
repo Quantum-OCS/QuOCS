@@ -26,7 +26,7 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 class dCRABAlgorithm(OptimizationAlgorithm):
 
-    def __init__(self, optimization_dict: dict = None, communication_obj=None):
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
         OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.
@@ -55,6 +55,9 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                      stopping_criteria,
                                      callback=self.is_optimization_running)
 
+        # self.dsm_obj = NelderMead(direct_search_method_settings,
+        #                           stopping_criteria,
+        #                           callback=self.is_optimization_running)
         self.terminate_reason = ""
         ###########################################################################################
         # Optimal algorithm variables

@@ -22,14 +22,17 @@ from packaging import version
 class RandomNumberGenerator:
 
     def __init__(self, seed_number: int = None):
+        """ Add the docstrings here """
         logger = logging.getLogger("oc_logger")
         numpy_version = np.__version__
         self.message = ""
         self.rng = None
         self.type = None
         # If no seed is provided use the random numbers without any seed
+        # TODO Select a seed number randomly and write into the json dictionary or in a file
         if seed_number is None:
             return
+        # Check if the rng is provided by the installed numpy version
         if version.parse(numpy_version) < version.parse("1.16.0"):
             # Try to import the randomgen package
             try:
@@ -58,3 +61,11 @@ class RandomNumberGenerator:
                 return self.rng.random(n)
             else:
                 return self.rng.random_sample(n)
+
+
+# def get_random_numbers(n: int, rng: np.random.Generator = None):
+#     """ Return an array of random numbers between 0 and 1 based on the random generator """
+#     if rng is None:
+#         return np.random.rand(n)
+#     else:
+#         return rng.random(n)
