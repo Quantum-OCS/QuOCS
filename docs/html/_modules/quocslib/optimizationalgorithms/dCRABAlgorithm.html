@@ -136,7 +136,8 @@
 
 
 <div class="viewcode-block" id="dCRABAlgorithm"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm">[docs]</a><span class="k">class</span> <span class="nc">dCRABAlgorithm</span><span class="p">(</span><span class="n">OptimizationAlgorithm</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
 <span class="sd">        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>
@@ -155,7 +156,8 @@
         <span class="c1"># The callback function is called once in a while in the inner direct search method to check</span>
         <span class="c1">#  if the optimization is still running</span>
 
-        <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+        <span class="n">dsm_attribute</span> <span class="o">=</span> <span class="n">dynamic_import</span><span class="p">(</span><span class="n">module_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span>
+            <span class="s2">"dsm_algorithm_module"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                                        <span class="n">class_name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_class"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                                        <span class="n">name</span><span class="o">=</span><span class="n">direct_search_method_settings</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"dsm_algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                                        <span class="n">class_type</span><span class="o">=</span><span class="s1">'dsm_settings'</span><span class="p">)</span>
@@ -291,6 +293,14 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="n">message</span> <span class="o">=</span> <span class="s2">"Direct search start time could not be reset!"</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># reset FoM_track in stopping criteria for new SI</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">reset_curr_FoM_track_for_new_SI</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">"FoM track for stopping criteria could not be reset!"</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
             <span class="c1"># Set super iteration number</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">super_it</span> <span class="o">=</span> <span class="n">super_it</span>
             <span class="c1"># Compensate the drift Hamiltonian</span>
@@ -341,17 +351,15 @@
                                         <span class="n">initial_simplex</span><span class="o">=</span><span class="n">start_simplex</span><span class="p">,</span>
                                         <span class="n">drift_comp_minutes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_minutes</span><span class="p">)</span>
         <span class="c1"># Update the results</span>
-        <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span>
-                                                           <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span>
-                                                           <span class="n">result_l</span><span class="p">[</span><span class="s2">"terminate_reason"</span><span class="p">],</span>
-                                                           <span class="n">result_l</span><span class="p">[</span><span class="s2">"NfunevalsUsed"</span><span class="p">]]</span>
+        <span class="p">[</span><span class="n">FoM</span><span class="p">,</span> <span class="n">xx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span> <span class="n">NfunevalsUsed</span>
+         <span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">result_l</span><span class="p">[</span><span class="s2">"F_min_val"</span><span class="p">],</span> <span class="n">result_l</span><span class="p">[</span><span class="s2">"X_opti_vec"</span><span class="p">],</span> <span class="n">result_l</span><span class="p">[</span><span class="s2">"terminate_reason"</span><span class="p">],</span> <span class="n">result_l</span><span class="p">[</span><span class="s2">"NfunevalsUsed"</span><span class="p">]]</span>
         <span class="c1"># Message at the end of the SI</span>
         <span class="n">message</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"SI </span><span class="si">{super_it}</span><span class="s2"> finished - Number of evaluations: </span><span class="si">{NfunevalsUsed}</span><span class="s2">, "</span>
                    <span class="s2">"Best FoM: </span><span class="si">{best_FoM}</span><span class="s2">, Terminate reason: </span><span class="si">{reason}</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
-                                                   <span class="n">NfunevalsUsed</span><span class="o">=</span><span class="n">NfunevalsUsed</span><span class="p">,</span>
-                                                   <span class="n">termination_reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
-                                                   <span class="n">best_FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
-                                                   <span class="n">reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">))</span>
+                                                                               <span class="n">NfunevalsUsed</span><span class="o">=</span><span class="n">NfunevalsUsed</span><span class="p">,</span>
+                                                                               <span class="n">termination_reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">,</span>
+                                                                               <span class="n">best_FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
+                                                                               <span class="n">reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_inner_routine_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>

@@ -201,7 +201,11 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 		"max_eval": 100,
 		"time_lim": 5,
 		"xatol": 1e-2,
-		"frtol": 1e-2
+		"frtol": 1e-2,
+		"change_based_stop": {
+                    "cbs_funct_evals": 50,
+                    "cbs_change": 0.01
+                }
 	}
 }
 </code></pre></div></div>
@@ -219,6 +223,7 @@ Fourier basis or times at which to position step functions for the sigmoid basis
 <li><p><code class="docutils literal notranslate">"time_lim"</code>: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB</p></li>
 <li><p><code class="docutils literal notranslate">"xatol"</code>: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
 <li><p><code class="docutils literal notranslate">"frtol"</code>: criterion to cancel the direct search based on the relative differences of the FoM in the simplex (for Nelder Mead) or equivalent for e.g. CMA-ES</p></li>
+<li><p><code class="docutils literal notranslate">"change_based_stop"</code>: stop the current SI if the slope of the change of the FoM is less than defined in <code class="docutils literal notranslate">"cbs_change"</code> over a range of funciton evaluations given in <code class="docutils literal notranslate">"cbs_funct_evals"</code>. The slope is defined in the units of the FoM for intuitive tuning.</p></li>
 </ul>
 </li>
 </ul>

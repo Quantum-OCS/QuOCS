@@ -172,7 +172,8 @@
         <span class="c1"># self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)</span>
         <span class="c1"># if self.is_converged: return</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_func_eval_single_direct_search</span><span class="p">(</span><span class="n">func_evaluations_single_direct_search</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_func_eval_single_direct_search</span><span class="p">(</span>
+            <span class="n">func_evaluations_single_direct_search</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span> <span class="k">return</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_f_size</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>

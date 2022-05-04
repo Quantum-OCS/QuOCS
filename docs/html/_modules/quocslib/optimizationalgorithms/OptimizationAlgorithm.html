@@ -219,11 +219,11 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_direction</span> <span class="o">==</span> <span class="s2">"maximization"</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached reached"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached"</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached reached"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached"</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
 
         <span class="c1"># check total optimization time limit</span>
@@ -264,8 +264,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">send_FoM_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_response_for_client</span><span class="p">())</span>
         <span class="c1"># Update the notification file for the interface</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_msg_server</span><span class="p">()</span>
-        <span class="c1"># The interface reads the FoM response and update its notification file</span>
-        <span class="c1">#</span>
+        <span class="c1"># The interface reads the FoM response and updates its notification file</span>
+
+        <span class="c1"># add FoM to FoM track for stopping criteria</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">add_to_FoM_track</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">"FoM track for stopping criteria could not be updated!"</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="c1"># check the advanced stopping criteria</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_advanced_stopping_criteria</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">"Advanced stopping criteria could not be checked!"</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
         <span class="c1"># Return the figure of merit, i.e. a real number, to the optimal based algorithm</span>
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
 

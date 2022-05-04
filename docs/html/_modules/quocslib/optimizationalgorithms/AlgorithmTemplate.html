@@ -142,7 +142,8 @@
 <span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
 <span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
 <span class="sd">    """</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the</span>
 <span class="sd">        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.</span>

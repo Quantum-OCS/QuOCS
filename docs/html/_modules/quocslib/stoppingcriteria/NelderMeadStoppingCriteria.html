@@ -143,7 +143,7 @@
         <span class="c1"># frtol and xatol</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"xatol"</span><span class="p">,</span> <span class="mf">1e-14</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"frtol"</span><span class="p">,</span> <span class="mf">1e-13</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># self.is_converged = False</span>
 
 <div class="viewcode-block" id="NelderMeadStoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="k">def</span> <span class="nf">check_stopping_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                 <span class="n">sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

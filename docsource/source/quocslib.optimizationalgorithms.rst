@@ -36,6 +36,14 @@ quocslib.optimizationalgorithms.GRAPEAlgorithm module
    :undoc-members:
    :show-inheritance:
 
+quocslib.optimizationalgorithms.GRAPEAlgorithmLegacy module
+-----------------------------------------------------------
+
+.. automodule:: quocslib.optimizationalgorithms.GRAPEAlgorithmLegacy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 quocslib.optimizationalgorithms.OptimizationAlgorithm module
 ------------------------------------------------------------
 

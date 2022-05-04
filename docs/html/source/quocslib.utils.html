@@ -168,6 +168,36 @@ a pulse.
 :return dict: The dictionary must contain at least the “FoM” key with the figure of merit float. Other possible
 keys can provide useful information for errors or other.</p>
 </dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_control_hamiltonians">
+<code class="sig-name descname">get_control_hamiltonians</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_control_hamiltonians"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_control_hamiltonians">¶</a></dt>
+<dd>
+<p>Method to get the control Hamiltonians. It is compulsory for gradient-based optimization</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_drift_Hamiltonian">
+<code class="sig-name descname">get_drift_Hamiltonian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_drift_Hamiltonian"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_drift_Hamiltonian">¶</a></dt>
+<dd>
+<p>Method to get the drift Hamiltonian. It is compulsory for gradient-based optimization</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_initial_state">
+<code class="sig-name descname">get_initial_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_initial_state"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_initial_state">¶</a></dt>
+<dd>
+<p>Method to get the target state. It is compulsory for gradient-based optimization</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_propagator">
+<code class="sig-name descname">get_propagator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses_list</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">time_grids_list</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters_list</span><span class="p">:</span> <span class="n">list</span> <span class="o">=</span> <span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_propagator"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_propagator">¶</a></dt>
+<dd>
+<p>Method to get the propagator. It is compulsory for gradient-based optimization</p>
+</dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_target_state">
+<code class="sig-name descname">get_target_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_target_state"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_target_state">¶</a></dt>
+<dd>
+<p>Method to get the target state. It is compulsory for gradient-based optimization</p>
+</dd></dl>
 </dd></dl>
 </section>
 <section id="module-quocslib.utils.AbstractHandleExit">

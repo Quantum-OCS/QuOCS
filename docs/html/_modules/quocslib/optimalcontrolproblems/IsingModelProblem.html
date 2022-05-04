@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>quocslib.optimalcontrolproblems.IsingModelProblem</title>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/theme.css " rel="stylesheet" type="text/css"/>
+
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+
+
+<script defer="" src="../../../_static/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+</head>
+<body>
+<div id="app">
+<div :class="pageClasses" class="theme-container"><navbar @toggle-sidebar="toggleSidebar">
+<router-link class="home-link" to="../../../index.html">
+<span class="site-name">QuOCS</span>
+</router-link>
+<div class="links">
+<navlinks class="can-hide">
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks>
+</div>
+</navbar>
+<div @click="toggleSidebar(false)" class="sidebar-mask">
+</div>
+<sidebar @toggle-sidebar="toggleSidebar">
+<navlinks>
+<div class="nav-item">
+<a class="nav-link" href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">
+         Contents:
+      </a>
+</div>
+<div class="nav-item">
+<a class="nav-link" href="../../../source/modules.html#quocslib">
+         quocslib
+      </a>
+</div>
+</navlinks><div class="searchbox" id="searchbox" role="search">
+<div class="caption"><span class="caption-text">Quick search</span>
+<div class="searchformwrapper">
+<form action="../../../search.html" class="search" method="get">
+<input name="q" type="text"/>
+<input type="submit" value="Search"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+</div><div aria-label="main navigation" class="sidebar-links" role="navigation">
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../index.html#welcome-to-the-quantum-optimal-control-suite-in-python">Contents:</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/user_manual.html">Getting Started!</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/what_is_oc.html">What is Quantum Optimal Control (QOC) anyway?</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/customization.html">Customization</a>
+</li>
+<li class="toctree-l1">
+<a class="reference internal" href="../../../chapters/feature_list.html">Feature List</a>
+</li>
+</ul>
+</div>
+<div class="sidebar-group">
+<p class="caption">
+<span class="caption-text"><a href="../../../source/modules.html#quocslib">quocslib</a></span>
+</p>
+<ul class="">
+<li class="toctree-l1">
+<a class="reference internal" href="../../../source/quocslib.html">quocslib package</a>
+</li>
+</ul>
+</div>
+</div>
+</sidebar>
+<page>
+<div aria-label="navigation" class="body-header" role="navigation">
+<ul class="breadcrumbs">
+<li><a href="../../../index.html">Docs</a> »</li>
+<li><a href="../../index.html">Module code</a> »</li>
+<li>quocslib.optimalcontrolproblems.IsingModelProblem</li>
+</ul>
+<ul class="page-nav">
+</ul>
+</div>
+<hr/>
+<div class="content" role="main" v-pre="">
+<h1>Source code for quocslib.optimalcontrolproblems.IsingModelProblem</h1><div class="highlight"><pre>
+<code><span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+<span class="c1">#  Copyright 2021-  QuOCS Team</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="c1"># ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">quocslib.utils.AbstractFoM</span> <span class="kn">import</span> <span class="n">AbstractFoM</span>
+<span class="kn">from</span> <span class="nn">quocslib.timeevolution.piecewise_integrator</span> <span class="kn">import</span> <span class="n">pw_evolution</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+
+
+<div class="viewcode-block" id="IsingModel"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel">[docs]</a><span class="k">class</span> <span class="nc">IsingModel</span><span class="p">(</span><span class="n">AbstractFoM</span><span class="p">):</span>
+    <span class="sd">"""A figure of merit class for optimization of the problem defined by Alastair Marshall via</span>
+<span class="sd">    https://arxiv.org/abs/2110.06187"""</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">args_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1">################################################################################################################</span>
+        <span class="c1"># Dynamics variables</span>
+        <span class="c1">################################################################################################################</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"n_qubits"</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"J"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"g"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span> <span class="o">=</span> <span class="n">args_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"n_slices"</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">H_drift</span> <span class="o">=</span> <span class="n">get_static_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">H_control</span> <span class="o">=</span> <span class="n">get_control_hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_0</span> <span class="o">=</span> <span class="n">get_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span> <span class="o">=</span> <span class="n">get_target_state</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_qubits</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_final</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span><span class="p">)</span>
+        <span class="c1"># allocate a storage array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_store</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H_drift</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="IsingModel.get_control_Hamiltonians"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_control_Hamiltonians">[docs]</a>    <span class="k">def</span> <span class="nf">get_control_Hamiltonians</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">H_control</span></div>
+
+<div class="viewcode-block" id="IsingModel.get_drift_Hamiltonian"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_drift_Hamiltonian">[docs]</a>    <span class="k">def</span> <span class="nf">get_drift_Hamiltonian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">H_drift</span></div>
+
+<div class="viewcode-block" id="IsingModel.get_target_state"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_target_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_target_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span></div>
+
+<div class="viewcode-block" id="IsingModel.get_initial_state"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_initial_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_initial_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_0</span></div>
+
+<div class="viewcode-block" id="IsingModel.get_propagator"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_propagator">[docs]</a>    <span class="k">def</span> <span class="nf">get_propagator</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pulses_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">time_grids_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+        <span class="n">parameters_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+        <span class="n">drive</span> <span class="o">=</span> <span class="n">pulses_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pulses_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">n_slices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_slices</span>
+        <span class="n">time_grid</span> <span class="o">=</span> <span class="n">time_grids_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># dt = time_grid[1] - time_grid[0]</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">time_grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_grid</span><span class="p">)</span>
+        <span class="c1"># Compute the time evolution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prop_store</span> <span class="o">=</span> <span class="n">pw_evolution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prop_store</span><span class="p">,</span> <span class="n">drive</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">H_drift</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">H_control</span><span class="p">],</span> <span class="n">n_slices</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_store</span></div>
+
+<div class="viewcode-block" id="IsingModel.get_FoM"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.IsingModel.get_FoM">[docs]</a>    <span class="k">def</span> <span class="nf">get_FoM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pulses</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[],</span> <span class="n">timegrids</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">""" """</span>
+        <span class="c1"># Compute the final propagator</span>
+        <span class="n">U_final</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prop_store</span><span class="p">)</span>
+        <span class="c1"># evolve initial state</span>
+        <span class="n">rho_final</span> <span class="o">=</span> <span class="n">U_final</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_0</span> <span class="o">@</span> <span class="n">U_final</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+        <span class="c1"># Calculate the fidelity</span>
+        <span class="n">fidelity</span> <span class="o">=</span> <span class="n">fidelity_funct</span><span class="p">(</span><span class="n">rho_final</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho_target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"FoM"</span><span class="p">:</span> <span class="o">-</span><span class="n">fidelity</span><span class="p">}</span></div></div>
+
+
+<span class="n">i2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sz</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+<span class="n">sx</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+<span class="n">psi0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+<span class="n">psiT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="tensor_together"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.tensor_together">[docs]</a><span class="k">def</span> <span class="nf">tensor_together</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">two</span> <span class="ow">in</span> <span class="n">A</span><span class="p">[</span><span class="mi">2</span><span class="p">:]:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">two</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="fidelity_funct"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.fidelity_funct">[docs]</a><span class="k">def</span> <span class="nf">fidelity_funct</span><span class="p">(</span><span class="n">rho_evolved</span><span class="p">,</span> <span class="n">rho_aim</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">rho_evolved</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">@</span> <span class="n">rho_aim</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_static_hamiltonian"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.get_static_hamiltonian">[docs]</a><span class="k">def</span> <span class="nf">get_static_hamiltonian</span><span class="p">(</span><span class="n">nqu</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">g</span><span class="p">):</span>
+
+    <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">nqu</span>
+    <span class="n">H0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqu</span><span class="p">):</span>
+        <span class="c1"># set up holding array</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">*</span> <span class="n">nqu</span>
+        <span class="c1"># set the correct elements to sz</span>
+        <span class="c1"># check, so we can implement a loop around</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">nqu</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">rest</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sz</span>
+        <span class="n">rest</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sz</span>
+        <span class="n">H0</span> <span class="o">=</span> <span class="n">H0</span> <span class="o">-</span> <span class="n">J</span> <span class="o">*</span> <span class="n">tensor_together</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqu</span><span class="p">):</span>
+        <span class="c1"># set up holding array</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">*</span> <span class="n">nqu</span>
+        <span class="c1"># set the correct elements to sz</span>
+        <span class="c1"># check, so we can implement a loop around</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">nqu</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">j</span> <span class="o">==</span> <span class="n">nqu</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">idx1</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">idx2</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">2</span>
+        <span class="n">rest</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sz</span>
+        <span class="n">rest</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span> <span class="o">=</span> <span class="n">sz</span>
+        <span class="n">H0</span> <span class="o">=</span> <span class="n">H0</span> <span class="o">-</span> <span class="n">g</span> <span class="o">*</span> <span class="n">tensor_together</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H0</span></div>
+
+
+<div class="viewcode-block" id="get_control_hamiltonian"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.get_control_hamiltonian">[docs]</a><span class="k">def</span> <span class="nf">get_control_hamiltonian</span><span class="p">(</span><span class="n">nqu</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="c1"># get the controls</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">nqu</span>
+    <span class="n">H_at_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqu</span><span class="p">):</span>
+        <span class="c1"># set up holding array</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="p">[</span><span class="n">i2</span><span class="p">]</span> <span class="o">*</span> <span class="n">nqu</span>
+        <span class="c1"># set the correct elements to sz</span>
+        <span class="c1"># check, so we can implement a loop around</span>
+        <span class="n">rest</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sx</span>
+        <span class="n">H_at_t</span> <span class="o">=</span> <span class="n">H_at_t</span> <span class="o">+</span> <span class="n">tensor_together</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">H_at_t</span></div>
+
+
+<div class="viewcode-block" id="get_initial_state"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.get_initial_state">[docs]</a><span class="k">def</span> <span class="nf">get_initial_state</span><span class="p">(</span><span class="n">nqu</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="p">[</span><span class="n">psi0</span><span class="p">]</span> <span class="o">*</span> <span class="n">nqu</span>
+    <span class="k">return</span> <span class="n">tensor_together</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_target_state"><a class="viewcode-back" href="../../../source/quocslib.optimalcontrolproblems.html#quocslib.optimalcontrolproblems.IsingModelProblem.get_target_state">[docs]</a><span class="k">def</span> <span class="nf">get_target_state</span><span class="p">(</span><span class="n">nqu</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="p">[</span><span class="n">psiT</span><span class="p">]</span> <span class="o">*</span> <span class="n">nqu</span>
+    <span class="k">return</span> <span class="n">tensor_together</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
+</code></pre></div>
+</div>
+<div class="page-nav">
+<div class="inner"><ul class="page-nav">
+</ul><div class="footer" role="contentinfo">
+      © Copyright 2022, QuOCS.
+    <br/>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+</div>
+</div>
+</page>
+</div></div>
+</body>
+</html>

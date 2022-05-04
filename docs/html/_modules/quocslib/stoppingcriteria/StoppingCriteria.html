@@ -127,6 +127,7 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
 
 <div class="viewcode-block" id="StoppingCriteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">[docs]</a><span class="k">class</span> <span class="nc">StoppingCriteria</span><span class="p">:</span>
@@ -135,10 +136,17 @@
         <span class="sd">"""</span>
 <span class="sd">        Parent class for the stopping criteria</span>
 <span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"oc_logger"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_eval"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"time_lim"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direct_search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"change_based_stop"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"cbs_funct_evals"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                                                                    <span class="s2">"cbs_change"</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="c1"># if "cbs_funct_evals" not in self.change_based_stop:</span>
+        <span class="c1">#     self.change_based_stop["cbs_funct_evals"] = 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+
 
 <div class="viewcode-block" id="StoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">check_stopping_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -165,48 +173,6 @@
         <span class="k">if</span> <span class="n">func_evaluations_single_direct_search</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span><span class="p">:</span>
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
-
-    <span class="c1"># def check_func_eval_total(self, func_evaluations_single_direct_search: int) -&gt; [bool, str]:</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#     Check whether the total maximum number of function evaluations has been exceeded</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param float func_evaluations_single_direct_search: number of current function evaluation</span>
-    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
-    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#</span>
-    <span class="c1">#     # ToDo: This is extremely complicated and ther has to ba a simple way to do this properly.</span>
-    <span class="c1">#     #  Also this might break for very low max_eval and max_eval_total</span>
-    <span class="c1">#     #  AND this actually breaks if we continue after reaching max_eval_total !!!</span>
-    <span class="c1">#     #  But we don't reach that because we stop the optimization anyway</span>
-    <span class="c1">#</span>
-    <span class="c1">#     if self.max_eval_total is not None:</span>
-    <span class="c1">#</span>
-    <span class="c1">#         local_func_eval_track = 0</span>
-    <span class="c1">#</span>
-    <span class="c1">#         if self.temporary_func_eval_track &gt; func_evaluations_single_direct_search:</span>
-    <span class="c1">#             self.total_func_eval_track += self.temporary_func_eval_track</span>
-    <span class="c1">#             self.temporary_func_eval_track = 0</span>
-    <span class="c1">#</span>
-    <span class="c1">#         local_func_eval_track = self.total_func_eval_track + func_evaluations_single_direct_search</span>
-    <span class="c1">#         self.temporary_func_eval_track = func_evaluations_single_direct_search</span>
-    <span class="c1">#</span>
-    <span class="c1">#         terminate_reason = "Exceeded number of allowed function evaluations in total."</span>
-    <span class="c1">#         is_converged = False</span>
-    <span class="c1">#</span>
-    <span class="c1">#         if local_func_eval_track &gt;= self.max_eval_total:</span>
-    <span class="c1">#             is_converged = True</span>
-    <span class="c1">#             # this is a bit confusing but here we set is_running to False if is is linked</span>
-    <span class="c1">#             if self.stop_opt_function is not None:</span>
-    <span class="c1">#                 self.stop_opt_function()</span>
-    <span class="c1">#         return [is_converged, terminate_reason]</span>
-    <span class="c1">#</span>
-    <span class="c1">#     else:</span>
-    <span class="c1">#         terminate_reason = "Exceeded number of allowed function evaluations in total."</span>
-    <span class="c1">#         is_converged = False</span>
-    <span class="c1">#         return [is_converged, terminate_reason]</span>
-
-
 
 <div class="viewcode-block" id="StoppingCriteria.check_simplex_criterion"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">[docs]</a>    <span class="k">def</span> <span class="nf">check_simplex_criterion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="sd">"""</span>
@@ -240,23 +206,6 @@
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
 
-    <span class="c1"># def check_goal_reached(self, FoM: float) -&gt; [bool, str]:</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#     Check whether the FoM goal has been reached</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param float FoM: current FoM</span>
-    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
-    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#     terminate_reason = "FoM goal reached."</span>
-    <span class="c1">#     is_converged = False</span>
-    <span class="c1">#     if FoM &lt;= self.FoM_goal:</span>
-    <span class="c1">#         is_converged = True</span>
-    <span class="c1">#         # this is a bit confusing but here we set is_running to False if is is linked</span>
-    <span class="c1">#         if self.stop_opt_function is not None:</span>
-    <span class="c1">#             self.stop_opt_function()</span>
-    <span class="c1">#     return [is_converged, terminate_reason]</span>
-
 <div class="viewcode-block" id="StoppingCriteria.reset_direct_search_start_time"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.reset_direct_search_start_time">[docs]</a>    <span class="k">def</span> <span class="nf">reset_direct_search_start_time</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">"""</span>
 <span class="sd">        Reset the direct_search_start_time for a new SI</span>
@@ -276,25 +225,45 @@
         <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">minutes_diff</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span><span class="p">:</span>
             <span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">is_converged</span><span class="p">,</span> <span class="n">terminate_reason</span><span class="p">]</span></div>
 
-    <span class="c1"># def check_total_time_out(self) -&gt; [bool, str]:</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#     Check whether the optimization has been running for too long.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :return bool is_converged: True if the stopping criterion is fulfilled</span>
-    <span class="c1">#     :return str terminate_reason: reason for the terminatiom</span>
-    <span class="c1">#     """</span>
-    <span class="c1">#     end_time = datetime.now()</span>
-    <span class="c1">#     minutes_diff = (end_time - self.total_start_time).total_seconds() / 60.0</span>
-    <span class="c1">#     terminate_reason = "Total optimization time exceeded limit."</span>
-    <span class="c1">#     is_converged = False</span>
-    <span class="c1">#     if minutes_diff &gt;= self.total_time_lim:</span>
-    <span class="c1">#         is_converged = True</span>
-    <span class="c1">#         # this is a bit confusing but here we set is_running to False if is is linked</span>
-    <span class="c1">#         if self.stop_opt_function is not None:</span>
-    <span class="c1">#             self.stop_opt_function()</span>
-    <span class="c1">#     return [is_converged, terminate_reason]</span>
+<div class="viewcode-block" id="StoppingCriteria.reset_curr_FoM_track_for_new_SI"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.reset_curr_FoM_track_for_new_SI">[docs]</a>    <span class="k">def</span> <span class="nf">reset_curr_FoM_track_for_new_SI</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Reset the current FoM track list for a new SI</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="StoppingCriteria.add_to_FoM_track"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.add_to_FoM_track">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_FoM_track</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FoM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Add new entry to current FoM track list</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span><span class="p">[</span><span class="s2">"cbs_funct_evals"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FoM</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_cbs_stopping_crit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Check the change-based stopping criterion</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"Change-based stopping criterion reached."</span>
+        <span class="n">cbs_funct_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span><span class="p">[</span><span class="s2">"cbs_funct_evals"</span><span class="p">]</span>
+        <span class="n">cbs_change</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span><span class="p">[</span><span class="s2">"cbs_change"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">cbs_funct_evals</span><span class="p">:</span>
+            <span class="n">m</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">cbs_funct_evals</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span><span class="p">[</span><span class="o">-</span><span class="n">cbs_funct_evals</span><span class="p">:],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">current_change</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">cbs_funct_evals</span><span class="p">)</span>
+            <span class="c1"># check if the trend of changes is smaller than defined</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">current_change</span> <span class="o">&lt;</span> <span class="n">cbs_change</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="StoppingCriteria.check_advanced_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_advanced_stopping_criteria">[docs]</a>    <span class="k">def</span> <span class="nf">check_advanced_stopping_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">"""</span>
+<span class="sd">        Check the advanced stopping criteria if they are defined</span>
+<span class="sd">        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span><span class="p">[</span><span class="s2">"cbs_funct_evals"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_check_cbs_stopping_crit</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">"Checking change-based stop failed! cbs_funct_evals not properly defined!"</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div></div>
 </code></pre></div>
 </div>
 <div class="page-nav">

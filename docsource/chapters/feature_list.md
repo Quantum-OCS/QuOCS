@@ -72,7 +72,11 @@ _json_:
 		"max_eval": 100,
 		"time_lim": 5,
 		"xatol": 1e-2,
-		"frtol": 1e-2
+		"frtol": 1e-2,
+		"change_based_stop": {
+                    "cbs_funct_evals": 50,
+                    "cbs_change": 0.01
+                }
 	}
 }
 ~~~
@@ -87,6 +91,7 @@ _Settings_:
 	- `"time_lim"`: maximum time spent in a direct search, i.e. a sub-iteration for dCRAB
 	- `"xatol"`: criterion to cancel a direct search based on the simplex size (for Nelder Mead) or equivalent for e.g. CMA-ES
 	- `"frtol"`: criterion to cancel the direct search based on the relative differences of the FoM in the simplex (for Nelder Mead) or equivalent for e.g. CMA-ES
+	- `"change_based_stop"`: stop the current SI if the slope of the change of the FoM is less than defined in `"cbs_change"` over a range of funciton evaluations given in `"cbs_funct_evals"`. The slope is defined in the units of the FoM for intuitive tuning.
 
 
 _References_:

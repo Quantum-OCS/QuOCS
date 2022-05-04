@@ -4,6 +4,14 @@ quocslib.optimalcontrolproblems package
 Submodules
 ----------
 
+quocslib.optimalcontrolproblems.IsingModelProblem module
+--------------------------------------------------------
+
+.. automodule:: quocslib.optimalcontrolproblems.IsingModelProblem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 quocslib.optimalcontrolproblems.OneQubitProblem module
 ------------------------------------------------------
 
