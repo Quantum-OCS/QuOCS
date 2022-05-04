@@ -32,7 +32,7 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
-        self.is_converged = False
+        # self.is_converged = False
 
     def check_stopping_criteria(self,
                                 sim: np.array = None,

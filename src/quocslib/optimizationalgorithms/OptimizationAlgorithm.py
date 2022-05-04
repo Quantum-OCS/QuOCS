@@ -108,11 +108,11 @@ class OptimizationAlgorithm:
         if self.FoM_goal is not None:
             if self.optimization_direction == "maximization":
                 if self.best_FoM >= self.FoM_goal:
-                    self.higher_order_terminate_reason = "Goal FoM reached reached"
+                    self.higher_order_terminate_reason = "Goal FoM reached"
                     self.stop_optimization()
             else:
                 if self.best_FoM <= self.FoM_goal:
-                    self.higher_order_terminate_reason = "Goal FoM reached reached"
+                    self.higher_order_terminate_reason = "Goal FoM reached"
                     self.stop_optimization()
 
         # check total optimization time limit
@@ -153,8 +153,22 @@ class OptimizationAlgorithm:
         self.comm_obj.send_FoM_response(self._get_response_for_client())
         # Update the notification file for the interface
         self.comm_obj.update_msg_server()
-        # The interface reads the FoM response and update its notification file
-        #
+        # The interface reads the FoM response and updates its notification file
+
+        # add FoM to FoM track for stopping criteria
+        try:
+            self.dsm_obj.sc_obj.add_to_FoM_track(self.FoM_dict["FoM"])
+        except:
+            message = "FoM track for stopping criteria could not be updated!"
+            self.comm_obj.print_logger(message, level=30)
+
+        # check the advanced stopping criteria
+        try:
+            self.dsm_obj.sc_obj.check_advanced_stopping_criteria()
+        except:
+            message = "Advanced stopping criteria could not be checked!"
+            self.comm_obj.print_logger(message, level=30)
+
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
         return -1.0 * self.optimization_factor * self.FoM_dict["FoM"]
 

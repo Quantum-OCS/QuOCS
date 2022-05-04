@@ -182,6 +182,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             except:
                 message = "Direct search start time could not be reset!"
                 self.comm_obj.print_logger(message, level=30)
+
+            try:
+                # reset FoM_track in stopping criteria for new SI
+                self.dsm_obj.sc_obj.reset_curr_FoM_track_for_new_SI()
+            except:
+                message = "FoM track for stopping criteria could not be reset!"
+                self.comm_obj.print_logger(message, level=30)
+
             # Set super iteration number
             self.super_it = super_it
             # Compensate the drift Hamiltonian
