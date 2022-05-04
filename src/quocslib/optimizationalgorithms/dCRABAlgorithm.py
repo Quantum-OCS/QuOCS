@@ -45,7 +45,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
 
-        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
+        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault(
+            "dsm_algorithm_module", None),
                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
                                        class_type='dsm_settings')
@@ -231,17 +232,15 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                         initial_simplex=start_simplex,
                                         drift_comp_minutes=self.compensate_drift_after_minutes)
         # Update the results
-        [FoM, xx, self.terminate_reason, NfunevalsUsed] = [result_l["F_min_val"],
-                                                           result_l["X_opti_vec"],
-                                                           result_l["terminate_reason"],
-                                                           result_l["NfunevalsUsed"]]
+        [FoM, xx, self.terminate_reason, NfunevalsUsed
+         ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]
         # Message at the end of the SI
         message = ("SI {super_it} finished - Number of evaluations: {NfunevalsUsed}, "
                    "Best FoM: {best_FoM}, Terminate reason: {reason}\n".format(super_it=self.super_it,
-                                                   NfunevalsUsed=NfunevalsUsed,
-                                                   termination_reason=self.terminate_reason,
-                                                   best_FoM=self.best_FoM,
-                                                   reason=self.terminate_reason))
+                                                                               NfunevalsUsed=NfunevalsUsed,
+                                                                               termination_reason=self.terminate_reason,
+                                                                               best_FoM=self.best_FoM,
+                                                                               reason=self.terminate_reason))
         self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:

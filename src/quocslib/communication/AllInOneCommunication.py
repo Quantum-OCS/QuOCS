@@ -111,7 +111,7 @@ class AllInOneCommunication:
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         return self.he_obj.is_user_running
 
-    def set_is_running_state(self, value:bool) -> None:
+    def set_is_running_state(self, value: bool) -> None:
         """Set if the optimization is running"""
         self.he_obj.is_user_running = value
         self.logger.info("Setting is_running state: {0}".format(self.he_obj.is_user_running))
