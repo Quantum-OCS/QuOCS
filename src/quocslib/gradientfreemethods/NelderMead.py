@@ -111,6 +111,8 @@ class NelderMead(DirectSearchMethod):
             doshrink = 0
             if fxr < fsim[0]:
                 xe = (1 + rho * chi) * xbar - rho * chi * sim[-1]
+                if self.sc_obj.is_converged:
+                    break
                 fxe = func(xe, iterations)
                 if fxe < fxr:
                     sim[-1] = xe
@@ -126,6 +128,8 @@ class NelderMead(DirectSearchMethod):
                     # Perform contraction
                     if fxr < fsim[-1]:
                         xc = (1 + psi * rho) * xbar - psi * rho * sim[-1]
+                        if self.sc_obj.is_converged:
+                            break
                         fxc = func(xc, iterations)
                         if fxc <= fxr:
                             sim[-1] = xc
@@ -135,6 +139,8 @@ class NelderMead(DirectSearchMethod):
                     else:
                         # Perform an inside contraction
                         xcc = (1 - psi) * xbar + psi * sim[-1]
+                        if self.sc_obj.is_converged:
+                            break
                         fxcc = func(xcc, iterations)
 
                         if fxcc < fsim[-1]:
@@ -145,6 +151,8 @@ class NelderMead(DirectSearchMethod):
                     if doshrink:
                         for j in range(1, dim + 1):
                             sim[j] = sim[0] + sigma * (sim[j] - sim[0])
+                            if self.sc_obj.is_converged:
+                                break
                             fsim[j] = func(sim[j], iterations)
             # Sort the array by the lowest function value since we are performing a minimization
             ind = np.argsort(fsim)
@@ -155,8 +163,30 @@ class NelderMead(DirectSearchMethod):
                 drift_comp_timer = (current_time - self.last_drift_compensation_time).total_seconds() / 60.0
                 if drift_comp_timer >= drift_comp_minutes:
                     prev_FoM = fsim[0]
-                    fsim[0] = func(sim[0], iterations)
+
+                    ### old
+                    # fsim[0] = func(sim[0], iterations)
+                    # new_FoM = fsim[0]
+
+                    # ###new
+                    # for i in range(len(sim)):
+                    #     if not self.sc_obj.is_converged:
+                    #         fsim[i] = func(sim[i], iterations)
+                    # # Sort the array by the lowest function value since we are performing a minimization
+                    # ind = np.argsort(fsim)
+                    # [sim, fsim] = [np.take(sim, ind, 0), np.take(fsim, ind, 0)]
+                    # new_FoM = fsim[0]
+
+                    ###new_2
+                    for i in range(len(sim)):
+                        if i == 0:
+                            fsim[i] = func(sim[i], iterations, True)
+                        else:
+                            # here we only shift the rest of the entries by
+                            # the same constant change as the current best!
+                            fsim[i] = fsim[i] + (fsim[0] - prev_FoM)
                     new_FoM = fsim[0]
+
                     self.last_drift_compensation_time = datetime.now()
                     message = f"Previous best FoM: {prev_FoM}, Current best FoM after drift " \
                               f"compensation (after {drift_comp_minutes} minutes): {new_FoM}"
@@ -179,7 +209,8 @@ class NelderMead(DirectSearchMethod):
         iterations = iterations - 1
         # Optimal parameters and value
         x = sim[0]
-        fval = np.min(fsim)
+        # fval = np.min(fsim)
+        fval = fsim[0]
         result_custom = {
             "F_min_val": fval,
             "X_opti_vec": x,

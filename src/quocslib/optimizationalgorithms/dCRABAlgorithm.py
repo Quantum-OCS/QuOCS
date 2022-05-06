@@ -254,9 +254,10 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                                                                reason=self.terminate_reason))
         self.comm_obj.print_logger(message=message, level=20)
 
-    def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
+    def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int, drift_comp=False) -> float:
         """This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
         with the same controls multiple times to take into accounts noise in the system"""
+        # set the is_record to False unless we have drift_comp call... then we want to update the current best FoM
         self.is_record = False
         # Initialize step number to 0
         self.step_number = 0
@@ -321,7 +322,19 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                 self.comm_obj.update_controls(is_record=True,
                                               FoM=self.best_FoM,
                                               sigma=self.best_sigma,
-                                              super_it=self.super_it)
+                                              super_it=self.super_it,
+                                              iteration_number=self.iteration_number)
+
+        if drift_comp:
+            self.best_FoM = mu_1
+            self.is_record = True
+            message = "New record due to drift compensation. New best FoM: {0}".format(mu_1)
+            self.comm_obj.print_logger(message, level=20)
+            self.best_xx = self.xx.copy()
+            self.comm_obj.update_controls(is_record=True,
+                                          FoM=self.best_FoM,
+                                          super_it=self.super_it,
+                                          iteration_number=self.iteration_number)
 
         # Return the figure of merit to be minimized by the updating algorithm
         return -1.0 * self.optimization_factor * mu_1
