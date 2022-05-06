@@ -23,7 +23,7 @@ import time
 def create_logger(results_path, date_time, is_debug=False):
     """Logger creation for console, log file, and debug log file"""
     log_format = "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s"
-    date_format = "%m/%d/%Y %I:%M:%S"
+    date_format = "%d/%m/%Y %H:%M:%S"
     print_format = "%(levelname)-8s %(name)-12s %(message)s"
     log_filename = os.path.join(results_path, date_time + "_logging.log")
     log_debug_filename = os.path.join(results_path, date_time + "_logging_debug.log")
