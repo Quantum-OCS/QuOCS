@@ -102,6 +102,7 @@ class OptimizationAlgorithm:
         # check if total maximum number of evals has been reached
         if self.iteration_number >= self.max_eval_total:
             self.higher_order_terminate_reason = "Maximum number of total function evaluations reached"
+            self.dsm_obj.sc_obj.is_converged = True
             self.stop_optimization()
 
         # check if FoM_goal has been reached
@@ -109,10 +110,12 @@ class OptimizationAlgorithm:
             if self.optimization_direction == "maximization":
                 if self.best_FoM >= self.FoM_goal:
                     self.higher_order_terminate_reason = "Goal FoM reached"
+                    self.dsm_obj.sc_obj.is_converged = True
                     self.stop_optimization()
             else:
                 if self.best_FoM <= self.FoM_goal:
                     self.higher_order_terminate_reason = "Goal FoM reached"
+                    self.dsm_obj.sc_obj.is_converged = True
                     self.stop_optimization()
 
         # check total optimization time limit
@@ -122,6 +125,7 @@ class OptimizationAlgorithm:
 
             if time_passed >= self.total_time_lim:
                 self.higher_order_terminate_reason = "Maximum optimization runtime reached"
+                self.dsm_obj.sc_obj.is_converged = True
                 self.stop_optimization()
 
         # self.optimizaiton_start_time = datetime.now()
