@@ -74,6 +74,9 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Update the FoM for drift
         self.compensate_drift_after_SI = drift_compensations_parameters.setdefault("compensate_after_SI", False)
         self.compensate_drift_after_minutes = drift_compensations_parameters.setdefault("compensate_after_minutes", 0.0)
+        # always do drift compensation after SI if periodic drift compensation is active
+        if self.compensate_drift_after_minutes > 0:
+            self.compensate_drift_after_SI = True
         # Re-evaluation steps option
         if "re_evaluation" in alg_parameters:
             re_evaluation_parameters = alg_parameters["re_evaluation"]
