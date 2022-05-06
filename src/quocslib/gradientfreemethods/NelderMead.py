@@ -149,7 +149,7 @@ class NelderMead(DirectSearchMethod):
             ind = np.argsort(fsim)
             [sim, fsim] = [np.take(sim, ind, 0), np.take(fsim, ind, 0)]
             # do drift compensation
-            if drift_comp_minutes > 0:
+            if (drift_comp_minutes > 0) and not self.sc_obj.is_converged:
                 current_time = datetime.now()
                 drift_comp_timer = (current_time - self.search_start_time).total_seconds() / 60.0
                 if drift_comp_timer >= drift_comp_minutes:
