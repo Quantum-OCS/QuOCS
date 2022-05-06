@@ -29,6 +29,7 @@ class BestDump(AbstractDump):
         :param str date_time: String containing the identifier in the form of date and time
         """
         self.best_controls_path = results_path
+        self.results_path = results_path
         self.date_time = date_time
 
     def dump_controls(self,
@@ -65,8 +66,11 @@ class BestDump(AbstractDump):
         full_dict = {**controls_dict, **kwargs}
 
         # Save the file
-        controls_path = os.path.join(self.best_controls_path, self.date_time + "_best_controls.npz")
+        controls_path = os.path.join(self.results_path, self.date_time + "_best_controls.npz")
         np.savez(controls_path, **full_dict)
+        iteration_path = os.path.join(self.results_path, self.date_time + "_funt_eval_of_best_controls.txt")
+        with open(iteration_path, 'w') as f:
+            f.write(str(full_dict["iteration_number"]))
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """
@@ -75,6 +79,6 @@ class BestDump(AbstractDump):
         :param np.array: data
         """
         # Create the path
-        path = os.path.join(self.best_controls_path, filename)
+        path = os.path.join(self.results_path, filename)
         # Save the data in a txt file
         np.savetxt(path, data)
