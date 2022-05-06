@@ -62,6 +62,7 @@ class NelderMead(DirectSearchMethod):
         dim = len(x0)
         # set start time of direct search
         self.search_start_time = datetime.now()
+        self.last_drift_compensation_time = datetime.now()
         # Hyper-parameters for adaptive and not adaptive NM
         if self.is_adaptive:
             f_dim = float(dim)
@@ -151,11 +152,12 @@ class NelderMead(DirectSearchMethod):
             # do drift compensation
             if (drift_comp_minutes > 0) and not self.sc_obj.is_converged:
                 current_time = datetime.now()
-                drift_comp_timer = (current_time - self.search_start_time).total_seconds() / 60.0
+                drift_comp_timer = (current_time - self.last_drift_compensation_time).total_seconds() / 60.0
                 if drift_comp_timer >= drift_comp_minutes:
                     prev_FoM = fsim[0]
                     fsim[0] = func(sim[0], iterations)
                     new_FoM = fsim[0]
+                    self.last_drift_compensation_time = datetime.now()
                     message = f"Previous best FoM: {prev_FoM}, Current best FoM after drift " \
                               f"compensation (after {drift_comp_minutes} minutes): {new_FoM}"
                     logger = logging.getLogger("oc_logger")
