@@ -70,7 +70,7 @@ class BestDump(AbstractDump):
         np.savez(controls_path, **full_dict)
 
         if "iteration_number" in full_dict:
-            iteration_path = os.path.join(self.results_path, self.date_time + "_funt_eval_of_best_controls.txt")
+            iteration_path = os.path.join(self.results_path, self.date_time + "_funct_eval_of_best_controls.txt")
             with open(iteration_path, 'w') as f:
                 f.write(str(full_dict["iteration_number"]))
 
