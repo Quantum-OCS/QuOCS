@@ -185,6 +185,9 @@
         <span class="c1"># Update the FoM for drift</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_SI</span> <span class="o">=</span> <span class="n">drift_compensations_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"compensate_after_SI"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_minutes</span> <span class="o">=</span> <span class="n">drift_compensations_parameters</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"compensate_after_minutes"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="c1"># always do drift compensation after SI if periodic drift compensation is active</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compensate_drift_after_SI</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="c1"># Re-evaluation steps option</span>
         <span class="k">if</span> <span class="s2">"re_evaluation"</span> <span class="ow">in</span> <span class="n">alg_parameters</span><span class="p">:</span>
             <span class="n">re_evaluation_parameters</span> <span class="o">=</span> <span class="n">alg_parameters</span><span class="p">[</span><span class="s2">"re_evaluation"</span><span class="p">]</span>
@@ -362,9 +365,10 @@
                                                                                <span class="n">reason</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_inner_routine_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_inner_routine_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_control_parameters</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">drift_comp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">"""This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM</span>
 <span class="sd">        with the same controls multiple times to take into accounts noise in the system"""</span>
+        <span class="c1"># set the is_record to False unless we have drift_comp call... then we want to update the current best FoM</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># Initialize step number to 0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="mi">0</span>
@@ -429,7 +433,19 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_controls</span><span class="p">(</span><span class="n">is_record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                               <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
                                               <span class="n">sigma</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_sigma</span><span class="p">,</span>
-                                              <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">)</span>
+                                              <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
+                                              <span class="n">iteration_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">drift_comp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">=</span> <span class="n">mu_1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">"New record due to drift compensation. New best FoM: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mu_1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xx</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">update_controls</span><span class="p">(</span><span class="n">is_record</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">FoM</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
+                                          <span class="n">super_it</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">super_it</span><span class="p">,</span>
+                                          <span class="n">iteration_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
 
         <span class="c1"># Return the figure of merit to be minimized by the updating algorithm</span>
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="n">mu_1</span>
@@ -507,7 +523,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

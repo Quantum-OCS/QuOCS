@@ -53,6 +53,14 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.FoM_list = []
         self.sys_type = optimization_dict.setdefault("sys_type", "StateTransfer")
 
+        # set stopping criteria
+        self.stopping_crit = optimization_dict["algorithm_settings"].setdefault("stopping_criteria", {})
+        self.max_fun_evals = self.stopping_crit.setdefault("max_eval_total", 10**10)
+        self.ftol = self.stopping_crit.setdefault("ftol", 1e-6)
+        self.gtol = self.stopping_crit.setdefault("gtol", 1e-6)
+        self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is defialt acc. to documentation of scipy
+
+
         alg_parameters = optimization_dict["algorithm_settings"]
         # Seed for the random number generator
         seed_number = 2022
@@ -177,7 +185,9 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
         # Optimization with L-BFGS-B
-        results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True)
+        results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True,
+                                          options={'ftol': self.ftol, 'maxfun': self.max_fun_evals,
+                                                   'gtol': self.gtol, 'maxls': self.maxls})
         # Print L-BFGS-B results in the log file
         self.comm_obj.print_logger(results, level=20)
 

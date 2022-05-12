@@ -140,6 +140,7 @@
 <span class="sd">        :param str date_time: String containing the identifier in the form of date and time</span>
 <span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span> <span class="o">=</span> <span class="n">results_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="n">results_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">=</span> <span class="n">date_time</span>
 
 <div class="viewcode-block" id="BestDump.dump_controls"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.dump_controls">[docs]</a>    <span class="k">def</span> <span class="nf">dump_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -176,8 +177,13 @@
         <span class="n">full_dict</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">controls_dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
 
         <span class="c1"># Save the file</span>
-        <span class="n">controls_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">+</span> <span class="s2">"_best_controls.npz"</span><span class="p">)</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">controls_path</span><span class="p">,</span> <span class="o">**</span><span class="n">full_dict</span><span class="p">)</span></div>
+        <span class="n">controls_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">+</span> <span class="s2">"_best_controls.npz"</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="n">controls_path</span><span class="p">,</span> <span class="o">**</span><span class="n">full_dict</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">"iteration_number"</span> <span class="ow">in</span> <span class="n">full_dict</span><span class="p">:</span>
+            <span class="n">iteration_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span> <span class="o">+</span> <span class="s2">"_funct_eval_of_best_controls.txt"</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">iteration_path</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">full_dict</span><span class="p">[</span><span class="s2">"iteration_number"</span><span class="p">]))</span></div>
 
 <div class="viewcode-block" id="BestDump.other_dumps"><a class="viewcode-back" href="../../../source/quocslib.utils.html#quocslib.utils.BestDump.BestDump.other_dumps">[docs]</a>    <span class="k">def</span> <span class="nf">other_dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"test.txt"</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])):</span>
         <span class="sd">"""</span>
@@ -186,7 +192,7 @@
 <span class="sd">        :param np.array: data</span>
 <span class="sd">        """</span>
         <span class="c1"># Create the path</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_controls_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
         <span class="c1"># Save the data in a txt file</span>
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div></div>
 </code></pre></div>
@@ -196,7 +202,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

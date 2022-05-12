@@ -164,6 +164,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sys_type</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"sys_type"</span><span class="p">,</span> <span class="s2">"StateTransfer"</span><span class="p">)</span>
 
+        <span class="c1"># set stopping criteria</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"stopping_criteria"</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_fun_evals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_eval_total"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ftol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"ftol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"gtol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"maxls"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1"># 20 is defialt acc. to documentation of scipy</span>
+
+
         <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
         <span class="c1"># Seed for the random number generator</span>
         <span class="n">seed_number</span> <span class="o">=</span> <span class="mi">2022</span>
@@ -288,7 +296,9 @@
         <span class="c1"># Define the initial</span>
         <span class="n">init_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span> <span class="o">+</span> <span class="n">initial_variation</span>
         <span class="c1"># Optimization with L-BFGS-B</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_routine_call</span><span class="p">,</span> <span class="n">init_xx</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_routine_call</span><span class="p">,</span> <span class="n">init_xx</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'ftol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ftol</span><span class="p">,</span> <span class="s1">'maxfun'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fun_evals</span><span class="p">,</span>
+                                                   <span class="s1">'gtol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gtol</span><span class="p">,</span> <span class="s1">'maxls'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxls</span><span class="p">})</span>
         <span class="c1"># Print L-BFGS-B results in the log file</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
 
@@ -317,7 +327,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

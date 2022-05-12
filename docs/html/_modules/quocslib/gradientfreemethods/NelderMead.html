@@ -173,6 +173,7 @@
         <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
         <span class="c1"># set start time of direct search</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_drift_compensation_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
         <span class="c1"># Hyper-parameters for adaptive and not adaptive NM</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_adaptive</span><span class="p">:</span>
             <span class="n">f_dim</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
@@ -221,6 +222,8 @@
             <span class="n">doshrink</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="n">fxr</span> <span class="o">&lt;</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="n">xe</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">chi</span><span class="p">)</span> <span class="o">*</span> <span class="n">xbar</span> <span class="o">-</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">chi</span> <span class="o">*</span> <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
+                    <span class="k">break</span>
                 <span class="n">fxe</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xe</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">fxe</span> <span class="o">&lt;</span> <span class="n">fxr</span><span class="p">:</span>
                     <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xe</span>
@@ -236,6 +239,8 @@
                     <span class="c1"># Perform contraction</span>
                     <span class="k">if</span> <span class="n">fxr</span> <span class="o">&lt;</span> <span class="n">fsim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
                         <span class="n">xc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="n">xbar</span> <span class="o">-</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
+                            <span class="k">break</span>
                         <span class="n">fxc</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xc</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">fxc</span> <span class="o">&lt;=</span> <span class="n">fxr</span><span class="p">:</span>
                             <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">xc</span>
@@ -245,6 +250,8 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="c1"># Perform an inside contraction</span>
                         <span class="n">xcc</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">psi</span><span class="p">)</span> <span class="o">*</span> <span class="n">xbar</span> <span class="o">+</span> <span class="n">psi</span> <span class="o">*</span> <span class="n">sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
+                            <span class="k">break</span>
                         <span class="n">fxcc</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">xcc</span><span class="p">,</span> <span class="n">iterations</span><span class="p">)</span>
 
                         <span class="k">if</span> <span class="n">fxcc</span> <span class="o">&lt;</span> <span class="n">fsim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
@@ -255,18 +262,43 @@
                     <span class="k">if</span> <span class="n">doshrink</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
                             <span class="n">sim</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
+                                <span class="k">break</span>
                             <span class="n">fsim</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">iterations</span><span class="p">)</span>
             <span class="c1"># Sort the array by the lowest function value since we are performing a minimization</span>
             <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
             <span class="p">[</span><span class="n">sim</span><span class="p">,</span> <span class="n">fsim</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">fsim</span><span class="p">,</span> <span class="n">ind</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
             <span class="c1"># do drift compensation</span>
-            <span class="k">if</span> <span class="n">drift_comp_minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">drift_comp_minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span><span class="p">:</span>
                 <span class="n">current_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-                <span class="n">drift_comp_timer</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_start_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
+                <span class="n">drift_comp_timer</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_drift_compensation_time</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">/</span> <span class="mf">60.0</span>
                 <span class="k">if</span> <span class="n">drift_comp_timer</span> <span class="o">&gt;=</span> <span class="n">drift_comp_minutes</span><span class="p">:</span>
                     <span class="n">prev_FoM</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">iterations</span><span class="p">)</span>
+
+                    <span class="c1">### old</span>
+                    <span class="c1"># fsim[0] = func(sim[0], iterations)</span>
+                    <span class="c1"># new_FoM = fsim[0]</span>
+
+                    <span class="c1"># ###new</span>
+                    <span class="c1"># for i in range(len(sim)):</span>
+                    <span class="c1">#     if not self.sc_obj.is_converged:</span>
+                    <span class="c1">#         fsim[i] = func(sim[i], iterations)</span>
+                    <span class="c1"># # Sort the array by the lowest function value since we are performing a minimization</span>
+                    <span class="c1"># ind = np.argsort(fsim)</span>
+                    <span class="c1"># [sim, fsim] = [np.take(sim, ind, 0), np.take(fsim, ind, 0)]</span>
+                    <span class="c1"># new_FoM = fsim[0]</span>
+
+                    <span class="c1">###new_2</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sim</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">fsim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">iterations</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># here we only shift the rest of the entries by</span>
+                            <span class="c1"># the same constant change as the current best!</span>
+                            <span class="n">fsim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">prev_FoM</span><span class="p">)</span>
                     <span class="n">new_FoM</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">last_drift_compensation_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
                     <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Previous best FoM: </span><span class="si">{</span><span class="n">prev_FoM</span><span class="si">}</span><span class="s2">, Current best FoM after drift "</span> \
                               <span class="sa">f</span><span class="s2">"compensation (after </span><span class="si">{</span><span class="n">drift_comp_minutes</span><span class="si">}</span><span class="s2"> minutes): </span><span class="si">{</span><span class="n">new_FoM</span><span class="si">}</span><span class="s2">"</span>
                     <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"oc_logger"</span><span class="p">)</span>
@@ -288,7 +320,8 @@
         <span class="n">iterations</span> <span class="o">=</span> <span class="n">iterations</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="c1"># Optimal parameters and value</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">fval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">fsim</span><span class="p">)</span>
+        <span class="c1"># fval = np.min(fsim)</span>
+        <span class="n">fval</span> <span class="o">=</span> <span class="n">fsim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">result_custom</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">"F_min_val"</span><span class="p">:</span> <span class="n">fval</span><span class="p">,</span>
             <span class="s2">"X_opti_vec"</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
@@ -304,7 +337,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

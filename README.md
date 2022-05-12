@@ -45,6 +45,8 @@ pip install -e .
 
 ## Documentation
 
+The possible [settings](https://quantum-ocs.github.io/QuOCS/html/chapters/feature_list.html) for the JSON file can be found [here](https://quantum-ocs.github.io/QuOCS/html/chapters/feature_list.html).
+
 You can find the latest development documentation [here](https://quantum-ocs.github.io/QuOCS).
 
 A selection of demonstration notebooks is available, which demonstrate some of the many features of QuOCS. These are stored in the [QuOCS/QuOCS-jupyternotebooks repository](https://github.com/Quantum-OCS/QuOCS-jupyternotebooks) here on GitHub.

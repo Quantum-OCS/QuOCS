@@ -213,6 +213,7 @@
         <span class="c1"># check if total maximum number of evals has been reached</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_eval_total</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Maximum number of total function evaluations reached"</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
 
         <span class="c1"># check if FoM_goal has been reached</span>
@@ -220,10 +221,12 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_direction</span> <span class="o">==</span> <span class="s2">"maximization"</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_goal</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Goal FoM reached"</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
 
         <span class="c1"># check total optimization time limit</span>
@@ -233,6 +236,7 @@
 
             <span class="k">if</span> <span class="n">time_passed</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_time_lim</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">higher_order_terminate_reason</span> <span class="o">=</span> <span class="s2">"Maximum optimization runtime reached"</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stop_optimization</span><span class="p">()</span>
 
         <span class="c1"># self.optimizaiton_start_time = datetime.now()</span>
@@ -269,16 +273,40 @@
         <span class="c1"># add FoM to FoM track for stopping criteria</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">add_to_FoM_track</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">])</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">=</span> <span class="s2">"FoM track for stopping criteria could not be updated!"</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="c1">### example for exception logging</span>
+            <span class="c1"># template = "An exception of type {0} occurred. Arguments:\n{1!r}"</span>
+            <span class="c1"># message = template.format(type(ex).__name__, ex.args)</span>
+
+            <span class="c1">### Ignore this if we are using GRAPE</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"GRAPEAlgorithm"</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="c1"># elif type(ex).__name__ == "AttributeError":</span>
+            <span class="c1">#     message = "FoM track for stopping criteria could not be updated because " \</span>
+            <span class="c1">#               "there is no stopping criteria object!"</span>
+            <span class="c1">#     self.comm_obj.print_logger(message, level=30)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">"FoM track for stopping criteria could not be updated!"</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
         <span class="c1"># check the advanced stopping criteria</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dsm_obj</span><span class="o">.</span><span class="n">sc_obj</span><span class="o">.</span><span class="n">check_advanced_stopping_criteria</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="n">message</span> <span class="o">=</span> <span class="s2">"Advanced stopping criteria could not be checked!"</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="c1">### example for exception logging</span>
+            <span class="c1"># template = "An exception of type {0} occurred. Arguments:\n{1!r}"</span>
+            <span class="c1"># message = template.format(type(ex).__name__, ex.args)</span>
+
+            <span class="c1">### Ignore this if we are using GRAPE</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"GRAPEAlgorithm"</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="c1"># elif type(ex).__name__ == "AttributeError":</span>
+            <span class="c1">#     message = "Advanced stopping criteria could not be checked because " \</span>
+            <span class="c1">#               "there is no stopping criteria object!"</span>
+            <span class="c1">#     self.comm_obj.print_logger(message, level=30)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">"Advanced stopping criteria could not be checked!"</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
         <span class="c1"># Return the figure of merit, i.e. a real number, to the optimal based algorithm</span>
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimization_factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
@@ -347,7 +375,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

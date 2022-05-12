@@ -68,14 +68,6 @@ quocslib.utils.inputoutput module
    :undoc-members:
    :show-inheritance:
 
-quocslib.utils.logger module
-----------------------------
-
-.. automodule:: quocslib.utils.logger
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 quocslib.utils.test\_BestDump module
 ------------------------------------
 

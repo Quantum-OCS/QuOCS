@@ -105,11 +105,49 @@ lalala [1]
 
 _json_: 
 ~~~json
-
+{
+    "optimization_client_name": "Optimization_GRAPE_IsingModel",
+    "algorithm_settings": {
+        "algorithm_name": "GRAPE",
+        "stopping_criteria": {
+            "max_eval_total": 100,
+            "ftol": 1e-10,
+            "gtol": 1e-10
+        }
+    },
+    "pulses": [{
+        "pulse_name": "Pulse_1",
+        "upper_limit": 100.0,
+        "lower_limit": -100.0,
+        "bins_number": 100,
+        "amplitude_variation": 20.0,
+        "time_name": "time_1",
+        "basis": {
+            "basis_name": "PiecewiseBasis",
+            "bins_number": 100
+        },
+        "scaling_function": {
+            "function_type": "lambda_function",
+            "lambda_function": "lambda t: 1.0 + 0.0*t"
+        },
+        "initial_guess": {
+            "function_type": "lambda_function",
+            "lambda_function": "lambda t: 0.0 + 0.0*t"
+        }
+    }],
+    "parameters": [],
+    "times": [{
+        "time_name": "time_1",
+        "initial_value": 1.0
+    }]
+}
 ~~~
 
 _Settings_:
-- `"option"` lalala
+
+* `"algorithm_settings"`: General settings
+	-  `"algorithm_name"`: to use GRAPE this should be set to `"GRAPE"`
+	-  `"stopping_criteria"`: here one can define stopping criteria for the L-BFGS-B search (see [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html#optimize-minimize-lbfgsb). Implemented are `"ftol"`, `"gtol"` and `"maxls"`. Additionally, the maximum number of function evaluations can be set via `"max_eval_total"`.
 
 
 _References_:
