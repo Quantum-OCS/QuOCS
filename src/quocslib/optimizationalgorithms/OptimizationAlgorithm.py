@@ -162,16 +162,40 @@ class OptimizationAlgorithm:
         # add FoM to FoM track for stopping criteria
         try:
             self.dsm_obj.sc_obj.add_to_FoM_track(self.FoM_dict["FoM"])
-        except:
-            message = "FoM track for stopping criteria could not be updated!"
-            self.comm_obj.print_logger(message, level=30)
+        except Exception as ex:
+            ### example for exception logging
+            # template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            # message = template.format(type(ex).__name__, ex.args)
+
+            ### Ignore this if we are using GRAPE
+            if type(self).__name__ == "GRAPEAlgorithm":
+                pass
+            # elif type(ex).__name__ == "AttributeError":
+            #     message = "FoM track for stopping criteria could not be updated because " \
+            #               "there is no stopping criteria object!"
+            #     self.comm_obj.print_logger(message, level=30)
+            else:
+                message = "FoM track for stopping criteria could not be updated!"
+                self.comm_obj.print_logger(message, level=30)
 
         # check the advanced stopping criteria
         try:
             self.dsm_obj.sc_obj.check_advanced_stopping_criteria()
-        except:
-            message = "Advanced stopping criteria could not be checked!"
-            self.comm_obj.print_logger(message, level=30)
+        except Exception as ex:
+            ### example for exception logging
+            # template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            # message = template.format(type(ex).__name__, ex.args)
+
+            ### Ignore this if we are using GRAPE
+            if type(self).__name__ == "GRAPEAlgorithm":
+                pass
+            # elif type(ex).__name__ == "AttributeError":
+            #     message = "Advanced stopping criteria could not be checked because " \
+            #               "there is no stopping criteria object!"
+            #     self.comm_obj.print_logger(message, level=30)
+            else:
+                message = "Advanced stopping criteria could not be checked!"
+                self.comm_obj.print_logger(message, level=30)
 
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
         return -1.0 * self.optimization_factor * self.FoM_dict["FoM"]
