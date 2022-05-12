@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import importlib
+# import traceback
 import os
 from quocslib.utils.inputoutput import readjson
 
@@ -54,14 +55,19 @@ def dynamic_import(attribute=None,
             elif class_type is None:
                 raise Exception('The type of the class is not provided!')
 
-            name_dict = map_dict[name]
-            module_name = name_dict["module_name"]
-            class_name = name_dict["class_name"]
+            name_dict = {}
+
+            if name in map_dict:
+                name_dict = map_dict[name]
+                module_name = name_dict["module_name"]
+                class_name = name_dict["class_name"]
+
             attribute = getattr(importlib.import_module(module_name), class_name)
             return attribute
 
         # TODO Substitute the Exception with a proper Error
         except Exception as ex:
+            # traceback.print_exc()
             print("{0}.py module does not exist or {1} is not the class in that module".format(module_name, class_name))
             return None
 
