@@ -241,6 +241,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
+                                        sigma_v=self.controls.get_sigma_variation(),
                                         drift_comp_minutes=self.compensate_drift_after_minutes)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed
