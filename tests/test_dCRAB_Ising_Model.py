@@ -20,8 +20,9 @@ from quocslib.Optimizer import Optimizer
 def test_dCRAB_Ising_Model():
     optimization_dictionary = {
         "Disclaimer":
-            "Do not use this json file for optimization",
-        "optimization_client_name": "Optimization_dCRAB_IsingModel",
+        "Do not use this json file for optimization",
+        "optimization_client_name":
+        "Optimization_dCRAB_IsingModel",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 5,
@@ -32,12 +33,11 @@ def test_dCRAB_Ising_Model():
                     "is_adaptive": False
                 },
                 "stopping_criteria": {
-                    "xatol": 1e-5,
-                    "frtol": 1e-5
+                    "xatol": 1e-2,
+                    "frtol": 1e-2
                 }
             }
         },
-
         "pulses": [{
             "pulse_name": "Pulse_1",
             "upper_limit": 100.0,
@@ -46,14 +46,14 @@ def test_dCRAB_Ising_Model():
             "amplitude_variation": 30.0,
             "time_name": "time_1",
             "basis": {
-                    "basis_name": "Fourier",
-                    "basis_vector_number": 5,
-                    "random_super_parameter_distribution": {
-                        "distribution_name": "Uniform",
-                        "lower_limit": 0.1,
-                        "upper_limit": 10.0
-                    }
-                },
+                "basis_name": "Fourier",
+                "basis_vector_number": 5,
+                "random_super_parameter_distribution": {
+                    "distribution_name": "Uniform",
+                    "lower_limit": 0.1,
+                    "upper_limit": 10.0
+                }
+            },
             "scaling_function": {
                 "function_type": "lambda_function",
                 "lambda_function": "lambda t: 1.0 + 0.0*t"

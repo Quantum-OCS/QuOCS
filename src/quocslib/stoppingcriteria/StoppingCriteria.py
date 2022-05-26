@@ -24,6 +24,9 @@ class StoppingCriteria:
         """
         Parent class for the stopping criteria
         """
+        self.xatol = None
+        self.frtol = None
+        self.terminate_reason: str = ""
         self.is_converged = False
         self.terminate_reason = "terminate_reason is still at default"
         self.logger = logging.getLogger("oc_logger")

@@ -19,9 +19,6 @@ from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class NelderMeadStoppingCriteria(StoppingCriteria):
-    terminate_reason: str
-    is_converged: bool
-
     def __init__(self, stopping_criteria: dict):
         """
         Class for the Nelder Mead custom stopping criteria
