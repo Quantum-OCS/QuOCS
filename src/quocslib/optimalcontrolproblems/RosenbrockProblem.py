@@ -22,7 +22,6 @@ import numpy as np
 class Rosenbrock(AbstractFoM):
     """A figure of merit class for optimization of the Rosenbrock function given an arbitrary
     number of parameters"""
-
     def __init__(self, args_dict: dict = None):
         """Initialize useful arguments"""
         # Noise in the figure of merit

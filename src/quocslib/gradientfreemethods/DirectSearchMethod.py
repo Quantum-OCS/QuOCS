@@ -16,7 +16,6 @@
 
 
 class Wrap:
-
     def __init__(self, args):
         self.args = args
         self.calls_number = [0]
@@ -38,7 +37,6 @@ class Wrap:
 
 
 class DirectSearchMethod:
-
     def __init__(self):
         # TODO Set the initial wrapper function with the target function and the optional arguments
         # TODO Integrate here the callback function for user interruption

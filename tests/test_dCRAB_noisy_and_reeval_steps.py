@@ -121,5 +121,3 @@ def test_dCRAB_Fourier_NM_OneQubit_Noisy():
     # define some parameters for the optimization
     args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]", "is_noisy": True}
     main(optimization_dictionary, args_dict)
-
-

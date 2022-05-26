@@ -21,7 +21,6 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class BestDump(AbstractDump):
-
     def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
         """
         Dumping class for controls and other data which should be the most useful option for most users.

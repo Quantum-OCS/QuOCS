@@ -18,7 +18,6 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class DummyDump(AbstractDump):
-
     def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
         pass
 

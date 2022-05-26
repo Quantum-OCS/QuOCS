@@ -20,7 +20,6 @@ import os
 
 class AbstractDump(metaclass=ABCMeta):
     """Abstract class for dumping data"""
-
     @abstractmethod
     def __init__(self, results_path: str = ".", **kwargs):
         """

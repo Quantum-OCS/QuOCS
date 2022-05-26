@@ -33,7 +33,6 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
-
     def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
@@ -59,7 +58,6 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.ftol = self.stopping_crit.setdefault("ftol", 1e-6)
         self.gtol = self.stopping_crit.setdefault("gtol", 1e-6)
         self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is defialt acc. to documentation of scipy
-
 
         alg_parameters = optimization_dict["algorithm_settings"]
         # Seed for the random number generator
@@ -185,9 +183,16 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
         # Optimization with L-BFGS-B
-        results = scipy.optimize.minimize(self.inner_routine_call, init_xx, method="L-BFGS-B", jac=True,
-                                          options={'ftol': self.ftol, 'maxfun': self.max_fun_evals,
-                                                   'gtol': self.gtol, 'maxls': self.maxls})
+        results = scipy.optimize.minimize(self.inner_routine_call,
+                                          init_xx,
+                                          method="L-BFGS-B",
+                                          jac=True,
+                                          options={
+                                              'ftol': self.ftol,
+                                              'maxfun': self.max_fun_evals,
+                                              'gtol': self.gtol,
+                                              'maxls': self.maxls
+                                          })
         # Print L-BFGS-B results in the log file
         self.comm_obj.print_logger(results, level=20)
 

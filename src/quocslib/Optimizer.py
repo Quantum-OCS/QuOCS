@@ -23,7 +23,6 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 
 class Optimizer:
-
     def __init__(self,
                  optimization_dict: dict = None,
                  FoM_object: AbstractFoM = None,
