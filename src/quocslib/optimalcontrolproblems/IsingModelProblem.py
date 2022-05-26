@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
+from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator import pw_evolution
 import functools
@@ -23,10 +24,10 @@ import functools
 class IsingModel(AbstractFoM):
     """A figure of merit class for optimization of the problem defined by Alastair Marshall via
     https://arxiv.org/abs/2110.06187"""
-
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
+
         ################################################################################################################
         # Dynamics variables
         ################################################################################################################
@@ -40,8 +41,10 @@ class IsingModel(AbstractFoM):
         self.rho_0 = get_initial_state(self.n_qubits)
         self.rho_target = get_target_state(self.n_qubits)
         self.rho_final = np.zeros_like(self.rho_target)
-        # allocate a storage array
+        # allocate memory for the list containing the propagators
         self.prop_store = [np.zeros_like(self.H_drift) for _ in range(self.n_slices)]
+        # Check if the propagators are already computed
+        self.propagators_are_computed = False
 
     def get_control_Hamiltonians(self):
         return self.H_control
@@ -61,6 +64,7 @@ class IsingModel(AbstractFoM):
         time_grids_list: list = [],
         parameters_list: list = [],
     ) -> np.array:
+        """ Compute and return the list of propagators """
         drive = pulses_list[0].reshape(1, len(pulses_list[0]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0]
@@ -68,10 +72,15 @@ class IsingModel(AbstractFoM):
         dt = time_grid[-1] / len(time_grid)
         # Compute the time evolution
         self.prop_store = pw_evolution(self.prop_store, drive, self.H_drift, [self.H_control], n_slices, dt)
+        self.propagators_are_computed = True
         return self.prop_store
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         """ """
+        # Check if the final propagator is computed before compute the final propagator
+        if not self.propagators_are_computed:
+            self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
+        self.propagators_are_computed = False
         # Compute the final propagator
         U_final = functools.reduce(lambda a, b: a @ b, self.prop_store)
         # evolve initial state
@@ -81,85 +90,87 @@ class IsingModel(AbstractFoM):
         return {"FoM": -fidelity}
 
 
-i2 = np.eye(2)
-sz = 0.5 * np.matrix([[1, 0], [0, -1]], dtype=np.complex128)
-sx = 0.5 * np.matrix([[0, 1], [1, 0]], dtype=np.complex128)
-psi0 = np.matrix([[1, 0], [0, 0]], dtype=np.complex128)
-psiT = np.matrix([[0, 0], [0, 1]], dtype=np.complex128)
-
-
-def tensor_together(A):
-    res = np.kron(A[0], A[1])
-    if len(A) > 2:
-        for two in A[2:]:
-            res = np.kron(res, two)
-    else:
-        res = res
-    return res
-
-
-def fidelity_funct(rho_evolved, rho_aim):
-    return np.abs(np.trace(rho_evolved.conj() @ rho_aim))
-
-
-def get_static_hamiltonian(nqu, J, g):
-
-    dim = 2**nqu
-    H0 = np.zeros((dim, dim), dtype=np.complex128)
-    for j in range(nqu):
-        # set up holding array
-        rest = [i2] * nqu
-        # set the correct elements to sz
-        # check, so we can implement a loop around
-        if j == nqu - 1:
-            idx1 = j
-            idx2 = 0
-        else:
-            idx1 = j
-            idx2 = j + 1
-        rest[idx1] = sz
-        rest[idx2] = sz
-        H0 = H0 - J * tensor_together(rest)
-
-    for j in range(nqu):
-        # set up holding array
-        rest = [i2] * nqu
-        # set the correct elements to sz
-        # check, so we can implement a loop around
-        if j == nqu - 1:
-            idx1 = j
-            idx2 = 1
-        elif j == nqu - 2:
-            idx1 = j
-            idx2 = 0
-        else:
-            idx1 = j
-            idx2 = j + 2
-        rest[idx1] = sz
-        rest[idx2] = sz
-        H0 = H0 - g * tensor_together(rest)
-    return H0
-
-
-def get_control_hamiltonian(nqu: int):
-    # get the controls
-    dim = 2**nqu
-    H_at_t = np.zeros((dim, dim), dtype=np.complex128)
-    for j in range(nqu):
-        # set up holding array
-        rest = [i2] * nqu
-        # set the correct elements to sz
-        # check, so we can implement a loop around
-        rest[j] = sx
-        H_at_t = H_at_t + tensor_together(rest)
-    return H_at_t
-
-
-def get_initial_state(nqu: int):
-    state = [psi0] * nqu
-    return tensor_together(state)
-
-
-def get_target_state(nqu: int):
-    state = [psiT] * nqu
-    return tensor_together(state)
+#
+#
+# i2 = np.eye(2)
+# sz = 0.5 * np.matrix([[1, 0], [0, -1]], dtype=np.complex128)
+# sx = 0.5 * np.matrix([[0, 1], [1, 0]], dtype=np.complex128)
+# psi0 = np.matrix([[1, 0], [0, 0]], dtype=np.complex128)
+# psiT = np.matrix([[0, 0], [0, 1]], dtype=np.complex128)
+#
+#
+# def tensor_together(A):
+#     res = np.kron(A[0], A[1])
+#     if len(A) > 2:
+#         for two in A[2:]:
+#             res = np.kron(res, two)
+#     else:
+#         res = res
+#     return res
+#
+#
+# def fidelity_funct(rho_evolved, rho_aim):
+#     return np.abs(np.trace(rho_evolved.conj() @ rho_aim))
+#
+#
+# def get_static_hamiltonian(nqu, J, g):
+#
+#     dim = 2**nqu
+#     H0 = np.zeros((dim, dim), dtype=np.complex128)
+#     for j in range(nqu):
+#         # set up holding array
+#         rest = [i2] * nqu
+#         # set the correct elements to sz
+#         # check, so we can implement a loop around
+#         if j == nqu - 1:
+#             idx1 = j
+#             idx2 = 0
+#         else:
+#             idx1 = j
+#             idx2 = j + 1
+#         rest[idx1] = sz
+#         rest[idx2] = sz
+#         H0 = H0 - J * tensor_together(rest)
+#
+#     for j in range(nqu):
+#         # set up holding array
+#         rest = [i2] * nqu
+#         # set the correct elements to sz
+#         # check, so we can implement a loop around
+#         if j == nqu - 1:
+#             idx1 = j
+#             idx2 = 1
+#         elif j == nqu - 2:
+#             idx1 = j
+#             idx2 = 0
+#         else:
+#             idx1 = j
+#             idx2 = j + 2
+#         rest[idx1] = sz
+#         rest[idx2] = sz
+#         H0 = H0 - g * tensor_together(rest)
+#     return H0
+#
+#
+# def get_control_hamiltonian(nqu: int):
+#     # get the controls
+#     dim = 2**nqu
+#     H_at_t = np.zeros((dim, dim), dtype=np.complex128)
+#     for j in range(nqu):
+#         # set up holding array
+#         rest = [i2] * nqu
+#         # set the correct elements to sz
+#         # check, so we can implement a loop around
+#         rest[j] = sx
+#         H_at_t = H_at_t + tensor_together(rest)
+#     return H_at_t
+#
+#
+# def get_initial_state(nqu: int):
+#     state = [psi0] * nqu
+#     return tensor_together(state)
+#
+#
+# def get_target_state(nqu: int):
+#     state = [psiT] * nqu
+#     return tensor_together(state)

@@ -22,7 +22,6 @@ import os
 
 
 class OneQubit(AbstractFoM):
-
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
@@ -40,7 +39,7 @@ class OneQubit(AbstractFoM):
 
         # Drifting FoM
         self.include_drift = args_dict.setdefault("include_drift", False)
-        self.linear_drift_val_over_iterartion = args_dict.setdefault("linear_drift_val_over_iterartion", 0.002)
+        self.linear_drift_val_over_iteration = args_dict.setdefault("linear_drift_val_over_iteration", 0.002)
 
         # Maximization or minimization
         # Minimization -1.0
@@ -79,7 +78,7 @@ class OneQubit(AbstractFoM):
             std = (self.std_factor * np.random.rand(1)[0])
 
         if self.include_drift:
-            infidelity += self.linear_drift_val_over_iterartion * self.FoM_eval_number
+            infidelity += self.linear_drift_val_over_iteration * self.FoM_eval_number
 
         self.FoM_list.append(np.abs(infidelity))
         self.FoM_eval_number += 1
