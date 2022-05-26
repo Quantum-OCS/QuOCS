@@ -25,8 +25,8 @@ def test_dCRAB_Ising_Model():
         "Optimization_dCRAB_IsingModel",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
-            "super_iteration_number": 5,
-            "max_eval_total": 5000,
+            "super_iteration_number": 3,
+            "max_eval_total": 800,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",

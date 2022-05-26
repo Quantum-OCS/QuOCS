@@ -19,16 +19,18 @@ from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 from datetime import datetime
 
+from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
+
 INITIAL_FOM: float = 10**10
 
 
 class OptimizationAlgorithm:
-    init_status: bool = False
-    FoM_maximum: float = 1e10
+    init_status: bool
     xx: np.array
     alg_iteration_number: int
     iteration_number: int
     FoM_dict: dict
+    dsm_obj: DirectSearchMethod
 
     def __init__(self, communication_obj: AllInOneCommunication = None, optimization_dict: dict = None):
         """
@@ -58,7 +60,7 @@ class OptimizationAlgorithm:
         # Goal FoM
         self.FoM_goal = alg_parameters.setdefault("FoM_goal", None)
         # initialize the optimizaiton start time
-        self.optimizaiton_start_time = 0
+        self.optimization_start_time = None
         # Maximization or minimization
         # optimization_direction
         self.optimization_direction = alg_parameters.setdefault("optimization_direction", "minimization")
@@ -71,7 +73,7 @@ class OptimizationAlgorithm:
                       "only, but {0} is provided".format(self.optimization_direction)
             self.comm_obj.print_logger(message=message, level=40)
             raise TypeError
-        self.best_FoM = self.optimization_factor * (-1.0) * INITIAL_FOM
+        self.best_FoM = self.FoM_maximum = self.optimization_factor * (-1.0) * INITIAL_FOM
         message = "The optimization direction is {0}".format(self.optimization_direction)
         self.comm_obj.print_logger(message=message, level=20)
 
@@ -88,7 +90,7 @@ class OptimizationAlgorithm:
         # Notify it to the client
         self.comm_obj.update_init_msg_server(upd_name=self.comm_obj.client_job_name)
         # set start time of optimization
-        self.optimizaiton_start_time = datetime.now()
+        self.optimization_start_time = datetime.now()
 
     def _routine_call(self, optimized_control_parameters: np.array, iterations: int) -> float:
         """
@@ -121,14 +123,14 @@ class OptimizationAlgorithm:
         # check total optimization time limit
         if self.total_time_lim < 10**10:
             curr_time = datetime.now()
-            time_passed = (curr_time - self.optimizaiton_start_time).total_seconds() / 60.0
+            time_passed = (curr_time - self.optimization_start_time).total_seconds() / 60.0
 
             if time_passed >= self.total_time_lim:
                 self.higher_order_terminate_reason = "Maximum optimization runtime reached"
                 self.dsm_obj.sc_obj.is_converged = True
                 self.stop_optimization()
 
-        # self.optimizaiton_start_time = datetime.now()
+        # self.optimization_start_time = datetime.now()
         # Check if the optimization is still running
         is_running = self.comm_obj.get_user_running()
         if not is_running:
@@ -244,6 +246,7 @@ class OptimizationAlgorithm:
     def stop_optimization(self) -> None:
         """Function to stop the optimization (inner direct search algorithm)"""
         self.comm_obj.set_is_running_state(value=False)
+
 
     def end(self) -> None:
         """Finalize the transmission with  the client"""

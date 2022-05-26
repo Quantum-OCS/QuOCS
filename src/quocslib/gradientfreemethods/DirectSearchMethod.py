@@ -13,6 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class Wrap:
@@ -37,6 +38,8 @@ class Wrap:
 
 
 class DirectSearchMethod:
+    sc_obj: StoppingCriteria
+
     def __init__(self):
         # TODO Set the initial wrapper function with the target function and the optional arguments
         # TODO Integrate here the callback function for user interruption
