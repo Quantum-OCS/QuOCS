@@ -15,6 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from abc import abstractmethod
 import numpy as np
+
+from quocslib.Controls import Controls
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 from datetime import datetime
@@ -31,6 +33,7 @@ class OptimizationAlgorithm:
     iteration_number: int
     FoM_dict: dict
     dsm_obj: DirectSearchMethod
+    controls: Controls
 
     def __init__(self, communication_obj: AllInOneCommunication = None, optimization_dict: dict = None):
         """
@@ -234,6 +237,7 @@ class OptimizationAlgorithm:
         pulses, time grids, and parameters"""
         raise NotImplementedError("Must override method in the Optimal Algorithm class")
 
+    # TODO Make the below function no more public !
     @abstractmethod
     def _get_final_results(self) -> dict:
         """The optimal algorithm gives back a dictionary with useful results"""
@@ -247,6 +251,10 @@ class OptimizationAlgorithm:
         """Function to stop the optimization (inner direct search algorithm)"""
         self.comm_obj.set_is_running_state(value=False)
 
+    def get_best_controls(self) -> dict:
+        """Return the best pulses_list, time_grids_list, and parameters_list found so far"""
+        pulses_list, time_grids_list, parameters_list = self.controls.get_controls_lists(self.controls.get_mean_value())
+        return {"pulses": pulses_list, "parameters": parameters_list, "timegrids": time_grids_list}
 
     def end(self) -> None:
         """Finalize the transmission with  the client"""
