@@ -195,6 +195,8 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
                                           })
         # Print L-BFGS-B results in the log file
         self.comm_obj.print_logger(results, level=20)
+        # Update the controls with the best ones found so far
+        self.controls.update_base_controls(self.best_xx)
 
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
@@ -210,7 +212,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "FoM": self.best_FoM,
+            "Figure of merit": self.best_FoM,
             "nfev": self.iteration_number,
         }
         return final_dict
