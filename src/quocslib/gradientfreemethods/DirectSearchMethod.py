@@ -15,6 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
+import numpy as np
+
 
 class Wrap:
     def __init__(self, args):
@@ -44,6 +46,9 @@ class DirectSearchMethod:
         # TODO Set the initial wrapper function with the target function and the optional arguments
         # TODO Integrate here the callback function for user interruption
         pass
+
+    def run_dsm(self, routine_call: callable, x0: np.array, **kwargs):
+        raise NotImplementedError("The direct search method must implement the run_dsm function")
 
     @staticmethod
     def _get_wrapper(args, func):
