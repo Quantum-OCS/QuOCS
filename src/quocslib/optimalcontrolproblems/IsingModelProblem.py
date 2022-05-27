@@ -14,7 +14,6 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import numpy as np
 from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator import pw_evolution
@@ -77,7 +76,7 @@ class IsingModel(AbstractFoM):
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         """ """
-        # Check if the final propagator is computed before compute the final propagator
+        # Check if the propagator list is computed before compute the final propagator
         if not self.propagators_are_computed:
             self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         self.propagators_are_computed = False
