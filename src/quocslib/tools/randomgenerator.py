@@ -20,7 +20,6 @@ from packaging import version
 
 
 class RandomNumberGenerator:
-
     def __init__(self, seed_number: int = None):
         """ Add the docstrings here """
         logger = logging.getLogger("oc_logger")

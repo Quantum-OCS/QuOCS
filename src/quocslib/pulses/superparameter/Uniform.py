@@ -21,7 +21,6 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class Uniform(SuperParameterDistribution):
-
     def __init__(self,
                  basis_vectors_number,
                  super_parameter_distribution_dictionary,

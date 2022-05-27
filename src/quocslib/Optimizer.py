@@ -16,6 +16,7 @@
 
 from quocslib.handleexit.HandleExit import HandleExit
 from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
@@ -23,7 +24,6 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 
 class Optimizer:
-
     def __init__(self,
                  optimization_dict: dict = None,
                  FoM_object: AbstractFoM = None,
@@ -52,12 +52,16 @@ class Optimizer:
                                                   name=algorithm_dict.setdefault("algorithm_name", None),
                                                   class_type='algorithm')
 
-        self.opt_alg_obj = self.optimizer_attribute(optimization_dict=optimization_dict,
-                                                    communication_obj=self.communication_obj,
-                                                    FoM_object=FoM_object)
+        self.opt_alg_obj: OptimizationAlgorithm = self.optimizer_attribute(optimization_dict=optimization_dict,
+                                                                           communication_obj=self.communication_obj,
+                                                                           FoM_object=FoM_object)
 
     def execute(self):
         """ Write this docstring """
         self.opt_alg_obj.begin()
         self.opt_alg_obj.run()
         self.opt_alg_obj.end()
+
+    def get_optimization_algorithm(self):
+        """ Return the optimization algorithm object """
+        return self.opt_alg_obj

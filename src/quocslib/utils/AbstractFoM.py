@@ -20,7 +20,6 @@ import numpy as np
 
 class AbstractFoM(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
-
     def get_control_hamiltonians(self):
         """
         Method to get the control Hamiltonians. It is compulsory for gradient-based optimization

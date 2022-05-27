@@ -20,22 +20,26 @@ import logging
 
 
 class StoppingCriteria:
-
     def __init__(self, stopping_criteria: dict = None):
         """
         Parent class for the stopping criteria
         """
+        self.xatol = None
+        self.frtol = None
+        self.terminate_reason: str = ""
         self.is_converged = False
+        self.terminate_reason = "terminate_reason is still at default"
         self.logger = logging.getLogger("oc_logger")
         self.max_eval = stopping_criteria.setdefault("max_eval", 10**10)
         self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
         self.direct_search_start_time = datetime.now()
-        self.change_based_stop = stopping_criteria.setdefault("change_based_stop", {"cbs_funct_evals": 1,
-                                                                                    "cbs_change": 0})
+        self.change_based_stop = stopping_criteria.setdefault("change_based_stop", {
+            "cbs_funct_evals": 1,
+            "cbs_change": 0
+        })
         # if "cbs_funct_evals" not in self.change_based_stop:
         #     self.change_based_stop["cbs_funct_evals"] = 1
         self.curr_FoM_track: list = []
-
 
     @abstractmethod
     def check_stopping_criteria(self, **kwargs) -> None:

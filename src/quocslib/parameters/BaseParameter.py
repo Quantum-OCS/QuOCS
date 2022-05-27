@@ -21,7 +21,6 @@ class BaseParameter:
     Parameter Class where every parameter to be optimized is defined. It is used as a parent class of the Time class in
     order to optimize the time of the pulse whenever the user specified it in the configuration class.
     """
-
     def __init__(
         self,
         map_index=-1,

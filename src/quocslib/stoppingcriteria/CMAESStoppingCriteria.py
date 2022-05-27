@@ -20,9 +20,6 @@ from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class CMAESStoppingCriteria(StoppingCriteria):
-    terminate_reason: str
-    is_converged: bool
-
     def __init__(self, stopping_criteria: dict):
         """
         Class for the Nelder Mead custom stopping criteria
@@ -42,7 +39,8 @@ class CMAESStoppingCriteria(StoppingCriteria):
         :param func_evaluations_single_direct_search:
         :return:
         """
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         # # Check function evaluation
         # is_converged, terminate_reason = self.check_func_eval(function_evaluations)
@@ -63,10 +61,12 @@ class CMAESStoppingCriteria(StoppingCriteria):
 
         self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(
             func_evaluations_single_direct_search)
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         # self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
         # if self.is_converged: return
@@ -75,4 +75,5 @@ class CMAESStoppingCriteria(StoppingCriteria):
         # if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_direct_search_time_out()
-        if self.is_converged: return
+        if self.is_converged:
+            return

@@ -25,7 +25,6 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 
 class dCRABAlgorithm(OptimizationAlgorithm):
-
     def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
@@ -241,6 +240,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         result_l = self.dsm_obj.run_dsm(self._inner_routine_call,
                                         x0,
                                         initial_simplex=start_simplex,
+                                        sigma_v=self.controls.get_sigma_variation(),
                                         drift_comp_minutes=self.compensate_drift_after_minutes)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed
@@ -401,7 +401,3 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             "terminate_reason": self.terminate_reason
         }
         return final_dict
-
-    def get_best_controls(self) -> list:
-        """Return the best pulses_list, time_grids_list, and parameters_list found so far"""
-        return self.controls.get_controls_lists(self.controls.get_mean_value())

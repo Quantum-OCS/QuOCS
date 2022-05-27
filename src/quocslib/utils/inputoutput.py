@@ -44,7 +44,6 @@ def readjson(filename: str) -> [int, dict]:
 
 class ObjectEncoder(json.JSONEncoder):
     """Convert numpy array to list"""
-
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()

@@ -19,25 +19,42 @@ from quocslib.Optimizer import Optimizer
 import numpy as np
 
 
-def test_GRAPE_Ising_Model():
+def test_dCRAB_Ising_Model():
     optimization_dictionary = {
         "Disclaimer":
         "Do not use this json file for optimization",
         "optimization_client_name":
-        "Optimization_GRAPE_IsingModel",
+        "Optimization_dCRAB_IsingModel",
         "algorithm_settings": {
-            "algorithm_name": "GRAPE"
+            "algorithm_name": "dCRAB",
+            "super_iteration_number": 3,
+            "max_eval_total": 800,
+            "dsm_settings": {
+                "general_settings": {
+                    "dsm_algorithm_name": "NelderMead",
+                    "is_adaptive": False
+                },
+                "stopping_criteria": {
+                    "xatol": 1e-2,
+                    "frtol": 1e-2
+                }
+            }
         },
         "pulses": [{
             "pulse_name": "Pulse_1",
             "upper_limit": 100.0,
             "lower_limit": -100.0,
             "bins_number": 100,
-            "amplitude_variation": 20.0,
+            "amplitude_variation": 30.0,
             "time_name": "time_1",
             "basis": {
-                "basis_name": "PiecewiseBasis",
-                "bins_number": 100
+                "basis_name": "Fourier",
+                "basis_vector_number": 5,
+                "random_super_parameter_distribution": {
+                    "distribution_name": "Uniform",
+                    "lower_limit": 0.1,
+                    "upper_limit": 10.0
+                }
             },
             "scaling_function": {
                 "function_type": "lambda_function",
@@ -82,4 +99,4 @@ def main(optimization_dictionary: dict, args_dict: dict):
 
 
 if __name__ == "__main__":
-    test_GRAPE_Ising_Model()
+    test_dCRAB_Ising_Model()
