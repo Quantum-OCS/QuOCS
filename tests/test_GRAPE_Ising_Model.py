@@ -16,6 +16,8 @@
 from quocslib.optimalcontrolproblems.IsingModelProblem import IsingModel
 from quocslib.Optimizer import Optimizer
 
+import numpy as np
+
 
 def test_GRAPE_Ising_Model():
     optimization_dictionary = {
@@ -66,6 +68,17 @@ def main(optimization_dictionary: dict, args_dict: dict):
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
     optimization_obj.execute()
+
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    # Get the final results
+    FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
+    # Get the best controls and check if they correspond to the best FoM
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    controls = opt_alg_obj.get_best_controls()
+    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
+    # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
+    # using the best controls
+    assert (np.abs(FoM - FoM_check) < 10**(-8))
 
 
 if __name__ == "__main__":

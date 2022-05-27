@@ -106,6 +106,17 @@ def main(optimization_dictionary: dict, args_dict: dict):
     optimization_obj.execute()
     FoM_object.save_FoM()
 
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    # Get the final results
+    FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
+    # Get the best controls and check if they correspond to the best FoM
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    controls = opt_alg_obj.get_best_controls()
+    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
+    # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
+    # using the best controls
+    assert (np.abs(FoM - FoM_check) < 10**(-8))
+
     # Plot the results
     plot_FoM(FoM_object.save_path, FoM_object.FoM_save_name)
     plot_controls(FoM_object.save_path)

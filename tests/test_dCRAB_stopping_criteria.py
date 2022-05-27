@@ -15,7 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
 from quocslib.Optimizer import Optimizer
-import pytest
+
+import numpy as np
 
 
 def test_stopping_after_FoM_goal():
@@ -84,7 +85,19 @@ def test_stopping_after_FoM_goal():
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
     optimization_obj.execute()
 
-    optimization_obj.results_path
+    # TODO What we wanna test in the following commented line?
+    # optimization_obj.results_path
+
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    # Get the final results
+    FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
+    # Get the best controls and check if they correspond to the best FoM
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    controls = opt_alg_obj.get_best_controls()
+    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
+    # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
+    # using the best controls
+    assert (np.abs(FoM - FoM_check) < 10**(-8))
 
 
 def test_stopping_after_SI_max_eval():

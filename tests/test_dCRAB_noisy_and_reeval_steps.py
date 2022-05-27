@@ -106,6 +106,19 @@ def main(optimization_dictionary: dict, args_dict: dict):
     optimization_obj.execute()
     FoM_object.save_FoM()
 
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    # Get the final results
+    FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
+    # Get the best controls and check if they correspond to the best FoM
+    opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    controls = opt_alg_obj.get_best_controls()
+    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
+    # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
+    # using the best controls
+    noise_factor = args_dict["noise_factor"]
+    print(np.abs(FoM - FoM_check))
+    assert (np.abs(FoM - FoM_check) < 1.5 * noise_factor)
+
     # Plot the results
     plot_FoM(FoM_object.save_path, FoM_object.FoM_save_name)
     plot_controls(FoM_object.save_path)
@@ -119,5 +132,10 @@ def test_dCRAB_Fourier_NM_OneQubit_Noisy():
     folder = os.path.dirname(os.path.realpath(__file__))
     optimization_dictionary = readjson(os.path.join(folder, "dCRAB_Fourier_NM_OneQubit_Noisy.json"))
     # define some parameters for the optimization
-    args_dict = {"initial_state": "[1.0 , 0.0]", "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]", "is_noisy": True}
+    args_dict = {
+        "initial_state": "[1.0 , 0.0]",
+        "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
+        "is_noisy": True,
+        "noise_factor": 0.05
+    }
     main(optimization_dictionary, args_dict)
