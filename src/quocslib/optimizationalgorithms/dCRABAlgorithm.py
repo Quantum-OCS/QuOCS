@@ -401,7 +401,3 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             "terminate_reason": self.terminate_reason
         }
         return final_dict
-
-    def get_best_controls(self) -> list:
-        """Return the best pulses_list, time_grids_list, and parameters_list found so far"""
-        return self.controls.get_controls_lists(self.controls.get_mean_value())
