@@ -68,6 +68,8 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         ###########################################################################################
         self.controls = Controls(optimization_dict["pulses"], optimization_dict["times"],
                                  optimization_dict["parameters"])
+        self.FoM_list: list = []
+        self.iteration_number_list: list = []
 
     def _get_response_for_client(self):
         """
@@ -77,9 +79,19 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
 
         """
         is_record = False
+        FoM = self.FoM_dict["FoM"]
         if self.FoM_dict["FoM"] < self.best_FoM:
             is_record = True
-        response_dict = {"is_record": is_record, "FoM": self.FoM_dict["FoM"], "iteration_number": self.iteration_number}
+        status_code = self.FoM_dict.setdefault("status_code", 0)
+        response_dict = {
+            "is_record": is_record,
+            "FoM": self.FoM_dict["FoM"],
+            "iteration_number": self.iteration_number,
+            "status_code": status_code
+        }
+        if status_code == 0:
+            self.FoM_list.append(FoM)
+            self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
     def run(self):
