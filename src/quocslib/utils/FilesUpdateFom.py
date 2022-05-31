@@ -49,6 +49,7 @@ class FilesUpdateFoM(AbstractFoM):
         # File extension
         self.file_extension = file_extension
         # Split the controls in multiple files
+        # TODO Add this option in a future version
         self.is_splitted = is_splitted
         # FoM folder
         self.FoM_path = os.path.join(FoM_folder, "FoM.txt")

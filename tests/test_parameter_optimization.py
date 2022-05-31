@@ -1,11 +1,9 @@
-from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.utils.inputoutput import readjson
 from quocslib.Optimizer import Optimizer
 from scipy.optimize import rosen
 import numpy as np
 import os
-import pytest
 
 
 class RosenFoM(AbstractFoM):
