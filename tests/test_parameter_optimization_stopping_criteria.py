@@ -4,6 +4,7 @@ from quocslib.Optimizer import Optimizer
 from scipy.optimize import rosen
 import numpy as np
 import os
+import pytest
 
 
 class RosenFoM(AbstractFoM):

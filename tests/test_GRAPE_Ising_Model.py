@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.optimalcontrolproblems.IsingModelProblem import IsingModel
 from quocslib.Optimizer import Optimizer
-
+import pytest
 import numpy as np
 
 

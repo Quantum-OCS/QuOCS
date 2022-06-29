@@ -1,5 +1,6 @@
 from quocslib.Optimizer import Optimizer
 from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
+import pytest
 
 
 def test_stopping_after_total_max_eval_with_few_iterations():
