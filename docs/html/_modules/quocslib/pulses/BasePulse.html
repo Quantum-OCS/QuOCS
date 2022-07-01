@@ -152,7 +152,7 @@
                  <span class="n">amplitude_variation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
                  <span class="n">initial_guess</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">scaling_function</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">is_shrinked</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">shrink_ampl_lim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                  <span class="n">shaping_options</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">overwrite_base_pulse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                  <span class="n">rng</span><span class="p">:</span> <span class="n">RandomNumberGenerator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -224,7 +224,7 @@
             <span class="n">scaling_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="mf">1.0</span> <span class="o">*</span> <span class="n">t</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scaling_function</span> <span class="o">=</span> <span class="n">scaling_function</span>
         <span class="c1"># Shrink option</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_shrinked</span> <span class="o">=</span> <span class="n">is_shrinked</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shrink_ampl_lim</span> <span class="o">=</span> <span class="n">shrink_ampl_lim</span>
         <span class="c1"># Overwrite the base pulse at the end of the superiteration</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">overwrite_base_pulse</span> <span class="o">=</span> <span class="n">overwrite_base_pulse</span>
         <span class="c1"># Random number generator</span>
@@ -405,7 +405,7 @@
 
     <span class="k">def</span> <span class="nf">_get_limited_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="sd">"""Cut the pulse with the amplitude limits constraints"""</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_shrinked</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shrink_ampl_lim</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shrink_pulse</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span><span class="p">)</span>

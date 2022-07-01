@@ -142,7 +142,7 @@ def test_pulse_shrinking():
                 "function_type": "lambda_function",
                 "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
             },
-            "is_shrinked": True
+            "shrink_ampl_lim": True
         }],
         "parameters": [],
         "times": [{

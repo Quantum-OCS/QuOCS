@@ -41,7 +41,7 @@ class BasePulse:
                  amplitude_variation: float = 1.0,
                  initial_guess: np.array = None,
                  scaling_function: np.array = None,
-                 is_shrinked: bool = False,
+                 shrink_ampl_lim: bool = False,
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
                  rng: RandomNumberGenerator = None,
@@ -113,7 +113,7 @@ class BasePulse:
             scaling_function = lambda t: 1.0 * t
         self.scaling_function = scaling_function
         # Shrink option
-        self.is_shrinked = is_shrinked
+        self.shrink_ampl_lim = shrink_ampl_lim
         # Overwrite the base pulse at the end of the superiteration
         self.overwrite_base_pulse = overwrite_base_pulse
         # Random number generator
@@ -294,7 +294,7 @@ class BasePulse:
 
     def _get_limited_pulse(self, optimal_pulse: np.ndarray):
         """Cut the pulse with the amplitude limits constraints"""
-        if self.is_shrinked:
+        if self.shrink_ampl_lim:
             # return self._shrink_pulse(optimal_pulse)
             return self._shrink_pulse_2(optimal_pulse)
         else:

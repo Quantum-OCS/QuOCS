@@ -48,7 +48,7 @@
                     "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
                 },
                 "shaping_options": ["add_base_pulse", "add_initial_guess", "limit_pulse", "scale_pulse"],
-                "is_shrinked": true
+                "shrink_ampl_lim": true
               }],
   "parameters": [],
   "times": [{
