@@ -68,10 +68,10 @@ class BestDump(AbstractDump):
         controls_path = os.path.join(self.results_path, self.date_time + "_best_controls.npz")
         np.savez(controls_path, **full_dict)
 
-        if "iteration_number" in full_dict:
-            iteration_path = os.path.join(self.results_path, self.date_time + "_funct_eval_of_best_controls.txt")
-            with open(iteration_path, 'w') as f:
-                f.write(str(full_dict["iteration_number"]))
+        # if "iteration_number" in full_dict:
+        #     iteration_path = os.path.join(self.results_path, self.date_time + "_funct_eval_of_best_controls.txt")
+        #     with open(iteration_path, 'w') as f:
+        #         f.write(str(full_dict["iteration_number"]))
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """
