@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from abc import abstractmethod
 import numpy as np
+import signal
 
 from quocslib.Controls import Controls
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
@@ -79,6 +80,13 @@ class OptimizationAlgorithm:
         self.best_FoM = self.FoM_maximum = self.optimization_factor * (-1.0) * INITIAL_FOM
         message = "The optimization direction is {0}".format(self.optimization_direction)
         self.comm_obj.print_logger(message=message, level=20)
+        # listener for ctrl + c cancellation
+        signal.signal(signal.SIGINT, self.handle_user_cancellation)
+
+    def handle_user_cancellation(self, sig, frame):
+        self.higher_order_terminate_reason = "User stopped the optimization"
+        self.dsm_obj.sc_obj.is_converged = True
+        self.stop_optimization()
 
     def begin(self) -> None:
         """Initialize the communication with the client"""
@@ -104,6 +112,7 @@ class OptimizationAlgorithm:
         :param: int iterations: Iteration number of the inner free gradient method
         :return: float: Return the figure of merit to the inner free gradient method
         """
+
         # check if total maximum number of evals has been reached
         if self.iteration_number >= self.max_eval_total:
             self.higher_order_terminate_reason = "Maximum number of total function evaluations reached"
