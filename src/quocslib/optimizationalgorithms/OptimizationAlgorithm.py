@@ -21,6 +21,7 @@ from quocslib.Controls import Controls
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib import __VERSION__ as QUOCSLIB_VERSION
 from datetime import datetime
+import threading
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 
@@ -81,7 +82,9 @@ class OptimizationAlgorithm:
         message = "The optimization direction is {0}".format(self.optimization_direction)
         self.comm_obj.print_logger(message=message, level=20)
         # listener for ctrl + c cancellation
-        signal.signal(signal.SIGINT, self.handle_user_cancellation)
+        if threading.current_thread() is threading.main_thread():
+            signal.signal(signal.SIGINT, self.handle_user_cancellation)
+        # signal.signal(signal.SIGINT, self.handle_user_cancellation)
 
     def handle_user_cancellation(self, sig, frame):
         self.higher_order_terminate_reason = "User stopped the optimization"
