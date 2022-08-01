@@ -31,7 +31,8 @@ class AllInOneCommunication:
                  FoM_obj: AbstractFoM = None,
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
-                 comm_signals_list: [list, list, list] = None):
+                 comm_signals_list: [list, list, list] = None,
+                 create_logfile: bool = True):
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -69,7 +70,7 @@ class AllInOneCommunication:
         with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
-        self.logger = create_logger(self.results_path, self.date_time)
+        self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile)
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object

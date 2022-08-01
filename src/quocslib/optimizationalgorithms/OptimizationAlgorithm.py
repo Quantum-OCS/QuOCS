@@ -275,6 +275,7 @@ class OptimizationAlgorithm:
         # End communication
         # ToDo: fix this... this is kind of a workaround for now
         end_comm_message_dict = self._get_final_results()
+        self.comm_obj.dump_obj.dump_dict("optimized_parameters", end_comm_message_dict)
         if self.higher_order_terminate_reason != "":
             end_comm_message_dict["Termination Reason"] = self.higher_order_terminate_reason
         self.comm_obj.end_communication(end_comm_message_dict)

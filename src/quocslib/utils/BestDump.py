@@ -16,8 +16,19 @@
 import os
 import time
 import numpy as np
+import json
 
 from quocslib.utils.AbstractDump import AbstractDump
+
+
+class NumpyEncoder(json.JSONEncoder):
+    """
+    Class to convert numpy arrays to lists for json dumping
+    """
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 
 class BestDump(AbstractDump):
@@ -83,3 +94,19 @@ class BestDump(AbstractDump):
         path = os.path.join(self.results_path, filename)
         # Save the data in a txt file
         np.savetxt(path, data)
+
+    def dump_dict(self, data_file_name: str = "unknown_data_dict", data_dict=None):
+        """
+        Save a dictionary to a file
+        :param data_file_name:
+        :param data_dict:
+        :return:
+        """
+        if data_dict is None:
+            data_dict = {}
+        print(type(data_dict))
+        print(data_dict)
+        data_dict_path = os.path.join(self.results_path, self.date_time + "_" + data_file_name+'.json')
+        with open(data_dict_path, 'w') as convert_file:
+            convert_file.write(json.dumps(data_dict, indent=4, cls=NumpyEncoder))
+

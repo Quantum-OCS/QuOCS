@@ -20,7 +20,7 @@ import sys
 import time
 
 
-def create_logger(results_path, date_time, is_debug=False):
+def create_logger(results_path, date_time, create_logfile=True, is_debug=False):
     """Logger creation for console, log file, and debug log file"""
     log_format = "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s"
     date_format = "%d/%m/%Y %H:%M:%S"
@@ -38,11 +38,13 @@ def create_logger(results_path, date_time, is_debug=False):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(logging.Formatter(print_format))
     # Log file handler
-    file_handler = logging.FileHandler(log_filename)
-    file_handler.setLevel(logging.INFO)
-    file_handler.setFormatter(logging.Formatter(log_format, date_format))
-    # Add handlers to the logger
-    logger.addHandler(file_handler)
+    if create_logfile:
+        file_handler = logging.FileHandler(log_filename)
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(logging.Formatter(log_format, date_format))
+        # Add handler for logfile to the logger
+        logger.addHandler(file_handler)
+    # Add handler for console to the logger
     logger.addHandler(console_handler)
     ################################################
     # Debug
