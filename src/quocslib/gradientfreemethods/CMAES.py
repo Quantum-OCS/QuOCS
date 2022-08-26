@@ -140,7 +140,7 @@ class CMAES(DirectSearchMethod):
                 # Possible parallelization here (only for open-loop  optimization)
                 fsim[k] = func(arx[:, k], iterations)
                 counteval += 1
-            iterations = counteval
+            iterations += 1
 
             # Sort fsim so that lowest value is at 0 and then descending
             ind = np.argsort(fsim)
