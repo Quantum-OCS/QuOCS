@@ -38,6 +38,7 @@ class CMAES(DirectSearchMethod):
         # Active the parallelization for the firsts evaluations
         self.is_parallelized = settings.setdefault("parallelization", False)
         self.is_adaptive = settings.setdefault("is_adaptive", False)
+        self.population_number = settings.setdefault("population", None)
         # TODO Create it using dynamical import module
         # Stopping criteria object
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
@@ -78,6 +79,8 @@ class CMAES(DirectSearchMethod):
         # Strategy parameter setting: Selection population size, offspring number TR 2020_04_15: according to The CMA
         # Evolution Strategy: A Tutorial (Hansen) this can be increased number of parents/points for recombination
         l_pop = int(4 + np.floor(3 * np.log(N)))
+        if self.population_number is not None:
+            l_pop = self.population_number
         mu = int(np.floor(l_pop / 2))
         # muXone array for weighted recombination
         weights = np.log(mu + 0.5) - np.log(np.linspace(1, mu, num=mu))
