@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 
 
@@ -127,6 +128,7 @@
 
 <span class="kn">from</span> <span class="nn">quocslib.handleexit.HandleExit</span> <span class="kn">import</span> <span class="n">HandleExit</span>
 <span class="kn">from</span> <span class="nn">quocslib.handleexit.AbstractHandleExit</span> <span class="kn">import</span> <span class="n">AbstractHandleExit</span>
+<span class="kn">from</span> <span class="nn">quocslib.optimizationalgorithms.OptimizationAlgorithm</span> <span class="kn">import</span> <span class="n">OptimizationAlgorithm</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.dynamicimport</span> <span class="kn">import</span> <span class="n">dynamic_import</span>
 <span class="kn">from</span> <span class="nn">quocslib.communication.AllInOneCommunication</span> <span class="kn">import</span> <span class="n">AllInOneCommunication</span>
 <span class="kn">from</span> <span class="nn">quocslib.utils.BestDump</span> <span class="kn">import</span> <span class="n">BestDump</span>
@@ -134,7 +136,6 @@
 
 
 <div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">FoM_object</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -148,11 +149,13 @@
             <span class="n">handle_exit_obj</span> <span class="o">=</span> <span class="n">HandleExit</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">interface_job_name</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"optimization_client_name"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_logfile</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"create_logfile"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span> <span class="o">=</span> <span class="n">AllInOneCommunication</span><span class="p">(</span><span class="n">interface_job_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">interface_job_name</span><span class="p">,</span>
                                                        <span class="n">FoM_obj</span><span class="o">=</span><span class="n">FoM_object</span><span class="p">,</span>
                                                        <span class="n">handle_exit_obj</span><span class="o">=</span><span class="n">handle_exit_obj</span><span class="p">,</span>
                                                        <span class="n">dump_attribute</span><span class="o">=</span><span class="n">BestDump</span><span class="p">,</span>
-                                                       <span class="n">comm_signals_list</span><span class="o">=</span><span class="n">comm_signals_list</span><span class="p">)</span>
+                                                       <span class="n">comm_signals_list</span><span class="o">=</span><span class="n">comm_signals_list</span><span class="p">,</span>
+                                                       <span class="n">create_logfile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_logfile</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">results_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="o">.</span><span class="n">results_path</span>
 
@@ -163,15 +166,19 @@
                                                   <span class="n">name</span><span class="o">=</span><span class="n">algorithm_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"algorithm_name"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
                                                   <span class="n">class_type</span><span class="o">=</span><span class="s1">'algorithm'</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span><span class="p">(</span><span class="n">optimization_dict</span><span class="o">=</span><span class="n">optimization_dict</span><span class="p">,</span>
-                                                    <span class="n">communication_obj</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="p">,</span>
-                                                    <span class="n">FoM_object</span><span class="o">=</span><span class="n">FoM_object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span><span class="p">:</span> <span class="n">OptimizationAlgorithm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer_attribute</span><span class="p">(</span><span class="n">optimization_dict</span><span class="o">=</span><span class="n">optimization_dict</span><span class="p">,</span>
+                                                                           <span class="n">communication_obj</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">communication_obj</span><span class="p">,</span>
+                                                                           <span class="n">FoM_object</span><span class="o">=</span><span class="n">FoM_object</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Optimizer.execute"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">""" Write this docstring """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span><span class="o">.</span><span class="n">end</span><span class="p">()</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span><span class="o">.</span><span class="n">end</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Optimizer.get_optimization_algorithm"><a class="viewcode-back" href="../../source/quocslib.html#quocslib.Optimizer.Optimizer.get_optimization_algorithm">[docs]</a>    <span class="k">def</span> <span class="nf">get_optimization_algorithm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">""" Return the optimization algorithm object """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">opt_alg_obj</span></div></div>
 </code></pre></div>
 </div>
 <div class="page-nav">
@@ -179,7 +186,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

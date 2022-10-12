@@ -45,9 +45,9 @@ pip install -e .
 
 ## Documentation
 
-The possible [settings](https://quantum-ocs.github.io/QuOCS/html/chapters/feature_list.html) for the JSON file can be found [here](https://quantum-ocs.github.io/QuOCS/html/chapters/feature_list.html).
+The possible [settings](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Settings_in_Optimization_Dict.md) for the JSON file can be found [here](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Settings_in_Optimization_Dict.md).
 
-You can find the latest development documentation [here](https://quantum-ocs.github.io/QuOCS).
+You can find the latest development documentation [here](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation).
 
 A selection of demonstration notebooks is available, which demonstrate some of the many features of QuOCS. These are stored in the [QuOCS/QuOCS-jupyternotebooks repository](https://github.com/Quantum-OCS/QuOCS-jupyternotebooks) here on GitHub.
 
@@ -56,7 +56,7 @@ A selection of demonstration notebooks is available, which demonstrate some of t
 
 Using QuOCS is intuitive and simple. The main steps are:
 
-1. Create and load the optimization dictionary. This json file contains all the optimization settings (as example see [this file](https://github.com/Quantum-OCS/QuOCS/blob/main/tests/dCRAB_Fourier_NM_OneQubit.json)).
+1. Create and load the optimization dictionary. This json file contains all the optimization settings (as an example see [this file](https://github.com/Quantum-OCS/QuOCS/blob/main/tests/dCRAB_Fourier_NM_OneQubit.json)).
     ```python
     from quocslib.utils.inputoutput import readjson
     optimization_dictionary = readjson("opt_dictionary.json"))
@@ -110,7 +110,7 @@ If you use QuOCS in your research, please cite the original QuOCS papers that ar
 
 ## Authors and contributors
 * [Marco Rossignolo](https://github.com/marcorossignolo)
-* [Alastair Marshall](https://github.com/alastair-marshall)
 * [Thomas Reisser](https://github.com/ThomasReisser90)
+* [Alastair Marshall](https://github.com/alastair-marshall)
 * [Phila Rembold](https://github.com/phila-rembold)
 * [Alice Pagano](https://github.com/AlicePagano)

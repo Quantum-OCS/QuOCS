@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>Customization</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -124,7 +125,7 @@
 <p>The interface structure of QuOCS easily allows for user customization.</p>
 <section id="add-a-new-algorithm">
 <h2>Add a new algorithm<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#add-a-new-algorithm">¶</a></h2>
-<p>To add a new algorithm in the QuOCS library, you need to install the software in the editable mode as explained in <span class="xref myst">installation</span>.
+<p>To add a new algorithm in the QuOCS library, you need to install the software in the editable mode as explained in the README.
 Then, use the <a class="reference external" href="https://github.com/Quantum-OCS/QuOCS/blob/main/src/quocslib/optimizationalgorithms/AlgorithmTemplate.py" rel="nofollow noopener">algorithm template<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> to implement your own algorithm.</p>
 <p><em>To easily use the name of your new custom algorithm in the optimization dictionary with the <code class="docutils literal notranslate">opti_algorithm_name</code> key, you have to update the <code class="docutils literal notranslate">module_name</code> and <code class="docutils literal notranslate">class_name</code> keys in <a class="reference external" href="https://github.com/Quantum-OCS/QuOCS/blob/main/src/quocslib/utils/map_dictionary.json" rel="nofollow noopener">this file<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a></em>.</p>
 <p>You can test your new algorithm, by using the examples in the <a class="reference external" href="https://github.com/Quantum-OCS/QuOCS/tree/main/tests" rel="nofollow noopener">tests<svg aria-hidden="true" class="external-link-icon" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"></path></svg></a> folder or by creating your own test.</p>
@@ -147,7 +148,7 @@ A detailed guide for this procedure is also available <a class="reference extern
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

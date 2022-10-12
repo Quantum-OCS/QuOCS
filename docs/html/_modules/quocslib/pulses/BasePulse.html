@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -127,6 +128,7 @@
 
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="c1"># from collections import OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -300,45 +302,45 @@
 
         <span class="k">return</span> <span class="n">optimal_pulse</span>
 
-        <span class="k">def</span> <span class="nf">_shrink_pulse_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-            <span class="sd">"""Shrink the optimal pulse to respect the amplitude limits"""</span>
+    <span class="k">def</span> <span class="nf">_shrink_pulse_2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="sd">"""Shrink the optimal pulse to respect the amplitude limits"""</span>
 
-            <span class="n">uiTotal</span> <span class="o">=</span> <span class="n">optimal_pulse</span>
-            <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span>
-            <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span>
-            <span class="n">ui</span> <span class="o">=</span> <span class="n">uiTotal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">uiTotal</span> <span class="o">=</span> <span class="n">optimal_pulse</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span>
+        <span class="n">ui</span> <span class="o">=</span> <span class="n">uiTotal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">temp_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+        <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
+
+        <span class="c1"># if the whole pulse is higher or lower than the limits take the limits</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&gt;=</span> <span class="n">ub</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&gt;=</span> <span class="n">ub</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&lt;=</span> <span class="n">lb</span><span class="p">):</span>
+            <span class="n">ui</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">uiTotal</span><span class="p">,</span> <span class="n">ub</span><span class="p">),</span> <span class="n">lb</span><span class="p">)</span>  <span class="c1"># cut off the pulse</span>
+
+        <span class="c1"># otherwise shrink the pulse if it exceeds the limits accordingly</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">temp_max</span> <span class="o">&gt;</span> <span class="n">ub</span><span class="p">:</span>
+                <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ub</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
+                <span class="c1"># safety precaution just in case</span>
+                <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="c1"># shift pulse down so that minimum is at zero, shrink, and move up again</span>
+                <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_min</span><span class="p">)</span>
+
             <span class="n">temp_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
             <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
 
-            <span class="c1"># if the whole pulse is higher or lower than the limits take the limits</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&gt;=</span> <span class="n">ub</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&gt;=</span> <span class="n">ub</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">temp_max</span> <span class="o">&lt;=</span> <span class="n">lb</span> <span class="ow">and</span> <span class="n">temp_min</span> <span class="o">&lt;=</span> <span class="n">lb</span><span class="p">):</span>
-                <span class="n">ui</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">uiTotal</span><span class="p">,</span> <span class="n">ub</span><span class="p">),</span> <span class="n">lb</span><span class="p">)</span>  <span class="c1"># cut off the pulse</span>
+            <span class="k">if</span> <span class="n">temp_min</span> <span class="o">&lt;</span> <span class="n">lb</span><span class="p">:</span>
+                <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
+                <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">lb</span><span class="p">)</span>
+                <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
+                <span class="c1"># safety precaution just in case</span>
+                <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
 
-            <span class="c1"># otherwise shrink the pulse if it exceeds the limits accordingly</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">temp_max</span> <span class="o">&gt;</span> <span class="n">ub</span><span class="p">:</span>
-                    <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
-                    <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ub</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
-                    <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
-                    <span class="c1"># safety precaution just in case</span>
-                    <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
-                    <span class="c1"># shift pulse down so that minimum is at zero, shrink, and move up again</span>
-                    <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_min</span><span class="p">)</span>
-
-                <span class="n">temp_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
-                <span class="n">temp_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">temp_min</span> <span class="o">&lt;</span> <span class="n">lb</span><span class="p">:</span>
-                    <span class="n">width_current</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">temp_min</span><span class="p">)</span>
-                    <span class="n">width_aim</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">temp_max</span> <span class="o">-</span> <span class="n">lb</span><span class="p">)</span>
-                    <span class="n">correction</span> <span class="o">=</span> <span class="n">width_aim</span> <span class="o">/</span> <span class="n">width_current</span>
-                    <span class="c1"># safety precaution just in case</span>
-                    <span class="k">if</span> <span class="n">correction</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">correction</span> <span class="o">=</span> <span class="mi">1</span>
-
-                    <span class="c1"># shift pulse down so that maximum is at zero, shrink, and move up again</span>
-                    <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span> <span class="o">-</span> <span class="n">temp_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_max</span><span class="p">)</span>
+                <span class="c1"># shift pulse down so that maximum is at zero, shrink, and move up again</span>
+                <span class="n">ui</span> <span class="o">=</span> <span class="p">(</span><span class="n">ui</span> <span class="o">-</span> <span class="n">temp_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">correction</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ui</span><span class="p">),</span> <span class="n">temp_max</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ui</span>
 
@@ -406,7 +408,8 @@
     <span class="k">def</span> <span class="nf">_get_limited_pulse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimal_pulse</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="sd">"""Cut the pulse with the amplitude limits constraints"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shrink_ampl_lim</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shrink_pulse</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
+            <span class="c1"># return self._shrink_pulse(optimal_pulse)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shrink_pulse_2</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">optimal_pulse</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_upper</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">amplitude_lower</span><span class="p">)</span>
 
@@ -420,7 +423,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

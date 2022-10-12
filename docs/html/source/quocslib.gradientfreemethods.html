@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.gradientfreemethods package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -128,7 +129,7 @@
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.CMAES.CMAES">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.gradientfreemethods.CMAES.</code><code class="sig-name descname">CMAES</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/CMAES.html#CMAES"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.CMAES.CMAES">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">DirectSearchMethod</code></a></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.CMAES.CMAES.callback">
 <code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.CMAES.CMAES.callback">¶</a></dt>
@@ -136,10 +137,10 @@
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.CMAES.CMAES.run_dsm">
-<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">sigma_v</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">drift_comp_minutes</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/CMAES.html#CMAES.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.CMAES.CMAES.run_dsm">¶</a></dt>
+<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">sigma_v</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">drift_comp_minutes</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/CMAES.html#CMAES.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.CMAES.CMAES.run_dsm">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<em>callable</em>) – Function tbe called at every function evaluation</p></li>
 <li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
@@ -148,7 +149,7 @@
 <li><p><strong>drift_comp_minutes</strong> (<em>float</em>) – Compensate for drift after this number of minutes</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -162,6 +163,16 @@
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.gradientfreemethods.DirectSearchMethod.</code><code class="sig-name descname">DirectSearchMethod</code><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/DirectSearchMethod.html#DirectSearchMethod"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">¶</a></dt>
 <dd>
 <p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod.run_dsm">
+<code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">routine_call</span><span class="p">:</span><span class="w"> </span><span class="n">callable</span></em>, <em class="sig-param"><span class="n">x0</span><span class="p">:</span><span class="w"> </span><span class="n">array</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/DirectSearchMethod.html#DirectSearchMethod.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod.run_dsm">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod.sc_obj">
+<code class="sig-name descname">sc_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">StoppingCriteria</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod.sc_obj">¶</a></dt>
+<dd>
+</dd></dl>
 </dd></dl>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.DirectSearchMethod.Wrap">
@@ -186,7 +197,7 @@
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.gradientfreemethods.GradientFreeTemplate.</code><code class="sig-name descname">GradientFreeTemplate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/GradientFreeTemplate.html#GradientFreeTemplate"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">DirectSearchMethod</code></a></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate.callback">
 <code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate.callback">¶</a></dt>
@@ -197,7 +208,7 @@
 <code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">drift_comp_minutes</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/GradientFreeTemplate.html#GradientFreeTemplate.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.GradientFreeTemplate.GradientFreeTemplate.run_dsm">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<em>callable</em>) – Function tbe called at every function evaluation</p></li>
 <li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
@@ -206,7 +217,7 @@
 <li><p><strong>drift_comp_minutes</strong> (<em>float</em>) – Compensate for drift after this number of minutes</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -219,7 +230,7 @@
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.NelderMead.NelderMead">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.gradientfreemethods.NelderMead.</code><code class="sig-name descname">NelderMead</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">settings</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>callable<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/NelderMead.html#NelderMead"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.NelderMead.NelderMead">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod"><code class="xref py py-class docutils literal notranslate">DirectSearchMethod</code></a></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.gradientfreemethods.NelderMead.NelderMead.callback">
 <code class="sig-name descname">callback</code><em class="property"><span class="p">:</span><span class="w"> </span>callable</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.NelderMead.NelderMead.callback">¶</a></dt>
@@ -230,7 +241,7 @@
 <code class="sig-name descname">run_dsm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">initial_simplex</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">drift_comp_minutes</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/gradientfreemethods/NelderMead.html#NelderMead.run_dsm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.gradientfreemethods.NelderMead.NelderMead.run_dsm">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<em>callable</em>) – Function to be called at every function evaluation</p></li>
 <li><p><strong>x0</strong> (<em>np.array</em>) – initial point</p></li>
@@ -239,7 +250,7 @@
 <li><p><strong>drift_comp_minutes</strong> (<em>float</em>) – Compensate for drift after this number of minutes</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -262,7 +273,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

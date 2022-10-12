@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.communication package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -126,7 +127,7 @@
 <span id="quocslib-communication-allinonecommunication-module"></span><h2>quocslib.communication.AllInOneCommunication module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.communication.AllInOneCommunication">¶</a></h2>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.communication.AllInOneCommunication.AllInOneCommunication">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.communication.AllInOneCommunication.</code><code class="sig-name descname">AllInOneCommunication</code><a class="reference internal" href="../_modules/quocslib/communication/AllInOneCommunication.html#AllInOneCommunication"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.communication.AllInOneCommunication.AllInOneCommunication">¶</a></dt>
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.communication.AllInOneCommunication.</code><code class="sig-name descname">AllInOneCommunication</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">interface_job_name: str = 'OptimizationTest'</span></em>, <em class="sig-param"><span class="n">FoM_obj: ~quocslib.utils.AbstractFoM.AbstractFoM = None</span></em>, <em class="sig-param"><span class="n">handle_exit_obj: ~quocslib.handleexit.AbstractHandleExit.AbstractHandleExit = None</span></em>, <em class="sig-param"><span class="n">dump_attribute: callable = &lt;class 'quocslib.utils.DummyDump.DummyDump'&gt;</span></em>, <em class="sig-param"><span class="n">comm_signals_list: [&lt;class 'list'&gt;</span></em>, <em class="sig-param"><span class="n">&lt;class 'list'&gt;</span></em>, <em class="sig-param"><span class="n">&lt;class 'list'&gt;] = None</span></em>, <em class="sig-param"><span class="n">create_logfile: bool = True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/communication/AllInOneCommunication.html#AllInOneCommunication"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.communication.AllInOneCommunication.AllInOneCommunication">¶</a></dt>
 <dd>
 <p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
 <dl class="py method code-definition">
@@ -147,7 +148,7 @@
 <dd>
 <p>Report the final results</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>results_dict</strong> (<em>dict</em>) – It is a dictionary defined in the optimal algorithm with all the data to display at</p>
 </dd>
 </dl>
@@ -160,7 +161,7 @@
 <dd>
 <p>Calculate the figure of merit and return a dictionary with all the arguments</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return dict</dt>
+<dt class="field-odd">Return dict<span class="colon">:</span></dt>
 <dd class="field-odd"><p>{“FoM_values”: {“FoM”: float, …}}</p>
 </dd>
 </dl>
@@ -189,10 +190,10 @@
 <dd>
 <p>Emit signal to the Client Interface and dump the results in case any</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>response_for_client</strong> (<em>dict</em>) – It is a dictionary defined in the optimal algorithm</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -209,10 +210,10 @@
 <dd>
 <p>Set the controls for FoM calculation and notify the gui</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>controls_dict</strong> (<em>dict</em>) – </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
@@ -265,7 +266,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

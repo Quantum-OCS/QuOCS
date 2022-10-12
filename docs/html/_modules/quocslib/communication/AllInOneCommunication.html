@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -137,13 +138,13 @@
 
 
 <div class="viewcode-block" id="AllInOneCommunication"><a class="viewcode-back" href="../../../source/quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication">[docs]</a><span class="k">class</span> <span class="nc">AllInOneCommunication</span><span class="p">:</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">interface_job_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"OptimizationTest"</span><span class="p">,</span>
                  <span class="n">FoM_obj</span><span class="p">:</span> <span class="n">AbstractFoM</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">handle_exit_obj</span><span class="p">:</span> <span class="n">AbstractHandleExit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                  <span class="n">dump_attribute</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">DummyDump</span><span class="p">,</span>
-                 <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+                 <span class="n">comm_signals_list</span><span class="p">:</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">create_logfile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.</span>
 <span class="sd">        The objects to dump the results, calculate the figure of merit, and the logger are created here. </span>
@@ -181,7 +182,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="s2">"quocs_version.txt"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">version_file</span><span class="p">:</span>
             <span class="n">version_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"QuOCS library version: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quocslib_version</span><span class="p">))</span>
         <span class="c1"># Create logging object</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">create_logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">create_logger</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">results_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_time</span><span class="p">,</span> <span class="n">create_logfile</span><span class="o">=</span><span class="n">create_logfile</span><span class="p">)</span>
         <span class="c1"># Print function evaluation and figure of merit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">print_general_log</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="c1"># Figure of merit object</span>
@@ -291,6 +292,7 @@
 <span class="sd">        :param dict results_dict: It is a dictionary defined in the optimal algorithm with all the data to display at</span>
 <span class="sd">        the end of the optimization process</span>
 <span class="sd">        :return:</span>
+<span class="sd">        </span>
 <span class="sd">        """</span>
         <span class="c1"># Print final results data</span>
         <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">results_dict</span><span class="p">:</span>
@@ -322,7 +324,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

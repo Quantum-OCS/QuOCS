@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -179,6 +180,8 @@
         <span class="c1">###########################################################################################</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">controls</span> <span class="o">=</span> <span class="n">Controls</span><span class="p">(</span><span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"pulses"</span><span class="p">],</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"times"</span><span class="p">],</span>
                                  <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"parameters"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">_get_response_for_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">"""</span>
@@ -188,9 +191,19 @@
 
 <span class="sd">        """</span>
         <span class="n">is_record</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">FoM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">:</span>
             <span class="n">is_record</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"is_record"</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span> <span class="s2">"FoM"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span> <span class="s2">"iteration_number"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">}</span>
+        <span class="n">status_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"status_code"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">response_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"is_record"</span><span class="p">:</span> <span class="n">is_record</span><span class="p">,</span>
+            <span class="s2">"FoM"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">FoM_dict</span><span class="p">[</span><span class="s2">"FoM"</span><span class="p">],</span>
+            <span class="s2">"iteration_number"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
+            <span class="s2">"status_code"</span><span class="p">:</span> <span class="n">status_code</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">FoM_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FoM</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response_dict</span>
 
 <div class="viewcode-block" id="DirectSearchAlgorithm.run"><a class="viewcode-back" href="../../../source/quocslib.optimizationalgorithms.html#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -245,7 +258,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

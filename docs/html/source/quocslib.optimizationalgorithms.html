@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.optimizationalgorithms package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -128,7 +129,7 @@
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.ADAlgorithm.</code><code class="sig-name descname">ADAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">communication_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/ADAlgorithm.html#ADAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">OptimizationAlgorithm</code></a></p>
 <p>This is the template for an algorithm class. The three important function are:
 * the constructor with the optimization dictionary and the communication object as parameters
 * run : The main loop for optimal control
@@ -145,13 +146,23 @@
 <code class="sig-name descname">alg_iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.alg_iteration_number">¶</a></dt>
 <dd>
 </dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.controls">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.functional">
 <code class="sig-name descname">functional</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drive</span></em>, <em class="sig-param"><span class="n">A</span></em>, <em class="sig-param"><span class="n">B</span></em>, <em class="sig-param"><span class="n">n_slices</span></em>, <em class="sig-param"><span class="n">dt</span></em>, <em class="sig-param"><span class="n">u0</span></em>, <em class="sig-param"><span class="n">rho0</span></em>, <em class="sig-param"><span class="n">rhoT</span></em>, <em class="sig-param"><span class="n">sys_type</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/ADAlgorithm.html#ADAlgorithm.functional"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.functional">¶</a></dt>
 <dd>
 <p>Compute the fidelity functional for the given problem defined in the class</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>drive</strong> (<em>jnp.array</em>) – a flat array that contains the pulse amplitudes</p></li>
 <li><p><strong>A</strong> (<em>jnp.matrix</em>) – the drift hamiltonian</p></li>
@@ -164,10 +175,15 @@
 <li><p><strong>sys_type</strong> (<em>str</em>) – the string to indicate the system type, can be either StateTransfer or left blank</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return float</dt>
+<dt class="field-even">Return float<span class="colon">:</span></dt>
 <dd class="field-even"><p>the value of the fidelity at the current point in time</p>
 </dd>
 </dl>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.init_status">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.init_status">¶</a></dt>
+<dd>
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.iteration_number">
@@ -184,7 +200,7 @@ to optimize the pulse</p>
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.ADAlgorithm.ADAlgorithm.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -195,7 +211,7 @@ to optimize the pulse</p>
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.AlgorithmTemplate.</code><code class="sig-name descname">AlgorithmTemplate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">communication_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/AlgorithmTemplate.html#AlgorithmTemplate"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">OptimizationAlgorithm</code></a></p>
 <p>This is the template for an algorithm class. The three important function are:
 * the constructor with the optimization dictionary and the communication object as parameters
 * run : The main loop for optimal control
@@ -213,6 +229,21 @@ to optimize the pulse</p>
 <dd>
 </dd></dl>
 <dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.controls">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.init_status">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.init_status">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.iteration_number">
 <code class="sig-name descname">iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.iteration_number">¶</a></dt>
 <dd>
@@ -225,7 +256,7 @@ to optimize the pulse</p>
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.AlgorithmTemplate.AlgorithmTemplate.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -236,7 +267,7 @@ to optimize the pulse</p>
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.DirectSearchAlgorithm.</code><code class="sig-name descname">DirectSearchAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">communication_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/DirectSearchAlgorithm.html#DirectSearchAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">OptimizationAlgorithm</code></a></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.FoM_dict">
 <code class="sig-name descname">FoM_dict</code><em class="property"><span class="p">:</span><span class="w"> </span>dict</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.FoM_dict">¶</a></dt>
@@ -248,8 +279,23 @@ to optimize the pulse</p>
 <dd>
 </dd></dl>
 <dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.controls">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus">
 <code class="sig-name descname">initStatus</code><em class="property"><span class="w"> </span><span class="p">=</span><span class="w"> </span>0</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.initStatus">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.init_status">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.init_status">¶</a></dt>
 <dd>
 </dd></dl>
 <dl class="py attribute code-definition">
@@ -269,7 +315,7 @@ to optimize the pulse</p>
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.DirectSearchAlgorithm.DirectSearchAlgorithm.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -280,7 +326,7 @@ to optimize the pulse</p>
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.GRAPEAlgorithm.</code><code class="sig-name descname">GRAPEAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">communication_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">FoM_object</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">OptimizationAlgorithm</code></a></p>
 <p>This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
 The three important function are:
 * the constructor with the optimization dictionary and the communication object as parameters
@@ -297,15 +343,30 @@ The three important function are:
 <code class="sig-name descname">alg_iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.alg_iteration_number">¶</a></dt>
 <dd>
 </dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.controls">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.get_gradient">
-<code class="sig-name descname">get_gradient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimized_control_parameters</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.get_gradient"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.get_gradient">¶</a></dt>
+<code class="sig-name descname">get_gradient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimized_control_parameters</span><span class="p">:</span><span class="w"> </span><span class="n">array</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.get_gradient"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.get_gradient">¶</a></dt>
 <dd>
 <p>Get the gradient from the propagators calculated in the FoM object</p>
 </dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.init_status">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.init_status">¶</a></dt>
+<dd>
+</dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.inner_routine_call">
-<code class="sig-name descname">inner_routine_call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimized_control_parameters</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.inner_routine_call"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.inner_routine_call">¶</a></dt>
+<code class="sig-name descname">inner_routine_call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimized_control_parameters</span><span class="p">:</span><span class="w"> </span><span class="n">array</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/GRAPEAlgorithm.html#GRAPEAlgorithm.inner_routine_call"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.inner_routine_call">¶</a></dt>
 <dd>
 <p>Function evaluation call for the L-BFGS-B algorithm</p>
 </dd></dl>
@@ -322,7 +383,7 @@ The three important function are:
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.GRAPEAlgorithm.GRAPEAlgorithm.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -346,7 +407,7 @@ The three important function are:
 <dd>
 <p>Compute the fidelity functional for the defined problem</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>drive</strong> (<em>np.array</em>) – this should be a flat array that will be resized into N_ctrls x N_slices</p></li>
 <li><p><strong>A</strong> (<em>np.matrix</em>) – drift Hamiltonian</p></li>
@@ -359,7 +420,7 @@ The three important function are:
 <li><p><strong>sys_type</strong> (<em>str</em>) – either specifying state transfer or other</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return Tuple[float, np.array]</dt>
+<dt class="field-even">Return Tuple[float, np.array]<span class="colon">:</span></dt>
 <dd class="field-even"><p>Returns a tuple containing the gradient and the figure of merit</p>
 </dd>
 </dl>
@@ -376,17 +437,12 @@ The three important function are:
 <span id="quocslib-optimizationalgorithms-optimizationalgorithm-module"></span><h2>quocslib.optimizationalgorithms.OptimizationAlgorithm module<a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#module-quocslib.optimizationalgorithms.OptimizationAlgorithm">¶</a></h2>
 <dl class="py class code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm">
-<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.OptimizationAlgorithm.</code><code class="sig-name descname">OptimizationAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">communication_obj</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span><a class="reference internal" href="quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication" title="quocslib.communication.AllInOneCommunication.AllInOneCommunication">quocslib.communication.AllInOneCommunication.AllInOneCommunication</a><span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm">¶</a></dt>
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.OptimizationAlgorithm.</code><code class="sig-name descname">OptimizationAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">communication_obj</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span><a class="reference internal" href="quocslib.communication.html#quocslib.communication.AllInOneCommunication.AllInOneCommunication" title="quocslib.communication.AllInOneCommunication.AllInOneCommunication">AllInOneCommunication</a><span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm">¶</a></dt>
 <dd>
 <p>Bases: <code class="xref py py-class docutils literal notranslate">object</code></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.FoM_dict">
 <code class="sig-name descname">FoM_dict</code><em class="property"><span class="p">:</span><span class="w"> </span>dict</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.FoM_dict">¶</a></dt>
-<dd>
-</dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.FoM_maximum">
-<code class="sig-name descname">FoM_maximum</code><em class="property"><span class="p">:</span><span class="w"> </span>float</em><em class="property"><span class="w"> </span><span class="p">=</span><span class="w"> </span>10000000000.0</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.FoM_maximum">¶</a></dt>
 <dd>
 </dd></dl>
 <dl class="py attribute code-definition">
@@ -400,6 +456,16 @@ The three important function are:
 <dd>
 <p>Initialize the communication with the client</p>
 </dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.controls">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.end">
 <code class="sig-name descname">end</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm.end"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.end">¶</a></dt>
@@ -407,19 +473,30 @@ The three important function are:
 <p>Finalize the transmission with  the client</p>
 </dd></dl>
 <dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.get_best_controls">
+<code class="sig-name descname">get_best_controls</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">dict</span></span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm.get_best_controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.get_best_controls">¶</a></dt>
+<dd>
+<p>Return the best pulses_list, time_grids_list, and parameters_list found so far</p>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.get_is_record">
 <code class="sig-name descname">get_is_record</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">FoM</span><span class="p">:</span><span class="w"> </span><span class="n">float</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">bool</span></span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm.get_is_record"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.get_is_record">¶</a></dt>
 <dd>
 <p>Check if the figure of merit provided is a new record</p>
 <dl class="field-list simple">
-<dt class="field-odd">Param</dt>
+<dt class="field-odd">Param<span class="colon">:</span></dt>
 <dd class="field-odd"><p>FoM  : figure of merit provided by the user</p>
 </dd>
 </dl>
 </dd></dl>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.handle_user_cancellation">
+<code class="sig-name descname">handle_user_cancellation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sig</span></em>, <em class="sig-param"><span class="n">frame</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/OptimizationAlgorithm.html#OptimizationAlgorithm.handle_user_cancellation"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.handle_user_cancellation">¶</a></dt>
+<dd>
+</dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.init_status">
-<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><em class="property"><span class="w"> </span><span class="p">=</span><span class="w"> </span>False</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.init_status">¶</a></dt>
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.init_status">¶</a></dt>
 <dd>
 </dd></dl>
 <dl class="py method code-definition">
@@ -447,7 +524,7 @@ The three important function are:
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -458,7 +535,7 @@ The three important function are:
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.optimizationalgorithms.dCRABAlgorithm.</code><code class="sig-name descname">dCRABAlgorithm</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">optimization_dict</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>dict<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">communication_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/dCRABAlgorithm.html#dCRABAlgorithm"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm" title="quocslib.optimizationalgorithms.OptimizationAlgorithm.OptimizationAlgorithm"><code class="xref py py-class docutils literal notranslate">OptimizationAlgorithm</code></a></p>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.FoM_dict">
 <code class="sig-name descname">FoM_dict</code><em class="property"><span class="p">:</span><span class="w"> </span>dict</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.FoM_dict">¶</a></dt>
@@ -469,11 +546,20 @@ The three important function are:
 <code class="sig-name descname">alg_iteration_number</code><em class="property"><span class="p">:</span><span class="w"> </span>int</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.alg_iteration_number">¶</a></dt>
 <dd>
 </dd></dl>
-<dl class="py method code-definition">
-<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.get_best_controls">
-<code class="sig-name descname">get_best_controls</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">list</span></span><a class="reference internal" href="../_modules/quocslib/optimizationalgorithms/dCRABAlgorithm.html#dCRABAlgorithm.get_best_controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.get_best_controls">¶</a></dt>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.controls">
+<code class="sig-name descname">controls</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.html#quocslib.Controls.Controls" title="quocslib.Controls.Controls">Controls</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.controls">¶</a></dt>
 <dd>
-<p>Return the best pulses_list, time_grids_list, and parameters_list found so far</p>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.dsm_obj">
+<code class="sig-name descname">dsm_obj</code><em class="property"><span class="p">:</span><span class="w"> </span><a class="reference internal" href="quocslib.gradientfreemethods.html#quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod" title="quocslib.gradientfreemethods.DirectSearchMethod.DirectSearchMethod">DirectSearchMethod</a></em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.dsm_obj">¶</a></dt>
+<dd>
+</dd></dl>
+<dl class="py attribute code-definition">
+<dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.init_status">
+<code class="sig-name descname">init_status</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.init_status">¶</a></dt>
+<dd>
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.iteration_number">
@@ -488,7 +574,7 @@ The three important function are:
 </dd></dl>
 <dl class="py attribute code-definition">
 <dt class="sig sig-object py" id="quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.xx">
-<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>numpy.array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.xx">¶</a></dt>
+<code class="sig-name descname">xx</code><em class="property"><span class="p">:</span><span class="w"> </span>array</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.optimizationalgorithms.dCRABAlgorithm.dCRABAlgorithm.xx">¶</a></dt>
 <dd>
 </dd></dl>
 </dd></dl>
@@ -509,7 +595,7 @@ The three important function are:
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

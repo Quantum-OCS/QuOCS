@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -144,7 +145,6 @@
 <span class="sd">    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys</span>
 <span class="sd">    * _get_final_results: return the final result of the optimization algorithm</span>
 <span class="sd">    """</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimization_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">communication_obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">FoM_object</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the</span>
@@ -170,7 +170,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ftol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"ftol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"gtol"</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">maxls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_crit</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"maxls"</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1"># 20 is defialt acc. to documentation of scipy</span>
-
 
         <span class="n">alg_parameters</span> <span class="o">=</span> <span class="n">optimization_dict</span><span class="p">[</span><span class="s2">"algorithm_settings"</span><span class="p">]</span>
         <span class="c1"># Seed for the random number generator</span>
@@ -296,11 +295,20 @@
         <span class="c1"># Define the initial</span>
         <span class="n">init_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">get_mean_value</span><span class="p">()</span> <span class="o">+</span> <span class="n">initial_variation</span>
         <span class="c1"># Optimization with L-BFGS-B</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_routine_call</span><span class="p">,</span> <span class="n">init_xx</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                          <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">'ftol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ftol</span><span class="p">,</span> <span class="s1">'maxfun'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fun_evals</span><span class="p">,</span>
-                                                   <span class="s1">'gtol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gtol</span><span class="p">,</span> <span class="s1">'maxls'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxls</span><span class="p">})</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inner_routine_call</span><span class="p">,</span>
+                                          <span class="n">init_xx</span><span class="p">,</span>
+                                          <span class="n">method</span><span class="o">=</span><span class="s2">"L-BFGS-B"</span><span class="p">,</span>
+                                          <span class="n">jac</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+                                              <span class="s1">'ftol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ftol</span><span class="p">,</span>
+                                              <span class="s1">'maxfun'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_fun_evals</span><span class="p">,</span>
+                                              <span class="s1">'gtol'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gtol</span><span class="p">,</span>
+                                              <span class="s1">'maxls'</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxls</span>
+                                          <span class="p">})</span>
         <span class="c1"># Print L-BFGS-B results in the log file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comm_obj</span><span class="o">.</span><span class="n">print_logger</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="c1"># Update the controls with the best ones found so far</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">controls</span><span class="o">.</span><span class="n">update_base_controls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_xx</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_controls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Get the controls dictionary from the optimized control parameters"""</span>
@@ -316,7 +324,7 @@
     <span class="k">def</span> <span class="nf">_get_final_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="sd">"""Return a dictionary with final results to put into a dictionary"""</span>
         <span class="n">final_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">"FoM"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
+            <span class="s2">"Figure of merit"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_FoM</span><span class="p">,</span>
             <span class="s2">"nfev"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_number</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">final_dict</span></div>
@@ -327,7 +335,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

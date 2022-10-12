@@ -4,7 +4,7 @@ This readme provide a summary for the required steps to build the documentation.
 
 ## Installation of Sphinx and needed packages
 
-on Linux run
+On Linux run
 
 ~~~bash
 sudo apt install python3-sphinx -y

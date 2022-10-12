@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -131,22 +132,26 @@
 
 
 <div class="viewcode-block" id="StoppingCriteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria">[docs]</a><span class="k">class</span> <span class="nc">StoppingCriteria</span><span class="p">:</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stopping_criteria</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">"""</span>
 <span class="sd">        Parent class for the stopping criteria</span>
 <span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xatol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frtol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_reason</span> <span class="o">=</span> <span class="s2">"terminate_reason is still at default"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">"oc_logger"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_eval</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"max_eval"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_lim</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"time_lim"</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direct_search_start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"change_based_stop"</span><span class="p">,</span> <span class="p">{</span><span class="s2">"cbs_funct_evals"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                                                                                    <span class="s2">"cbs_change"</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_based_stop</span> <span class="o">=</span> <span class="n">stopping_criteria</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"change_based_stop"</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s2">"cbs_funct_evals"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"cbs_change"</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">})</span>
         <span class="c1"># if "cbs_funct_evals" not in self.change_based_stop:</span>
         <span class="c1">#     self.change_based_stop["cbs_funct_evals"] = 1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">curr_FoM_track</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
-
 
 <div class="viewcode-block" id="StoppingCriteria.check_stopping_criteria"><a class="viewcode-back" href="../../../source/quocslib.stoppingcriteria.html#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">check_stopping_criteria</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -271,7 +276,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

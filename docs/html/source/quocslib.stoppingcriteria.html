@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.stoppingcriteria package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -128,32 +129,22 @@
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.stoppingcriteria.CMAESStoppingCriteria.</code><code class="sig-name descname">CMAESStoppingCriteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/CMAESStoppingCriteria.html#CMAESStoppingCriteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">StoppingCriteria</code></a></p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">
-<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">func_evaluations_single_direct_search</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/CMAESStoppingCriteria.html#CMAESStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">¶</a></dt>
+<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">func_evaluations_single_direct_search</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/CMAESStoppingCriteria.html#CMAESStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.check_stopping_criteria">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>f_sim</strong> – </p></li>
 <li><p><strong>func_evaluations_single_direct_search</strong> – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
-</dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.is_converged">
-<code class="sig-name descname">is_converged</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.is_converged">¶</a></dt>
-<dd>
-</dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.terminate_reason">
-<code class="sig-name descname">terminate_reason</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.CMAESStoppingCriteria.CMAESStoppingCriteria.terminate_reason">¶</a></dt>
-<dd>
 </dd></dl>
 </dd></dl>
 </section>
@@ -163,33 +154,23 @@
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.stoppingcriteria.NelderMeadStoppingCriteria.</code><code class="sig-name descname">NelderMeadStoppingCriteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stopping_criteria</span><span class="p">:</span><span class="w"> </span><span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria" title="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria"><code class="xref py py-class docutils literal notranslate">StoppingCriteria</code></a></p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">
-<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>numpy.array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">func_evaluations_single_direct_search</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">¶</a></dt>
+<code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>array<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">func_evaluations_single_direct_search</span><span class="p">:</span><span class="w"> </span><span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">None</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/NelderMeadStoppingCriteria.html#NelderMeadStoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.check_stopping_criteria">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sim</strong> – </p></li>
 <li><p><strong>fsim</strong> – </p></li>
 <li><p><strong>func_evaluations_single_direct_search</strong> – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p></p>
 </dd>
 </dl>
-</dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.is_converged">
-<code class="sig-name descname">is_converged</code><em class="property"><span class="p">:</span><span class="w"> </span>bool</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.is_converged">¶</a></dt>
-<dd>
-</dd></dl>
-<dl class="py attribute code-definition">
-<dt class="sig sig-object py" id="quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.terminate_reason">
-<code class="sig-name descname">terminate_reason</code><em class="property"><span class="p">:</span><span class="w"> </span>str</em><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.NelderMeadStoppingCriteria.NelderMeadStoppingCriteria.terminate_reason">¶</a></dt>
-<dd>
 </dd></dl>
 </dd></dl>
 </section>
@@ -214,65 +195,65 @@
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_direct_search_time_out">
-<code class="sig-name descname">check_direct_search_time_out</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_direct_search_time_out"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_direct_search_time_out">¶</a></dt>
+<code class="sig-name descname">check_direct_search_time_out</code><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">[&lt;class 'bool'&gt;, &lt;class 'str'&gt;]</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_direct_search_time_out"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_direct_search_time_out">¶</a></dt>
 <dd>
 <p>Check whether the optimization in a direct search has been running for too long.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return bool is_converged</dt>
+<dt class="field-odd">Return bool is_converged<span class="colon">:</span></dt>
 <dd class="field-odd"><p>True if the stopping criterion is fulfilled</p>
 </dd>
-<dt class="field-even">Return str terminate_reason</dt>
+<dt class="field-even">Return str terminate_reason<span class="colon">:</span></dt>
 <dd class="field-even"><p>reason for the terminatiom</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_f_size">
-<code class="sig-name descname">check_f_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_f_size"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_f_size">¶</a></dt>
+<code class="sig-name descname">check_f_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fsim</span><span class="p">:</span><span class="w"> </span><span class="n">array</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">[&lt;class 'bool'&gt;, &lt;class 'str'&gt;]</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_f_size"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_f_size">¶</a></dt>
 <dd>
 <p>Check whether the FoM has converged inside this simplex</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fsim</strong> (<em>np.array</em>) – FoM values for current simplex</p>
 </dd>
-<dt class="field-even">Return bool is_converged</dt>
+<dt class="field-even">Return bool is_converged<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the stopping criterion is fulfilled</p>
 </dd>
-<dt class="field-odd">Return str terminate_reason</dt>
+<dt class="field-odd">Return str terminate_reason<span class="colon">:</span></dt>
 <dd class="field-odd"><p>reason for the terminatiom</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval_single_direct_search">
-<code class="sig-name descname">check_func_eval_single_direct_search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_func_eval_single_direct_search"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval_single_direct_search">¶</a></dt>
+<code class="sig-name descname">check_func_eval_single_direct_search</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func_evaluations_single_direct_search</span><span class="p">:</span><span class="w"> </span><span class="n">int</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">[&lt;class 'bool'&gt;, &lt;class 'str'&gt;]</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_func_eval_single_direct_search"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_func_eval_single_direct_search">¶</a></dt>
 <dd>
 <p>Check whether the maximum number of function evaluations has been exceeded</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>func_evaluations_single_direct_search</strong> (<em>float</em>) – number of current function evaluation</p>
 </dd>
-<dt class="field-even">Return bool is_converged</dt>
+<dt class="field-even">Return bool is_converged<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the stopping criterion is fulfilled</p>
 </dd>
-<dt class="field-odd">Return str terminate_reason</dt>
+<dt class="field-odd">Return str terminate_reason<span class="colon">:</span></dt>
 <dd class="field-odd"><p>reason for the terminatiom</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">
-<code class="sig-name descname">check_simplex_criterion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_simplex_criterion"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">¶</a></dt>
+<code class="sig-name descname">check_simplex_criterion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sim</span><span class="p">:</span><span class="w"> </span><span class="n">array</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">[&lt;class 'bool'&gt;, &lt;class 'str'&gt;]</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_simplex_criterion"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_simplex_criterion">¶</a></dt>
 <dd>
 <p>Check whether the simplex has converged</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sim</strong> (<em>np.array</em>) – current simplex</p>
 </dd>
-<dt class="field-even">Return bool is_converged</dt>
+<dt class="field-even">Return bool is_converged<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if the stopping criterion is fulfilled</p>
 </dd>
-<dt class="field-odd">Return str terminate_reason</dt>
+<dt class="field-odd">Return str terminate_reason<span class="colon">:</span></dt>
 <dd class="field-odd"><p>reason for the terminatiom</p>
 </dd>
 </dl>
@@ -282,7 +263,7 @@
 <em class="property">abstract<span class="w"> </span></em><code class="sig-name descname">check_stopping_criteria</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/stoppingcriteria/StoppingCriteria.html#StoppingCriteria.check_stopping_criteria"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.stoppingcriteria.StoppingCriteria.StoppingCriteria.check_stopping_criteria">¶</a></dt>
 <dd>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p>
 </dd>
 </dl>
@@ -322,7 +303,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

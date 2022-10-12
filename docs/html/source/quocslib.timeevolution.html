@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.timeevolution package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -131,7 +132,7 @@
 <p>Compute the piecewise evolution of a system defined by the
 Hamiltonian H = A + drive * B and store the result in U_store</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>U_store</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – the storage for all of the computed propagators</p></li>
 <li><p><strong>drive</strong> (<em>np.array</em>) – an array of dimension n_controls x n_slices that contains the amplitudes of the pulse</p></li>
@@ -141,7 +142,7 @@ Hamiltonian H = A + drive * B and store the result in U_store</p>
 <li><p><strong>dt</strong> (<em>float</em>) – the duration of each time slice</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return None</dt>
+<dt class="field-even">Return None<span class="colon">:</span></dt>
 <dd class="field-even"><p>Stores the new propagators so this doesn’t return</p>
 </dd>
 </dl>
@@ -153,7 +154,7 @@ Hamiltonian H = A + drive * B and store the result in U_store</p>
 <p>Compute the piecewise evolution of a system defined by the
 Hamiltonian H = A + drive * B and concatenate all the propagators</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>U_store</strong> (<em>List</em><em>[</em><em>np.matrix</em><em>]</em>) – the storage for all of the computed propagators</p></li>
 <li><p><strong>drive</strong> (<em>np.array</em>) – an array of dimension n_controls x n_slices that contains the amplitudes of the pulse</p></li>
@@ -163,7 +164,7 @@ Hamiltonian H = A + drive * B and concatenate all the propagators</p>
 <li><p><strong>u0</strong> (<em>np.matrix</em>) – the initial density matrix to start from</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return np.matrix</dt>
+<dt class="field-even">Return np.matrix<span class="colon">:</span></dt>
 <dd class="field-even"><p>the final propagator</p>
 </dd>
 </dl>
@@ -185,7 +186,7 @@ Hamiltonian H = A + drive * B and concatenate all the propagators</p>
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator">
+<meta content="width=device-width,initial-scale=1" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator">
 <title>quocslib.utils package</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css " rel="stylesheet" type="text/css"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 
 
@@ -156,7 +157,7 @@ a pulse.
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pulses_list</strong> (<em>list</em>) – List of np.array. Every np.array is a pulse.</p></li>
 <li><p><strong>time_grids_list</strong> (<em>list</em>) – List of np.array. Every np.array is a time grid at each time grid corresponds</p></li>
@@ -188,7 +189,7 @@ keys can provide useful information for errors or other.</p>
 </dd></dl>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.AbstractFoM.AbstractFoM.get_propagator">
-<code class="sig-name descname">get_propagator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">time_grids_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">numpy.array</span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_propagator"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_propagator">¶</a></dt>
+<code class="sig-name descname">get_propagator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">time_grids_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters_list</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">array</span></span><a class="reference internal" href="../_modules/quocslib/utils/AbstractFoM.html#AbstractFoM.get_propagator"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.AbstractFoM.AbstractFoM.get_propagator">¶</a></dt>
 <dd>
 <p>Method to get the propagator. It is compulsory for gradient-based optimization</p>
 </dd></dl>
@@ -229,7 +230,7 @@ keys can provide useful information for errors or other.</p>
 <dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.utils.BestDump.</code><code class="sig-name descname">BestDump</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">results_path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.BestDump">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractDump.AbstractDump</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate">AbstractDump</code></a></p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump.dump_controls">
 <code class="sig-name descname">dump_controls</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">timegrids</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">is_record</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.dump_controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.BestDump.dump_controls">¶</a></dt>
@@ -241,12 +242,51 @@ keys can provide useful information for errors or other.</p>
 :param bool is_record: information if the current controls are a new record</p>
 </dd></dl>
 <dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump.dump_dict">
+<code class="sig-name descname">dump_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_file_name</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'unknown_data_dict'</span></em>, <em class="sig-param"><span class="n">data_dict</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.dump_dict"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.BestDump.dump_dict">¶</a></dt>
+<dd>
+<p>Save a dictionary to a file
+:param data_file_name:
+:param data_dict:
+:return:</p>
+</dd></dl>
+<dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.BestDump.BestDump.other_dumps">
-<code class="sig-name descname">other_dumps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'test.txt'</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="n">numpy.array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">array([0.])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.other_dumps"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.BestDump.other_dumps">¶</a></dt>
+<code class="sig-name descname">other_dumps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'test.txt'</span></em>, <em class="sig-param"><span class="n">data</span><span class="p">:</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">array([0.])</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#BestDump.other_dumps"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.BestDump.other_dumps">¶</a></dt>
 <dd>
 <p>Save other results into a txt numpy file
 :param str: filename
 :param np.array: data</p>
+</dd></dl>
+</dd></dl>
+<dl class="py class code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.NumpyEncoder">
+<em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.utils.BestDump.</code><code class="sig-name descname">NumpyEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">skipkeys</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ensure_ascii</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">check_circular</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">allow_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">sort_keys</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indent</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">separators</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#NumpyEncoder"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.NumpyEncoder">¶</a></dt>
+<dd>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">JSONEncoder</code></p>
+<p>Class to convert numpy arrays to lists for json dumping</p>
+<dl class="py method code-definition">
+<dt class="sig sig-object py" id="quocslib.utils.BestDump.NumpyEncoder.default">
+<code class="sig-name descname">default</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/BestDump.html#NumpyEncoder.default"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.BestDump.NumpyEncoder.default">¶</a></dt>
+<dd>
+<p>Implement this method in a subclass such that it returns
+a serializable object for <code class="docutils literal notranslate">o</code>, or calls the base implementation
+(to raise a <code class="docutils literal notranslate">TypeError</code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this:</p>
+<div class="code-wrapper" data-controller="code">
+<div class="code-header">
+<span class="code-lang">default</span></div>
+<div class="highlight"><pre><code><span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="c1"># Let the base class default method raise the TypeError</span>
+    <span class="k">return</span> <span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+</code></pre></div></div>
 </dd></dl>
 </dd></dl>
 </section>
@@ -256,7 +296,7 @@ keys can provide useful information for errors or other.</p>
 <dt class="sig sig-object py" id="quocslib.utils.DummyDump.DummyDump">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.utils.DummyDump.</code><code class="sig-name descname">DummyDump</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">results_path</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">date_time</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/DummyDump.html#DummyDump"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.DummyDump.DummyDump">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractDump.AbstractDump</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractDump.AbstractDump" title="quocslib.utils.AbstractDump.AbstractDump"><code class="xref py py-class docutils literal notranslate">AbstractDump</code></a></p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.DummyDump.DummyDump.dump_controls">
 <code class="sig-name descname">dump_controls</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pulses</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">timegrids</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">parameters</span><span class="p">:</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">None</span></span><a class="reference internal" href="../_modules/quocslib/utils/DummyDump.html#DummyDump.dump_controls"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.DummyDump.DummyDump.dump_controls">¶</a></dt>
@@ -271,7 +311,7 @@ keys can provide useful information for errors or other.</p>
 <dt class="sig sig-object py" id="quocslib.utils.FilesUpdateFom.FilesUpdateFoM">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.utils.FilesUpdateFom.</code><code class="sig-name descname">FilesUpdateFoM</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">controls_folder</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">is_splitted</span><span class="p">:</span><span class="w"> </span><span class="n">bool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">file_extension</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'json'</span></em>, <em class="sig-param"><span class="n">FoM_folder</span><span class="p">:</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">'.'</span></em>, <em class="sig-param"><span class="n">max_time</span><span class="p">:</span><span class="w"> </span><span class="n">float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="default_value">120</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/FilesUpdateFom.html#FilesUpdateFoM"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.FilesUpdateFom.FilesUpdateFoM">¶</a></dt>
 <dd>
-<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractFoM.AbstractFoM" title="quocslib.utils.AbstractFoM.AbstractFoM"><code class="xref py py-class docutils literal notranslate">quocslib.utils.AbstractFoM.AbstractFoM</code></a></p>
+<p>Bases: <a class="reference internal" href="#quocslib.utils.AbstractFoM.AbstractFoM" title="quocslib.utils.AbstractFoM.AbstractFoM"><code class="xref py py-class docutils literal notranslate">AbstractFoM</code></a></p>
 <p>An evaluation method for the figure of merit via files exchange. The communication object accesses to the
 get_FoM function.
 The get_FoM removes the “FoM.txt” file and creates a json, a txt or a npz file in the controls
@@ -325,7 +365,7 @@ an error occur during the evaluation an error will set in the</p>
 <dt class="sig sig-object py" id="quocslib.utils.inputoutput.ObjectEncoder">
 <em class="property">class<span class="w"> </span></em><code class="sig-prename descclassname">quocslib.utils.inputoutput.</code><code class="sig-name descname">ObjectEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">skipkeys</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ensure_ascii</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">check_circular</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">allow_nan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">sort_keys</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">indent</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">separators</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#ObjectEncoder"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.inputoutput.ObjectEncoder">¶</a></dt>
 <dd>
-<p>Bases: <code class="xref py py-class docutils literal notranslate">json.encoder.JSONEncoder</code></p>
+<p>Bases: <code class="xref py py-class docutils literal notranslate">JSONEncoder</code></p>
 <p>Convert numpy array to list</p>
 <dl class="py method code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.inputoutput.ObjectEncoder.default">
@@ -353,7 +393,7 @@ implement default like this:</p>
 </dd></dl>
 <dl class="py function code-definition">
 <dt class="sig sig-object py" id="quocslib.utils.inputoutput.readjson">
-<code class="sig-prename descclassname">quocslib.utils.inputoutput.</code><code class="sig-name descname">readjson</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#readjson"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.inputoutput.readjson">¶</a></dt>
+<code class="sig-prename descclassname">quocslib.utils.inputoutput.</code><code class="sig-name descname">readjson</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="p">:</span><span class="w"> </span><span class="n">str</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint">[&lt;class 'int'&gt;, &lt;class 'dict'&gt;]</span></span><a class="reference internal" href="../_modules/quocslib/utils/inputoutput.html#readjson"><span class="viewcode-link">[source]</span></a><a aria-label="Click to copy this link" class="headerlink tooltipped tooltipped-ne" data-action="click-&gt;clipboard#copyHeaderLink" data-controller="clipboard" href="#quocslib.utils.inputoutput.readjson">¶</a></dt>
 <dd>
 <p>Read a json file given its filename
 :param str filename: Filename of the json file
@@ -397,7 +437,7 @@ implement default like this:</p>
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>

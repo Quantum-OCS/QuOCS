@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
@@ -11,6 +11,7 @@
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 
 
@@ -131,7 +132,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 
 
-<div class="viewcode-block" id="create_logger"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.logger.create_logger">[docs]</a><span class="k">def</span> <span class="nf">create_logger</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">is_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="create_logger"><a class="viewcode-back" href="../../../source/quocslib.tools.html#quocslib.tools.logger.create_logger">[docs]</a><span class="k">def</span> <span class="nf">create_logger</span><span class="p">(</span><span class="n">results_path</span><span class="p">,</span> <span class="n">date_time</span><span class="p">,</span> <span class="n">create_logfile</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">"""Logger creation for console, log file, and debug log file"""</span>
     <span class="n">log_format</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2">.</span><span class="si">%(msecs)03d</span><span class="s2"> - </span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(levelname)s</span><span class="s2"> - </span><span class="si">%(message)s</span><span class="s2">"</span>
     <span class="n">date_format</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%d</span><span class="s2">/%m/%Y %H:%M:%S"</span>
@@ -149,11 +150,13 @@
     <span class="n">console_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
     <span class="n">console_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">print_format</span><span class="p">))</span>
     <span class="c1"># Log file handler</span>
-    <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_filename</span><span class="p">)</span>
-    <span class="n">file_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">log_format</span><span class="p">,</span> <span class="n">date_format</span><span class="p">))</span>
-    <span class="c1"># Add handlers to the logger</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">create_logfile</span><span class="p">:</span>
+        <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">log_filename</span><span class="p">)</span>
+        <span class="n">file_handler</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">log_format</span><span class="p">,</span> <span class="n">date_format</span><span class="p">))</span>
+        <span class="c1"># Add handler for logfile to the logger</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+    <span class="c1"># Add handler for console to the logger</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_handler</span><span class="p">)</span>
     <span class="c1">################################################</span>
     <span class="c1"># Debug</span>
@@ -174,7 +177,7 @@
 </ul><div class="footer" role="contentinfo">
       © Copyright 2022, QuOCS.
     <br/>
-    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
 </div>
 </div>
 </div>
