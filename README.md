@@ -15,7 +15,7 @@ QuOCS aims to provide a user-friendly interface to solve optimization problems. 
 * Direct Search Algorithm, i.e. Nelder Mead, CMA-ES...
 
 
-QuOCS is open source and its interface structure allows for user-friendly customizability (see [customization](#customization) section). It can be used on all Unix-based platforms and on Windows.
+QuOCS is open source and its interface structure allows for user-friendly customizability. It can be used on all Unix-based platforms and on Windows.
 
 ## Installation
 
@@ -35,7 +35,7 @@ The requirements are:
 * If you want to use the AD Algorithm, the installation of [JAX](https://github.com/google/jax) (Autograd and XLA) is required.
 
 ### Editable mode
-If you want to customize the algortihm and basis inside QuOCS (see [customization](#customization)), the package has to be installed in the editable mode. You can easily do that with the following commands:
+If you want to customize the algortihm and basis inside QuOCS, the package has to be installed in the editable mode. You can easily do that with the following commands:
 
 ```bash
 git clone https://github.com/Quantum-OCS/QuOCS.git
