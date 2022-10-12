@@ -24,9 +24,9 @@ QuOCS is open source and its interface structure allows for user-friendly custom
 
 QuOCS is available on `pip`. You can install QuOCS by doing
 
-```bash
+~~~bash
 pip install quocs-lib
-```
+~~~
 
 The requirements are:
 * setuptools >= 44.0.0
@@ -37,11 +37,11 @@ The requirements are:
 ### Editable mode
 If you want to customize the algortihm and basis inside QuOCS, the package has to be installed in the editable mode. You can easily do that with the following commands:
 
-```bash
+~~~bash
 git clone https://github.com/Quantum-OCS/QuOCS.git
 cd QuOCS
 pip install -e .
-```
+~~~
 
 ## Documentation
 
@@ -57,13 +57,13 @@ A selection of demonstration notebooks is available, which demonstrate some of t
 Using QuOCS is intuitive and simple. The main steps are:
 
 1. Create and load the optimization dictionary. This json file contains all the optimization settings (as an example see [this file](https://github.com/Quantum-OCS/QuOCS/blob/main/tests/dCRAB_Fourier_NM_OneQubit.json)).
-    ```python
+    ~~~python
     from quocslib.utils.inputoutput import readjson
     optimization_dictionary = readjson("opt_dictionary.json"))
-    ```
+    ~~~
 2. Create Figure of Merit object. This is an instance of a class that contains the physical problem to be optimized. In the following, you can see an example of how to define this class. The input and output of `get_FoM` should not be changed.
 
-    ```python
+    ~~~python
     from quocslib.utils.AbstractFoM import AbstractFoM
     # Define problem class
     class OneQubit(AbstractFoM):
@@ -85,16 +85,16 @@ Using QuOCS is intuitive and simple. The main steps are:
 
     # Create Figure of Merit object
     FoM_object = OneQubit()
-    ```
+    ~~~
 3. Define the optimizer by initializing it with the uploaded optimization dictionary and FoM object. After that the execution can be run.
-    ```python
+    ~~~python
     from quocslib.Optimizer import Optimizer
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary,
                                  FoM_object)
     # Execute the optimization
     optimization_obj.execute()
-    ```
+    ~~~
 
 Complete examples are provided in [QuOCS/QuOCS-jupyternotebooks repository](https://github.com/Quantum-OCS/QuOCS-jupyternotebooks) or in the [tests](https://github.com/Quantum-OCS/QuOCS/tree/main/tests) folders.
 

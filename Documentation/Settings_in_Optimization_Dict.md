@@ -1,56 +1,18 @@
 # Feature List of the possible Settings in the Optimization Dictionary
 
-This is a test-textbox:
+The optimizer of QuOCS need the settings for the optimization to be provided in the form of a dictionary. This `optimization_dictionary` can either be defined in the python code itself or as a JSON file and be read in with the provided `readjson` function. The settings (keys) in that dictionary are listed and explained here.
+
+## General form of the .json file
+
+Assuming you define the settings in the form of a .json file, the general structure should look like this:
 
 ~~~yaml
 {
-    "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
-    "Disclaimer": "Do not use this json file for optimization",
-    "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit",
-    "algorithm_settings": {
-        "algorithm_name": "dCRAB",
-        "super_iteration_number": 5,
-        "max_eval_total": 5000,
-        "dsm_settings": {
-            "general_settings": {
-                "dsm_algorithm_name": "NelderMead",
-                "is_adaptive": true
-            },
-            "stopping_criteria": {
-                "xatol": 1e-2,
-                "frtol": 1e-2
-            }
-        }
-    },
-    "pulses": [{"pulse_name": "Pulse_1",
-                "upper_limit": 15.0,
-                "lower_limit": -15.0,
-                "bins_number": 101,
-                "time_name": "time_1",
-                "amplitude_variation": 0.3,
-                "basis": {
-                    "basis_name": "Fourier",
-                    "basis_vector_number": 2,
-                    "random_super_parameter_distribution": {
-                        "distribution_name": "Uniform",
-                        "lower_limit": 0.1,
-                        "upper_limit": 5.0
-                    }
-                },
-                "scaling_function": {
-                    "function_type": "lambda_function",
-                    "lambda_function": "lambda t: 1.0 + 0.0*t"
-                },
-                "initial_guess": {
-                    "function_type": "lambda_function",
-                    "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
-                }
-    }],
-    "parameters": [],
-    "times": [{
-        "time_name": "time_1",
-        "initial_value": 3.0
-    }]
+    "optimization_client_name": "Name_of_your_Optimization",
+    "algorithm_settings": {...},  # settings related to the algorithm
+    "pulses": [{...}, {...}, ...],  # list of pulses and their settings
+    "parameters": [{...}, {...}, ...],  # list of parameters and their settings
+    "times": [{...}, {...}, ...]  # list of times and their settings
 }
 
 ~~~
