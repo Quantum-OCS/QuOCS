@@ -98,6 +98,9 @@ Using QuOCS is intuitive and simple. The main steps are:
 
 Complete examples are provided in [QuOCS/QuOCS-jupyternotebooks repository](https://github.com/Quantum-OCS/QuOCS-jupyternotebooks) or in the [tests](https://github.com/Quantum-OCS/QuOCS/tree/main/tests) folders.
 
+## Usage with Qudi
+
+If you want to use QuOCS in combination with Qudi, please have a look at [this repository](https://github.com/Quantum-OCS/Qudi-plugin) with additional files, information and a tutorial.
 
 ## Contribute
 
