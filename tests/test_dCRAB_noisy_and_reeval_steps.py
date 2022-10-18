@@ -111,10 +111,12 @@ def main(optimization_dictionary: dict, args_dict: dict):
     FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
     # Get the best controls and check if they correspond to the best FoM
     opt_alg_obj = optimization_obj.get_optimization_algorithm()
+    # get the best controls
     controls = opt_alg_obj.get_best_controls()
-    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
     # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
     # using the best controls
+    FoM_check = [FoM_object.get_FoM(**controls)["FoM"] for _ in range(10)]
+    FoM_check = sum(FoM_check)/10
     noise_factor = args_dict["noise_factor"]
     print(np.abs(FoM - FoM_check))
     assert (np.abs(FoM - FoM_check) < 1.5 * noise_factor)

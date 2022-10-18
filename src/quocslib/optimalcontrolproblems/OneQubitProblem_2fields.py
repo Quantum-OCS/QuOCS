@@ -35,7 +35,6 @@ class OneQubit2Fields(AbstractFoM):
         # Noise in the figure of merit
         self.is_noisy = args_dict.setdefault("is_noisy", False)
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
-        self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
         amplitude = np.asarray(pulses[0])
@@ -50,7 +49,7 @@ class OneQubit2Fields(AbstractFoM):
         if self.is_noisy:
             noise = (self.noise_factor * 2 * (0.5 - np.random.rand(1, )[0]))
             infidelity += noise
-            std = (self.std_factor * np.random.rand(1, )[0])
+            std = self.noise_factor * 0.6827  # one std contains 68.28% of values
 
         return {"FoM": np.abs(infidelity), "std": std}
 

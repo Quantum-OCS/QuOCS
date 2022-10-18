@@ -35,7 +35,6 @@ class OneQubit(AbstractFoM):
         # Noise in the figure of merit
         self.is_noisy = args_dict.setdefault("is_noisy", False)
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
-        self.std_factor = args_dict.setdefault("std_factor", 0.01)
 
         # Drifting FoM
         self.include_drift = args_dict.setdefault("include_drift", False)
@@ -75,7 +74,7 @@ class OneQubit(AbstractFoM):
         if self.is_noisy:
             noise = (self.noise_factor * 2 * (0.5 - np.random.rand(1)[0]))
             infidelity += noise
-            std = (self.std_factor * np.random.rand(1)[0])
+            std = self.noise_factor * 0.6827  # one std contains 68.28% of values
 
         if self.include_drift:
             infidelity += self.linear_drift_val_over_iteration * self.FoM_eval_number
