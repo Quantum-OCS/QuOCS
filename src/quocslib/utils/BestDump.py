@@ -66,19 +66,17 @@ class BestDump(AbstractDump):
         else:
             pulse_names = ["pulse_{}".format(index+1) for index in range(len(pulses))]
 
-        time_names = []
-        if "time_names" in {**kwargs}:
-            time_names = {**kwargs}["time_names"]
-        else:
-            time_names = ["time_grid_{}".format(index + 1) for index in range(len(timegrids))]
+        # time_names = []
+        # if "time_names" in {**kwargs}:
+        #     time_names = {**kwargs}["time_names"]
+        # else:
+        #     time_names = ["time_grid_{}".format(index + 1) for index in range(len(timegrids))]
 
         for pulse, time_grid in zip(pulses, timegrids):
             pulse_name = pulse_names[pulse_index]
-            time_name = time_names[pulse_index]
             if pulse_name in controls_dict:
                 pulse_name = pulse_name + str(pulse_index + 1)
-            if time_name in controls_dict:
-                time_name = time_name + str(pulse_index + 1)
+            time_name = "time_grid_for_" + pulse_name
             controls_dict[pulse_name] = pulse
             controls_dict[time_name] = time_grid
             pulse_index += 1
