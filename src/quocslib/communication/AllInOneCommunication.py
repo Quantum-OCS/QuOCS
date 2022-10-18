@@ -82,6 +82,8 @@ class AllInOneCommunication:
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary
         self.controls_dict = {}
+        # Initialize the controls names dictionary
+        self.controls_names_dict = {}
 
     def print_logger(self, message: str = "", level: int = 20):
         """Print a message in the log"""
@@ -125,6 +127,14 @@ class AllInOneCommunication:
         if self.controls_update_signal is not None:
             self.controls_update_signal.emit(controls_dict["pulses"], controls_dict["timegrids"],
                                              controls_dict["parameters"])
+
+    def set_controls_names(self, controls_names_dict: dict) -> None:
+        """
+         Set the controls names dictionary
+         :param dict controls_names_dict:
+         :return:
+         """
+        self.controls_names_dict = controls_names_dict
 
     def get_data(self) -> dict:
         """
@@ -171,7 +181,7 @@ class AllInOneCommunication:
         """External call to update the controls"""
         if response_for_client is None:
             response_for_client = {}
-        self.dump_obj.dump_controls(**self.controls_dict, **response_for_client)
+        self.dump_obj.dump_controls(**self.controls_dict, **self.controls_names_dict, **response_for_client)
 
     def end_communication(self, results_dict: dict) -> None:
         """

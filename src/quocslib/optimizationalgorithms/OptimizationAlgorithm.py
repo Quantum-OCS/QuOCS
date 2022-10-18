@@ -46,10 +46,15 @@ class OptimizationAlgorithm:
         :param dict communication_obj: Object fo the communication class
         """
         self.comm_obj = communication_obj
+        self.optimization_dict = optimization_dict
+        # get the names of the controls
+        self.controls_names = self._get_controls_names()
+        # set the dictionary in the communication onject
+        self.comm_obj.set_controls_names(self.controls_names)
         # Print optimization dictionary into a file
-        self.comm_obj.print_optimization_dictionary(optimization_dict)
+        self.comm_obj.print_optimization_dictionary(self.optimization_dict)
         # Get the algorithm settings
-        alg_parameters = optimization_dict["algorithm_settings"]
+        alg_parameters = self.optimization_dict["algorithm_settings"]
         # Initialize the total iteration number, i.e. the total function evaluations of the algorithm
         self.iteration_number = 0
         # Update status
@@ -267,6 +272,19 @@ class OptimizationAlgorithm:
         """Return the best pulses_list, time_grids_list, and parameters_list found so far"""
         pulses_list, time_grids_list, parameters_list = self.controls.get_controls_lists(self.controls.get_mean_value())
         return {"pulses": pulses_list, "parameters": parameters_list, "timegrids": time_grids_list}
+
+    def _get_controls_names(self):
+        """Return the names of the pulses, parameters and times"""
+        pulse_name_list = []
+        for pulse_dict in self.optimization_dict["pulses"]:
+            pulse_name_list.append(pulse_dict["pulse_name"])
+        parameter_name_list = []
+        for param_dict in self.optimization_dict["parameters"]:
+            parameter_name_list.append(param_dict["parameter_name"])
+        time_name_list = []
+        for time_dict in self.optimization_dict["times"]:
+            time_name_list.append(time_dict["time_name"])
+        return {"pulse_names": pulse_name_list, "parameter_names": parameter_name_list, "time_names": time_name_list}
 
     def end(self) -> None:
         """Finalize the transmission with  the client"""

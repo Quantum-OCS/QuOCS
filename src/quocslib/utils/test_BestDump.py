@@ -35,9 +35,9 @@ def test_dump_controls_record():
     controls = np.load(outfile_path)
     # print(controls.files)
     with np.load(outfile_path) as controls:
-        assert (controls["pulse1"] == test_pulse).all()
-        assert (controls["time_grid1"] == test_timegrid).all()
-        assert (controls["parameter1"] == test_params).all()
+        assert (controls["pulse_1"] == test_pulse).all()
+        assert (controls["time_grid_1"] == test_timegrid).all()
+        assert (controls["parameter_1"] == test_params).all()
     os.remove(outfile_path)
 
 

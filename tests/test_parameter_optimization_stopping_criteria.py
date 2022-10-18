@@ -18,7 +18,7 @@ class RosenFoM(AbstractFoM):
 
     def save_FoM(self):
         np.savetxt(os.path.join(self.save_path, 'FoM.txt'), self.FoM_list)
-        np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
+        # np.savetxt(os.path.join(self.save_path, 'params.txt'), self.param_list)
 
     def set_save_path(self, save_path: str = ""):
         self.save_path = save_path

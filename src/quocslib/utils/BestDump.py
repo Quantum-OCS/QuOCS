@@ -59,17 +59,42 @@ class BestDump(AbstractDump):
             return
 
         controls_dict = {}
-        pulse_index = 1
+        pulse_index = 0
+        pulse_names = []
+        if "pulse_names" in {**kwargs}:
+            pulse_names = {**kwargs}["pulse_names"]
+        else:
+            pulse_names = ["pulse_{}".format(index+1) for index in range(len(pulses))]
+
+        time_names = []
+        if "time_names" in {**kwargs}:
+            time_names = {**kwargs}["time_names"]
+        else:
+            time_names = ["time_grid_{}".format(index + 1) for index in range(len(timegrids))]
 
         for pulse, time_grid in zip(pulses, timegrids):
-            controls_dict["pulse" + str(pulse_index)] = pulse
-            controls_dict["time_grid" + str(pulse_index)] = time_grid
+            pulse_name = pulse_names[pulse_index]
+            time_name = time_names[pulse_index]
+            if pulse_name in controls_dict:
+                pulse_name = pulse_name + str(pulse_index + 1)
+            if time_name in controls_dict:
+                time_name = time_name + str(pulse_index + 1)
+            controls_dict[pulse_name] = pulse
+            controls_dict[time_name] = time_grid
             pulse_index += 1
 
-        parameter_index = 1
+        parameter_index = 0
+        parameter_names = []
+        if "parameter_names" in {**kwargs}:
+            parameter_names = {**kwargs}["parameter_names"]
+        else:
+            parameter_names = ["parameter_{}".format(index+1) for index in range(len(parameters))]
 
         for parameter in parameters:
-            controls_dict["parameter" + str(parameter_index)] = parameter
+            param_name = parameter_names[parameter_index]
+            if param_name in controls_dict:
+                param_name = param_name + str(parameter_index + 1)
+            controls_dict[param_name] = parameter
             parameter_index += 1
 
         # Full dictionary
@@ -104,8 +129,6 @@ class BestDump(AbstractDump):
         """
         if data_dict is None:
             data_dict = {}
-        print(type(data_dict))
-        print(data_dict)
         data_dict_path = os.path.join(self.results_path, self.date_time + "_" + data_file_name+'.json')
         with open(data_dict_path, 'w') as convert_file:
             convert_file.write(json.dumps(data_dict, indent=4, cls=NumpyEncoder))
