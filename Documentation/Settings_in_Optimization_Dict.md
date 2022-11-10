@@ -127,7 +127,7 @@ The stopping criteria for the dsm depend on the chosen search method.
 |**"max_eval"** *(optional)* |*Int*| Maximum number of function evaluations per SI. *(Default: 10e10)* |
 |**"time_lim"** *(optional)* |*float*| Time limit in minutes for singe SI. |
 |**"xatol"** *(optional)* |*float*| Absolute change of simplex between iterations that is acceptable for convergence (see [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html)). *(Default: 10e-14)* |
-|**"frtol"** *(optional)* |*float*| Absolute change in FoM between iterations that is acceptable for convergence (see [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html)). *(Default: 10e-13)* |
+|**"frtol"** *(optional)* |*float*| Relative change in FoM between iterations that is acceptable for convergence (similar to [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html)). *(Default: 10e-13)* |
 |**"change_based_stop"** *(optional)* |*dict*| Stop the search if the FoM value does not change more than defined in "cbs_change" (on average) over a number of function evaluations given by "cbs_funct_evals". |
 
 
