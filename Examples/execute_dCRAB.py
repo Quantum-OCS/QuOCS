@@ -77,9 +77,9 @@ def plot_controls(result_path):
     pulse = []
 
     for data_name in controls.files:
-        if "time" in data_name:
+        if "time_grid_for_Pulse1" in data_name:
             time_grid = controls[data_name]
-        elif "pulse" in data_name:
+        elif "Pulse1" in data_name:
             pulse = controls[data_name]
 
     fig = plt.figure(figsize=(11, 7))
@@ -131,7 +131,7 @@ def main(optimization_dictionary: dict):
     np.savetxt(os.path.join(optimization_obj.results_path, "fom.txt"), fomlist)
 
     plot_FoM(optimization_obj.results_path, "fom.txt")
-    # plot_controls(optimization_obj.results_path)
+    plot_controls(optimization_obj.results_path)
 
     opt_controls = optimization_obj.opt_alg_obj.get_best_controls()
 
