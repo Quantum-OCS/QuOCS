@@ -262,6 +262,10 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Initialize step number to 0
         self.step_number = 0
         FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
+        # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
+        # before the first search iteration has finished
+        if self.optimization_direction == "maximization" and FoM == 1e10:
+            FoM = -FoM
         ################################################################################################################
         # Standard function evaluation - dCRAB without re-evaluation steps
         ################################################################################################################
@@ -370,6 +374,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
         mu_z = mu_2 - mu_1
+        if self.optimization_direction == "maximization":
+            mu_z = mu_1 - mu_2
         std_comb = np.sqrt(sigma_1**2 + sigma_2**2)
         if np.abs(std_comb) < 10**(-14):
             # Warning message

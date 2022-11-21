@@ -75,9 +75,9 @@ def plot_controls(result_path):
     pulse = []
 
     for data_name in controls.files:
-        if "time" in data_name:
+        if "time_grid_for_Pulse_1" in data_name:
             time_grid = controls[data_name]
-        elif "pulse" in data_name:
+        elif "Pulse_1" in data_name:
             pulse = controls[data_name]
 
     fig = plt.figure(figsize=(11, 7))
