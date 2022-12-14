@@ -14,6 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
+import logging
 
 # np.seterr(all="raise")
 
@@ -42,6 +43,7 @@ class CMAES(DirectSearchMethod):
         # TODO Create it using dynamical import module
         # Stopping criteria object
         self.sc_obj = CMAESStoppingCriteria(stopping_criteria)
+        self.logger = logging.getLogger("oc_logger")
 
     def run_dsm(self,
                 func,
@@ -122,7 +124,6 @@ class CMAES(DirectSearchMethod):
 
         # Arguments for stopping criteria
         iterations = 1
-        # terminateReason = -1  # JZ 20161125: introduced this quantity
 
         is_terminated = False
 
@@ -148,6 +149,10 @@ class CMAES(DirectSearchMethod):
             # Sort fsim so that lowest value is at 0 and then descending
             ind = np.argsort(fsim)
             fsim = np.take(fsim, ind, 0)
+
+            average_FoM = np.sum(fsim) / len(fsim)
+            FoM_variance = np.std(fsim)
+            self.logger.info("CMA-ES - average FoM: {} / std_dev: {}".format(average_FoM, FoM_variance))
 
             # Checks general stopping criteria
 
