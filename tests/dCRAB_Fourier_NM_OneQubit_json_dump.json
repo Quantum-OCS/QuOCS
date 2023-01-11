@@ -1,7 +1,7 @@
 {
     "Comment": "This is a test dictionary for the controls: dCRAB, Fourier, Uniform Distribution.",
     "Disclaimer": "Do not use this json file for optimization",
-    "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit",
+    "optimization_client_name": "Optimization_dCRAB_Fourier_NM_OneQubit_json_dump",
     "dump_format": "json",
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
