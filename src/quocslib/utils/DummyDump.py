@@ -18,7 +18,7 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class DummyDump(AbstractDump):
-    def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
+    def __init__(self, results_path: str = ".", date_time: str = ".", dump_format: str = "npz", **kwargs):
         pass
 
     def dump_controls(self, pulses: list = [], timegrids: list = [], parameters: list = [], **kwargs) -> None:

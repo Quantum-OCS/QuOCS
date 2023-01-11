@@ -38,12 +38,14 @@ class Optimizer:
 
         self.interface_job_name = optimization_dict.setdefault("optimization_client_name", "run")
         self.create_logfile = optimization_dict.setdefault("create_logfile", True)
+        self.dump_format = optimization_dict.setdefault("dump_format", "npz")
         self.communication_obj = AllInOneCommunication(interface_job_name=self.interface_job_name,
                                                        FoM_obj=FoM_object,
                                                        handle_exit_obj=handle_exit_obj,
                                                        dump_attribute=BestDump,
                                                        comm_signals_list=comm_signals_list,
-                                                       create_logfile=self.create_logfile)
+                                                       create_logfile=self.create_logfile,
+                                                       dump_format=self.dump_format)
 
         self.results_path = self.communication_obj.results_path
 

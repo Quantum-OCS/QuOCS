@@ -32,7 +32,7 @@ class NumpyEncoder(json.JSONEncoder):
 
 
 class BestDump(AbstractDump):
-    def __init__(self, results_path: str = ".", date_time: str = ".", **kwargs):
+    def __init__(self, results_path: str = ".", date_time: str = ".", dump_format: str = "npz", **kwargs):
         """
         Dumping class for controls and other data which should be the most useful option for most users.
         :param str results_path: Path of the folder of the results
@@ -41,6 +41,7 @@ class BestDump(AbstractDump):
         self.best_controls_path = results_path
         self.results_path = results_path
         self.date_time = date_time
+        self.dump_format = dump_format
 
     def dump_controls(self,
                       pulses: list = [],
@@ -99,8 +100,11 @@ class BestDump(AbstractDump):
         full_dict = {**controls_dict, **kwargs}
 
         # Save the file
-        controls_path = os.path.join(self.results_path, self.date_time + "_best_controls.npz")
-        np.savez(controls_path, **full_dict)
+        if self.dump_format == "json":
+            self.dump_dict("best_controls", full_dict)
+        else:
+            controls_path = os.path.join(self.results_path, self.date_time + "_best_controls.npz")
+            np.savez(controls_path, **full_dict)
 
         # if "iteration_number" in full_dict:
         #     iteration_path = os.path.join(self.results_path, self.date_time + "_funct_eval_of_best_controls.txt")

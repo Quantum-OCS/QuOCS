@@ -32,7 +32,8 @@ class AllInOneCommunication:
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
                  comm_signals_list: [list, list, list] = None,
-                 create_logfile: bool = True):
+                 create_logfile: bool = True,
+                 dump_format: str = "npz"):
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -77,7 +78,7 @@ class AllInOneCommunication:
         self.FoM_obj = FoM_obj
         # TODO Thinks whether it is a good idea dumping the results
         # Dumping data object
-        self.dump_obj = dump_attribute(self.results_path, self.date_time)
+        self.dump_obj = dump_attribute(self.results_path, self.date_time, dump_format)
         # Handle exit object
         self.he_obj = handle_exit_obj
         # Initialize the control dictionary
