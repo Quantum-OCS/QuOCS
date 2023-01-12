@@ -26,6 +26,7 @@ class StoppingCriteria:
         """
         self.xatol = None
         self.frtol = None
+        self.fatol = None
         self.terminate_reason: str = ""
         self.is_converged = False
         self.terminate_reason = "terminate_reason is still at default"
@@ -87,7 +88,7 @@ class StoppingCriteria:
 
         :param np.array fsim: FoM values for current simplex
         :return bool is_converged: True if the stopping criterion is fulfilled
-        :return str terminate_reason: reason for the terminatiom
+        :return str terminate_reason: reason for the termination
         """
         terminate_reason = "Convergence of the FoM."
         is_converged = False
@@ -97,6 +98,10 @@ class StoppingCriteria:
             maxDeltaFoMRel = fsim[1]
         if maxDeltaFoMRel <= self.frtol:
             is_converged = True
+            terminate_reason = "Convergence of the FoM (frtol)."
+        elif np.std(fsim) <= self.fatol:
+            is_converged = True
+            terminate_reason = "Convergence of the FoM (fatol)."
         return [is_converged, terminate_reason]
 
     def reset_direct_search_start_time(self) -> None:

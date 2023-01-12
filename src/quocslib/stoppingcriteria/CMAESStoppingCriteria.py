@@ -30,6 +30,7 @@ class CMAESStoppingCriteria(StoppingCriteria):
         # frtol and xatol
         self.xatol = stopping_criteria.setdefault("xatol", 1e-14)
         self.frtol = stopping_criteria.setdefault("frtol", 1e-13)
+        self.fatol = stopping_criteria.setdefault("fatol", 1e-100)
         self.is_converged = False
         self.terminate_reason = ""
 
