@@ -15,7 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 
-np.seterr(all="raise")
+# np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (

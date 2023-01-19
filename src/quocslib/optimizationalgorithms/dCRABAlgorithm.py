@@ -44,8 +44,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # The callback function is called once in a while in the inner direct search method to check
         #  if the optimization is still running
 
-        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault(
-            "dsm_algorithm_module", None),
+        dsm_attribute = dynamic_import(module_name=direct_search_method_settings.setdefault("dsm_algorithm_module", None),
                                        class_name=direct_search_method_settings.setdefault("dsm_algorithm_class", None),
                                        name=direct_search_method_settings.setdefault("dsm_algorithm_name", None),
                                        class_type='dsm_settings')

@@ -17,7 +17,7 @@ import numpy as np
 from datetime import datetime
 import logging
 
-np.seterr(all="raise")
+# np.seterr(all="raise")
 
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
