@@ -273,6 +273,11 @@ class OptimizationAlgorithm:
         pulses_list, time_grids_list, parameters_list = self.controls.get_controls_lists(self.controls.get_mean_value())
         return {"pulses": pulses_list, "parameters": parameters_list, "timegrids": time_grids_list}
 
+    def get_best_bare_controls(self) -> dict:
+        """Return the best bare pulses_list (without guess and scaling) found so far"""
+        bare_pulses_list = self.controls.get_bare_controls_lists(self.controls.get_mean_value())
+        return {"bare_pulses": bare_pulses_list}
+
     def _get_controls_names(self):
         """Return the names of the pulses, parameters and times"""
         pulse_name_list = []

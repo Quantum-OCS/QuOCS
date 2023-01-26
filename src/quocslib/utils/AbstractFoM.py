@@ -60,7 +60,7 @@ class AbstractFoM(metaclass=ABCMeta):
         self,
         pulses_list: list = [],
         time_grids_list: list = [],
-        parameters_list: list = [],
+        parameters_list: list = []
     ) -> dict:
         """
         Abstract method for figure of merit evaluation. It returns a dictionary with

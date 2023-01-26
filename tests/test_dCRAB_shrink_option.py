@@ -100,6 +100,7 @@ def test_pulse_shrinking():
     optimization_dictionary = {
         "optimization_client_name":
         "Check_pulse_shrinking",
+        "dump_format": "npz",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
             "super_iteration_number": 3,

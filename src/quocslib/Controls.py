@@ -216,3 +216,22 @@ class Controls:
                 parameter.get_parameter(optimized_parameters_vector[parameter.control_parameters_list]))
 
         return pulses_list, time_grids_list, parameters_list
+
+
+    def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
+        """
+        Set the optimized control parameters and get the controls
+
+        :param np.array optimized_parameters_vector:
+        :return: The bare OC pulses (without guess and shaping) ina list of numpy arrays.
+        """
+        bare_OC_pulses_list = []
+
+        # Get the bare pulses and the timegrids
+        for pulse in self.pulse_objs_list:
+            time_name = pulse.time_name
+            bare_OC_pulses_list.append(
+                pulse.get_bare_pulse(optimized_parameters_vector[pulse.control_parameters_list],
+                                     final_time=self.times_obj_dictionary[time_name].get_time()))
+
+        return bare_OC_pulses_list

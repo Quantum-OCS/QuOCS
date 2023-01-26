@@ -238,6 +238,12 @@ class BasePulse:
         self._set_time_grid(final_time)
         return self._get_build_pulse()
 
+    def get_bare_pulse(self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0) -> np.ndarray:
+        """Set the optimized control parameters, the time grid, and return the pulse"""
+        self._set_control_parameters(optimized_parameters_vector)
+        self._set_time_grid(final_time)
+        return self._get_shaped_pulse()
+
     def set_base_pulse(self, optimized_control_parameters: np.ndarray, final_time: float = 1.0) -> None:
         """Set the base optimal pulse"""
         self._set_control_parameters(optimized_control_parameters)

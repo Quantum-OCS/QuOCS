@@ -93,7 +93,10 @@ class StoppingCriteria:
         terminate_reason = "Convergence of the FoM."
         is_converged = False
         try:
-            maxDeltaFoMRel = np.max(np.abs(fsim[0] - fsim[1:])) / (np.abs(fsim[0]))
+            if np.abs(fsim[0]) > 0:
+                maxDeltaFoMRel = np.max(np.abs(fsim[0] - fsim[1:])) / np.abs(fsim[0])
+            else:  # just take value of second best
+                maxDeltaFoMRel = fsim[1]
         except (ZeroDivisionError, FloatingPointError):
             maxDeltaFoMRel = fsim[1]
         if maxDeltaFoMRel <= self.frtol:
