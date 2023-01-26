@@ -50,9 +50,9 @@ class Optimizer:
         self.results_path = self.communication_obj.results_path
 
         algorithm_dict = optimization_dict['algorithm_settings']
-        self.optimizer_attribute = dynamic_import(attribute=algorithm_dict.setdefault("algorithm_attribute", None),
-                                                  module_name=algorithm_dict.setdefault("algorithm_module", None),
-                                                  class_name=algorithm_dict.setdefault("algorithm_class", None),
+        self.optimizer_attribute = dynamic_import(attribute=algorithm_dict.get("algorithm_attribute", None),
+                                                  module_name=algorithm_dict.get("algorithm_module", None),
+                                                  class_name=algorithm_dict.get("algorithm_class", None),
                                                   name=algorithm_dict.setdefault("algorithm_name", None),
                                                   class_type='algorithm')
 
