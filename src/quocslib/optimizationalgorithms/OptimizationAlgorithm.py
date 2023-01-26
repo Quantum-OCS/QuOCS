@@ -91,6 +91,18 @@ class OptimizationAlgorithm:
             signal.signal(signal.SIGINT, self.handle_user_cancellation)
         # signal.signal(signal.SIGINT, self.handle_user_cancellation)
 
+        if "algorithm_settings" in self.optimization_dict:
+            temp_dict = self.optimization_dict["algorithm_settings"]
+            if "dsm_settings" in temp_dict:
+                temp_dict = temp_dict["dsm_settings"]
+                if "stopping_criteria" in temp_dict:
+                    temp_dict = temp_dict["stopping_criteria"]
+                    if "frtol" in temp_dict:
+                        self.comm_obj.print_logger('The "frtol" stopping criterion has been replaced by "fatol". '
+                                                   'For more information pleas have a look at the documentation '
+                                                   '(https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/'
+                                                   'Settings_in_Optimization_Dict.md)', 30)
+
     def handle_user_cancellation(self, sig, frame):
         self.higher_order_terminate_reason = "User stopped the optimization"
         self.dsm_obj.sc_obj.is_converged = True
