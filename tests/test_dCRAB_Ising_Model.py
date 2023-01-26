@@ -36,7 +36,7 @@ def test_dCRAB_Ising_Model():
                 },
                 "stopping_criteria": {
                     "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "fatol": 1e-2
                 }
             }
         },

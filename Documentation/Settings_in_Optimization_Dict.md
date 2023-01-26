@@ -74,7 +74,7 @@ There are settings that are connected immediately to the QOC algorithm and are s
             "max_eval": 20,
             "time_lim": 0.01,
             "xatol": 1e-14,
-            "frtol": 1e-14,
+            "fatol": 1e-14,
             "change_based_stop": {
                 "cbs_funct_evals": 300,
                 "cbs_change": 0.00001
@@ -131,7 +131,6 @@ The stopping criteria for the dsm depend on the chosen search method.
 |**"time_lim"** *(optional)* |*float*| Time limit in minutes for singe SI. |
 |**"xatol"** *(optional)* |*float*| Absolute change of simplex between iterations that is acceptable for convergence (see [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html)). *(Default: 1e-14)* |
 |**"fatol"** *(optional)* |*float*| Standard deviation of the points in the simplex (NM) or one population (CMA-ES) below which the optimization is considered as converged. *(Default: 1e-100)* |
-|**"frtol"** *(optional)* |*float*| Relative change in FoM between iterations that is acceptable for convergence (similar to [here](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-neldermead.html)). *(Default: 1e-13)* |
 |**"change_based_stop"** *(optional)* |*dict*| Stop the search if the FoM value does not change more than defined in "cbs_change" (on average) over a number of function evaluations given by "cbs_funct_evals". |
 
 
@@ -157,7 +156,7 @@ For a GRAPE optimization you only need to define the algorithm name as "GRAPE". 
         },
         "stopping_criteria": {
             "xatol": 1e-14,
-            "frtol": 1e-4
+            "fatol": 1e-4
         }
     }
 }

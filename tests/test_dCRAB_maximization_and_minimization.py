@@ -53,7 +53,7 @@ def test_dCRAB_with_maximization():
                 },
                 "stopping_criteria": {
                     "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "fatol": 1e-2
                 }
             }
         },
@@ -147,7 +147,7 @@ def test_dCRAB_with_minimization():
                 },
                 "stopping_criteria": {
                     "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "fatol": 1e-2
                 }
             }
         },
@@ -240,7 +240,7 @@ def test_dCRAB_with_maximization_prelim_stop():
                 },
                 "stopping_criteria": {
                     "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "fatol": 1e-2
                 }
             }
         },
@@ -334,7 +334,7 @@ def test_dCRAB_with_minimization_prelim_stop():
                 },
                 "stopping_criteria": {
                     "xatol": 1e-2,
-                    "frtol": 1e-2
+                    "fatol": 1e-2
                 }
             }
         },

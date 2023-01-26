@@ -66,7 +66,6 @@ def test_parameter_optimization():
         },
         "stopping_criteria": {
             "xatol": 1e-5,
-            "frtol": 1e-5
         }
     }
     optimization_dictionary["algorithm_settings"]["dsm_settings"] = dsm_settings

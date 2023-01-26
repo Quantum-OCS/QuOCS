@@ -25,7 +25,6 @@ class StoppingCriteria:
         Parent class for the stopping criteria
         """
         self.xatol = None
-        self.frtol = None
         self.fatol = None
         self.terminate_reason: str = ""
         self.is_converged = False
@@ -92,17 +91,8 @@ class StoppingCriteria:
         """
         terminate_reason = "Convergence of the FoM."
         is_converged = False
-        try:
-            if np.abs(fsim[0]) > 0:
-                maxDeltaFoMRel = np.max(np.abs(fsim[0] - fsim[1:])) / np.abs(fsim[0])
-            else:  # just take value of second best
-                maxDeltaFoMRel = fsim[1]
-        except (ZeroDivisionError, FloatingPointError):
-            maxDeltaFoMRel = fsim[1]
-        if maxDeltaFoMRel <= self.frtol:
-            is_converged = True
-            terminate_reason = "Convergence of the FoM (frtol)."
-        elif np.std(fsim) <= self.fatol:
+
+        if np.std(fsim) <= self.fatol:
             is_converged = True
             terminate_reason = "Convergence of the FoM (fatol)."
         return [is_converged, terminate_reason]

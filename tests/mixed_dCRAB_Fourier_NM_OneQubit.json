@@ -4,8 +4,8 @@
     "optimization_client_name": "Optimization_mixed_dCRAB_Fourier_NM_OneQubit_Noisy",
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
-        "super_iteration_number": 5,
-        "max_eval_total": 50,
+        "super_iteration_number": 2,
+        "max_eval_total": 500,
         "compensate_drift": {
           "compensate_after_SI": true
         },
@@ -21,8 +21,8 @@
                 "is_adaptive": true
             },
             "stopping_criteria": {
-                "xatol": 1e-2,
-                "frtol": 1e-2
+                "xatol": 1e-3,
+                "fatol": 1e-5
             }
         }
     },

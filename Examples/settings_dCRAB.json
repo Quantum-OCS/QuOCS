@@ -12,7 +12,7 @@
             },
             "stopping_criteria": {
                 "xatol": 1e-14,
-                "frtol": 1e-3,
+                "fatol": 1e-3,
                 "change_based_stop": {
                     "cbs_funct_evals": 100,
                     "cbs_change": 0.01

@@ -42,7 +42,6 @@ dsm_settings_dict = {'general_settings':
                          # "max_eval": 100,
                          # "time_lim": 10000
                          # "xatol": 1e-10,
-                         # "frtol": 1e-10,
                          "change_based_stop": {
                              "cbs_funct_evals": 100,
                              "cbs_change": 0.02

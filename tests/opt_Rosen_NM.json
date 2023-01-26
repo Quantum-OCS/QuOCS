@@ -8,7 +8,7 @@
             },
             "stopping_criteria": {
                 "xatol": 1e-14,
-                "frtol": 1e-4
+                "fatol": 1e-4
             }
         }
     },
