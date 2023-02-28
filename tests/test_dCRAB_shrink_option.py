@@ -135,10 +135,6 @@ def test_pulse_shrinking():
                     "upper_limit": 5.0
                 }
             },
-            "scaling_function": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 1.0 + 0.0*t"
-            },
             "initial_guess": {
                 "function_type": "lambda_function",
                 "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"

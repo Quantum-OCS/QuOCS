@@ -41,7 +41,7 @@ class BasePulse:
                  upper_limit: float = 1.0,
                  amplitude_variation: float = 1.0,
                  initial_guess: np.array = None,
-                 scaling_function: np.array = None,
+                 scaling_function: dict = None,
                  shrink_ampl_lim: bool = False,
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
@@ -59,6 +59,10 @@ class BasePulse:
         :param float amplitude_variation: amplitude variation of the pulse
         :param dict initial_guess: dictionary with initial guess information
         :param dict scaling_function: dictionary with scaling function information
+        :param bool shrink_ampl_lim: if True the amplitude limits are shrunk
+        :param list shaping_options: list of shaping options
+        :param bool overwrite_base_pulse: if True the base pulse is overwritten
+        :param RandomNumberGenerator rng: Random number generator
         :param kwargs: Other arguments
         """
         # Pulse name
@@ -71,9 +75,16 @@ class BasePulse:
         self.time_grid = np.zeros(self.bins_number)
         # Time
         self.time_name = time_name
+        # Initial Guess Pulse
+        if initial_guess is None:
+            initial_guess = {"function_type": "lambda_function", "lambda_function": "lambda t: 0.0*t"}
+        # Scaling function
+        if scaling_function is None:
+            scaling_function = {"function_type": "lambda_function", "lambda_function": "lambda t: 1.0 + 0.0*t"}
         # Amplitude Limits
-        # TODO Implement check amplitude lower < amplitude upper
         (self.amplitude_lower, self.amplitude_upper) = (lower_limit, upper_limit)
+        if self.amplitude_lower > self.amplitude_upper:
+            self.amplitude_lower, self.amplitude_upper = self.amplitude_upper, self.amplitude_lower
         # Amplitude variation
         self.amplitude_variation = amplitude_variation
         # Create the parameter indexes list. It is used

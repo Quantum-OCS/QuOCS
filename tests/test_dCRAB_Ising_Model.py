@@ -56,10 +56,6 @@ def test_dCRAB_Ising_Model():
                     "upper_limit": 10.0
                 }
             },
-            "scaling_function": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 1.0 + 0.0*t"
-            },
             "initial_guess": {
                 "function_type": "lambda_function",
                 "lambda_function": "lambda t: 0.0 + 0.0*t"

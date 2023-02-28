@@ -39,10 +39,6 @@ def test_stopping_after_total_max_eval_with_few_iterations():
                     "upper_limit": 5.0
                 }
             },
-            "scaling_function": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 1.0 + 0.0*t"
-            },
             "initial_guess": {
                 "function_type": "lambda_function",
                 "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
