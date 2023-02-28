@@ -104,7 +104,8 @@ def test_drift_compensation():
             "FoM_goal": 0.00001,
             "compensate_drift": {
                 "compensate_after_SI": True,
-                "compensate_after_minutes": 0.01
+                "compensate_after_minutes": 0.01,
+                "num_average": 3
             },
             "dsm_settings": {
                 "general_settings": {

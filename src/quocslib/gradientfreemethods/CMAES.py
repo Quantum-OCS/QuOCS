@@ -52,6 +52,7 @@ class CMAES(DirectSearchMethod):
                 sigma_v: np.array = None,
                 initial_simplex=None,
                 drift_comp_minutes=0.0,
+                drift_comp_num_average=1,
                 **kwargs) -> dict:
         """
 
@@ -60,6 +61,7 @@ class CMAES(DirectSearchMethod):
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
+        :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
         :return:
         """
 

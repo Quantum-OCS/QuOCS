@@ -57,7 +57,8 @@ There are settings that are connected immediately to the QOC algorithm and are s
     "FoM_goal": 0.00001,
     "compensate_drift": {
         "compensate_after_SI": true,
-        "compensate_after_minutes": 0.01
+        "compensate_after_minutes": 0.01,
+        "num_average": 1,
     },
     "random_number_generator": {
         "seed_number": 420
@@ -95,7 +96,7 @@ There are settings that are connected immediately to the QOC algorithm and are s
 |**"max_eval_total"** *(optional)* |*Int*| Maximum number of function evaluations (in total) to perform *(Default: 10e10)* |
 |**"total_time_lim"** *(optional)* |*float*| Time limit in minutes for the total optimization run |
 |**"FoM_goal"** *(optional)* |float| Stop the optimization when this FoM value is reached |
-|**"compensate_drift"** *(optional)* |*dict*| Compensation for drifting FoM in an experiment. "compensate_after_SI" re-calibrates the current best FoM after each SI. "compensate_after_minutes" periodically re-calibrates the current best FoM after the given value in minutes. |
+|**"compensate_drift"** *(optional)* |*dict*| Compensation for drifting FoM in an experiment. Only works for Nelder-Mead due to the nature of the search method. "compensate_after_SI" re-calibrates the current best FoM after each SI. "compensate_after_minutes" periodically re-calibrates the current best FoM after the given value in minutes. "num_average" (optional) specifies the number of repeated measurements to perform and average for drift compensation (only for periodic compensation after XX minutes). The default is 1. |
 |**"random_number_generator"** *(optional)* |*dict*| "seed_number" specifies a seed for the selection of randomized values during the optimization. Useful for generating reproducible runs during finding phase for optimization parameters. |
 |**"re_evaluation"** *(optional)* |*dict*| Re-evaluate the measured pulse (in the case of a noisy measurement) to improve measurement uncertainty. Under "re_evaluation_steps" one defines a list of probabilities. Given the standard deviation of a measurement and the measured FoM the evaluation is repeated if the probability is that a set of parameters might actually be a new optimum considering the measurement uncertainty. The measurement is repeated maximally as often as the length of the given list. |
 

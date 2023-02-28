@@ -40,7 +40,8 @@ class GradientFreeTemplate(DirectSearchMethod):
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, drift_comp_minutes=0.0) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None, drift_comp_minutes=0.0,
+                drift_comp_num_average=1) -> dict:
         """
 
         :param callable func: Function tbe called at every function evaluation
@@ -48,6 +49,7 @@ class GradientFreeTemplate(DirectSearchMethod):
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
+        :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
         :return:
         """
         # Creation of the communication function for the OptimizationAlgorithm object

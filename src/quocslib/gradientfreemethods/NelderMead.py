@@ -41,8 +41,11 @@ class NelderMead(DirectSearchMethod):
         # TODO Create it using dynamical import module
         # Stopping criteria object
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
+        self.search_start_time = datetime.now()
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None, drift_comp_minutes=0.0, **kwargs) -> dict:
+    def run_dsm(self, func, x0, args=(), initial_simplex=None,
+                drift_comp_minutes=0.0,
+                drift_comp_num_average=1, **kwargs) -> dict:
         """
 
         :param callable func: Function to be called at every function evaluation
@@ -50,6 +53,7 @@ class NelderMead(DirectSearchMethod):
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
+        :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
         :return:
         """
         # Creation of the communication function for the OptimizationAlgorithm object
@@ -180,7 +184,10 @@ class NelderMead(DirectSearchMethod):
                     ###new_2
                     for i in range(len(sim)):
                         if i == 0:
-                            fsim[i] = func(sim[i], iterations, True)
+                            curr_best_fom = 0
+                            for j in range(drift_comp_num_average):
+                                curr_best_fom += func(sim[i], iterations, True)
+                            fsim[i] = curr_best_fom/drift_comp_num_average
                         else:
                             # here we only shift the rest of the entries by
                             # the same constant change as the current best!
@@ -189,7 +196,8 @@ class NelderMead(DirectSearchMethod):
 
                     self.last_drift_compensation_time = datetime.now()
                     message = f"Previous best FoM: {prev_FoM}, Current best FoM after drift " \
-                              f"compensation (after {drift_comp_minutes} minutes): {new_FoM}"
+                              f"compensation (after {drift_comp_minutes} minutes, average " \
+                              f"of {drift_comp_num_average}): {new_FoM}"
                     logger = logging.getLogger("oc_logger")
                     logger.info(message)
             # Increase the NM iteration

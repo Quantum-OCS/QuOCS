@@ -72,6 +72,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Update the FoM for drift
         self.compensate_drift_after_SI = drift_compensations_parameters.setdefault("compensate_after_SI", False)
         self.compensate_drift_after_minutes = drift_compensations_parameters.setdefault("compensate_after_minutes", 0.0)
+        self.compensate_drift_num_average = drift_compensations_parameters.setdefault("num_average", 1)
         # always do drift compensation after SI if periodic drift compensation is active
         if self.compensate_drift_after_minutes > 0:
             self.compensate_drift_after_SI = True
@@ -240,7 +241,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                         x0,
                                         initial_simplex=start_simplex,
                                         sigma_v=self.controls.get_sigma_variation(),
-                                        drift_comp_minutes=self.compensate_drift_after_minutes)
+                                        drift_comp_minutes=self.compensate_drift_after_minutes,
+                                        drift_comp_num_average=self.compensate_drift_num_average)
         # Update the results
         [FoM, xx, self.terminate_reason, NfunevalsUsed
          ] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"], result_l["NfunevalsUsed"]]
@@ -253,7 +255,8 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                                                                reason=self.terminate_reason))
         self.comm_obj.print_logger(message=message, level=20)
 
-    def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int, drift_comp=False) -> float:
+    def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int,
+                            drift_comp=False, drift_comp_average=1) -> float:
         """This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
         with the same controls multiple times to take into accounts noise in the system"""
         # set the is_record to False unless we have drift_comp call... then we want to update the current best FoM
