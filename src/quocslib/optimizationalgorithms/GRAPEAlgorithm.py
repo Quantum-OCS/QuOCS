@@ -57,7 +57,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.max_fun_evals = self.stopping_crit.setdefault("max_eval_total", 10**10)
         self.ftol = self.stopping_crit.setdefault("ftol", 1e-6)
         self.gtol = self.stopping_crit.setdefault("gtol", 1e-6)
-        self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is defialt acc. to documentation of scipy
+        self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is default acc. to documentation of scipy
 
         alg_parameters = optimization_dict["algorithm_settings"]
         # Seed for the random number generator
@@ -201,7 +201,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
     def _get_controls(self, xx: np.array) -> dict:
         """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
-        #
+
         controls_dict = {
             "pulses": pulses,
             "parameters": parameters,

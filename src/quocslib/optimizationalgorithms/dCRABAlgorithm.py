@@ -395,7 +395,11 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         """Get the controls dictionary from the optimized control parameters"""
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
 
-        controls_dict = {"pulses": pulses, "parameters": parameters, "timegrids": timegrids}
+        controls_dict = {
+            "pulses": pulses,
+            "parameters": parameters,
+            "timegrids": timegrids
+        }
         return controls_dict
 
     def _get_final_results(self) -> dict:

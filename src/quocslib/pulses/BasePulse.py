@@ -40,7 +40,7 @@ class BasePulse:
                  lower_limit: float = 0.0,
                  upper_limit: float = 1.0,
                  amplitude_variation: float = 1.0,
-                 initial_guess: np.array = None,
+                 initial_guess: dict = None,
                  scaling_function: dict = None,
                  shrink_ampl_lim: bool = False,
                  shaping_options: list = None,
@@ -157,49 +157,49 @@ class BasePulse:
         optimal_scaled_pulse = optimal_limited_pulse * self._get_scaling_function()
         return optimal_scaled_pulse
 
-    def _shrink_pulse(self, optimal_pulse: np.ndarray) -> np.ndarray:
-        """Shrink the optimal pulse to respect the amplitude limits"""
-        # Upper - lower bounds
-        u_bound = self.amplitude_upper
-        l_bound = self.amplitude_lower
-        # Upper - lower values of the optimal pulse
-        u_value = np.max(optimal_pulse)
-        l_value = np.min(optimal_pulse)
-        # Distances to the bounds
-        u_distance = u_value - u_bound
-        l_distance = l_bound - l_value
-        # Check if the bounds are not respect by the optimal pulse
-        if u_distance > 0.0 or l_distance > 0.0:
-            # Calculate the middle position between the max and min amplitude
-            distance_u_l_value = (u_value + l_value) / 2.0
-            # Move the pulse to the center of the axis
-            v_optimal_pulse = optimal_pulse - distance_u_l_value
-            # Move the bounds to the center of the axis respect the optimal pulses
-            # distance_u_l_bound = (u_bound + l_bound) / 2.0
-            v_u_bound, v_l_bound = [u_bound - distance_u_l_value, l_bound - distance_u_l_value]
-            # Check which is the greatest virtual distance
-            v_u_value = np.max(v_optimal_pulse)
-            v_l_value = np.min(v_optimal_pulse)
-            # The distance is preserved under this transformation
-            v_l_distance = l_distance
-            v_u_distance = u_distance
-            # Calculate the max distance and assign the max bound in the virtual frame
-            if v_u_distance >= v_l_distance:
-                max_value = v_u_value
-                max_bound = v_u_bound
-            else:
-                max_value = v_l_value
-                max_bound = v_l_bound
-            # Calculate the shrink factor (< 1.0)
-            shrink_factor = max_bound / max_value
-            # rescale the virtual pulse
-            shrinked_v_optimal_pulse = shrink_factor * v_optimal_pulse
-            # Go back to the non virtual pulse, i.e. a transformation + distance_u_l_value
-            shrinked_pulse = shrinked_v_optimal_pulse + distance_u_l_value
-            # Re-assign the optimal pulse
-            optimal_pulse = shrinked_pulse
-
-        return optimal_pulse
+    # def _shrink_pulse(self, optimal_pulse: np.ndarray) -> np.ndarray:
+    #     """Shrink the optimal pulse to respect the amplitude limits"""
+    #     # Upper - lower bounds
+    #     u_bound = self.amplitude_upper
+    #     l_bound = self.amplitude_lower
+    #     # Upper - lower values of the optimal pulse
+    #     u_value = np.max(optimal_pulse)
+    #     l_value = np.min(optimal_pulse)
+    #     # Distances to the bounds
+    #     u_distance = u_value - u_bound
+    #     l_distance = l_bound - l_value
+    #     # Check if the bounds are not respect by the optimal pulse
+    #     if u_distance > 0.0 or l_distance > 0.0:
+    #         # Calculate the middle position between the max and min amplitude
+    #         distance_u_l_value = (u_value + l_value) / 2.0
+    #         # Move the pulse to the center of the axis
+    #         v_optimal_pulse = optimal_pulse - distance_u_l_value
+    #         # Move the bounds to the center of the axis respect the optimal pulses
+    #         # distance_u_l_bound = (u_bound + l_bound) / 2.0
+    #         v_u_bound, v_l_bound = [u_bound - distance_u_l_value, l_bound - distance_u_l_value]
+    #         # Check which is the greatest virtual distance
+    #         v_u_value = np.max(v_optimal_pulse)
+    #         v_l_value = np.min(v_optimal_pulse)
+    #         # The distance is preserved under this transformation
+    #         v_l_distance = l_distance
+    #         v_u_distance = u_distance
+    #         # Calculate the max distance and assign the max bound in the virtual frame
+    #         if v_u_distance >= v_l_distance:
+    #             max_value = v_u_value
+    #             max_bound = v_u_bound
+    #         else:
+    #             max_value = v_l_value
+    #             max_bound = v_l_bound
+    #         # Calculate the shrink factor (< 1.0)
+    #         shrink_factor = max_bound / max_value
+    #         # rescale the virtual pulse
+    #         shrinked_v_optimal_pulse = shrink_factor * v_optimal_pulse
+    #         # Go back to the non virtual pulse, i.e. a transformation + distance_u_l_value
+    #         shrinked_pulse = shrinked_v_optimal_pulse + distance_u_l_value
+    #         # Re-assign the optimal pulse
+    #         optimal_pulse = shrinked_pulse
+    #
+    #     return optimal_pulse
 
     def _shrink_pulse_2(self, optimal_pulse: np.ndarray) -> np.ndarray:
         """Shrink the optimal pulse to respect the amplitude limits"""
@@ -244,13 +244,19 @@ class BasePulse:
         return ui
 
     def get_pulse(self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0) -> np.ndarray:
-        """Set the optimized control parameters, the time grid, and return the pulse"""
+        """
+        Set the optimized control parameters, the time grid, and return the pulse
+        Note: This returns the OC update pulse with guess, scaling and constraints
+        """
         self._set_control_parameters(optimized_parameters_vector)
         self._set_time_grid(final_time)
         return self._get_build_pulse()
 
     def get_bare_pulse(self, optimized_parameters_vector: np.ndarray, final_time: float = 1.0) -> np.ndarray:
-        """Set the optimized control parameters, the time grid, and return the pulse"""
+        """
+        Set the optimized control parameters, the time grid, and return the pulse
+        Note: This only returns the OC update pulse without guess, scaling and constraints
+        """
         self._set_control_parameters(optimized_parameters_vector)
         self._set_time_grid(final_time)
         return self._get_shaped_pulse()
@@ -267,7 +273,7 @@ class BasePulse:
     def _set_control_parameters(self, optimized_control_parameters: np.ndarray) -> None:
         """Set the optimized control parameters vector"""
         # TODO Check if the optimized control parameters vector has a size equal to the control parameters number
-        #  of this pulse, otherwise raise an error
+        #   of this pulse, otherwise raise an error
         self.optimized_control_parameters = optimized_control_parameters
 
     def _get_scaling_function(self) -> np.ndarray:

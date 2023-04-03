@@ -42,7 +42,7 @@ class Sigmoid(ChoppedBasis):
         self.sigma = basis_dict.setdefault("sigma", 0.1)
         # Number of control parameters to be optimized
         self.control_parameters_number = self.super_parameter_number + 1
-        # Constructor of the parent class Chopped Basis
+        # Constructor of the parent class Chopped BasisX
         super().__init__(map_index=map_index, **pulse_dictionary)
         # Define scale and offset coefficients
         self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))

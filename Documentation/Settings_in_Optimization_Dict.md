@@ -90,7 +90,7 @@ There are settings that are connected immediately to the QOC algorithm and are s
 
 | Setting | Type | Explanation |
 | --- | --- | --- |
-|**"algorithm_name"** |*string*| The name of the QOC algorithm. So far contains "dCRAB", "GRAPE", "AD" (automatic differentiation) and "DirectSearch". Can bee extended (see [Customization](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Customization.md)). |
+|**"algorithm_name"** |*string*| The name of the QOC algorithm. So far contains "dCRAB", "GRAPE", "AD" (automatic differentiation) and "DirectSearch". Can be extended (see [Customization](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Customization.md)). |
 |**"optimization_direction"** *(optional)* |*string*| "minimization" or "maximization". *(Default: "minimization")* |
 |**"super_iteration_number"** |*Int*| Maximum number of super-iterations to perform |
 |**"max_eval_total"** *(optional)* |*Int*| Maximum number of function evaluations (in total) to perform *(Default: 10e10)* |
@@ -107,7 +107,7 @@ In the general settings one can define the search method to be used and related,
 
 | Setting | Type | Explanation |
 | --- | --- | --- |
-|**"dsm_algorithm_name"** |*string*| Name of the dsm. So far one can pick from "NelderMead" and "CMAES". Can bee extended (see [Customization](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Customization.md)). |
+|**"dsm_algorithm_name"** |*string*| Name of the dsm. So far one can pick from "NelderMead" and "CMAES". Can be extended (see [Customization](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Customization.md)). |
 
 Specific to Nelder-Mead:
 

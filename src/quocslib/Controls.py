@@ -217,7 +217,6 @@ class Controls:
 
         return pulses_list, time_grids_list, parameters_list
 
-
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
         """
         Set the optimized control parameters and get the controls
