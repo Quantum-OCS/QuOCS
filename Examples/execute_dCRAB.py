@@ -36,7 +36,7 @@ def plot_FoM(result_path, FoM_filename):
 
     FoM = [line.rstrip('\n') for line in open(file_path)]
     FoM = [float(f) for f in FoM]
-    iterations = range(1, len(FoM) + 1)
+    num_eval = range(1, len(FoM) + 1)
     # print('\nInitial FoM: %.4f' % FoM[0])
     # print('Final FoM: %.4f \n' % FoM[-1])
     min_FoM = min(FoM)
@@ -47,12 +47,12 @@ def plot_FoM(result_path, FoM_filename):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.plot(iterations, FoM, color='darkblue', linewidth=1.5, zorder=10)
+    plt.plot(num_eval, FoM, color='darkblue', linewidth=1.5, zorder=10)
     # plt.scatter(x, y, color='k', s=15)
 
     plt.grid(True, which="both")
     plt.ylim(min_FoM - 0.05 * difference, max_FoM + 0.05 * difference)
-    plt.xlabel('Iteration', fontsize=20)
+    plt.xlabel('Function Evaluation', fontsize=20)
     plt.ylabel('FoM', fontsize=20)
     # plt.savefig(os.path.join(folder, save_name + '.pdf'))
     plt.savefig(os.path.join(result_path, save_name + '.png'))
@@ -86,7 +86,7 @@ def plot_controls(result_path):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.plot(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
+    plt.step(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
     plt.grid(True, which="both")
     plt.xlabel('Time', fontsize=20)
     plt.ylabel('Amplitude', fontsize=20)

@@ -1,20 +1,21 @@
 {
     "optimization_client_name": "Optimization_dCRAB_IsingModel",
-    "create_logfile": false,
+    "create_logfile": true,
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
         "super_iteration_number": 3,
         "max_eval_total": 3000,
+        "optimization_direction": "maximization",
         "dsm_settings": {
             "general_settings": {
                 "dsm_algorithm_name": "NelderMead",
                 "is_adaptive": true
             },
             "stopping_criteria": {
-                "xatol": 1e-14,
-                "fatol": 1e-3,
+                "xatol": 1e-4,
+                "fatol": 1e-6,
                 "change_based_stop": {
-                    "cbs_funct_evals": 100,
+                    "cbs_funct_evals": 200,
                     "cbs_change": 0.01
                 },
                 "max_eval": 1000
@@ -34,7 +35,7 @@
                 "random_super_parameter_distribution": {
                     "distribution_name": "Uniform",
                     "lower_limit": 0.01,
-                    "upper_limit": 5.0
+                    "upper_limit": 10.0
                 }
             },
             "scaling_function": {

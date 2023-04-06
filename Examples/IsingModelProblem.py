@@ -98,7 +98,7 @@ class IsingModel(AbstractFoM):
         # Calculate the fidelity
         fidelity = fidelity_funct(rho_final.T, self.rho_target)
         self.FoM_list.append(fidelity)
-        return {"FoM": -fidelity, "std": self.stdev}
+        return {"FoM": fidelity, "std": self.stdev}
 
 
 i2 = np.eye(2)
