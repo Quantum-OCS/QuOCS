@@ -201,8 +201,8 @@ class OptimizationAlgorithm:
             # template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             # message = template.format(type(ex).__name__, ex.args)
 
-            ### Ignore this if we are using GRAPE
-            if type(self).__name__ == "GRAPEAlgorithm":
+            ### Ignore this if we are using GRAPE or AD
+            if type(self).__name__ == "GRAPEAlgorithm" or type(self).__name__ == "ADAlgorithm":
                 pass
             # elif type(ex).__name__ == "AttributeError":
             #     message = "FoM track for stopping criteria could not be updated because " \
@@ -220,8 +220,8 @@ class OptimizationAlgorithm:
             # template = "An exception of type {0} occurred. Arguments:\n{1!r}"
             # message = template.format(type(ex).__name__, ex.args)
 
-            ### Ignore this if we are using GRAPE
-            if type(self).__name__ == "GRAPEAlgorithm":
+            ### Ignore this if we are using GRAPE or AD
+            if type(self).__name__ == "GRAPEAlgorithm" or type(self).__name__ == "ADAlgorithm":
                 pass
             # elif type(ex).__name__ == "AttributeError":
             #     message = "Advanced stopping criteria could not be checked because " \
