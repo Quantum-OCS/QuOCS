@@ -22,6 +22,7 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 try:
     import jax.numpy as jnp
     import jax.scipy as jsp
+    import jax.scipy.optimize as sopt
 except:
     raise ImportError
 
@@ -44,7 +45,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
         OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
         """
-        super().__init__(communication_obj=communication_obj)
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
@@ -155,7 +156,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         init_xx = self.controls.get_mean_value() + initial_variation
         # now we can optimize
         # need to be able to include things
-        optimization_result = jsp.optimize.minimize(self.inner_routine_call,
+        optimization_result = sopt.minimize(self.inner_routine_call,
                                             init_xx, method="BFGS")
 
         # need to be able to implement pulses in Marco's way, ask him later

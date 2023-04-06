@@ -102,10 +102,10 @@ class IsingModel(AbstractFoM):
 
 
 i2 = np.eye(2)
-sz = 0.5 * np.matrix([[1, 0], [0, -1]], dtype=np.complex128)
-sx = 0.5 * np.matrix([[0, 1], [1, 0]], dtype=np.complex128)
-psi0 = np.matrix([[1, 0], [0, 0]], dtype=np.complex128)
-psiT = np.matrix([[0, 0], [0, 1]], dtype=np.complex128)
+sz = 0.5 * np.array([[1, 0], [0, -1]], dtype=np.complex64)
+sx = 0.5 * np.array([[0, 1], [1, 0]], dtype=np.complex64)
+psi0 = np.array([[1, 0], [0, 0]], dtype=np.complex64)
+psiT = np.array([[0, 0], [0, 1]], dtype=np.complex64)
 
 
 def tensor_together(A):
@@ -125,7 +125,7 @@ def fidelity_funct(rho_evolved, rho_aim):
 def get_static_hamiltonian(nqu, J, g):
 
     dim = 2**nqu
-    H0 = np.zeros((dim, dim), dtype=np.complex128)
+    H0 = np.zeros((dim, dim), dtype=np.complex64)
     for j in range(nqu):
         # set up holding array
         rest = [i2] * nqu
@@ -164,7 +164,7 @@ def get_static_hamiltonian(nqu, J, g):
 def get_control_hamiltonian(nqu: int):
     # get the controls
     dim = 2**nqu
-    H_at_t = np.zeros((dim, dim), dtype=np.complex128)
+    H_at_t = np.zeros((dim, dim), dtype=np.complex64)
     for j in range(nqu):
         # set up holding array
         rest = [i2] * nqu

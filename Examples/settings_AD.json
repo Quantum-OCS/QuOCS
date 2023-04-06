@@ -1,6 +1,6 @@
 {
     "algorithm_settings": {
-        "algorithm_name": "ADAlgorithm",
+        "algorithm_name": "AD",
         "optimization_direction": "maximization",
         "stopping_criteria": {
             "max_eval_total": 200,
