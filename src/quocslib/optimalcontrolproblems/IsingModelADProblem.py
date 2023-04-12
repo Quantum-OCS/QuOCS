@@ -79,9 +79,9 @@ class IsingModel(AbstractFoM):
 
     def get_propagator(
         self,
-        pulses_list: list = [],
-        time_grids_list: list = [],
-        parameters_list: list = [],
+        pulses_list: jnp.array = None,
+        time_grids_list: jnp.array = None,
+        parameters_list: jnp.array = None,
     ) -> np.array:
         """ Compute and return the list of propagators """
         drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
@@ -94,7 +94,7 @@ class IsingModel(AbstractFoM):
         # self.propagators_are_computed = True
         # return self.prop_store
 
-    def get_FoM(self, pulses: list = None, parameters: list = None, timegrids: list = None) -> dict:
+    def get_FoM(self, pulses: jnp.array = None, parameters: jnp.array = None, timegrids: jnp.array = None) -> dict:
         """ """
         # Check if the propagator list is computed before compute the final propagator
         # if not self.propagators_are_computed:

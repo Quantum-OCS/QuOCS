@@ -243,9 +243,9 @@ class Controls:
         :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
         """
         import jax.numpy as jnp
-        pulses_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers), dtype=float)
-        time_grids_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers), dtype=float)
-        parameters_array = jnp.zeros((len(self.parameter_objs_list),), dtype=float)
+        pulses_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        time_grids_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        parameters_array = jnp.zeros((len(self.parameter_objs_list),))
         # Set the times
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]

@@ -148,6 +148,9 @@ class ADAlgorithm(OptimizationAlgorithm):
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM
 
+    def get_is_record(self, FoM: float) -> bool:
+        return False
+
     def value_grad(self):
         """ Return value and grad with jax """
         jax_function = jax.value_and_grad(self.inner_routine_call)
@@ -192,7 +195,8 @@ class ADAlgorithm(OptimizationAlgorithm):
 
         # get_gradient = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
         get_gradient = lambda x: np.array(jax.jit(jax.grad(self.inner_routine_call))(x))
-        results = optimize.minimize(self.inner_routine_call,
+        f_call = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
+        results = optimize.minimize(f_call,
                                     x0=init_xx,
                                     jac=get_gradient,
                                     method='L-BFGS-B',
@@ -265,9 +269,8 @@ class ADAlgorithm(OptimizationAlgorithm):
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
             self.best_xx = self.xx.copy()
-            self.is_record = True
         response_dict = {
-            "is_record": self.is_record,
+            "is_record": False,
             "FoM": FoM,
             "iteration_number": self.iteration_number,
             "status_code": status_code
