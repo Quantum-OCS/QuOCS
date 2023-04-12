@@ -46,6 +46,7 @@ class BasePulse:
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
                  rng: RandomNumberGenerator = None,
+                 is_AD: bool = False,
                  **kwargs):
         """
         Here we defined all the basic features a pulse should have.
@@ -130,6 +131,22 @@ class BasePulse:
         self.overwrite_base_pulse = overwrite_base_pulse
         # Random number generator
         self.rng = rng
+        # If AD active switch few functions to jnp function
+        if is_AD:
+            self._set_AD_functions()
+        else:
+            self._set_functions()
+
+    def _set_AD_functions(self):
+        """ Set AD functions """
+        import jax.numpy as jnp
+        self._maximum = jnp.maximum
+        self._minimum = jnp.minimum
+
+    def _set_functions(self):
+        """ Set standard numpy functions """
+        self._maximum = np.maximum
+        self._minimum = np.minimum
 
     def set_control_parameters_list(self, map_index):
         """Set the control parameters list. It is used when the Chopped Basis changes during SIs"""
@@ -322,7 +339,7 @@ class BasePulse:
             # return self._shrink_pulse(optimal_pulse)
             return self._shrink_pulse_2(optimal_pulse)
         else:
-            return np.maximum(np.minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
+            return self._maximum(self._minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
 
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:
