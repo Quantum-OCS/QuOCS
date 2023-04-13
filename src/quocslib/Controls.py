@@ -82,7 +82,10 @@ class Controls:
         else:
             self.get_controls_lists = self._get_controls_lists
         # Calculate the biggest bins number among the different pulses
-        self.max_bin_numbers = np.max(np.asarray([pulse.bins_number for pulse in self.pulse_objs_list], dtype=np.int))
+        if len(self.pulse_objs_list) > 0:
+            self.max_bin_numbers = np.max(np.asarray([pulse.bins_number for pulse in self.pulse_objs_list], dtype=int))
+        else:
+            self.max_bin_numbers = 0
         # Load the AD functions
         if is_AD:
             self._buffer_AD_arrays()
