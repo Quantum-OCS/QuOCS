@@ -20,19 +20,18 @@ from quocslib.Optimizer import Optimizer
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 try:
-    import jax.numpy as jnp
-    import jax.scipy as jsp
-    import jax.scipy.optimize as sopt
     import jax
+    import jax.numpy as jnp
+    import jax.scipy.optimize as sopt
     jax.config.update('jax_enable_x64', True)
 except:
     raise ImportError
 
-from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
-from quocslib.Controls import Controls
-import scipy as sp
 from scipy import optimize
-from quocslib.timeevolution.piecewise_integrator import pw_final_evolution
+
+from quocslib.Controls import Controls
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import \
+    OptimizationAlgorithm
 
 
 class ADAlgorithm(OptimizationAlgorithm):
@@ -143,7 +142,7 @@ class ADAlgorithm(OptimizationAlgorithm):
     #         self.rho_target,
     #         self.sys_type,
     #     )
-
+    
     def inner_routine_call(self, optimized_control_parameters: jnp.array):
         """Function evaluation call for the L-BFGS-B algorithm"""
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
@@ -175,11 +174,13 @@ class ADAlgorithm(OptimizationAlgorithm):
         # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
 
-        get_gradient = lambda x: np.array(jax.jit(jax.grad(self.get_gradient))(x))
+        def get_gradient(x):
+            return np.array(jax.jit(jax.grad(self.get_gradient))(x))
 
         # f_call = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
 
-        f_call = lambda x: np.array(self.inner_routine_call(x))
+        def f_call(x):
+            return np.array(self.inner_routine_call(x))
 
         results = optimize.minimize(f_call,
                                     x0=init_xx,
@@ -283,7 +284,6 @@ class ADAlgorithm(OptimizationAlgorithm):
 
 
 def main(optimization_dictionary: dict, args_dict: dict):
-    from quocslib.optimalcontrolproblems.RosenbrockProblem import Rosenbrock
     # Create FoM object
     FoM_object = IsingModel(args_dict=args_dict)
 
@@ -293,11 +293,11 @@ def main(optimization_dictionary: dict, args_dict: dict):
 
     opt_alg_obj = optimization_obj.get_optimization_algorithm()
     # Get the final results
-    FoM = (opt_alg_obj._get_final_results())["Figure of merit"]
+    (opt_alg_obj._get_final_results())["Figure of merit"]
     # Get the best controls and check if they correspond to the best FoM
     opt_alg_obj = optimization_obj.get_optimization_algorithm()
     controls = opt_alg_obj.get_best_controls()
-    FoM_check = FoM_object.get_FoM(**controls)["FoM"]
+    FoM_object.get_FoM(**controls)["FoM"]
     print("End")
     # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
     # using the best controls
@@ -340,5 +340,7 @@ if __name__ == "__main__":
 
     optimization_dictionary.setdefault("optimization_direction", "minimization")
     # define some parameters for the optimization
+    args_dict = {}
+    main(optimization_dictionary, args_dict)
     args_dict = {}
     main(optimization_dictionary, args_dict)
