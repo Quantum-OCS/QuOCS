@@ -68,7 +68,7 @@ class IsingModel(AbstractFoM):
         time_grid = time_grids_list[0, :]
         dt = time_grid[-1] / len(time_grid)
         # Compute the time evolution
-        return pw_final_evolution_AD(drive, self.H_drift, [self.H_control], n_slices, dt, jnp.identity(2 ** self.n_qubits))
+        return pw_final_evolution_AD(drive, self.H_drift, [self.H_control], n_slices, dt, jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
 
     def get_FoM(self, pulses: jnp.array, parameters: jnp.array, timegrids: jnp.array) -> dict:
         """ """

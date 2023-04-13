@@ -14,6 +14,7 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import jax.scipy as jsp
+import jax
 
 
 def pw_evolution_AD_old(U_store, drive, A, B, n_slices, dt):
@@ -79,7 +80,7 @@ def pw_evolution_AD(U_store, drive, A, B, n_slices, dt):
 # result
 
 
-def pw_final_evolution_AD(drive, A, B, n_slices, dt, u0):
+def pw_final_evolution_AD_slow(drive, A, B, n_slices, dt, u0):
     """Compute the piecewise evolution of a system defined by the
     Hamiltonian H = A + drive * B and concatenate all the propagators
 
@@ -113,7 +114,7 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     """
     U = U0
     def body_fun(i, val):
-        U = jsp.linalg.expm(-1.0j * dt * (A + B[0]*drive[0, i]))
-        return U @ val
+        Uint = jsp.linalg.expm(-1.0j * dt * (A + B[0]*drive[0, i]))
+        return Uint @ val
     U = jax.lax.fori_loop(0, n_slices, body_fun, U)
     return U
