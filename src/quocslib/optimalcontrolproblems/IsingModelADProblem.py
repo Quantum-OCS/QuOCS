@@ -15,13 +15,10 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # import numpy as np
 import jax.numpy as jnp
-import jax
 from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
-from quocslib.timeevolution.piecewise_integrator_AD import pw_evolution_AD
 from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
 from quocslib.utils.jax_utils import fidelity_funct as fidelity_funct_AD
-import functools
 
 
 class IsingModel(AbstractFoM):
@@ -44,10 +41,6 @@ class IsingModel(AbstractFoM):
         self.rho_0 = jnp.asarray(get_initial_state(self.n_qubits))
         self.rho_target = jnp.asarray(get_target_state(self.n_qubits))
         self.rho_final = jnp.asarray(np.zeros_like(self.rho_target))
-        # allocate memory for the list containing the propagators
-        self.prop_store = jnp.asarray([np.zeros_like(self.H_drift) for _ in range(self.n_slices)])
-        # Check if the propagators are already computed
-        self.propagators_are_computed = False
 
     def get_control_Hamiltonians(self):
         return self.H_control
@@ -61,23 +54,6 @@ class IsingModel(AbstractFoM):
     def get_initial_state(self):
         return self.rho_0
 
-    def get_propagator_old(
-        self,
-        pulses_list: list = [],
-        time_grids_list: list = [],
-        parameters_list: list = [],
-    ) -> np.array:
-        """ Compute and return the list of propagators """
-        drive = pulses_list[0].reshape(1, len(pulses_list[0]))
-        n_slices = self.n_slices
-        time_grid = time_grids_list[0]
-        # dt = time_grid[1] - time_grid[0]
-        dt = time_grid[-1] / len(time_grid)
-        # Compute the time evolution
-        self.prop_store = pw_evolution_AD(self.prop_store, drive, self.H_drift, [self.H_control], n_slices, dt)
-        self.propagators_are_computed = True
-        return self.prop_store
-
     def get_propagator(
         self,
         pulses_list: jnp.array,
@@ -90,21 +66,12 @@ class IsingModel(AbstractFoM):
         drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0, :]
-        # dt = time_grid[1] - time_grid[0]
         dt = time_grid[-1] / len(time_grid)
         # Compute the time evolution
         return pw_final_evolution_AD(drive, self.H_drift, [self.H_control], n_slices, dt, jnp.identity(2 ** self.n_qubits))
-        # self.propagators_are_computed = True
-        # return self.prop_store
 
     def get_FoM(self, pulses: jnp.array, parameters: jnp.array, timegrids: jnp.array) -> dict:
         """ """
-        # Check if the propagator list is computed before compute the final propagator
-        # if not self.propagators_are_computed:
-        #     self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
-        # self.propagators_are_computed = False
-        # # Compute the final propagator
-        # U_final = functools.reduce(lambda a, b: jnp.array(a) @ jnp.array(b), self.prop_store)
         # jax.debug.print("get_FoM, pulses: {}", pulses)
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         # evolve initial state
