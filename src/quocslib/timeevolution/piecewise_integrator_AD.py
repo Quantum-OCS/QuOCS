@@ -13,8 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-import jax.scipy as jsp
 import jax
+import jax.scipy as jsp
 
 
 def pw_evolution_AD_old(U_store, drive, A, B, n_slices, dt):
@@ -114,7 +114,11 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     """
     U = U0
     def body_fun(i, val):
-        Uint = jsp.linalg.expm(-1.0j * dt * (A + B[0]*drive[0, i]))
+        K = len(B)
+        H = A
+        for k in range(K):
+            H = H + drive[k, i] * B[k]
+        Uint = jsp.linalg.expm(-1.0j * dt * H)
         return Uint @ val
     U = jax.lax.fori_loop(0, n_slices, body_fun, U)
     return U
