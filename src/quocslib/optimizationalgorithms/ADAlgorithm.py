@@ -174,33 +174,17 @@ class ADAlgorithm(OptimizationAlgorithm):
         initial_variation = random_variation * self.controls.get_sigma_variation()
         # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
-        # Optimize the function
-        # results = optimize.minimize(self.value_and_grad,
-        #                             x0=init_xx,
-        #                             jac=True,
-        #                             method='L-BFGS-B',
-        #                             options={'disp': True})
-        # # Try with the BFGS
-        # results = optimize.minimize(self.inner_routine_call,
-        #                             x0=init_xx,
-        #                             jac=self.get_gradient,
-        #                             method='BFGS',
-        #                             options={'disp': True})
 
-        # # Try with the BFGS
-        # results = optimize.minimize(self.value_grad(),
-        #                             x0=init_xx,
-        #                             jac=True,
-        #                             method='L-BFGS-B', #method='BFGS',
-        #                             options={'disp': True})
+        get_gradient = lambda x: np.array(jax.jit(jax.grad(self.get_gradient))(x))
 
-        # get_gradient = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
-        get_gradient = lambda x: np.array(jax.jit(jax.grad(self.inner_routine_call))(x))
-        f_call = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
+        # f_call = lambda x: np.array(jax.jit(self.inner_routine_call)(x))
+
+        f_call = lambda x: np.array(self.inner_routine_call(x))
+
         results = optimize.minimize(f_call,
                                     x0=init_xx,
                                     jac=get_gradient,
-                                    method='BFGS', #method='L-BFGS-B',
+                                    method='L-BFGS-B',#method='BFGS', #method='L-BFGS-B',
                                     options={'disp': True})
 
         print(results)
