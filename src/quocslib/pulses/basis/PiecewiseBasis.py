@@ -56,4 +56,5 @@ class PiecewiseBasis(BasePulse):
         # distribution of super parameters, etc ...
         ################
         pulse = self.optimized_control_parameters
+        # self.debug_print("_get_shaped_pulse piecewisebasis, optimized_control_parameters: {}", pulse)
         return pulse

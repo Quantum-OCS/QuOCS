@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # import numpy as np
 import jax.numpy as jnp
+import jax
 from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator_AD import pw_evolution_AD
@@ -79,11 +80,13 @@ class IsingModel(AbstractFoM):
 
     def get_propagator(
         self,
-        pulses_list: jnp.array = None,
-        time_grids_list: jnp.array = None,
-        parameters_list: jnp.array = None,
+        pulses_list: jnp.array,
+        time_grids_list: jnp.array,
+        parameters_list: jnp.array,
     ) -> np.array:
         """ Compute and return the list of propagators """
+        # jax.debug.print(pulses_list)
+        # jax.debug.print("get_propagator, pulses_list: {}", pulses_list)
         drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0, :]
@@ -94,7 +97,7 @@ class IsingModel(AbstractFoM):
         # self.propagators_are_computed = True
         # return self.prop_store
 
-    def get_FoM(self, pulses: jnp.array = None, parameters: jnp.array = None, timegrids: jnp.array = None) -> dict:
+    def get_FoM(self, pulses: jnp.array, parameters: jnp.array, timegrids: jnp.array) -> dict:
         """ """
         # Check if the propagator list is computed before compute the final propagator
         # if not self.propagators_are_computed:
@@ -102,9 +105,11 @@ class IsingModel(AbstractFoM):
         # self.propagators_are_computed = False
         # # Compute the final propagator
         # U_final = functools.reduce(lambda a, b: jnp.array(a) @ jnp.array(b), self.prop_store)
+        # jax.debug.print("get_FoM, pulses: {}", pulses)
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         # evolve initial state
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
         fidelity = fidelity_funct_AD(rho_final.T, self.rho_target)
+        # jax.debug.print(fidelity)
         return {"FoM": -fidelity}

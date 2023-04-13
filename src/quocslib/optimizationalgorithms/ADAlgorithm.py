@@ -200,7 +200,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         results = optimize.minimize(f_call,
                                     x0=init_xx,
                                     jac=get_gradient,
-                                    method='L-BFGS-B',
+                                    method='BFGS', #method='L-BFGS-B',
                                     options={'disp': True})
 
         print(results)
@@ -244,6 +244,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
         :return dict: returns a dict that contains the pulses, parameters and timegrid
         """
+        # jax.debug.print("_get_controls, optimized_control_parameters: {}", optimized_control_parameters)
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         #
         controls_dict = {

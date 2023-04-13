@@ -85,11 +85,16 @@ class Controls:
         self.max_bin_numbers = np.max(np.asarray([pulse.bins_number for pulse in self.pulse_objs_list], dtype=np.int))
         # Load the AD functions
         if is_AD:
-            self._load_api()
+            self._buffer_AD_arrays()
 
-    def _load_api(self):
-        """ Load jax api """
-        pass
+    def _buffer_AD_arrays(self):
+        import jax.numpy as jnp
+        import jax
+        self.debug_print = jax.debug.print
+        self.jnp = jnp
+        # self.pulses_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        # self.time_grids_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        # self.parameters_array = jnp.zeros((len(self.parameter_objs_list),))
 
     def get_control_parameters_number(self) -> int:
         """Return the control parameter number"""
@@ -242,27 +247,30 @@ class Controls:
         :param np.array optimized_parameters_vector:
         :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
         """
-        import jax.numpy as jnp
-        pulses_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
-        time_grids_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
-        parameters_array = jnp.zeros((len(self.parameter_objs_list),))
+        pulses_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        time_grids_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        parameters_array = self.jnp.zeros((len(self.parameter_objs_list),))
         # Set the times
         for time_name in self.times_obj_dictionary:
-            time = self.times_obj_dictionary[time_name]
-            if time.is_optimization:
-                time.set_parameter(optimized_parameters_vector[time.control_parameters_list])
+            time_obj = self.times_obj_dictionary[time_name]
+            if time_obj.is_optimization:
+                time_obj.set_parameter(optimized_parameters_vector[time_obj.control_parameters_list])
         # Get the pulses and the timegrids
         for index, pulse in enumerate(self.pulse_objs_list):
             time_name = pulse.time_name
-            pulses_array.at[index, :pulse.bins_number].set(pulse.get_pulse(
+            pulse_array = pulse.get_pulse(
                 optimized_parameters_vector[np.asarray(pulse.control_parameters_list)],
-                final_time=self.times_obj_dictionary[time_name].get_time()))
-            time_grids_array.at[index, :pulse.bins_number].set(pulse.time_grid)
+                final_time=self.times_obj_dictionary[time_name].get_time())
+            # self.debug_print("_get_controls_jax_obj in the for loop 1/2, pulse_array: {}", pulse_array)
+            pulses_array = pulses_array.at[index, :pulse.bins_number].set(pulse_array)
+            time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(pulse.time_grid)
+            # self.debug_print("_get_controls_jax_obj in the for loop 2/2, pulses_array: {}", pulses_array)
         # Get the parameters
         for index, parameter in enumerate(self.parameter_objs_list):
             parameters_array[index] = parameter.get_parameter(
                 optimized_parameters_vector[parameter.control_parameters_list])
-
+        # Debug parameters
+        # self.debug_print("_get_controls_jax_obj, pulse_array: {}", pulses_array)
         return pulses_array, time_grids_array, parameters_array
 
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
