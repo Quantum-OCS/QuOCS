@@ -26,7 +26,8 @@ def test_AD_Ising_Model():
         "optimization_client_name":
         "Optimization_AD_IsingModel",
         "algorithm_settings": {
-            "algorithm_name": "AD"
+            "algorithm_name": "AD",
+            "optimization_direction": "maximization",
         },
         "pulses": [{
             "pulse_name": "Pulse_1",
@@ -47,7 +48,7 @@ def test_AD_Ising_Model():
         }]
     }
 
-    optimization_dictionary.setdefault("optimization_direction", "minimization")
+    optimization_dictionary.setdefault("optimization_direction", "maximization")
     # define some parameters for the optimization
     args_dict = {}
     main(optimization_dictionary, args_dict)

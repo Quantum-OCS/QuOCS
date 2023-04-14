@@ -83,7 +83,7 @@ class IsingModel(AbstractFoM):
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         fidelity = fidelity_funct(rho_final.T, self.rho_target)
-        return {"FoM": -fidelity}
+        return {"FoM": fidelity}
 
 
 i2 = np.eye(2)
