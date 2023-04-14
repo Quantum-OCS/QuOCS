@@ -56,6 +56,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         self.FoM_list = []
         self.sys_type = optimization_dict.setdefault("sys_type", "StateTransfer")
         # set stopping criteria
+        self.max_num_si = int(optimization_dict["algorithm_settings"].setdefault("super_iteration_number", 1))
         self.stopping_crit = optimization_dict["algorithm_settings"].setdefault("stopping_criteria", {})
         self.max_fun_evals = self.stopping_crit.setdefault("max_eval_total", 10 ** 10)
         self.ftol = self.stopping_crit.setdefault("ftol", 1e-6)
@@ -105,14 +106,21 @@ class ADAlgorithm(OptimizationAlgorithm):
 
     def get_gradient(self, optimized_control_parameters: np.array):
         """ Calculate the value and the gradient of the specific function """
-        # Convert in jax object
-        # optimized_control_parameters_jax = jnp.asarray(optimized_control_parameters)
-        #
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
-        return self.FoM_object.get_FoM(pulses=pulses, parameters=parameters, timegrids=timegrids)["FoM"]
-        # return jax.value_and_grad()
+        return -1.0 * self.optimization_factor * self.FoM_object.get_FoM(pulses=pulses, parameters=parameters, timegrids=timegrids)["FoM"]
 
     def run(self):
+        for super_it in range(1, self.max_num_si + 1):
+            # Set super iteration number
+            self.super_it = super_it
+            # Initialize the random super_parameters
+            self.controls.select_basis()
+            #
+            self.inner_run()
+            #
+            self.controls.update_base_controls(self.best_xx)
+
+    def inner_run(self):
         """ Inner routine call that returns the FoM to the algorithm """
         heuristic_coeff = 1.0
         random_variation = heuristic_coeff * 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
@@ -142,8 +150,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         # Print L-BFGS-B results in the log file
         self.comm_obj.print_logger(results, level=20)
         # Update the controls with the best ones found so far
-        # self.optimized_pulses = results.x
-        self.controls.update_base_controls(results.x)
+        # self.controls.update_base_controls(results.x)
+        # self.controls.update_base_controls(self.best_xx)
 
     def _get_controls(self, optimized_control_parameters: jnp.array) -> dict:
         """
@@ -186,7 +194,7 @@ class ADAlgorithm(OptimizationAlgorithm):
             "iteration_number": self.iteration_number,
             "status_code": status_code
         }
-        # Load the current figure of merit and iteration number in the summary list of dCRAB
+        # Load the current figure of merit and iteration number in the summary list
         if status_code == 0:
             self.FoM_list.append(FoM)
             self.iteration_number_list.append(self.iteration_number)
