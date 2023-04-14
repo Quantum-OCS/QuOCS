@@ -124,11 +124,12 @@ class Controls:
     def select_basis(self) -> None:
         """Initialize the superparameter basis"""
         for pulse in self.pulse_objs_list:
-            pulse.super_parameter_distribution_obj.set_random_super_parameter()
-            # Update the base pulse parameters and functions
-            pulse.update_chopped_basis()
-            # Update the control parameter indexes
-            self._update_control_parameter_indexes()
+            if isinstance(pulse, ChoppedBasis):
+                pulse.super_parameter_distribution_obj.set_random_super_parameter()
+                # Update the base pulse parameters and functions
+                pulse.update_chopped_basis()
+                # Update the control parameter indexes
+                self._update_control_parameter_indexes()
 
     def _update_control_parameter_indexes(self) -> None:
         """Update the control parameter indexes"""
