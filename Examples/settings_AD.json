@@ -1,7 +1,7 @@
 {
     "algorithm_settings": {
         "algorithm_name": "AD",
-        "optimization_direction": "maximization",
+        "optimization_direction": "minimization",
         "stopping_criteria": {
             "max_eval_total": 200,
             "ftol": 1e-6,

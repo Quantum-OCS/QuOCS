@@ -26,8 +26,7 @@ import matplotlib.pyplot as plt
 
 def main(optimization_dictionary: dict):
 
-    args_dict = {"n_qubits": 5, "J": 1, "g": 2, "n_slices": 100, "T": 1.0, 
-                 "g_seed": 0, "g_variation": 1, "stdev": 0.1}
+    args_dict = {"n_qubits": 5, "J": 1, "g": 2, "n_slices": 100, "T": 1.0}
 
     optimization_dictionary["optimization_client_name"] = "Optimization_AD_IsingModel_{}_bins".format(args_dict['n_slices'])
 

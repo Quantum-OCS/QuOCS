@@ -185,7 +185,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         results = optimize.minimize(f_call,
                                     x0=init_xx,
                                     jac=get_gradient,
-                                    method='L-BFGS-B',#method='BFGS', #method='L-BFGS-B',
+                                    method='L-BFGS-B',  # method='BFGS', # method='L-BFGS-B',
                                     options={'disp': True})
 
         print(results)
@@ -268,79 +268,66 @@ class ADAlgorithm(OptimizationAlgorithm):
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
-    def end(self) -> None:
-        """Finalize the transmission with  the client"""
-        # Check client update
-        self.comm_obj.check_msg_client()
-        # End communication
-        # ToDo: fix this... this is kind of a workaround for now
-        end_comm_message_dict = self._get_final_results()
-        # self.comm_obj.dump_obj.dump_dict("optimized_parameters", end_comm_message_dict)
-        if self.higher_order_terminate_reason != "":
-            end_comm_message_dict["Termination Reason"] = self.higher_order_terminate_reason
-        self.comm_obj.end_communication(end_comm_message_dict)
-        # Update server message
-        self.comm_obj.update_msg_server()
-
-
-def main(optimization_dictionary: dict, args_dict: dict):
-    # Create FoM object
-    FoM_object = IsingModel(args_dict=args_dict)
-
-    # Define Optimizer
-    optimization_obj = Optimizer(optimization_dictionary, FoM_object)
-    optimization_obj.execute()
-
-    opt_alg_obj = optimization_obj.get_optimization_algorithm()
-    # Get the final results
-    (opt_alg_obj._get_final_results())["Figure of merit"]
-    # Get the best controls and check if they correspond to the best FoM
-    opt_alg_obj = optimization_obj.get_optimization_algorithm()
-    controls = opt_alg_obj.get_best_controls()
-    FoM_object.get_FoM(**controls)["FoM"]
-    print("End")
-    # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
-    # using the best controls
-    # assert (np.abs(FoM - FoM_check) < 10 ** (-8))
-
-
-if __name__ == "__main__":
-    from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
-
-    optimization_dictionary = {
-        "Disclaimer":
-            "Do not use this json file for optimization",
-        "optimization_client_name":
-            "Optimization_AD_IsingModel",
-        "algorithm_settings": {
-            "algorithm_name": "AD"
-        },
-        "pulses": [{
-            "pulse_name": "Pulse_1",
-            "upper_limit": 100.0,
-            "lower_limit": -100.0,
-            "bins_number": 100,
-            "amplitude_variation": 20.0,
-            "time_name": "time_1",
-            "basis": {
-                "basis_name": "PiecewiseBasis",
-                "bins_number": 100
-            },
-            "initial_guess": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 0.0 + 0.0*t"
-            }
-        }],
-        "parameters": [],
-        "times": [{
-            "time_name": "time_1",
-            "initial_value": 1.0
-        }]
-    }
-
-    optimization_dictionary.setdefault("optimization_direction", "minimization")
-    # define some parameters for the optimization
-    args_dict = {}
-    main(optimization_dictionary, args_dict)
-    args_dict = {}
-    main(optimization_dictionary, args_dict)
+#
+#
+# def main(optimization_dictionary: dict, args_dict: dict):
+#     # Create FoM object
+#     FoM_object = IsingModel(args_dict=args_dict)
+#
+#     # Define Optimizer
+#     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
+#     optimization_obj.execute()
+#
+#     opt_alg_obj = optimization_obj.get_optimization_algorithm()
+#     # Get the final results
+#     (opt_alg_obj._get_final_results())["Figure of merit"]
+#     # Get the best controls and check if they correspond to the best FoM
+#     opt_alg_obj = optimization_obj.get_optimization_algorithm()
+#     controls = opt_alg_obj.get_best_controls()
+#     FoM_object.get_FoM(**controls)["FoM"]
+#     print("End")
+#     # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
+#     # using the best controls
+#     # assert (np.abs(FoM - FoM_check) < 10 ** (-8))
+#
+#
+# if __name__ == "__main__":
+#     from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
+#
+#     optimization_dictionary = {
+#         "Disclaimer":
+#             "Do not use this json file for optimization",
+#         "optimization_client_name":
+#             "Optimization_AD_IsingModel",
+#         "algorithm_settings": {
+#             "algorithm_name": "AD"
+#         },
+#         "pulses": [{
+#             "pulse_name": "Pulse_1",
+#             "upper_limit": 100.0,
+#             "lower_limit": -100.0,
+#             "bins_number": 100,
+#             "amplitude_variation": 20.0,
+#             "time_name": "time_1",
+#             "basis": {
+#                 "basis_name": "PiecewiseBasis",
+#                 "bins_number": 100
+#             },
+#             "initial_guess": {
+#                 "function_type": "lambda_function",
+#                 "lambda_function": "lambda t: 0.0 + 0.0*t"
+#             }
+#         }],
+#         "parameters": [],
+#         "times": [{
+#             "time_name": "time_1",
+#             "initial_value": 1.0
+#         }]
+#     }
+#
+#     optimization_dictionary.setdefault("optimization_direction", "minimization")
+#     # define some parameters for the optimization
+#     args_dict = {}
+#     main(optimization_dictionary, args_dict)
+#     args_dict = {}
+#     main(optimization_dictionary, args_dict)
