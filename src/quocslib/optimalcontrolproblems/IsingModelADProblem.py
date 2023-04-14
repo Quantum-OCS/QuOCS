@@ -13,7 +13,8 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# import numpy as np
+
+import numpy as np
 import jax.numpy as jnp
 from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
@@ -22,8 +23,10 @@ from quocslib.utils.jax_utils import fidelity_funct as fidelity_funct_AD
 
 
 class IsingModel(AbstractFoM):
-    """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187"""
+    """
+    A figure of merit class for optimization of the problem defined by Alastair Marshall via
+    https://arxiv.org/abs/2110.06187
+    """
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
@@ -54,12 +57,10 @@ class IsingModel(AbstractFoM):
     def get_initial_state(self):
         return self.rho_0
 
-    def get_propagator(
-        self,
-        pulses_list: jnp.array,
-        time_grids_list: jnp.array,
-        parameters_list: jnp.array,
-    ) -> np.array:
+    def get_propagator(self,
+                       pulses_list: list = jnp.array,
+                       time_grids_list: list = jnp.array,
+                       parameters_list: list = jnp.array) -> np.array:
         """ Compute and return the list of propagators """
         # jax.debug.print(pulses_list)
         # jax.debug.print("get_propagator, pulses_list: {}", pulses_list)
@@ -70,13 +71,18 @@ class IsingModel(AbstractFoM):
         # Compute the time evolution
         return pw_final_evolution_AD(drive, self.H_drift, [self.H_control], n_slices, dt, jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
 
-    def get_FoM(self, pulses: jnp.array, parameters: jnp.array, timegrids: jnp.array) -> dict:
-        """ """
-        # jax.debug.print("get_FoM, pulses: {}", pulses)
+    def get_FoM(self,
+                pulses: list = jnp.array,
+                parameters: list = jnp.array,
+                timegrids: list = jnp.array) -> dict:
+        """
+        Function to calculate the figure of merit from the pulses, parameters and timegrids.
+        :param pulses: jnp.arrays of the pulses to be optimized.
+        :param timegrids: jnp.arrays of the timegrids connected to the pulses.
+        :param parameters: jnp.array of the parameters to be optimized.
+        :return: dict - The figure of merit in a dictionary
+        """
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
-        # evolve initial state
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
-        # Calculate the fidelity
         fidelity = fidelity_funct_AD(rho_final.T, self.rho_target)
-        # jax.debug.print(fidelity)
         return {"FoM": -fidelity}
