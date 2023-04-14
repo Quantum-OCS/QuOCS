@@ -54,10 +54,6 @@ def main(optimization_dictionary: dict):
         f.write("# Time for optimization in seconds:\n")
         f.write(str(optimization_time))
 
-    # fomlist = [element * (-1) for element in optimization_obj.fom_list]
-    fomlist = [element for element in FoM_object.FoM_list]
-    np.savetxt(os.path.join(optimization_obj.results_path, "fom.txt"), fomlist)
-
     #######################################################################
     ### Optional: Visualization of the FoM evolution and optimized controls
     #######################################################################

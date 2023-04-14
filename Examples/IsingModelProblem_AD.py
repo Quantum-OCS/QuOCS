@@ -18,8 +18,6 @@ import numpy as np
 import jax.numpy as jnp
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
-from quocslib.tools.randomgenerator import RandomNumberGenerator
-import functools
 
 
 class IsingModel(AbstractFoM):
@@ -42,8 +40,6 @@ class IsingModel(AbstractFoM):
         self.rho_0 = jnp.asarray(get_initial_state(self.n_qubits))
         self.rho_target = jnp.asarray(get_target_state(self.n_qubits))
         self.rho_final = jnp.asarray(jnp.zeros_like(self.rho_target))
-
-        self.FoM_list = []
 
     def get_control_Hamiltonians(self):
         return self.H_control
@@ -77,7 +73,13 @@ class IsingModel(AbstractFoM):
                 pulses: list = jnp.array,
                 parameters: list = jnp.array,
                 timegrids: list = jnp.array) -> dict:
-        """ """
+        """
+        Function to calculate the figure of merit from the pulses, parameters and timegrids.
+        :param pulses: jnp.arrays of the pulses to be optimized.
+        :param timegrids: jnp.arrays of the timegrids connected to the pulses.
+        :param parameters: jnp.array of the parameters to be optimized.
+        :return: dict - The figure of merit in a dictionary
+        """
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         fidelity = fidelity_funct(rho_final.T, self.rho_target)
@@ -140,14 +142,12 @@ def get_static_hamiltonian(nqu, J, g):
 
 
 def get_control_hamiltonian(nqu: int):
-    # get the controls
     dim = 2**nqu
     H_at_t = np.zeros((dim, dim), dtype=np.complex128)
     for j in range(nqu):
         # set up holding array
         rest = [i2] * nqu
-        # set the correct elements to sz
-        # check, so we can implement a loop around
+        # set the correct elements to sx
         rest[j] = sx
         H_at_t = H_at_t + tensor_together(rest)
     return H_at_t
