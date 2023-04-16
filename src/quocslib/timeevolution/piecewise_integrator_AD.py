@@ -16,6 +16,8 @@
 import jax
 import jax.scipy as jsp
 
+from functools import partial
+
 
 def pw_evolution_AD_old(U_store, drive, A, B, n_slices, dt):
     """Compute the piecewise evolution of a system defined by the
@@ -37,13 +39,6 @@ def pw_evolution_AD_old(U_store, drive, A, B, n_slices, dt):
         U_store.at[i].set(jsp.linalg.expm(-1j * dt * H))
     return U_store
 
-# def _cumsum(res, el):
-#     """
-#     - `res`: The result from the previous loop.
-#     - `el`: The current array element.
-#     """
-#     res = res + el
-#     return res, res  # ("carryover", "accumulated")
 def pw_evolution_AD(U_store, drive, A, B, n_slices, dt):
     """Compute the piecewise evolution of a system defined by the
     Hamiltonian H = A + drive * B and store the result in U_store
@@ -63,21 +58,6 @@ def pw_evolution_AD(U_store, drive, A, B, n_slices, dt):
             H = H + drive[k, i] * B[k]
         U_store.at[i].set(jsp.linalg.expm(-1j * dt * H))
     return U_store
-# from jax import lax
-#
-#
-# def cumsum(res, el):
-#     """
-#     - `res`: The result from the previous loop.
-#     - `el`: The current array element.
-#     """
-#     res = res + el
-#     return res, res  # ("carryover", "accumulated")
-#
-#
-# result_init = 0
-# final, result = lax.scan(cumsum, result_init, H)
-# result
 
 
 def pw_final_evolution_AD_slow(drive, A, B, n_slices, dt, u0):
@@ -101,6 +81,7 @@ def pw_final_evolution_AD_slow(drive, A, B, n_slices, dt, u0):
     return U
 
 
+@partial(jax.jit, static_argnames=["n_slices"])
 def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     """Compute the piecewise evolution of a system defined by the
     Hamiltonian H = A + drive * B and concatenate all the propagators
@@ -113,6 +94,7 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     :return np.matrix: the final propagator
     """
     U = U0
+
     def body_fun(i, val):
         K = len(B)
         H = A
@@ -120,5 +102,6 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
             H = H + drive[k, i] * B[k]
         Uint = jsp.linalg.expm(-1.0j * dt * H)
         return Uint @ val
+
     U = jax.lax.fori_loop(0, n_slices, body_fun, U)
     return U
