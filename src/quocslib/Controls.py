@@ -95,9 +95,6 @@ class Controls:
         import jax
         self.debug_print = jax.debug.print
         self.jnp = jnp
-        # self.pulses_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
-        # self.time_grids_array = jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
-        # self.parameters_array = jnp.zeros((len(self.parameter_objs_list),))
 
     def get_control_parameters_number(self) -> int:
         """Return the control parameter number"""
@@ -265,16 +262,12 @@ class Controls:
             pulse_array = pulse.get_pulse(
                 optimized_parameters_vector[np.asarray(pulse.control_parameters_list)],
                 final_time=self.times_obj_dictionary[time_name].get_time())
-            # self.debug_print("_get_controls_jax_obj in the for loop 1/2, pulse_array: {}", pulse_array)
             pulses_array = pulses_array.at[index, :pulse.bins_number].set(pulse_array)
             time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(pulse.time_grid)
-            # self.debug_print("_get_controls_jax_obj in the for loop 2/2, pulses_array: {}", pulses_array)
         # Get the parameters
         for index, parameter in enumerate(self.parameter_objs_list):
             parameters_array[index] = parameter.get_parameter(
                 optimized_parameters_vector[parameter.control_parameters_list])
-        # Debug parameters
-        # self.debug_print("_get_controls_jax_obj, pulse_array: {}", pulses_array)
         return pulses_array, time_grids_array, parameters_array
 
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
