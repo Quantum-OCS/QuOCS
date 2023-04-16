@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+import jax
 import numpy as np
 import jax.numpy as jnp
 from quocslib.utils.AbstractFoM import AbstractFoM
@@ -41,6 +41,15 @@ class IsingModel(AbstractFoM):
         self.rho_target = jnp.asarray(get_target_state(self.n_qubits))
         self.rho_final = jnp.asarray(jnp.zeros_like(self.rho_target))
 
+        # Create a function
+        @jax.jit
+        def _pw_evolution_transform(drive, dt):
+            return pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), self.n_slices, dt,
+                                           jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+
+        self._pw_evolution_transform = _pw_evolution_transform
+
+
     def get_control_Hamiltonians(self):
         return self.H_control
 
@@ -64,9 +73,9 @@ class IsingModel(AbstractFoM):
         dt = time_grid[-1] / len(time_grid)
 
         # Compute the time evolution
-        propagator = pw_final_evolution_AD(drive, self.H_drift, [self.H_control], n_slices, dt,
-                                           jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
-
+        # propagator = pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), n_slices, dt,
+        #                                    jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+        propagator = self._pw_evolution_transform(drive, dt)
         return propagator
 
     def get_FoM(self,
