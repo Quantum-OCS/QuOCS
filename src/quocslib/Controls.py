@@ -93,7 +93,7 @@ class Controls:
     def _buffer_AD_arrays(self):
         import jax.numpy as jnp
         import jax
-        self.debug_print = jax.debug.print
+        # self.debug_print = jax.debug.print
         self.jnp = jnp
 
     def get_control_parameters_number(self) -> int:

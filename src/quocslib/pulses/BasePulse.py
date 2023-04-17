@@ -136,7 +136,7 @@ class BasePulse:
     def _set_AD_functions(self):
         """ Set AD functions """
         import jax
-        self.debug_print = jax.debug.print
+        # self.debug_print = jax.debug.print
         import jax.numpy as jnp
         self._maximum = jnp.maximum
         self._minimum = jnp.minimum

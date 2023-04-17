@@ -13,11 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
+
+import os
+if os.name != 'nt':
+    from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
 from quocslib.Optimizer import Optimizer
 import pytest
 import numpy as np
-import os
 
 
 def test_AD_Ising_Model():
