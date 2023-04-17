@@ -41,14 +41,17 @@ class IsingModel(AbstractFoM):
         self.rho_target = jnp.asarray(get_target_state(self.n_qubits))
         self.rho_final = jnp.asarray(jnp.zeros_like(self.rho_target))
 
-        # Create a function
+        # Let JAX know to jit the following function
         @jax.jit
         def _pw_evolution_transform(drive, dt):
-            return pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), self.n_slices, dt,
-                                           jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+            return pw_final_evolution_AD(drive,
+                                         self.H_drift,
+                                         jnp.asarray([self.H_control]),
+                                         self.n_slices,
+                                         dt,
+                                         jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
 
         self._pw_evolution_transform = _pw_evolution_transform
-
 
     def get_control_Hamiltonians(self):
         return self.H_control
