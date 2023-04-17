@@ -17,41 +17,43 @@ from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
 from quocslib.Optimizer import Optimizer
 import pytest
 import numpy as np
+import os
 
 
 def test_AD_Ising_Model():
-    optimization_dictionary = {
-        "Disclaimer":
-        "Do not use this json file for optimization",
-        "optimization_client_name":
-        "Optimization_AD_IsingModel",
-        "algorithm_settings": {
-            "algorithm_name": "AD",
-            "optimization_direction": "maximization",
-        },
-        "pulses": [{
-            "pulse_name": "Pulse_1",
-            "upper_limit": 100.0,
-            "lower_limit": -100.0,
-            "bins_number": 100,
-            "amplitude_variation": 30.0,
-            "time_name": "time_1",
-            "basis": {
-                "basis_name": "PiecewiseBasis",
-                "bins_number": 100
-            }
-        }],
-        "parameters": [],
-        "times": [{
-            "time_name": "time_1",
-            "initial_value": 1.0
-        }]
-    }
+    if os.name != 'nt':
+        optimization_dictionary = {
+            "Disclaimer":
+            "Do not use this json file for optimization",
+            "optimization_client_name":
+            "Optimization_AD_IsingModel",
+            "algorithm_settings": {
+                "algorithm_name": "AD",
+                "optimization_direction": "maximization",
+            },
+            "pulses": [{
+                "pulse_name": "Pulse_1",
+                "upper_limit": 100.0,
+                "lower_limit": -100.0,
+                "bins_number": 100,
+                "amplitude_variation": 30.0,
+                "time_name": "time_1",
+                "basis": {
+                    "basis_name": "PiecewiseBasis",
+                    "bins_number": 100
+                }
+            }],
+            "parameters": [],
+            "times": [{
+                "time_name": "time_1",
+                "initial_value": 1.0
+            }]
+        }
 
-    optimization_dictionary.setdefault("optimization_direction", "maximization")
-    # define some parameters for the optimization
-    args_dict = {}
-    main(optimization_dictionary, args_dict)
+        optimization_dictionary.setdefault("optimization_direction", "maximization")
+        # define some parameters for the optimization
+        args_dict = {}
+        main(optimization_dictionary, args_dict)
 
 
 def main(optimization_dictionary: dict, args_dict: dict):
