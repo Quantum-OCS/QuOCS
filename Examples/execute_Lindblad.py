@@ -18,7 +18,7 @@ import os, sys
 
 from quocslib.utils.inputoutput import readjson
 from quocslib.Optimizer import Optimizer
-from IsingModelProblem_Lindblad import IsingModel
+from LindbladProblem import TLSProblem
 import numpy as np
 import time
 import matplotlib.pyplot as plt
@@ -26,16 +26,10 @@ import matplotlib.pyplot as plt
 
 def main(optimization_dictionary: dict):
 
-    args_dict = {"n_qubits": 5, "J": 1, "g": 2, "n_slices": 100, "T": 1.0}
-
-    optimization_dictionary["optimization_client_name"] = "Optimization_AD_IsingModel_{}_bins".format(args_dict['n_slices'])
-
-    optimization_dictionary['pulses'][0]['basis']['bins_number'] = args_dict['n_slices']
-    optimization_dictionary['pulses'][0]['bins_number'] = args_dict['n_slices']
-
+    args_dict = {"E": 1, "gamma_decay": 0.1}
 
     # Create FoM object
-    FoM_object = IsingModel(args_dict=args_dict)
+    FoM_object = TLSProblem(args_dict=args_dict)
 
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
