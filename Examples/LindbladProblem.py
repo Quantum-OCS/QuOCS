@@ -20,6 +20,7 @@ import jax.numpy as jnp
 import jax.scipy as jsp
 from quocslib.utils.AbstractFoM import AbstractFoM
 from functools import partial
+import sys
 
 
 class TLSProblem(AbstractFoM):
@@ -36,8 +37,8 @@ class TLSProblem(AbstractFoM):
         ################################################################################################################
         self.gamma_decay = args_dict.setdefault("gamma_decay", 0.1)
         self.E = args_dict.setdefault("E", 1)
-        self.rho_0 = jnp.array([[1, 0], [0, 0]], dtype=np.complex64)
-        self.rho_target = jnp.array([[0.5, 0.5], [0.5, 0.5]], dtype=np.complex64)
+        self.rho_0 = jnp.array([[1, 0], [0, 0]], dtype=jnp.complex64)
+        self.rho_target = jnp.array([[0.5, 0.5], [0.5, 0.5]], dtype=jnp.complex64)
 
         self.rho_0_LFS = convert_rho_to_LFS(self.rho_0)
         self.rho_target_LFS = convert_rho_to_LFS(self.rho_target)
@@ -46,13 +47,13 @@ class TLSProblem(AbstractFoM):
                                   [0, -1.0j*self.E-self.gamma_decay/2, 0, 0],
                                   [0, 0, -1.0j*self.E-self.gamma_decay/2, 0],
                                   [0, 0, 0, -self.gamma_decay]],
-                                 dtype=np.complex64)
+                                 dtype=jnp.complex64)
 
         self.L_drive = jnp.array([[0, 1.0j, -1.0j, 0],
                                   [1.0j, 0, 0, -1.0j],
                                   [-1.0j, 0, 0, 1.0j],
                                   [0, -1.0j, 1.0j, 0]],
-                                 dtype=np.complex64)
+                                 dtype=jnp.complex64)
 
         # Let JAX know to jit the following function
         @jax.jit
@@ -104,7 +105,7 @@ def convert_rho_to_LFS(rho):
     :param rho:
     :return: rho_LFS
     """
-    rho_LFS = jnp.array([rho[0, 0], rho[0, 1], rho[1, 0], rho[1, 1]], dtype=np.complex64)
+    rho_LFS = jnp.array([rho[0, 0], rho[0, 1], rho[1, 0], rho[1, 1]], dtype=jnp.complex64)
     return rho_LFS
 
 
