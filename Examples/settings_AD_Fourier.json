@@ -1,0 +1,43 @@
+{
+    "optimization_client_name": "Optimization_AD_Fourier_IsingModel",
+    "algorithm_settings": {
+        "algorithm_name": "AD",
+        "super_iteration_number": 3,
+        "optimization_direction": "maximization",
+        "stopping_criteria": {
+            "max_eval_total": 100,
+            "ftol": 1e-6,
+            "gtol": 1e-6
+        }
+    },
+    "pulses": [{
+        "pulse_name": "Pulse_1",
+        "upper_limit": 1000.0,
+        "lower_limit": -1000.0,
+        "bins_number": 100,
+        "amplitude_variation": 10.0,
+        "time_name": "time_1",
+        "basis": {
+                "basis_name": "Fourier",
+                "basis_vector_number": 10,
+                "random_super_parameter_distribution": {
+                    "distribution_name": "Uniform",
+                    "lower_limit": 0.01,
+                    "upper_limit": 5.0
+                }
+        },
+        "scaling_function": {
+            "function_type": "lambda_function",
+            "lambda_function": "lambda t: 1.0 + 0.0*t"
+        },
+        "initial_guess": {
+            "function_type": "lambda_function",
+            "lambda_function": "lambda t: 0.0 + 0.0*t"
+        }
+    }],
+    "parameters": [],
+    "times": [{
+        "time_name": "time_1",
+        "initial_value": 1.0
+    }]
+}

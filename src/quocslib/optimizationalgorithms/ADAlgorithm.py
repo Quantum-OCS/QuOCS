@@ -13,138 +13,154 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-from ast import Import
+
+import numpy as np
+
+from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 try:
+    import jax
     import jax.numpy as jnp
-    import jax.scipy as jsp
+    import jax.scipy.optimize as sopt
+    jax.config.update('jax_enable_x64', True)
 except:
     raise ImportError
 
-from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
+from scipy import optimize
+
 from quocslib.Controls import Controls
-from quocslib.timeevolution.piecewise_integrator import pw_final_evolution
+from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAlgorithm
 
 
 class ADAlgorithm(OptimizationAlgorithm):
     """
-    This is the template for an algorithm class. The three important function are:
+    This is an implementation of the automatic differentiation (AD) algorithm for open-loop optimal control.
+    The three important function are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
     * _get_response_for_client : return info about the goodness of the controls and errors if any
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
-    def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
+
+    def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
-        This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
+        This is the implementation of the AD algorithm. All the arguments in the constructor are passed to the
         OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
         """
-        super().__init__(communication_obj=communication_obj)
+        super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Optimal algorithm variables if any
         ###########################################################################################
+        self.FoM_object = FoM_object
+        self.FoM_list = []
+        self.sys_type = optimization_dict.setdefault("sys_type", "StateTransfer")
+        # set stopping criteria
+        self.max_num_si = int(optimization_dict["algorithm_settings"].setdefault("super_iteration_number", 1))
+        self.stopping_crit = optimization_dict["algorithm_settings"].setdefault("stopping_criteria", {})
+        self.max_fun_evals = self.stopping_crit.setdefault("max_eval_total", 10 ** 10)
+        self.ftol = self.stopping_crit.setdefault("ftol", 1e-6)
+        self.gtol = self.stopping_crit.setdefault("gtol", 1e-6)
+        self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is default acc. to documentation of scipy
+
         alg_parameters = optimization_dict["algorithm_settings"]
-        # Starting FoM
-        # self.best_FoM = 1e10  # defined in parent class
+        # Seed for the random number generator
+        seed_number = 2022
+        if "random_number_generator" in alg_parameters:
+            try:
+                seed_number = alg_parameters["random_number_generator"]["seed_number"]
+            except (TypeError, KeyError):
+                seed_number = 2022
+                message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+                    seed_number)
+                self.comm_obj.print_logger(message, level=30)
+        self.rng = RandomNumberGenerator(seed_number=seed_number)
+
         ###########################################################################################
         # Pulses, Parameters, Times object
         ###########################################################################################
-        # Initialize the control object
+        # Define array objects for the gradient calculation
         self.controls = Controls(
             optimization_dict["pulses"],
             optimization_dict["times"],
             optimization_dict["parameters"],
+            rng=self.rng,
+            is_AD=True,
         )
 
-        # might need to control if you change something
+        ###########################################################################################
+        # Other useful variables
+        ###########################################################################################
+        self.FoM_list: list = []
+        self.iteration_number_list: list = []
+    
+    def inner_routine_call(self, optimized_control_parameters: jnp.array):
+        """ Function evaluation call for the L-BFGS-B algorithm """
+        FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
+        return FoM
 
-        self.A = optimization_dict["A"]
-        self.B = optimization_dict["B"]
-        self.n_slices = optimization_dict["n_slices"]
-        self.rho_init = optimization_dict["rho_init"]
-        self.rho_target = optimization_dict["rho_target"]
-        self.dt = optimization_dict["dt"]
-        self.sys_type = optimization_dict["sys_type"]
-        self.dim = jnp.size(self.A, 1)
-        self.u0 = optimization_dict["u0"]
+    def value_grad(self):
+        """ Return value and grad with jax """
+        jax_function = jax.value_and_grad(self.inner_routine_call)
+        return jax_function
 
-        self.optimized_pulses = None
-        self.opt_res = None
+    def get_gradient(self, optimized_control_parameters: np.array):
+        """ Calculate the value and the gradient of the specific function """
+        [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
+        return -1.0 * self.optimization_factor * self.FoM_object.get_FoM(pulses=pulses, parameters=parameters, timegrids=timegrids)["FoM"]
 
-    def functional(self, drive, A, B, n_slices, dt, u0, rho0, rhoT, sys_type):
-        """Compute the fidelity functional for the given problem defined in the class
+    def run(self):
+        for super_it in range(1, self.max_num_si + 1):
+            # Set super iteration number
+            self.super_it = super_it
+            # Initialize the random super_parameters
+            self.controls.select_basis()
+            #
+            self.inner_run()
+            #
+            self.controls.update_base_controls(self.best_xx)
 
-        :param jnp.array drive: a flat array that contains the pulse amplitudes
-        :param jnp.matrix A: the drift hamiltonian
-        :param List[jnp.matrix] B: the control hamiltonians
-        :param int n_slices: the number of slices in the pulse
-        :param float dt: the duration of each timeslice
-        :param jnp.matrix u0: the initial propagator that should be used
-        :param jnp.matrix rho0: the initial density matrix
-        :param jnp.matrix rhoT: the target density matrix
-        :param str sys_type: the string to indicate the system type, can be either StateTransfer or left blank
-        :return float: the value of the fidelity at the current point in time
-        """
-        K = len(B)
-        drive = drive.reshape((K, n_slices))
-        U = pw_final_evolution(drive, A, B, n_slices, dt, u0)
+    def inner_run(self):
+        """ Inner routine call that returns the FoM to the algorithm """
+        heuristic_coeff = 1.0
+        random_variation = heuristic_coeff * 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
+        # Scale it according to the amplitude variation
+        initial_variation = random_variation * self.controls.get_sigma_variation()
+        # Define the initial
+        init_xx = self.controls.get_mean_value() + initial_variation
 
-        if sys_type == "StateTransfer":
-            ev = U @ rho0 @ U.T.conj()
-        else:
-            ev = U @ rho0
-        fid = 1 - jnp.abs(jnp.trace(ev @ rhoT.T.conj()))
+        def get_gradient(x):
+            return np.array(jax.jit(jax.grad(self.get_gradient))(x))
 
-        return fid
+        def f_call(x):
+            return np.array(self.inner_routine_call(x))
 
-    def _get_functional(self):
-        """generates a lambda function lambda x: which evaluates and returns the figure of merit
+        results = optimize.minimize(f_call,
+                                    x0=init_xx,
+                                    jac=get_gradient,
+                                    method='L-BFGS-B',  # method='BFGS', # method='L-BFGS-B',
+                                    options={
+                                        'disp': True,
+                                        'ftol': self.ftol,
+                                        'maxfun': self.max_fun_evals,
+                                        'gtol': self.gtol,
+                                        'maxls': self.maxls
+                                    })
 
-        :return lambda:
-        """
-        return lambda x: self.functional(
-            x,
-            self.A,
-            self.B,
-            self.n_slices,
-            self.dt,
-            self.u0,
-            self.rho_init,
-            self.rho_target,
-            self.sys_type,
-        )
-
-    def run(self) -> None:
-        """This runs the main loop of the optimization, assuming that everything
-        has been configured correctly this should use LBFGS, or a chosen algorithm,
-        to optimize the pulse
-        """
-
-        func_topt = self._get_functional()
-        init = self.controls
-        # now we can optimize
-        # need to be able to include things
-        optimization_result = jsp.optimize.minimize(func_topt, init, method="BFGS")
-
-        # need to be able to implement pulses in Marco's way, ask him later
-        self.best_FoM = optimization_result.fun
-        self.optimized_pulses = optimization_result.x
-        self.opt_res = optimization_result
-
-        #     # Update the base current pulses
-        #     self._update_base_pulses()
-
-    # def _update_base_pulses(self) -> None:
-    #     """Update the base dCRAB pulse"""
-    #     self.controls.update_base_controls(self.xx)
+        # Print L-BFGS-B results in the log file
+        self.comm_obj.print_logger(results, level=20)
+        # Update the controls with the best ones found so far
+        # self.controls.update_base_controls(results.x)
+        # self.controls.update_base_controls(self.best_xx)
 
     def _get_controls(self, optimized_control_parameters: jnp.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters
+        """
+        Get the controls dictionary from the optimized control parameters
 
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
         :return dict: returns a dict that contains the pulses, parameters and timegrid
         """
+        # jax.debug.print("_get_controls, optimized_control_parameters: {}", optimized_control_parameters)
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         #
         controls_dict = {
@@ -155,7 +171,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """Return a dictionary with final results to put into a dictionary"""
+        """ Return a dictionary with final results to put into a dictionary """
         final_dict = {
             "Figure of merit": self.best_FoM,
             "total number of function evaluations": self.iteration_number,
@@ -163,4 +179,23 @@ class ADAlgorithm(OptimizationAlgorithm):
         return final_dict
 
     def _get_response_for_client(self) -> dict:
-        raise NotImplementedError
+        FoM = self.FoM_dict["FoM"]
+        status_code = self.FoM_dict.setdefault("status_code", 0)
+        if self.get_is_record(FoM):
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
+                                                                                                   best_FoM=FoM)
+            self.comm_obj.print_logger(message=message, level=20)
+            self.best_FoM = float(FoM)
+            self.best_xx = self.xx.copy()
+            self.is_record = True
+        response_dict = {
+            "is_record": self.is_record,
+            "FoM": FoM,
+            "iteration_number": self.iteration_number,
+            "status_code": status_code
+        }
+        # Load the current figure of merit and iteration number in the summary list
+        if status_code == 0:
+            self.FoM_list.append(FoM)
+            self.iteration_number_list.append(self.iteration_number)
+        return response_dict

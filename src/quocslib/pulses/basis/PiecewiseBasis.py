@@ -26,7 +26,7 @@ class PiecewiseBasis(BasePulse):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
+    def __init__(self, map_index, pulse_dictionary: dict, rng: RandomNumberGenerator = None, is_AD: bool = False):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
@@ -35,7 +35,7 @@ class PiecewiseBasis(BasePulse):
         :param dict pulse_dictionary: Should contain the basis_dict under the key "basis" and should contain the number of bins and time spacing under "n_bins" and "dt"
         """
         self.control_parameters_number = pulse_dictionary["bins_number"]
-        super().__init__(map_index=map_index, rng=rng, **pulse_dictionary)
+        super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
         #################
         # Basis dependent settings
         #################
@@ -56,4 +56,5 @@ class PiecewiseBasis(BasePulse):
         # distribution of super parameters, etc ...
         ################
         pulse = self.optimized_control_parameters
+        # self.debug_print("_get_shaped_pulse piecewisebasis, optimized_control_parameters: {}", pulse)
         return pulse

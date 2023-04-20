@@ -46,6 +46,7 @@ class BasePulse:
                  shaping_options: list = None,
                  overwrite_base_pulse: bool = False,
                  rng: RandomNumberGenerator = None,
+                 is_AD: bool = False,
                  **kwargs):
         """
         Here we defined all the basic features a pulse should have.
@@ -69,10 +70,6 @@ class BasePulse:
         self.pulse_name = pulse_name
         # Bins number
         self.bins_number = bins_number
-        # Base Pulse
-        self.base_pulse = np.zeros(self.bins_number)
-        # Time grid initialization
-        self.time_grid = np.zeros(self.bins_number)
         # Time
         self.time_name = time_name
         # Initial Guess Pulse
@@ -130,6 +127,32 @@ class BasePulse:
         self.overwrite_base_pulse = overwrite_base_pulse
         # Random number generator
         self.rng = rng
+        # If AD active switch few functions to jnp function
+        if is_AD:
+            self._set_AD_functions()
+        else:
+            self._set_functions()
+
+    def _set_AD_functions(self):
+        """ Set AD functions """
+        import jax
+        # self.debug_print = jax.debug.print
+        import jax.numpy as jnp
+        self._maximum = jnp.maximum
+        self._minimum = jnp.minimum
+        # Base Pulse
+        self.base_pulse = jnp.zeros(self.bins_number)
+        # Time grid initialization
+        self.time_grid = jnp.zeros(self.bins_number)
+
+    def _set_functions(self):
+        """ Set standard numpy functions """
+        self._maximum = np.maximum
+        self._minimum = np.minimum
+        # Base Pulse
+        self.base_pulse = np.zeros(self.bins_number)
+        # Time grid initialization
+        self.time_grid = np.zeros(self.bins_number)
 
     def set_control_parameters_list(self, map_index):
         """Set the control parameters list. It is used when the Chopped Basis changes during SIs"""
@@ -143,8 +166,10 @@ class BasePulse:
     def _get_build_pulse(self) -> np.ndarray:
         """Build the pulse with all the constraints"""
         optimal_pulse = self._get_shaped_pulse()
+        # self.debug_print("_get_build_pulse {}", optimal_pulse)
         for op in self.shaping_options:
             optimal_pulse = op(optimal_pulse)
+            # self.debug_print("_get_build_pulse pulse {} ", optimal_pulse)
         # Pulse operations
         # Make a loop with all the operation that the users wants to apply to the pulse shaping
         # optimal_pulse_total = self._get_initial_guess() + self._constrained_pulse(optimal_pulse)
@@ -248,6 +273,7 @@ class BasePulse:
         Set the optimized control parameters, the time grid, and return the pulse
         Note: This returns the OC update pulse with guess, scaling and constraints
         """
+        # self.debug_print("opt pars {}", optimized_parameters_vector)
         self._set_control_parameters(optimized_parameters_vector)
         self._set_time_grid(final_time)
         return self._get_build_pulse()
@@ -322,7 +348,7 @@ class BasePulse:
             # return self._shrink_pulse(optimal_pulse)
             return self._shrink_pulse_2(optimal_pulse)
         else:
-            return np.maximum(np.minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
+            return self._maximum(self._minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
 
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:

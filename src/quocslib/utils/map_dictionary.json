@@ -1,6 +1,6 @@
 {
 "opti_algorithm_map": {"AD":
-                          {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",
+                          {"module_name": "quocslib.optimizationalgorithms.ADAlgorithm",
                           "class_name": "ADAlgorithm"},
                       "dCRAB":
                           {"module_name": "quocslib.optimizationalgorithms.dCRABAlgorithm",

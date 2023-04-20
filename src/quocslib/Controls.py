@@ -27,8 +27,11 @@ class Controls:
     This is the main class for the optimization quantities, i.e. pulses, parameters, and times.
     All these quantities are defined in this class and can be accessed by calling the modules here.
     """
-    def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None):
+
+    def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None,
+                 is_AD: bool = False):
         """
+        # TODO Update docstrings
         Constructor of the general class containing all the controls used during the optimization
 
         :param pulses_list: List containing the settings for each pulse
@@ -54,7 +57,7 @@ class Controls:
                                              name=basis.setdefault("basis_name", None),
                                              class_type='basis')
             # Create the pulse obj
-            self.pulse_objs_list.append(basis_attribute(map_index, pulse, rng=rng))
+            self.pulse_objs_list.append(basis_attribute(map_index, pulse, rng=rng, is_AD=is_AD))
             # Update the map index for the next control
             map_index = self.pulse_objs_list[-1].last_index
         ###############################################
@@ -72,6 +75,26 @@ class Controls:
         for time in times_list:
             self.times_obj_dictionary[time["time_name"]] = TimeParameter(**time)
             # TODO Implement the time optimization here
+
+        # Custom get control functions for AD
+        if is_AD:
+            self.get_controls_lists = self._get_controls_jax_obj
+        else:
+            self.get_controls_lists = self._get_controls_lists
+        # Calculate the biggest bins number among the different pulses
+        if len(self.pulse_objs_list) > 0:
+            self.max_bin_numbers = np.max(np.asarray([pulse.bins_number for pulse in self.pulse_objs_list], dtype=int))
+        else:
+            self.max_bin_numbers = 0
+        # Load the AD functions
+        if is_AD:
+            self._buffer_AD_arrays()
+
+    def _buffer_AD_arrays(self):
+        import jax.numpy as jnp
+        import jax
+        # self.debug_print = jax.debug.print
+        self.jnp = jnp
 
     def get_control_parameters_number(self) -> int:
         """Return the control parameter number"""
@@ -98,11 +121,12 @@ class Controls:
     def select_basis(self) -> None:
         """Initialize the superparameter basis"""
         for pulse in self.pulse_objs_list:
-            pulse.super_parameter_distribution_obj.set_random_super_parameter()
-            # Update the base pulse parameters and functions
-            pulse.update_chopped_basis()
-            # Update the control parameter indexes
-            self._update_control_parameter_indexes()
+            if isinstance(pulse, ChoppedBasis):
+                pulse.super_parameter_distribution_obj.set_random_super_parameter()
+                # Update the base pulse parameters and functions
+                pulse.update_chopped_basis()
+                # Update the control parameter indexes
+                self._update_control_parameter_indexes()
 
     def _update_control_parameter_indexes(self) -> None:
         """Update the control parameter indexes"""
@@ -188,7 +212,7 @@ class Controls:
         for parameter in self.parameter_objs_list:
             parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
-    def get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
+    def _get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
         """
         Set the optimized control parameters and get the controls
 
@@ -216,6 +240,35 @@ class Controls:
                 parameter.get_parameter(optimized_parameters_vector[parameter.control_parameters_list]))
 
         return pulses_list, time_grids_list, parameters_list
+
+    def _get_controls_jax_obj(self, optimized_parameters_vector: np.array) -> np.array:
+        """
+        Set the optimized control parameters and get the controls
+
+        :param np.array optimized_parameters_vector:
+        :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
+        """
+        pulses_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        time_grids_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers))
+        parameters_array = self.jnp.zeros((len(self.parameter_objs_list),))
+        # Set the times
+        for time_name in self.times_obj_dictionary:
+            time_obj = self.times_obj_dictionary[time_name]
+            if time_obj.is_optimization:
+                time_obj.set_parameter(optimized_parameters_vector[time_obj.control_parameters_list])
+        # Get the pulses and the timegrids
+        for index, pulse in enumerate(self.pulse_objs_list):
+            time_name = pulse.time_name
+            pulse_array = pulse.get_pulse(
+                optimized_parameters_vector[np.asarray(pulse.control_parameters_list)],
+                final_time=self.times_obj_dictionary[time_name].get_time())
+            pulses_array = pulses_array.at[index, :pulse.bins_number].set(pulse_array)
+            time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(pulse.time_grid)
+        # Get the parameters
+        for index, parameter in enumerate(self.parameter_objs_list):
+            parameters_array[index] = parameter.get_parameter(
+                optimized_parameters_vector[parameter.control_parameters_list])
+        return pulses_array, time_grids_array, parameters_array
 
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
         """
