@@ -34,6 +34,9 @@
               "Sigmoid":
                   {"module_name": "quocslib.pulses.basis.Sigmoid",
                   "class_name": "Sigmoid"},
+              "SigmoidTimeDep":
+                  {"module_name": "quocslib.pulses.basis.SigmoidTimeDep",
+                  "class_name": "SigmoidTimeDep"},
               "Walsh":
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}
