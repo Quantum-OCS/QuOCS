@@ -213,14 +213,25 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 |**"initial_guess"** *(optional)* |*dict*| Initial pulse from where to start the optimization. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A guess pulse can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the guess pulse which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: 0 for all times)* |
 
 
+
+
 ### Basis Settings
 
 | Setting | Type | Explanation |
 | --- | --- | --- |
-|**"basis_name"** |*string*| Name of the basis in which to expand the pulse. So far on can select from "Fourier", "Chebyshev", "PiecewiseBasis" and "Sigmoid". Depending on the basis, the randomized super-parameter differs. It is recommended to start with the Fourier basis. In that case the randomly selected parameter is the frequency of the trigonometrical function updating the pulse during dCRAB iterations. For more information please contact the developers. |
+|**"basis_name"** |*string*| Name of the basis in which to expand the pulse. So far on can select from "Fourier", "Chebyshev", "PiecewiseBasis", and "Sigmoid". Depending on the basis, the randomized super-parameter differs. It is recommended to start with the Fourier basis. In that case the randomly selected parameter is the frequency of the trigonometrical function updating the pulse during dCRAB iterations. For more information please contact the developers. |
 |**"basis_vector_number"** |*Int*| Number of vectors used for basis expansion i each super-iteration of the dCRAB algorithm. Typically, one vector corresponds to 1-2 parameters to optimize (e.g. amplitude and phase of a sine function). The higher this value is set, the longer each SI takes to converge. For more information please contact the developers. *(Default: 1)* |
 |**"random_super_parameter_distribution"** |*dict*| Distribution from which to sample the randomized super-parameter. So far, the only option is "distribution_name": "Uniform" where one can set to upper and lower limits of the parameter. In the case of the Fourier basis, this corresponds to the number of oscillations allowed during the pulse time. Therefore, depending on the length of the pulse, this enforces bandwidth constraints. For more information please contact the developers. |
+|**"sigma"** *(optional)* |*float*| The Sigmoid basis is designed to keep the pulse spectrum envelope-limited. Sigma specifies the steepness of the individual rises, which will in turn reduce high-frequency excitations. A good point to start is final_time/100. *(Default: 0.1)* |
+|**"offset"** *(optional)* |*float*| The Sigmoid basis is designed to keep the pulse spectrum envelope-limited and the pulse zero at beginning and end. The offset determines how far from the edges it will go down. This parameter should depend on sigma and the maximum amplitude. A good point to start is sigma x (upper_limit - loweer_limit)/10. *(Default: 0.1)* |
 
+## Bases Overview
+| basis name | implementation | visualisation |
+| --- | --- | --- |
+| Fourier | $A_i \sin{(2 \pi \omega_i t/t_f)} + B_i \cos{(2 \pi \omega_i t/t_f)}$ |<img src="https://user-images.githubusercontent.com/47388967/233591288-8bf7a6be-59de-4ea5-b7c6-c7e67e11e1be.png" width="50%" height="50%">|
+| Sigmoid | $A_i \frac{1}{2}\left(1+\text{erf}\left(\frac{t-\tau_i}{\sqrt{2}\sigma}\right)\right)$ |<img src="https://user-images.githubusercontent.com/47388967/233591361-058d96b3-9500-4808-a5da-a717cdc36f11.png" width="50%" height="50%"> |
+| Piecewise | $A_i \text{  for  } t_{i-1} < t \le t_i$ |<img src="https://user-images.githubusercontent.com/47388967/233593775-709fcf3a-50d9-48c7-a038-c094126a9ccb.png" width="50%" height="50%">|
+| Chebychev | $A_i \cos{\left(\omega_i \cos^{-1}(-1 + (2 t/t_f))+ B_i\right)}$ |<img src="https://user-images.githubusercontent.com/47388967/233595052-cea0edfb-127c-47bb-9659-6e61b8ceb24d.png" width="50%" height="50%"> <br/>*(image: By Glosser.ca - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=52799132)*|
 
 ## Parameters
 
