@@ -12,12 +12,12 @@
         "pulse_name": "Pulse_1",
         "upper_limit": 100.0,
         "lower_limit": -100.0,
-        "bins_number": 1000,
+        "bins_number": 100,
         "amplitude_variation": 30.0,
         "time_name": "time_1",
         "basis": {
             "basis_name": "PiecewiseBasis",
-            "bins_number": 1000
+            "bins_number": 100
         },
         "scaling_function": {
             "function_type": "lambda_function",
