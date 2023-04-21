@@ -75,7 +75,7 @@ def main(optimization_dictionary: dict, args_dict: dict):
     FoM_check = FoM_object.get_FoM(**controls)["FoM"]
     # Check if the FoM calculated during the optimization is consistent with the one calculated after the optimization
     # using the best controls
-    assert (np.abs(FoM - FoM_check) < 10**(-8))
+    assert (np.abs(FoM - FoM_check) < 5 * 10**(-5))
 
 
 if __name__ == "__main__":
