@@ -16,8 +16,9 @@
 import jax
 import numpy as np
 import jax.numpy as jnp
+from jax.experimental.ode import odeint
 from quocslib.utils.AbstractFoM import AbstractFoM
-from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
+# from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
 
 
 class IsingModel(AbstractFoM):
@@ -34,24 +35,41 @@ class IsingModel(AbstractFoM):
         self.J = args_dict.setdefault("J", 1)
         self.g = args_dict.setdefault("g", 2)
         self.n_slices = args_dict.setdefault("n_slices", 100)
+        self.gamma_dephase = args_dict.setdefault("gamma_dephase", 0.1)
 
         self.H_drift = jnp.asarray(get_static_hamiltonian(self.n_qubits, self.J, self.g))
         self.H_control = jnp.asarray(get_control_hamiltonian(self.n_qubits))
         self.rho_0 = jnp.asarray(get_initial_state(self.n_qubits))
         self.rho_target = jnp.asarray(get_target_state(self.n_qubits))
-        self.rho_final = jnp.asarray(jnp.zeros_like(self.rho_target))
 
-        # Let JAX know to jit the following function
-        @jax.jit
-        def _pw_evolution_transform(drive, dt):
-            return pw_final_evolution_AD(drive,
-                                         self.H_drift,
-                                         jnp.asarray([self.H_control]),
-                                         self.n_slices,
-                                         dt,
-                                         jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+        self.Lindbladian = jnp.asarray(get_dephasing_Lindbladian(self.n_qubits, self.gamma_dephase))
 
-        self._pw_evolution_transform = _pw_evolution_transform
+    # Let JAX know to jit the following function
+    @jax.jit
+    def _solve_LME(self, H, time_grid):
+
+        rho_0 = self.rho_0
+
+        def LME(rho, t):
+            dRho = -1j * (H(t) @ rho - rho @ H(t).conj().T) \
+                   + self.Lindbladian @ rho @ self.Lindbladian.conj().T \
+                   - 1/2 * self.Lindbladian @ self.Lindbladian.conj().T @ rho \
+                   - 1/2 * rho @ self.Lindbladian @ self.Lindbladian.conj().T
+            return dRho
+
+        rho_evo = odeint(LME, rho_0, time_grid)
+        print(rho_evo[-1])
+        # print(solution.ys[-1])
+        return rho_evo[-1]
+
+        # return pw_final_evolution_AD(drive,
+        #                              self.H_drift,
+        #                              jnp.asarray([self.H_control]),
+        #                              self.n_slices,
+        #                              dt,
+        #                              jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+
+    # self._pw_evolution_transform = _pw_evolution_transform
 
     def get_control_Hamiltonians(self):
         return self.H_control
@@ -65,21 +83,37 @@ class IsingModel(AbstractFoM):
     def get_initial_state(self):
         return self.rho_0
 
-    def get_propagator(self,
-                       pulses_list: list = jnp.array,
-                       time_grids_list: list = jnp.array,
-                       parameters_list: list = jnp.array) -> jnp.array:
+    # def get_timedep_von_Neumann_eq(self,
+    #                                pulse: jnp.array,
+    #                                time_grid: jnp.array):
+    #
+    #     drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
+    #     time_grid = time_grids_list[0, :]
+    #     dt = time_grid[-1] / len(time_grid)
+    #
+    #     # Compute the time evolution
+    #     # propagator = pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), n_slices, dt,
+    #     #                                    jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
+    #     propagator = self._pw_evolution_transform(drive, dt)
+    #     return propagator
 
-        drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
-        n_slices = self.n_slices
-        time_grid = time_grids_list[0, :]
-        dt = time_grid[-1] / len(time_grid)
+    def evolve_rho(self, pulse, time_grid):
+        T = time_grid[-1]
 
-        # Compute the time evolution
-        # propagator = pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), n_slices, dt,
-        #                                    jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
-        propagator = self._pw_evolution_transform(drive, dt)
-        return propagator
+        def Hamil(t):
+            # if t == T:
+            #     ind = self.n_slices - 1
+            # else:
+            #     ind = int(jnp.floor(t/T*self.n_slices))
+
+            ind = jnp.floor(t / T * (self.n_slices-1)).astype(int)
+            # print(ind)
+
+            return self.H_drift[ind] + self.H_control[ind] * pulse[ind]
+
+        rho_fin = self._solve_LME(Hamil, time_grid)
+
+        return rho_fin
 
     def get_FoM(self,
                 pulses: list = jnp.array,
@@ -92,9 +126,8 @@ class IsingModel(AbstractFoM):
         :param parameters: jnp.array of the parameters to be optimized.
         :return: dict - The figure of merit in a dictionary
         """
-        U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
-        rho_final = U_final @ self.rho_0 @ U_final.T.conj()
-        fidelity = fidelity_funct(rho_final.T, self.rho_target)
+        rho_final = self.evolve_rho(pulse=pulses[0], time_grid=timegrids[0])
+        fidelity = fidelity_funct(rho_final, self.rho_target)
         return {"FoM": fidelity}
 
 
@@ -103,6 +136,19 @@ sz = 0.5 * np.array([[1, 0], [0, -1]], dtype=np.complex128)
 sx = 0.5 * np.array([[0, 1], [1, 0]], dtype=np.complex128)
 psi0 = np.array([[1, 0], [0, 0]], dtype=np.complex128)
 psiT = np.array([[0, 0], [0, 1]], dtype=np.complex128)
+
+
+def get_dephasing_Lindbladian(nqu, gamma):
+    dim = 2**nqu
+    L0 = np.zeros((dim, dim), dtype=np.complex128)
+    for j in range(nqu):
+        # set up holding array
+        rest = [i2] * nqu
+        # set the correct elements to sz
+        # check, so we can implement a loop around
+        rest[j] = sz
+        L0 += np.sqrt(gamma) * tensor_together(rest)
+    return L0
 
 
 def tensor_together(A):
@@ -177,3 +223,7 @@ def get_target_state(nqu: int):
 
 def fidelity_funct(rho_evolved, rho_aim):
     return jnp.abs(jnp.trace(rho_evolved.conj() @ rho_aim))
+
+
+muh = IsingModel()
+muh.evolve_rho(pulse=jnp.array([1, 1, 1, 1]), time_grid=jnp.array([0, 1, 2, 3]))
