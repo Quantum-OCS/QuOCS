@@ -2,10 +2,13 @@
     "algorithm_settings": {
         "algorithm_name": "AD",
         "optimization_direction": "maximization",
+        "random_number_generator": {
+            "seed_number": 42
+        },
         "stopping_criteria": {
             "max_eval_total": 100,
-            "ftol": 1e-6,
-            "gtol": 1e-6
+            "ftol": 1e-4,
+            "gtol": 1e-5
         }
     },
     "pulses": [{

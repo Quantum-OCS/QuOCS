@@ -18,6 +18,7 @@ import numpy as np
 import jax.numpy as jnp
 from jax.experimental.ode import odeint
 from quocslib.utils.AbstractFoM import AbstractFoM
+from jax.scipy.linalg import sqrtm
 # from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
 
 
@@ -31,10 +32,9 @@ class IsingModel(AbstractFoM):
         ################################################################################################################
         # Dynamics variables
         ################################################################################################################
-        self.n_qubits = args_dict.setdefault("n_qubits", 5)
+        self.n_qubits = args_dict.setdefault("n_qubits", 2)
         self.J = args_dict.setdefault("J", 1)
         self.g = args_dict.setdefault("g", 2)
-        self.n_slices = args_dict.setdefault("n_slices", 100)
         self.gamma_dephase = args_dict.setdefault("gamma_dephase", 0.1)
 
         self.H_drift = jnp.asarray(get_static_hamiltonian(self.n_qubits, self.J, self.g))
@@ -45,31 +45,21 @@ class IsingModel(AbstractFoM):
         self.Lindbladian = jnp.asarray(get_dephasing_Lindbladian(self.n_qubits, self.gamma_dephase))
 
     # Let JAX know to jit the following function
-    @jax.jit
+    # @jax.jit
     def _solve_LME(self, H, time_grid):
 
         rho_0 = self.rho_0
 
         def LME(rho, t):
-            dRho = -1j * (H(t) @ rho - rho @ H(t).conj().T) \
+            dRho = -1j * (H(t) @ rho - rho @ H(t)) \
                    + self.Lindbladian @ rho @ self.Lindbladian.conj().T \
                    - 1/2 * self.Lindbladian @ self.Lindbladian.conj().T @ rho \
                    - 1/2 * rho @ self.Lindbladian @ self.Lindbladian.conj().T
             return dRho
 
         rho_evo = odeint(LME, rho_0, time_grid)
-        print(rho_evo[-1])
-        # print(solution.ys[-1])
+        # print(rho_evo[-1])
         return rho_evo[-1]
-
-        # return pw_final_evolution_AD(drive,
-        #                              self.H_drift,
-        #                              jnp.asarray([self.H_control]),
-        #                              self.n_slices,
-        #                              dt,
-        #                              jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
-
-    # self._pw_evolution_transform = _pw_evolution_transform
 
     def get_control_Hamiltonians(self):
         return self.H_control
@@ -83,33 +73,19 @@ class IsingModel(AbstractFoM):
     def get_initial_state(self):
         return self.rho_0
 
-    # def get_timedep_von_Neumann_eq(self,
-    #                                pulse: jnp.array,
-    #                                time_grid: jnp.array):
-    #
-    #     drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
-    #     time_grid = time_grids_list[0, :]
-    #     dt = time_grid[-1] / len(time_grid)
-    #
-    #     # Compute the time evolution
-    #     # propagator = pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), n_slices, dt,
-    #     #                                    jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
-    #     propagator = self._pw_evolution_transform(drive, dt)
-    #     return propagator
-
     def evolve_rho(self, pulse, time_grid):
+        time_grid = time_grid.real
         T = time_grid[-1]
 
         def Hamil(t):
             # if t == T:
-            #     ind = self.n_slices - 1
+            #     ind = len(time_grid) - 1
             # else:
-            #     ind = int(jnp.floor(t/T*self.n_slices))
+            #     ind = int(jnp.floor(t/T*len(time_grid)))
 
-            ind = jnp.floor(t / T * (self.n_slices-1)).astype(int)
-            # print(ind)
+            ind = jnp.floor(t / T * (len(time_grid)-1)).astype(int)
 
-            return self.H_drift[ind] + self.H_control[ind] * pulse[ind]
+            return self.H_drift + self.H_control * pulse[ind]
 
         rho_fin = self._solve_LME(Hamil, time_grid)
 
@@ -127,8 +103,8 @@ class IsingModel(AbstractFoM):
         :return: dict - The figure of merit in a dictionary
         """
         rho_final = self.evolve_rho(pulse=pulses[0], time_grid=timegrids[0])
-        fidelity = fidelity_funct(rho_final, self.rho_target)
-        return {"FoM": fidelity}
+        fom = fom_funct(rho_final, self.rho_target)
+        return {"FoM": fom}
 
 
 i2 = np.eye(2)
@@ -221,9 +197,14 @@ def get_target_state(nqu: int):
     return tensor_together(state)
 
 
-def fidelity_funct(rho_evolved, rho_aim):
-    return jnp.abs(jnp.trace(rho_evolved.conj() @ rho_aim))
-
-
-muh = IsingModel()
-muh.evolve_rho(pulse=jnp.array([1, 1, 1, 1]), time_grid=jnp.array([0, 1, 2, 3]))
+def fom_funct(rho_evolved, rho_aim):
+    """
+    Function to calculate the overlap between two density matrices.
+    :param rho_evolved:
+    :param rho_aim:
+    :return: overlap fidelity
+    """
+    # return jnp.abs(jnp.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved)))) ** 2
+    # return jnp.abs(jnp.trace(rho_evolved.conj().T @ rho_aim))
+    size = rho_evolved.shape[0]
+    return 1 - jnp.sqrt(jnp.abs(jnp.trace((rho_evolved - rho_aim).conj().T * (rho_evolved - rho_aim))) / size)
