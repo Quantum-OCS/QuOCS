@@ -65,16 +65,22 @@ class ADAlgorithm(OptimizationAlgorithm):
 
         alg_parameters = optimization_dict["algorithm_settings"]
         # Seed for the random number generator
-        seed_number = 2022
         if "random_number_generator" in alg_parameters:
             try:
                 seed_number = alg_parameters["random_number_generator"]["seed_number"]
+                self.rng = RandomNumberGenerator(seed_number=seed_number)
             except (TypeError, KeyError):
-                seed_number = 2022
+                default_seed_number = np.random.randint(0, 10000)
                 message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
-                    seed_number)
+                    default_seed_number)
+                self.rng = RandomNumberGenerator(seed_number=default_seed_number)
                 self.comm_obj.print_logger(message, level=30)
-        self.rng = RandomNumberGenerator(seed_number=seed_number)
+        else:
+            default_seed_number = np.random.randint(0, 10000)
+            message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+                default_seed_number)
+            self.rng = RandomNumberGenerator(seed_number=default_seed_number)
+            self.comm_obj.print_logger(message, level=30)
 
         ###########################################################################################
         # Pulses, Parameters, Times object

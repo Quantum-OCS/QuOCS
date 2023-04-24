@@ -213,6 +213,8 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 |**"initial_guess"** *(optional)* |*dict*| Initial pulse from where to start the optimization. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A guess pulse can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the guess pulse which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: 0 for all times)* |
 
 
+
+
 ### Basis Settings
 
 | Setting | Type | Explanation |
@@ -230,7 +232,6 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 | Sigmoid | $A_i \frac{1}{2}\left(1+\text{erf}\left(\frac{t-\tau_i}{\sqrt{2}\sigma}\right)\right)$ |<img src="https://user-images.githubusercontent.com/47388967/233591361-058d96b3-9500-4808-a5da-a717cdc36f11.png" width="50%" height="50%"> |
 | Piecewise | $A_i \text{  for  } t_{i-1} < t \le t_i$ |<img src="https://user-images.githubusercontent.com/47388967/233593775-709fcf3a-50d9-48c7-a038-c094126a9ccb.png" width="50%" height="50%">|
 | Chebychev | $A_i \cos{\left(\omega_i \cos^{-1}(-1 + (2 t/t_f))+ B_i\right)}$ |<img src="https://user-images.githubusercontent.com/47388967/233595052-cea0edfb-127c-47bb-9659-6e61b8ceb24d.png" width="50%" height="50%"> <br/>*(image: By Glosser.ca - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=52799132)*|
-
 
 ## Parameters
 
