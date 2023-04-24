@@ -241,19 +241,22 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
 
     def _get_response_for_client(self):
         """
-        Return True if a record is found
-        Returns
-        -------
-
+        Return useful information for the client interface and print message in the log
         """
-        is_record = False
         FoM = self.FoM_dict["FoM"]
-        if self.FoM_dict["FoM"] < self.best_FoM:
-            is_record = True
         status_code = self.FoM_dict.setdefault("status_code", 0)
+        # If re-evaluation steps is not used check for current best figure of merit
+        if self.re_evaluation_steps is None:
+            if self.get_is_record(FoM):
+                message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
+                    FoM=self.best_FoM, best_FoM=FoM)
+                self.comm_obj.print_logger(message=message, level=20)
+                self.best_FoM = FoM
+                self.best_xx = self.xx.copy()
+                self.is_record = True
         response_dict = {
-            "is_record": is_record,
-            "FoM": self.FoM_dict["FoM"],
+            "is_record": self.is_record,
+            "FoM": FoM,
             "iteration_number": self.iteration_number,
             "status_code": status_code
         }
@@ -299,7 +302,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                                         drift_comp_minutes=self.compensate_drift_after_minutes,
                                         drift_comp_num_average=self.compensate_drift_num_average)
         # Update the results
-        [self.best_FoM, self.xx,
+        [FoM, xx,
          self.terminate_reason] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"]]
 
     def _get_controls(self, xx):
