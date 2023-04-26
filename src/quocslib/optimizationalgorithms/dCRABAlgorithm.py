@@ -256,82 +256,11 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.comm_obj.print_logger(message=message, level=20)
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int,
-                            drift_comp=False, drift_comp_average=1) -> float:
+                            drift_comp_new_val=None) -> float:
         """This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
         with the same controls multiple times to take into accounts noise in the system"""
-        # set the is_record to False unless we have drift_comp call... then we want to update the current best FoM
-        self.is_record = False
-        # Initialize step number to 0
-        self.step_number = 0
-        FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
-        # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
-        # before the first search iteration has finished
-        if self.optimization_direction == "maximization" and FoM == 1e10:
-            FoM = -FoM
-        ################################################################################################################
-        # Standard function evaluation - dCRAB without re-evaluation steps
-        ################################################################################################################
-        if self.re_evaluation_steps is None:
-            mu_1 = FoM
-        else:
-            ############################################################################################################
-            # Implement the re-evaluation step method
-            ############################################################################################################
-            # check mu-sig criterion by calculating probability of current pulses being new record
-            # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
-            re_evaluation_steps = self.re_evaluation_steps
-            # First evaluation in whole optimization -> do not reevaluate
-            if self.iteration_number == 1:
-                re_evaluation_steps = np.array([0.5])
-            # number of steps
-            max_steps_number = re_evaluation_steps.shape[0]
-            # Initialize to zero the FoM_test and the sigma_test arrays
-            self.FoM_test = 0.0 * self.FoM_test
-            self.sigma_test = 0.0 * self.sigma_test
-            # Get the figure of merit from the client
-            self.FoM_test[0] = FoM
-            # TODO: Check if optimization_is_running is necessary here
-            # Get the standard deviation
-            self.sigma_test[0] = float(self.FoM_dict.setdefault("std", 1.0))
-            # Increase step number after function evaluation
-            self.step_number += 1
-            # p level test better than current record
-            for ii in range(max_steps_number):
-                p_level = re_evaluation_steps[ii]
-                mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
-                                                          sigma_sum=np.sum(self.sigma_test) * 1.0)
-                mu_2, sigma_2 = self.best_FoM, self.best_sigma
-                probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
-                # If probability is lower than the probability in the list return the
-                if probability < p_level:
-                    return mu_1
-                # else: go on with further re-evaluations
-                self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
-                    optimized_control_parameters, iterations)
-                self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
-                # Increase step number after function evaluation
-                self.step_number += 1
-
-            # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
-            mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
-                                                      sigma_sum=np.sum(self.sigma_test) * 1.0)
-            mu_2, sigma_2 = self.best_FoM, self.best_sigma
-            probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
-            # TODO: Check what best FoM means in this case
-            if probability > re_evaluation_steps[-1]:
-                # We have a new record
-                self.best_sigma, self.best_FoM = sigma_1, mu_1
-                self.is_record = True
-                message = "New record achieved. New best FoM: {0}, std: {1}".format(mu_1, sigma_1)
-                self.comm_obj.print_logger(message, level=20)
-                self.best_xx = self.xx.copy()
-                self.comm_obj.update_controls(is_record=True,
-                                              FoM=self.best_FoM,
-                                              sigma=self.best_sigma,
-                                              super_it=self.super_it,
-                                              iteration_number=self.iteration_number)
-
-        if drift_comp:
+        if drift_comp_new_val is not None:
+            mu_1 = drift_comp_new_val
             self.best_FoM = mu_1
             self.is_record = True
             message = "New record due to drift compensation. New best FoM: {0}".format(mu_1)
@@ -341,6 +270,78 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                           FoM=self.best_FoM,
                                           super_it=self.super_it,
                                           iteration_number=self.iteration_number)
+        else:
+            # set the is_record to False unless we have drift_comp call... then we want to update the current best FoM
+            self.is_record = False
+            # Initialize step number to 0
+            self.step_number = 0
+            FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
+            # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
+            # before the first search iteration has finished
+            if self.optimization_direction == "maximization" and FoM == 1e10:
+                FoM = -FoM
+            ################################################################################################################
+            # Standard function evaluation - dCRAB without re-evaluation steps
+            ################################################################################################################
+            if self.re_evaluation_steps is None:
+                mu_1 = FoM
+            else:
+                ############################################################################################################
+                # Implement the re-evaluation step method
+                ############################################################################################################
+                # check mu-sig criterion by calculating probability of current pulses being new record
+                # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
+                re_evaluation_steps = self.re_evaluation_steps
+                # First evaluation in whole optimization -> do not reevaluate
+                if self.iteration_number == 1:
+                    re_evaluation_steps = np.array([0.5])
+                # number of steps
+                max_steps_number = re_evaluation_steps.shape[0]
+                # Initialize to zero the FoM_test and the sigma_test arrays
+                self.FoM_test = 0.0 * self.FoM_test
+                self.sigma_test = 0.0 * self.sigma_test
+                # Get the figure of merit from the client
+                self.FoM_test[0] = FoM
+                # TODO: Check if optimization_is_running is necessary here
+                # Get the standard deviation
+                self.sigma_test[0] = float(self.FoM_dict.setdefault("std", 1.0))
+                # Increase step number after function evaluation
+                self.step_number += 1
+                # p level test better than current record
+                for ii in range(max_steps_number):
+                    p_level = re_evaluation_steps[ii]
+                    mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
+                                                              sigma_sum=np.sum(self.sigma_test) * 1.0)
+                    mu_2, sigma_2 = self.best_FoM, self.best_sigma
+                    probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
+                    # If probability is lower than the probability in the list return the
+                    if probability < p_level:
+                        return mu_1
+                    # else: go on with further re-evaluations
+                    self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
+                        optimized_control_parameters, iterations)
+                    self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
+                    # Increase step number after function evaluation
+                    self.step_number += 1
+
+                # check if last threshold (re_evaluation_steps[-1]) is surpassed -> new record
+                mu_1, sigma_1 = self._get_average_FoM_std(mu_sum=np.sum(self.FoM_test) * 1.0,
+                                                          sigma_sum=np.sum(self.sigma_test) * 1.0)
+                mu_2, sigma_2 = self.best_FoM, self.best_sigma
+                probability = self._probabnormx1betterx2(mu_1, sigma_1, mu_2, sigma_2)
+                # TODO: Check what best FoM means in this case
+                if probability > re_evaluation_steps[-1]:
+                    # We have a new record
+                    self.best_sigma, self.best_FoM = sigma_1, mu_1
+                    self.is_record = True
+                    message = "New record achieved. New best FoM: {0}, std: {1}".format(mu_1, sigma_1)
+                    self.comm_obj.print_logger(message, level=20)
+                    self.best_xx = self.xx.copy()
+                    self.comm_obj.update_controls(is_record=True,
+                                                  FoM=self.best_FoM,
+                                                  sigma=self.best_sigma,
+                                                  super_it=self.super_it,
+                                                  iteration_number=self.iteration_number)
 
         # Return the figure of merit to be minimized by the updating algorithm
         return -1.0 * self.optimization_factor * mu_1

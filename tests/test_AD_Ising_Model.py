@@ -32,6 +32,11 @@ def test_AD_Ising_Model():
             "algorithm_settings": {
                 "algorithm_name": "AD",
                 "optimization_direction": "maximization",
+                "stopping_criteria": {
+                    "max_eval_total": 100,
+                    "ftol": 1e-4,
+                    "gtol": 1e-5
+                }
             },
             "pulses": [{
                 "pulse_name": "Pulse_1",

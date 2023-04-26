@@ -186,7 +186,7 @@ class NelderMead(DirectSearchMethod):
                         if i == 0:
                             curr_best_fom = 0
                             for j in range(drift_comp_num_average):
-                                curr_best_fom += func(sim[i], iterations, True)
+                                curr_best_fom += func(sim[i], iterations)
                             fsim[i] = curr_best_fom/drift_comp_num_average
                         else:
                             # here we only shift the rest of the entries by
@@ -200,6 +200,10 @@ class NelderMead(DirectSearchMethod):
                               f"of {drift_comp_num_average}): {new_FoM}"
                     logger = logging.getLogger("oc_logger")
                     logger.info(message)
+
+                    # let the OptimizationAlgorithm know we have a new FoM due to drift compensation
+                    func(sim[0], iterations, fsim[0])
+
             # Increase the NM iteration
             iterations += 1
             # Update function evaluations number
