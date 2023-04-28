@@ -16,13 +16,16 @@
 import jax
 import numpy as np
 import jax.numpy as jnp
+from jax.scipy.linalg import sqrtm
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
 
 
 class IsingModel(AbstractFoM):
-    """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187"""
+    """
+    A figure of merit class for optimization of the problem defined by Alastair Marshall via
+    https://arxiv.org/abs/2110.06187
+    """
 
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
@@ -44,6 +47,12 @@ class IsingModel(AbstractFoM):
         # Let JAX know to jit the following function
         @jax.jit
         def _pw_evolution_transform(drive, dt):
+            """
+            A wrapper function for the piecewise evolution function of QuOCS
+            :param drive: list of drive pulses
+            :param dt: time step
+            :return: final unitary propagator
+            """
             return pw_final_evolution_AD(drive,
                                          self.H_drift,
                                          jnp.asarray([self.H_control]),
@@ -69,15 +78,19 @@ class IsingModel(AbstractFoM):
                        pulses_list: list = jnp.array,
                        time_grids_list: list = jnp.array,
                        parameters_list: list = jnp.array) -> jnp.array:
+        """
+        Function to calculate the propagator from the pulses, parameters and timegrids.
+        :param pulses_list:
+        :param time_grids_list:
+        :param parameters_list:
+        :return: final propagator
+        """
 
         drive = pulses_list[0, :].reshape(1, len(pulses_list[0, :]))
-        n_slices = self.n_slices
         time_grid = time_grids_list[0, :]
         dt = time_grid[-1] / len(time_grid)
 
         # Compute the time evolution
-        # propagator = pw_final_evolution_AD(drive, self.H_drift, jnp.asarray([self.H_control]), n_slices, dt,
-        #                                    jnp.identity(2 ** self.n_qubits, dtype=np.complex128))
         propagator = self._pw_evolution_transform(drive, dt)
         return propagator
 
@@ -90,11 +103,11 @@ class IsingModel(AbstractFoM):
         :param pulses: jnp.arrays of the pulses to be optimized.
         :param timegrids: jnp.arrays of the timegrids connected to the pulses.
         :param parameters: jnp.array of the parameters to be optimized.
-        :return: dict - The figure of merit in a dictionary
+        :return dict: The figure of merit in a dictionary
         """
         U_final = self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
-        fidelity = fidelity_funct(rho_final.T, self.rho_target)
+        fidelity = fom_funct(rho_final, self.rho_target)
         return {"FoM": fidelity}
 
 
@@ -175,5 +188,13 @@ def get_target_state(nqu: int):
     return tensor_together(state)
 
 
-def fidelity_funct(rho_evolved, rho_aim):
-    return jnp.abs(jnp.trace(rho_evolved.conj() @ rho_aim))
+def fom_funct(rho_evolved, rho_aim):
+    """
+    Function to calculate the overlap between two density matrices.
+    :param rho_evolved:
+    :param rho_aim:
+    :return: overlap fidelity
+    """
+    # this does not work with complex matrices
+    # return jnp.abs(jnp.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved))))**2
+    return jnp.sqrt(jnp.abs(jnp.trace(rho_evolved.conj().T @ rho_aim)))

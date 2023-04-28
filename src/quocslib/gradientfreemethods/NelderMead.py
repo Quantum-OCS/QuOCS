@@ -16,9 +16,6 @@
 import numpy as np
 from datetime import datetime
 import logging
-
-# np.seterr(all="raise")
-
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
     NelderMeadStoppingCriteria, )
@@ -29,9 +26,9 @@ class NelderMead(DirectSearchMethod):
 
     def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
-        Nelder-Mead is an updating algorithm based on the simplex method.
-        :param dict settings: settings for the NM algorithm
-        :param dict stopping_criteria: stopping criteria
+        Implementation of the Nelder-Mead simplex search algorithm
+        :param dict settings: settings dictionary for the NM algorithm
+        :param dict stopping_criteria: dictionary with the stopping criteria
         """
         super().__init__()
         self.callback = callback
@@ -43,18 +40,19 @@ class NelderMead(DirectSearchMethod):
         self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
         self.search_start_time = datetime.now()
 
-    def run_dsm(self, func, x0, args=(), initial_simplex=None,
+    def run_dsm(self, func, x0, args=(),
+                initial_simplex=None,
                 drift_comp_minutes=0.0,
                 drift_comp_num_average=1, **kwargs) -> dict:
         """
-
+        Function to run the direct search method
         :param callable func: Function to be called at every function evaluation
-        :param np.array x0: initial point
+        :param np.array x0: Initial point
         :param tuple args: Further arguments
-        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
+        :param np.array initial_simplex: Starting simplex for the Nelder-Mead evaluation
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
-        :return:
+        :return dict: A dictionary with information about the search run
         """
         # Creation of the communication function for the OptimizationAlgorithm object
         calls_number, func = self._get_wrapper(args, func)

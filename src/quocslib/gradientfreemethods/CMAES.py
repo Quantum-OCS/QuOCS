@@ -29,10 +29,9 @@ class CMAES(DirectSearchMethod):
 
     def __init__(self, settings: dict = {}, stopping_criteria: dict = {}, callback: callable = None, **kwargs):
         """
-        The Covariance matrix adaptation evolution strategy is an updating algorithm based on repeatedly testing
-        distributions of points in the control landscape
-        :param dict settings: settings for the CMAES algorithm
-        :param dict stopping_criteria: stopping criteria
+        Implementation of the covariance matrix evolution strategy (CMA-ES) search algorithm
+        :param dict settings: settings dictionary for the CMA-ES algorithm
+        :param dict stopping_criteria: dictionary with the stopping criteria
         """
         super().__init__()
         self.callback = callback
@@ -55,14 +54,15 @@ class CMAES(DirectSearchMethod):
                 drift_comp_num_average=1,
                 **kwargs) -> dict:
         """
-
-        :param callable func: Function tbe called at every function evaluation
-        :param np.array x0: initial point
+        Function to run the direct search method
+        :param callable func: Function to be called at every function evaluation
+        :param np.array x0: Initial point
         :param tuple args: Further arguments
-        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
+        :param np.array sigma_v: Initial standard deviation vector for each direction of the covariance matrix
+        :param np.array initial_simplex: Starting population for CMA-ES
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
-        :return:
+        :return dict: A dictionary with information about the search run
         """
 
         # Creation of the communication function for the OptimizationAlgorithm object
@@ -224,5 +224,4 @@ class CMAES(DirectSearchMethod):
             "NfunevalsUsed": calls_number[0],
             "terminate_reason": self.sc_obj.terminate_reason,
         }
-
         return result_custom

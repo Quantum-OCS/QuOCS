@@ -81,6 +81,50 @@ class TLSProblem(AbstractFoM):
         return {"FoM": fidelity}
 
 
+def convert_rho_to_LFS(rho):
+    """
+    Function to convert a density matrix to a Fock-Liouville space (FLS).
+    :param rho:
+    :return: rho_LFS
+    """
+    rho_LFS = jnp.array([rho[0, 0], rho[0, 1], rho[1, 0], rho[1, 1]], dtype=jnp.complex64)
+    return rho_LFS
+
+
+def convert_LFS_to_rho(rho_LFS):
+    """
+    Function to convert a density matrix from Fock-Liouville space (FLS) back to a usual density matrix.
+    :param rho_LFS:
+    :return: rho
+    """
+    rho = jnp.array([[rho_LFS[0], rho_LFS[1]], [rho_LFS[2], rho_LFS[3]]], dtype=jnp.complex64)
+    return rho
+
+
+# @partial(jax.jit, static_argnames=["rho_0", "L_const", "L_drive"])
+@jax.jit
+def pw_evolution_final(rho_0, L_const, L_drive, drive, time_grid):
+    """
+    Function to calculate the time evolution of a density matrix under a piecewise constant drive.
+    :param rho_0: initial density matrix
+    :param L_const: constant part of the Liouvillian
+    :param L_drive: drive part of the Liouvillian
+    :param drive: drive
+    :param time_grid: time grid
+    """
+    rho = rho_0
+    dt = time_grid[-1] / len(time_grid)
+
+    def body_fun(i, val):
+        L_curr = L_const + L_drive * drive[i]
+        U_curr = jsp.linalg.expm(L_curr * dt)
+        return U_curr @ val
+
+    rho_evol = jax.lax.fori_loop(0, len(time_grid), body_fun, rho)
+
+    return rho_evol
+
+
 def fidelity_funct(rho_evolved, rho_aim):
     """
     Function to calculate the fidelity between two density matrices.
@@ -98,43 +142,4 @@ def fidelity_funct_LFS(rho_evolved, rho_aim):
     :param rho_aim:
     :return: fidelity
     """
-    return jnp.abs(rho_evolved.conj().T @ rho_aim)
-
-
-def convert_rho_to_LFS(rho):
-    """
-    Function to convert a density matrix to a Fock-Liouville space (FLS).
-    :param rho:
-    :return: rho_LFS
-    """
-    rho_LFS = jnp.array([rho[0, 0], rho[0, 1], rho[1, 0], rho[1, 1]], dtype=jnp.complex64)
-    return rho_LFS
-
-
-def convert_LFS_to_rho(rho_LFS):
-    """
-    Function to convert a Fock-Liouville space (FLS) to a density matrix.
-    :param rho_LFS:
-    :return: rho
-    """
-    rho = jnp.array([[rho_LFS[0], rho_LFS[1]], [rho_LFS[2], rho_LFS[3]]], dtype=jnp.complex64)
-    return rho
-
-
-# @partial(jax.jit, static_argnames=["rho_0", "L_const", "L_drive"])
-@jax.jit
-def pw_evolution_final(rho_0, L_const, L_drive, drive, time_grid):
-    """
-
-    """
-    rho = rho_0
-    dt = time_grid[-1] / len(time_grid)
-
-    def body_fun(i, val):
-        L_curr = L_const + L_drive * drive[i]
-        U_curr = jsp.linalg.expm(L_curr * dt)
-        return U_curr @ val
-
-    rho_evol = jax.lax.fori_loop(0, len(time_grid), body_fun, rho)
-
-    return rho_evol
+    return jnp.sqrt(jnp.abs(rho_evolved.conj().T @ rho_aim))

@@ -28,11 +28,13 @@ def main(optimization_dictionary: dict):
 
     args_dict = {"n_qubits": 2, "J": 1, "g": 2, "n_slices": 100, "T": 1.0}
 
-    optimization_dictionary["optimization_client_name"] = "Optimization_AD_IsingModel_{}_bins".format(args_dict['n_slices'])
-
     optimization_dictionary['pulses'][0]['basis']['bins_number'] = args_dict['n_slices']
     optimization_dictionary['pulses'][0]['bins_number'] = args_dict['n_slices']
 
+    optimization_dictionary['algorithm_settings']['stopping_criteria']['ftol'] = 1e-5
+    optimization_dictionary['algorithm_settings']['stopping_criteria']['gtol'] = 1e-5
+
+    optimization_dictionary["optimization_client_name"] = "Optimization_AD_IsingModel_with_Lindblad"
 
     # Create FoM object
     FoM_object = IsingModel(args_dict=args_dict)
@@ -48,9 +50,7 @@ def main(optimization_dictionary: dict):
 
     optimization_time = t2 - t1
 
-    with open(
-        os.path.join(optimization_obj.results_path, "optimization_time.txt"), "w"
-    ) as f:
+    with open(os.path.join(optimization_obj.results_path, "optimization_time.txt"), "w") as f:
         f.write("# Time for optimization in seconds:\n")
         f.write(str(optimization_time))
 
@@ -61,8 +61,9 @@ def main(optimization_dictionary: dict):
     ### Get the optimization algorithm object from the optimization object
     opt_alg_obj = optimization_obj.get_optimization_algorithm()
 
-    ### The FoM values for each function evaluation can be founf under FoM_list in the optimization algorithm object
+    ### The FoM values for each function evaluation can be found under FoM_list in the optimization algorithm object
     fomlist = opt_alg_obj.FoM_list
+    np.savetxt(os.path.join(optimization_obj.results_path, "fom.txt"), fomlist)
 
     ### Plot the FoM over the number of evaluations
     fig = plt.figure(figsize=(11, 7))
@@ -92,6 +93,8 @@ def main(optimization_dictionary: dict):
     plt.ylabel('Amplitude', fontsize=20)
     plt.savefig(os.path.join(optimization_obj.results_path, 'Controls.png'))
     # plt.show()
+
+    print("\nBest FoM: {}".format(optimization_obj.opt_alg_obj.best_FoM))
 
 
 if __name__ == "__main__":

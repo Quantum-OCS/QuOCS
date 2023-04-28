@@ -63,7 +63,7 @@ def test_dCRAB_with_maximization():
             "lower_limit": -15.0,
             "bins_number": 101,
             "time_name": "time_1",
-            "amplitude_variation": 0.3,
+            "amplitude_variation": 3,
             "basis": {
                 "basis_name": "Fourier",
                 "basis_vector_number": 2,
@@ -135,7 +135,7 @@ def test_dCRAB_with_minimization():
                     0.51
                 ]
             },
-            "FoM_goal": 0.000001,
+            "FoM_goal": 0.1,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
@@ -153,7 +153,7 @@ def test_dCRAB_with_minimization():
             "lower_limit": -15.0,
             "bins_number": 101,
             "time_name": "time_1",
-            "amplitude_variation": 0.3,
+            "amplitude_variation": 3,
             "basis": {
                 "basis_name": "Fourier",
                 "basis_vector_number": 2,
@@ -228,7 +228,7 @@ def test_dCRAB_with_maximization_prelim_stop():
                     0.51
                 ]
             },
-            "FoM_goal": 0.00001,
+            "FoM_goal": 0.9,
             "dsm_settings": {
                 "general_settings": {
                     "dsm_algorithm_name": "NelderMead",
@@ -246,7 +246,7 @@ def test_dCRAB_with_maximization_prelim_stop():
             "lower_limit": -15.0,
             "bins_number": 101,
             "time_name": "time_1",
-            "amplitude_variation": 0.3,
+            "amplitude_variation": 3,
             "basis": {
                 "basis_name": "Fourier",
                 "basis_vector_number": 2,
@@ -340,7 +340,7 @@ def test_dCRAB_with_minimization_prelim_stop():
             "lower_limit": -15.0,
             "bins_number": 101,
             "time_name": "time_1",
-            "amplitude_variation": 0.3,
+            "amplitude_variation": 3,
             "basis": {
                 "basis_name": "Fourier",
                 "basis_vector_number": 2,

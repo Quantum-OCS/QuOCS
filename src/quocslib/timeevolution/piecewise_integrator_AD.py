@@ -83,9 +83,9 @@ def pw_final_evolution_AD_slow(drive, A, B, n_slices, dt, u0):
 
 @partial(jax.jit, static_argnames=["n_slices"])
 def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
-    """Compute the piecewise evolution of a system defined by the
+    """
+    Compute the piecewise evolution of a system defined by the
     Hamiltonian H = A + drive * B and concatenate all the propagators
-
     :param np.array drive: an array of dimension n_controls x n_slices that contains the amplitudes of the pulse
     :param np.matrix A: the drift Hamiltonian
     :param List[np.matrix] B: the control Hamiltonians

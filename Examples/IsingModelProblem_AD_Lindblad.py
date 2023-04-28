@@ -19,12 +19,13 @@ import jax.numpy as jnp
 from jax.experimental.ode import odeint
 from quocslib.utils.AbstractFoM import AbstractFoM
 from jax.scipy.linalg import sqrtm
-# from quocslib.timeevolution.piecewise_integrator_AD import pw_final_evolution_AD
 
 
 class IsingModel(AbstractFoM):
-    """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187"""
+    """
+    A figure of merit class for optimization of the problem defined by Alastair Marshall via
+    https://arxiv.org/abs/2110.06187
+    """
 
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
@@ -44,9 +45,13 @@ class IsingModel(AbstractFoM):
 
         self.Lindbladian = jnp.asarray(get_dephasing_Lindbladian(self.n_qubits, self.gamma_dephase))
 
-    # Let JAX know to jit the following function
-    # @jax.jit
     def _solve_LME(self, H, time_grid):
+        """
+        Solve the Lindblad master equation using the ode solver from JAX
+        :param H: timedependent Hamiltonian
+        :param time_grid:
+        :return: final, evolved density matrix
+        """
 
         rho_0 = self.rho_0
 
@@ -74,6 +79,12 @@ class IsingModel(AbstractFoM):
         return self.rho_0
 
     def evolve_rho(self, pulse, time_grid):
+        """
+        Wrapper to define a function for the time-dependent Hamiltonian and solve the Lindblad master equation
+        :param pulse: control pulse in front of the control Hamiltonian
+        :param time_grid:
+        :return: final, evolved density matrix
+        """
         time_grid = time_grid.real
         T = time_grid[-1]
 
@@ -107,6 +118,7 @@ class IsingModel(AbstractFoM):
         return {"FoM": fom}
 
 
+# Define some operators
 i2 = np.eye(2)
 sz = 0.5 * np.array([[1, 0], [0, -1]], dtype=np.complex128)
 sx = 0.5 * np.array([[0, 1], [1, 0]], dtype=np.complex128)
@@ -204,7 +216,6 @@ def fom_funct(rho_evolved, rho_aim):
     :param rho_aim:
     :return: overlap fidelity
     """
-    # return jnp.abs(jnp.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved)))) ** 2
-    # return jnp.abs(jnp.trace(rho_evolved.conj().T @ rho_aim))
-    size = rho_evolved.shape[0]
-    return 1 - jnp.sqrt(jnp.abs(jnp.trace((rho_evolved - rho_aim).conj().T * (rho_evolved - rho_aim))) / size)
+    # this does not work with complex matrices
+    # return jnp.abs(jnp.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved))))**2
+    return jnp.sqrt(jnp.abs(jnp.trace(rho_evolved.conj().T @ rho_aim)))

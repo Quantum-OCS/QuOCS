@@ -14,9 +14,6 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
-
-# np.seterr(all="raise")
-
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
     NelderMeadStoppingCriteria, )
@@ -27,8 +24,9 @@ class GradientFreeTemplate(DirectSearchMethod):
 
     def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
-        :param dict settings:
-        :param dict stopping_criteria:
+        Template for a gradient free optimization algorithm class
+        :param dict settings: settings dictionary for the algorithm
+        :param dict stopping_criteria: dictionary with the stopping criteria
         """
         super().__init__()
         if callback is not None:
@@ -43,14 +41,14 @@ class GradientFreeTemplate(DirectSearchMethod):
     def run_dsm(self, func, x0, args=(), initial_simplex=None, drift_comp_minutes=0.0,
                 drift_comp_num_average=1) -> dict:
         """
-
+        Function to run the direct search method
         :param callable func: Function tbe called at every function evaluation
         :param np.array x0: initial point
         :param tuple args: Further arguments
         :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
-        :return:
+        :return dict: A dictionary with information about the search run
         """
         # Creation of the communication function for the OptimizationAlgorithm object
         calls_number, func = self._get_wrapper(args, func)

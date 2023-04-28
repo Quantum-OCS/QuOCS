@@ -19,7 +19,15 @@ from quocslib.handleexit.AbstractHandleExit import AbstractHandleExit
 
 class HandleExit(AbstractHandleExit):
     def __init__(self):
+        """
+        Simple class to handle the program exit
+        """
         self.is_user_running = True
 
     def set_is_user_running(self, is_running: bool):
+        """
+        Set the user running status to True or False
+        :param bool is_running:
+        :return:
+        """
         self.is_user_running = is_running

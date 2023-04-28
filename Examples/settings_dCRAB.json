@@ -5,11 +5,10 @@
         "algorithm_name": "dCRAB",
         "super_iteration_number": 3,
         "max_eval_total": 3000,
-        "optimization_direction": "maximization",
+        "optimization_direction": "minimization",
         "dsm_settings": {
             "general_settings": {
-                "dsm_algorithm_name": "NelderMead",
-                "is_adaptive": true
+                "dsm_algorithm_name": "NelderMead"
             },
             "stopping_criteria": {
                 "xatol": 1e-4,
@@ -24,11 +23,11 @@
     },
     "pulses": [
         {
-            "pulse_name": "Pulse1",
+            "pulse_name": "Pulse_1",
             "upper_limit": 1000.0,
             "lower_limit": -1000.0,
-            "time_name": "time1",
-            "amplitude_variation": 10.0,
+            "time_name": "time_1",
+            "amplitude_variation": 30.0,
             "basis": {
                 "basis_name": "Fourier",
                 "basis_vector_number": 5,
@@ -37,24 +36,13 @@
                     "lower_limit": 0.01,
                     "upper_limit": 10.0
                 }
-            },
-            "scaling_function": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 1.0 + 0.0*t"
-            },
-            "initial_guess": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: 0.0 + 0.0*t"
             }
         }
     ],
     "times": [
         {
-            "time_name": "time1"
+            "time_name": "time_1"
         }
     ],
-    "parameters": [],
-    "communication": {
-        "communication_type": "AllInOneCommunication"
-    }
+    "parameters": []
 }

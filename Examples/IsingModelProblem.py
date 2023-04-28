@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
+from scipy.linalg import sqrtm
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator import pw_evolution
 from quocslib.tools.randomgenerator import RandomNumberGenerator
@@ -22,8 +23,10 @@ import functools
 
 
 class IsingModel(AbstractFoM):
-    """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187"""
+    """
+    A figure of merit class for optimization of the problem defined by Alastair Marshall via
+    https://arxiv.org/abs/2110.06187
+    """
 
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
@@ -57,6 +60,7 @@ class IsingModel(AbstractFoM):
         return self.H_control
 
     def get_drift_Hamiltonian(self):
+        # only use "noise" on g if rng seed is set
         if self.rng != 0:
             return get_static_hamiltonian(self.n_qubits, self.J,
                                           self.g + self.g_variation * (0.5 - self.rng.get_random_numbers(1)[0]))
@@ -73,6 +77,13 @@ class IsingModel(AbstractFoM):
                        pulses_list: list = [],
                        time_grids_list: list = [],
                        parameters_list: list = []) -> np.array:
+        """
+        This function computes the propagator for the given pulses, parameters and time grids.
+        :param pulses_list:
+        :param time_grids_list:
+        :param parameters_list:
+        :return: list of propagators
+        """
 
         drive = pulses_list[0].reshape(1, len(pulses_list[0]))
         n_slices = self.n_slices
@@ -89,18 +100,25 @@ class IsingModel(AbstractFoM):
                 pulses: list = [],
                 parameters: list = [],
                 timegrids: list = []) -> dict:
-        """ """
+        """
+        Function to calculate the figure of merit from the pulses, parameters and timegrids.
+        :param pulses:
+        :param parameters:
+        :param timegrids:
+        :return dict: The figure of merit in a dictionary
+        """
         # Compute the final propagator
         prop_store = self.get_propagator(pulses, timegrids, parameters)
         U_final = functools.reduce(lambda a, b: a @ b, self.prop_store)
         # evolve initial state
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
-        fidelity = fidelity_funct(rho_final.T, self.rho_target)
+        fidelity = fom_funct(rho_final, self.rho_target)
         self.FoM_list.append(fidelity)
-        return {"FoM": fidelity, "std": self.stdev}
+        return {"FoM": -fidelity, "std": self.stdev}
 
 
+# Define some operators
 i2 = np.eye(2)
 sz = 0.5 * np.matrix([[1, 0], [0, -1]], dtype=np.complex128)
 sx = 0.5 * np.matrix([[0, 1], [1, 0]], dtype=np.complex128)
@@ -118,12 +136,7 @@ def tensor_together(A):
     return res
 
 
-def fidelity_funct(rho_evolved, rho_aim):
-    return np.abs(np.trace(rho_evolved.conj() @ rho_aim))
-
-
 def get_static_hamiltonian(nqu, J, g):
-
     dim = 2**nqu
     H0 = np.zeros((dim, dim), dtype=np.complex128)
     for j in range(nqu):
@@ -162,7 +175,6 @@ def get_static_hamiltonian(nqu, J, g):
 
 
 def get_control_hamiltonian(nqu: int):
-    # get the controls
     dim = 2**nqu
     H_at_t = np.zeros((dim, dim), dtype=np.complex128)
     for j in range(nqu):
@@ -183,3 +195,13 @@ def get_initial_state(nqu: int):
 def get_target_state(nqu: int):
     state = [psiT] * nqu
     return tensor_together(state)
+
+
+def fom_funct(rho_evolved, rho_aim):
+    """
+    Function to calculate the overlap between two density matrices.
+    :param rho_evolved:
+    :param rho_aim:
+    :return: overlap fidelity
+    """
+    return np.abs(np.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved))))**2

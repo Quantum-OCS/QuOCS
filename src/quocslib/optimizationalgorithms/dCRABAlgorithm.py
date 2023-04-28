@@ -82,7 +82,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             if "re_evaluation_steps" in re_evaluation_parameters:
                 self.re_evaluation_steps = np.asarray(re_evaluation_parameters["re_evaluation_steps"], dtype=float)
             else:
-                self.re_evaluation_steps = np.asarray([0.3, 0.5, 0.6], dtype=float)
+                self.re_evaluation_steps = np.asarray([0.3, 0.5, 0.501], dtype=float)
                 message = "Steps not found. The default will be used in the optimization: {0}".format(
                     self.re_evaluation_steps)
                 self.comm_obj.print_logger(message, level=30)

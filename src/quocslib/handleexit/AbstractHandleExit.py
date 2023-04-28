@@ -18,9 +18,9 @@ from abc import ABCMeta
 
 
 class AbstractHandleExit(metaclass=ABCMeta):
-    """Abstract to handle the program exit"""
+    """Abstract class to handle the program exit"""
 
     is_user_running: bool
 
     def set_is_user_running(self, is_running: bool):
-        """ Set the user running status to True or False, and send signals if any"""
+        """Set the user running status to True or False"""

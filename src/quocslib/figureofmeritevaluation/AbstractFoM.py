@@ -21,5 +21,11 @@ class AbstractFoM(metaclass=ABCMeta):
     """Abstract class for figure of merit evaluation"""
     @abstractmethod
     def get_FoM(self, pulses_list, time_grids_list, parameters_list) -> dict:
-        """Abstract method for figure of merit evaluation. It returns a dictionary with
-        the FoM key inside"""
+        """
+        Abstract method for figure of merit evaluation. It returns a dictionary with
+        the FoM key inside
+
+        :param pulses_list: list of numpy arrays with the pulses
+        :param time_grids_list: list of numpy arrays with the time grids
+        :param parameters_list: numpy array with the parameters
+        """

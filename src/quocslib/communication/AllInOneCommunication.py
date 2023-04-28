@@ -118,23 +118,14 @@ class AllInOneCommunication:
         self.logger.info("Setting is_running state: {0}".format(self.he_obj.is_user_running))
 
     def send_controls(self, controls_dict: dict) -> None:
-        """
-        Set the controls for FoM calculation and notify the gui
-
-        :param dict controls_dict:
-        :return:
-        """
+        """Set the controls for FoM calculation and notify the gui"""
         self.controls_dict = controls_dict
         if self.controls_update_signal is not None:
             self.controls_update_signal.emit(controls_dict["pulses"], controls_dict["timegrids"],
                                              controls_dict["parameters"])
 
     def set_controls_names(self, controls_names_dict: dict) -> None:
-        """
-         Set the controls names dictionary
-         :param dict controls_names_dict:
-         :return:
-         """
+        """Set the controls names dictionary"""
         self.controls_names_dict = controls_names_dict
 
     def get_data(self) -> dict:

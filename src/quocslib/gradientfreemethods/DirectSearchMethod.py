@@ -14,17 +14,22 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
-
 import numpy as np
 
 
 class Wrap:
     def __init__(self, args):
+        """Wrapper class for the function to be optimized"""
         self.args = args
         self.calls_number = [0]
         self.function = None
 
     def function_wrapper(self, *wrapper_args):
+        """
+        Calls the function to be optimized with the initially defined arguments and any additional arguments
+        :param wrapper_args: additional arguments given to the wrapper function
+        :return: output of the defined function
+        """
         self.calls_number[0] += 1
         if len(self.args) == 0:
             return self.function(*wrapper_args)
@@ -32,6 +37,11 @@ class Wrap:
             return self.function(*(wrapper_args + self.args))
 
     def wrap_function(self, function):
+        """
+        Returns the number of calls to the function and the wrapped function
+        :param function:
+        :return int, function: number of calls to the function and the wrapped function
+        """
         if function is None:
             return self.calls_number, None
         self.function = function
@@ -43,6 +53,7 @@ class DirectSearchMethod:
     sc_obj: StoppingCriteria
 
     def __init__(self):
+        """Constructor of the DirectSearchMethod class"""
         # TODO Set the initial wrapper function with the target function and the optional arguments
         # TODO Integrate here the callback function for user interruption
         pass
