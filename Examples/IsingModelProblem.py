@@ -127,6 +127,7 @@ psiT = np.matrix([[0, 0], [0, 1]], dtype=np.complex128)
 
 
 def tensor_together(A):
+    """Takes a list of matrices and multiplies them together with the tensor product"""
     res = np.kron(A[0], A[1])
     if len(A) > 2:
         for two in A[2:]:

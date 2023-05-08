@@ -14,15 +14,127 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
-from quocslib.optimalcontrolproblems.su2 import *
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.timeevolution.piecewise_integrator import pw_evolution
 import functools
+from scipy.linalg import sqrtm
+
+
+def tensor_together(A):
+    """Takes a list of matrices and multiplies them together with the tensor product"""
+    res = np.kron(A[0], A[1])
+    if len(A) > 2:
+        for two in A[2:]:
+            res = np.kron(res, two)
+    else:
+        res = res
+    return res
+
+
+def get_static_hamiltonian(nqu, J, g):
+    """
+    Get the static Hamiltonian for the Ising model
+    :param nqu: Number of qubits
+    :param J: Nearest neighbour coupling
+    :param g: Next-nearest neighbour coupling
+    :return: The Hamiltonian
+    """
+    dim = 2**nqu
+    H0 = np.zeros((dim, dim), dtype=np.complex128)
+    i2 = np.eye(2)
+    sz = np.array([[1, 0], [0, -1]], dtype="complex")
+    for j in range(nqu):
+        # set up holding array
+        rest = [i2] * nqu
+        # set the correct elements to sz
+        # check, so we can implement a loop around
+        if j == nqu - 1:
+            idx1 = j
+            idx2 = 0
+        else:
+            idx1 = j
+            idx2 = j + 1
+        rest[idx1] = sz
+        rest[idx2] = sz
+        H0 = H0 - J * tensor_together(rest)
+
+    for j in range(nqu):
+        # set up holding array
+        rest = [i2] * nqu
+        # set the correct elements to sz
+        # check, so we can implement a loop around
+        if j == nqu - 1:
+            idx1 = j
+            idx2 = 1
+        elif j == nqu - 2:
+            idx1 = j
+            idx2 = 0
+        else:
+            idx1 = j
+            idx2 = j + 2
+        rest[idx1] = sz
+        rest[idx2] = sz
+        H0 = H0 - g * tensor_together(rest)
+    return H0
+
+
+def get_control_hamiltonian(nqu: int):
+    """"
+    Get the control Hamiltonian for the Ising model
+    :param nqu: Number of qubits
+    :return: The Hamiltonian
+    """
+    dim = 2**nqu
+    H_at_t = np.zeros((dim, dim), dtype=np.complex128)
+    i2 = np.eye(2)
+    sx = np.array([[0, 1], [1, 0]], dtype="complex")
+    for j in range(nqu):
+        # set up holding array
+        rest = [i2] * nqu
+        # set the correct elements to sz
+        # check, so we can implement a loop around
+        rest[j] = sx
+        H_at_t = H_at_t + tensor_together(rest)
+    return H_at_t
+
+
+def get_initial_state(nqu: int):
+    """
+    Get the initial state for the Ising model
+    :param nqu:
+    :return: Initial state density matrix
+    """
+    rho0 = np.array([[1, 0], [0, 0]], dtype=np.complex128)
+    state = [rho0] * nqu
+    return tensor_together(state)
+
+
+def get_target_state(nqu: int):
+    """
+    Get the target state for the Ising model
+    :param nqu:
+    :return: Target state density matrix
+    """
+    rhoT = np.array([[0, 0], [0, 1]], dtype=np.complex128)
+    state = [rhoT] * nqu
+    return tensor_together(state)
+
+
+def fidelity_funct(rho_evolved, rho_aim):
+    """
+    Function to calculate the overlap between two density matrices.
+    :param rho_evolved:
+    :param rho_aim:
+    :return: overlap fidelity
+    """
+    return np.abs(np.trace(sqrtm(sqrtm(rho_evolved) @ rho_aim @ sqrtm(rho_evolved)))) ** 2
 
 
 class IsingModel(AbstractFoM):
-    """A figure of merit class for optimization of the problem defined by Alastair Marshall via
-    https://arxiv.org/abs/2110.06187"""
+    """
+    A figure of merit class for optimization of the problem defined by Alastair Marshall via
+    https://arxiv.org/abs/2110.06187
+    """
     def __init__(self, args_dict: dict = None):
         if args_dict is None:
             args_dict = {}
@@ -57,13 +169,16 @@ class IsingModel(AbstractFoM):
     def get_initial_state(self):
         return self.rho_0
 
-    def get_propagator(
-        self,
-        pulses_list: list = [],
-        time_grids_list: list = [],
-        parameters_list: list = [],
-    ) -> np.array:
-        """ Compute and return the list of propagators """
+    def get_propagator(self,
+                       pulses_list: list = [],
+                       time_grids_list: list = [],
+                       parameters_list: list = []) -> np.array:
+        """
+        Compute and return the list of propagators
+        :param pulses_list: List of pulses
+        :param time_grids_list: List of time grids
+        :param parameters_list: List of parameters
+        :return: List of propagators"""
         drive = pulses_list[0].reshape(1, len(pulses_list[0]))
         n_slices = self.n_slices
         time_grid = time_grids_list[0]
@@ -75,7 +190,13 @@ class IsingModel(AbstractFoM):
         return self.prop_store
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
-        """ """
+        """
+        Compute and return the figure of merit
+        :param pulses: List of pulses
+        :param parameters: List of parameters
+        :param timegrids: List of time grids
+        :return dict: Figure of merit in a dictionary
+        """
         # Check if the propagator list is computed before compute the final propagator
         if not self.propagators_are_computed:
             self.get_propagator(pulses_list=pulses, time_grids_list=timegrids, parameters_list=parameters)

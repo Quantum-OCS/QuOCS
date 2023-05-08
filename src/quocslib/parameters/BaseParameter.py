@@ -31,11 +31,14 @@ class BaseParameter:
         amplitude_variation=0.1,
     ):
         """
-        @param str parameter_name: Name of the parameter
-        @param float initial_value: Initial value for the parameter to be used in the optimization
-        @param float lower_limit: Lower limit for the parameter
-        @param float upper_limit: Upper limit for the parameter
-        @param float amplitude_variation: Amplitude variation for the simplex initialization
+        Constructor of the BaseParameter class. It is used to define the parameter to be optimized.
+
+        :param int map_index: Index of the parameter in the map of all parameters
+        :param str parameter_name: Name of the parameter
+        :param float initial_value: Initial value for the parameter to be used in the optimization
+        :param float lower_limit: Lower limit for the parameter
+        :param float upper_limit: Upper limit for the parameter
+        :param float amplitude_variation: Amplitude variation for the simplex initialization
         """
         # Parameter name
         self.parameter_name = parameter_name
@@ -55,43 +58,43 @@ class BaseParameter:
         self.last_index = self.control_parameters_list[-1]
 
     def set_control_parameters_list(self, map_index):
-        """Set the control parameters list. It is used when the"""
+        """Updates the control parameters list."""
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
 
     def set_parameter(self, optimized_parameter_vector):
         """
-        Set the parameter value after checking the constraints
-        @param np.array optimized_parameter_vector: The optimized parameter coming from the optimization algorithm
-        @return:
+        Sets the parameter value after checking the constraints.
+
+        :param np.array optimized_parameter_vector: The optimized parameter coming from the optimization algorithm
         """
-        #
         self._set_parameter(optimized_parameter_vector[0])
 
     def get_parameter(self, optimized_parameter_vector):
         """
+        Gets the parameter value after checking the constraints.
 
-        @param optimized_parameter_vector:
-        @return:
+        :param optimized_parameter_vector:
+        :return float: The parameter value
         """
         self._set_parameter(optimized_parameter_vector[0])
         return self.value
 
     def _set_parameter(self, parameter):
         """
+        Sets the parameter value after checking the constraints.
 
-        @param float parameter:
-        @return:
+        :param float parameter:
         """
         self.value = self._check_limits(parameter)
 
     def _check_limits(self, parameter):
         """
-        Check if the optimized parameter respect the amplitude limits before sending to the main controls
-        @param float parameter: Parameter coming from the optimization
-        @return float: Return the parameter after applying the constraints
+        Check if the optimized parameter respect the amplitude limits before sending to the main controls.
+        If it exceeds one of the limits it is set to the limit value.
+
+        :param float parameter: Parameter coming from the optimization
+        :return float: Parameter value after applying the constraints
         """
-        #
         a = self.lower_limit
-        #
         b = self.upper_limit
         return np.minimum(np.maximum(a, parameter), b)

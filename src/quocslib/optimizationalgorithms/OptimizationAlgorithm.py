@@ -44,6 +44,7 @@ class OptimizationAlgorithm:
         in that class.
 
         :param dict communication_obj: Object fo the communication class
+        :param dict optimization_dict: Dictionary with the optimization settings
         """
         self.comm_obj = communication_obj
         self.optimization_dict = optimization_dict
@@ -104,12 +105,20 @@ class OptimizationAlgorithm:
                                                    'Settings_in_Optimization_Dict.md)', 30)
 
     def handle_user_cancellation(self, sig, frame):
+        """
+        Handle the user cancellation of the optimization
+        :param sig:
+        :param frame:
+        :return:
+        """
         self.higher_order_terminate_reason = "User stopped the optimization"
         self.dsm_obj.sc_obj.is_converged = True
         self.stop_optimization()
 
     def begin(self) -> None:
-        """Initialize the communication with the client"""
+        """
+        Initialize the communication with the client
+        """
         # Open the log with the QuOCS version number
         self.comm_obj.print_logger("QuOCS version number: {0}".format(QUOCSLIB_VERSION))
         # Send starting message to the interface
@@ -235,9 +244,10 @@ class OptimizationAlgorithm:
         return -1.0 * self.optimization_factor * self.FoM_dict["FoM"]
 
     def get_is_record(self, FoM: float) -> bool:
-        """Check if the figure of merit provided is a new record
+        """
+        Check if the figure of merit provided is a new record
 
-        :param: FoM  : figure of merit provided by the user
+        :param: float : figure of merit provided by the user
         """
         # Minimization
         if self.optimization_factor < 0.0:
@@ -283,7 +293,6 @@ class OptimizationAlgorithm:
     def get_best_controls(self) -> dict:
         """Return the best pulses_list, time_grids_list, and parameters_list found so far"""
         pulses_list, time_grids_list, parameters_list = self.controls.get_final_controls_lists(self.controls.get_mean_value())
-        # return {"pulses": pulses_list, "parameters": parameters_list, "timegrids": time_grids_list}
         return {"pulses": pulses_list,
                 "parameters": parameters_list,
                 "timegrids": time_grids_list}

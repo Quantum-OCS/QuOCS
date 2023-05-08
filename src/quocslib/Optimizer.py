@@ -24,13 +24,29 @@ from quocslib.utils.AbstractFoM import AbstractFoM
 
 
 class Optimizer:
+    """
+    The Optimizer class is the main class of the optimization. It is responsible for the initialization of the
+    optimization algorithm and the communication object. The communication object is responsible for the
+    communication between the optimization algorithm and the interface. The optimization algorithm is responsible
+    for the optimization itself. The optimizer class is also responsible for the initialization of the
+    HandleExit object if it is not configured and passed to the Optimizer object. The HandleExit object is
+    responsible for the handling of the exit signals.
+    It also has the method execute() to start the optimization and the method get_optimization_algorithm() to
+    return the optimization algorithm object.
+    """
     def __init__(self,
                  optimization_dict: dict = None,
                  FoM_object: AbstractFoM = None,
                  comm_signals_list: [list, list, list] = None,
                  handle_exit_obj: AbstractHandleExit = None):
         """
-        Write this docstring
+        Constructor of the Optimizer class. Initializes the objects for ExitHandling, Communication, Dumping and
+        OptimizationAlgorithm.
+
+        :param optimization_dict: Dictionary containing the optimization settings
+        :param FoM_object: Figure of Merit object
+        :param comm_signals_list: List of signals for the communication object
+        :param handle_exit_obj: HandleExit object
         """
         # Handle exit
         if handle_exit_obj is None:
@@ -61,11 +77,17 @@ class Optimizer:
                                                                            FoM_object=FoM_object)
 
     def execute(self):
-        """ Write this docstring """
+        """
+        Execute the optimization. It runs the begin(), run() and end() methods of the optimization algorithm.
+        """
         self.opt_alg_obj.begin()
         self.opt_alg_obj.run()
         self.opt_alg_obj.end()
 
     def get_optimization_algorithm(self):
-        """ Return the optimization algorithm object """
+        """
+        Returns the optimization algorithm object
+
+        :return: Optimization algorithm object
+        """
         return self.opt_alg_obj

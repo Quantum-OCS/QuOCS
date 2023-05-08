@@ -27,17 +27,21 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 class GRAPEAlgorithm(OptimizationAlgorithm):
     """
     This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
-    The three important function are:
+    The important functions are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
+    * _get_response_for_client : return info about the goodness of the controls and errors if any
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
     * _get_final_results: return the final result of the optimization algorithm
     """
     def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
-        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls
-        are defined.
+        OptimizationAlgorithm constructor except for the FoM_object, which is used to compute the figure of merit.
+
+        :param optimization_dict: dictionary with the settings for the optimization
+        :param communication_obj: object to communicate with the client
+        :param FoM_object: object to compute the figure of merit
         """
         super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
@@ -99,6 +103,12 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.iteration_number_list: list = []
 
     def _get_response_for_client(self) -> dict:
+        """
+        This function returns the response for the client.
+
+        :return dict: Information dictionary with the FoM, iteration number, status code, and if the FoM is a new
+        record
+        """
         FoM = self.FoM_dict["FoM"]
         status_code = self.FoM_dict.setdefault("status_code", 0)
         if self.get_is_record(FoM):
@@ -121,7 +131,12 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         return response_dict
 
     def get_gradient(self, optimized_control_parameters: np.array):
-        """Get the gradient from the propagators calculated in the FoM object"""
+        """
+        Get the gradient from the propagators calculated in the FoM object
+
+        :param optimized_control_parameters: optimized control parameters
+        :return: gradients
+        """
         # Calculate the controls
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
         # Pass the controls to the get propagator function
@@ -173,7 +188,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         return FoM, grads
 
     def run(self) -> None:
-        """Main loop of the optimization"""
+        """Starts the main loop of the optimization"""
         # Initial set of random parameters
         # I have to use random parameters to avoid initial local trap (null gradient)
         # Create array with values between [-1.0, 1.0]
@@ -199,7 +214,12 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.controls.update_base_controls(self.best_xx)
 
     def _get_controls(self, xx: np.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters"""
+        """
+        Get the controls dictionary from the optimized control parameters
+
+        :param xx: optimized control parameters
+        :return dict : dictionary with the controls
+        """
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
 
         controls_dict = {
@@ -210,7 +230,11 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """Return a dictionary with final results to put into a dictionary"""
+        """
+        Return a dictionary with final results
+
+        :return dict: dictionary with final results
+        """
         final_dict = {
             "Figure of merit": self.best_FoM,
             "nfev": self.iteration_number,

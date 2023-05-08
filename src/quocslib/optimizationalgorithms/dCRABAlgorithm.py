@@ -25,10 +25,23 @@ from quocslib.utils.dynamicimport import dynamic_import
 
 
 class dCRABAlgorithm(OptimizationAlgorithm):
+    """
+    This is the implementation of the dCRAB algorithm.
+    The important function are:
+    * the constructor with the optimization dictionary and the communication object as parameters
+    * run : The main loop for optimal control
+    * _get_response_for_client : return info about the goodness of the controls and errors if any
+    * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
+    * _get_final_results: return the final result of the optimization algorithm
+    """
     def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
         This is the implementation of the dCRAB algorithm. All the arguments in the constructor are passed to the
-        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the dCRAB settings and the controls are
+        defined.
+
+        :param optimization_dict: dictionary with the optimization settings and the controls
+        :param communication_obj: object to communicate with the client
         """
         super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
@@ -129,7 +142,12 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         self.iteration_number_list: list = []
 
     def _get_response_for_client(self) -> dict:
-        """ Return useful information for the client interface and print message in the log """
+        """
+        This function returns the response for the client
+
+        :return dict: Information dictionary with the FoM, iteration number, SI number, status code, and if the FoM
+        is a new record
+        """
         # Get the average FoM
         FoM, std = self._get_average_FoM_std()
         status_code = self.FoM_dict.setdefault("status_code", 0)
@@ -171,7 +189,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         return response_dict
 
     def run(self) -> None:
-        """Main loop of the dCRAB method"""
+        """Starts the main loop of the optimization"""
         for super_it in range(1, self.max_num_si + 1):
             # Check if the optimization was stopped by the user
             if not self.is_optimization_running():
@@ -257,8 +275,14 @@ class dCRABAlgorithm(OptimizationAlgorithm):
 
     def _inner_routine_call(self, optimized_control_parameters: np.array, iterations: int,
                             drift_comp_new_val=None) -> float:
-        """This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
-        with the same controls multiple times to take into accounts noise in the system"""
+        """
+        This is an inner method for function evaluation. It is useful when the user wants to evaluate the FoM
+        with the same controls multiple times to take into account noise in the system
+
+        :param optimized_control_parameters: optimized control parameters
+        :param iterations: number of iterations performed so far
+        :param drift_comp_new_val: new value of the FoM due to drift compensation
+        """
         if drift_comp_new_val is not None:
             mu_1 = drift_comp_new_val
             self.best_FoM = mu_1
@@ -347,7 +371,13 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         return -1.0 * self.optimization_factor * mu_1
 
     def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
-        """Calculate the average figure of merit and sigma"""
+        """
+        Calculate the average figure of merit and standard deviaiton
+
+        :param mu_sum: Sum of the figure of merit values for the re-evaluation steps
+        :param sigma_sum: Sum of the standard deviation values for the re-evaluation steps
+        :return: Average figure of merit and standard deviation
+        """
         step_number = self.step_number
         # For the first evaluation and in case no re-evaluation step is needed return directly
         if step_number == 0:
@@ -393,7 +423,12 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         return probability
 
     def _get_controls(self, xx: np.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters"""
+        """
+        Get the controls dictionary from the optimized control parameters
+
+        :param xx: optimized control parameters
+        :return dict : dictionary with the controls
+        """
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
 
         controls_dict = {
@@ -404,7 +439,11 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """Return a dictionary with final results to put into a dictionary"""
+        """
+        Return a dictionary with final results
+
+        :return dict: dictionary with final results
+        """
         final_dict = {
             "Figure of merit": self.best_FoM,
             "Std": self.best_sigma,

@@ -32,7 +32,7 @@ class Walsh(ChoppedBasis):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
-        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
+        :param dict pulse_dictionary: The dictionary of the pulse is defined here. Only the basis dictionary is used btw
         """
         #################
         # Basis dependent settings

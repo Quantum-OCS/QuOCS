@@ -23,16 +23,20 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
 class Sigmoid(ChoppedBasis):
+    """
+    Class for the Sigmoid basis. It inherits from the ChoppedBasis class.
+    """
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
+    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None, is_AD: bool = False):
         """
+        Constructor of the Sigmoid basis class. It calls the constructor of the parent class ChoppedBasis.
 
-        :param int map_index: Index number to use to get the control parameters for the Fourier basis
-        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
+        :param int map_index: Index number to use to get the control parameter.
+        :param dict pulse_dictionary: The dictionary of the pulse is defined here. Only the basis dictionary is used.
         """
         basis_dict = pulse_dictionary["basis"]
         # Frequencies number i.e. the basis vector number in the pulse parametrization
@@ -43,20 +47,22 @@ class Sigmoid(ChoppedBasis):
         # Number of control parameters to be optimized
         self.control_parameters_number = self.super_parameter_number + 1
         # Constructor of the parent class Chopped BasisX
-        super().__init__(map_index=map_index, **pulse_dictionary)
+        super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
         # Define scale and offset coefficients
         self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
         self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
-        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
+        """
+        Definition of the pulse parametrization. It is called at every function evaluation to build the pulse and
+        return it as an array.
+
+        :return np.array: The pulse as an array.
+        """
         # Pulse definition
         pulse = np.zeros(self.bins_number)
         # Final time definition
         final_time = self.final_time
-        # basis specific definitions
-        # sigma = final_time/100  # NEEDS TO BE SET IN CONFIG
-        # offset = sigma*(self.amplitude_upper-self.amplitude_lower)/10  # NEEDS TO BE SET IN CONFIG
         # Pulse creation
         Aopti = self.optimized_control_parameters  # amplitudes
         taus = self.super_parameter_distribution_obj.w  # times

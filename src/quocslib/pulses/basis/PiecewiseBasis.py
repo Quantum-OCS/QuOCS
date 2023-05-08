@@ -21,6 +21,9 @@ from quocslib.pulses.BasePulse import BasePulse
 
 
 class PiecewiseBasis(BasePulse):
+    """
+    General class for piecewise basis. Inheits from the BasePulse class.
+    """
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
     optimized_super_parameters: np.ndarray
@@ -28,11 +31,12 @@ class PiecewiseBasis(BasePulse):
 
     def __init__(self, map_index, pulse_dictionary: dict, rng: RandomNumberGenerator = None, is_AD: bool = False):
         """
+        Constructor of the PiecewiseBasis class. It calls the constructor of the parent class BasePulse.
 
-        :param int map_index: Index number to use to get the control parameters for the Fourier basis
-        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
-
-        :param dict pulse_dictionary: Should contain the basis_dict under the key "basis" and should contain the number of bins and time spacing under "n_bins" and "dt"
+        :param int map_index: Index number to use to get the control parameter.
+        :param dict pulse_dictionary: The dictionary of the pulse is defined here.
+        :param RandomNumberGenerator rng: The random number generator object.
+        :param bool is_AD: Flag to indicate if the pulse is used in the AD optimization.
         """
         self.control_parameters_number = pulse_dictionary["bins_number"]
         super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
@@ -42,15 +46,13 @@ class PiecewiseBasis(BasePulse):
         self.offset_coefficients = np.zeros((self.control_parameters_number, ))
         self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
 
-    # def setdefault(a, b, c):
-    #     class Skipper:
-    #         def __init__(self):
-    #             self.last_index = 0
-    #
-    #     return lambda x, y: Skipper()
-
     def _get_shaped_pulse(self) -> np.array:
-        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
+        """
+        Definition of the pulse parametrization. It is called at every function evaluation to build the pulse and
+        return it as an array.
+
+        :return np.array: The pulse as an array.
+        """
         #################
         # Standard Basis Settings: amplitude limits, amplitude variation for the simplex,
         # distribution of super parameters, etc ...

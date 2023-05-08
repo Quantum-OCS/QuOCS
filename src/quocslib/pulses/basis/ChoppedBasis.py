@@ -20,18 +20,20 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 class ChoppedBasis(BasePulse):
     """
-    General class for chopped basis. All the chopped basis has to inherit this class.
+    General class for chopped basis. It inherits from the BasePulse class.
     """
 
     super_parameter_number: int
 
-    def __init__(self, basis: dict = None, rng: RandomNumberGenerator = None, **kwargs):
+    def __init__(self, basis: dict = None, rng: RandomNumberGenerator = None, is_AD: bool = False, **kwargs):
         """
+        Constructor of the ChoppedBasis class. It calls the constructor of the parent class BasePulse.
 
-        :param basis:
-        :param kwargs:
+        :param dict basis: The dictionary of the basis is defined here.
+        :param RandomNumberGenerator rng: The random number generator object.
+        :param bool is_AD: Flag to activate the automatic differentiation.
         """
-        super().__init__(rng=rng, **kwargs)
+        super().__init__(rng=rng, is_AD=is_AD, **kwargs)
         super_parameter_distribution_dict = basis["random_super_parameter_distribution"]
         # Distribution attribute
         distribution_attribute = dynamic_import(
@@ -47,6 +49,6 @@ class ChoppedBasis(BasePulse):
     # Implement here other modules for Chopped Random Basis
 
     def update_chopped_basis(self) -> None:
-        """Update chopped basis parameter. This function has to be implemented in the Basis class in case it needs, and
-        used in the algorithm whenever at the begin of the new super iteration
+        """
+        Does nothing so far but can be overloaded to update the chopped basis.
         """

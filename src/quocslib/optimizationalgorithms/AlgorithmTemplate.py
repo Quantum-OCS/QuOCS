@@ -24,7 +24,7 @@ from quocslib.tools.linearalgebra import simplex_creation
 
 class AlgorithmTemplate(OptimizationAlgorithm):
     """
-    This is the template for an algorithm class. The three important function are:
+    This is the template for an algorithm class. The important functions are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
     * _get_response_for_client : return info about the goodness of the controls and errors if any
@@ -71,7 +71,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         )
 
     def _get_response_for_client(self) -> dict:
-        """Return useful information for th interface"""
+        """Return useful information for the interface"""
         is_record = False
         FoM = self.FoM_dict["FoM"]
         if FoM < self.best_FoM:
@@ -101,7 +101,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
             self._update_base_pulses()
 
     def _update_base_pulses(self) -> None:
-        """Update the base dCRAB pulse"""
+        """Update the base pulse"""
         self.controls.update_base_controls(self.xx)
 
     def _dsm_build(self, max_iteration_number: int) -> None:

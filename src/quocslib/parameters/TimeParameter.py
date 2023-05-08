@@ -18,11 +18,14 @@ from quocslib.parameters.BaseParameter import BaseParameter
 
 
 class TimeParameter(BaseParameter):
-    """Class for the time. In case the user chooses to optimize the time, the code redefines the time in function of an
-    optimal parameter alpha:
+    """
+    Class for the time.
+    Available in future updates:
+    In case the user chooses to optimize the time, the code redefines the time in a function of a control parameter
+    alpha:
     t = t_0 + alpha(t_max - t_min)
-    where t_0 is the guess time, and t_max and t_min the limits for the optimal time.
-    The limits for the optimal parameter alpha are then defined as:
+    where t_0 is the guess time, and t_max and t_min the limits for the varied time.
+    The limits for the control parameter alpha are then defined as:
     alpha_in = 0
     alpha_max = (t_max - t_0)/(t_max - t_min)
     alpha_min = (t_min - t_0)/(t_max - t_min)
@@ -39,8 +42,9 @@ class TimeParameter(BaseParameter):
         amplitude_variation=0.1,
     ):
         """
+        Constructor of the time parameter object.
 
-        :param map_index:
+        :param map_index: Index of the time in the map of parameters
         :param str time_name: Name of the time parameter assigned by the user
         :param float initial_value: Initial value or fixed value of the time
         :param bool is_optimization: True if the user wants also to optimize the time
@@ -76,7 +80,11 @@ class TimeParameter(BaseParameter):
         #    super().__init__(parameter_name=time_name, initial_value=initial_value)
 
     def get_time(self) -> float:
-        """Return the time. In case of time optimization, use the alpha parameter to get the optimized time"""
+        """
+        Returns the time. In case of time optimization the alpha parameter is used to get the optimized time
+
+        :return float: time
+        """
         if self.is_optimization:
             # value is the optimized parameter
             time = self.time + self.value * self.time_variation

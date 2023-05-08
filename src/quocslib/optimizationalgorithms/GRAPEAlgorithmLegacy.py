@@ -28,7 +28,7 @@ from quocslib.pulses.basis.PiecewiseBasis import PiecewiseBasis
 class GRAPEAlgorithm:
     """
     This is an implementation of the gradient ascent pulse engineering (GRAPE) algorithm for open-loop optimal control.
-    The three important function are:
+    The three important functions are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
     * _get_controls : return the set of controls as a dictionary with pulses, parameters, and times as keys
@@ -37,7 +37,12 @@ class GRAPEAlgorithm:
     def __init__(self, optimization_dict: dict = None, communication_obj=None, gradient_propagator_func=None, **kwargs):
         """
         This is the implementation of the GRAPE algorithm. All the arguments in the constructor are passed to the
-        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
+        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are
+        defined.
+
+        :param optimization_dict: dictionary with the settings for the optimization
+        :param communication_obj: object to communicate with the client
+        :param gradient_propagator_func: function to compute the gradient of the propagator
         """
         ###########################################################################################
         # Optimal algorithm variables if any
@@ -103,7 +108,8 @@ class GRAPEAlgorithm:
         self.controls = Controls(pulse_dict, time_dict, param_dict, rng=None)
 
     def functional(self, drive, A, B, n_slices, dt, U_store, rho_store, corho_store, sys_type):
-        """Compute the fidelity functional for the defined problem
+        """
+        Compute the fidelity functional for the defined problem
 
         :param np.array drive: this should be a flat array that will be resized into N_ctrls x N_slices
         :param np.matrix A: drift Hamiltonian
@@ -173,8 +179,7 @@ class GRAPEAlgorithm:
         )
 
     def run(self, init) -> None:
-        """Main loop of the optimization"""
-
+        """Starts the main loop of the optimization"""
         func_topt = self._get_functional()
         # now we can optimize
         # need to be able to include things
@@ -187,7 +192,11 @@ class GRAPEAlgorithm:
         self.iteration_number = oo.nfev
 
     def _get_controls(self, xx: np.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters"""
+        """
+        Get the controls dictionary from the optimized control parameters
+
+        :return dict: a dictionary containing the controls
+        """
         # [pulses, timegrids, parameters] = self.controls.get_controls_lists(xx)
         pulses = [self.optimized_pulses]
         timegrids = [np.ones(self.n_slices) * self.dt]
@@ -201,7 +210,11 @@ class GRAPEAlgorithm:
         return controls_dict
 
     def _get_final_results(self) -> dict:
-        """Return a dictionary with final results to put into a dictionary"""
+        """
+        Return a dictionary with final results to put into a dictionary
+
+        :return dict: a dictionary with final results
+        """
         final_dict = {
             "FoM": self.best_FoM,
             "nfev": self.iteration_number,

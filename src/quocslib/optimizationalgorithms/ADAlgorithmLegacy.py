@@ -28,7 +28,7 @@ from quocslib.timeevolution.piecewise_integrator import pw_final_evolution
 
 class ADAlgorithm(OptimizationAlgorithm):
     """
-    This is the template for an algorithm class. The three important function are:
+    This is the template for an algorithm class. The important functions are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
     * _get_response_for_client : return info about the goodness of the controls and errors if any
@@ -73,7 +73,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         self.opt_res = None
 
     def functional(self, drive, A, B, n_slices, dt, u0, rho0, rhoT, sys_type):
-        """Compute the fidelity functional for the given problem defined in the class
+        """
+        Compute the fidelity functional for the given problem defined in the class
 
         :param jnp.array drive: a flat array that contains the pulse amplitudes
         :param jnp.matrix A: the drift hamiltonian
@@ -99,7 +100,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         return fid
 
     def _get_functional(self):
-        """generates a lambda function lambda x: which evaluates and returns the figure of merit
+        """
+        generates a lambda function lambda x: which evaluates and returns the figure of merit
 
         :return lambda:
         """
@@ -116,7 +118,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         )
 
     def run(self) -> None:
-        """This runs the main loop of the optimization, assuming that everything
+        """
+        This runs the main loop of the optimization, assuming that everything
         has been configured correctly this should use LBFGS, or a chosen algorithm,
         to optimize the pulse
         """
@@ -140,7 +143,8 @@ class ADAlgorithm(OptimizationAlgorithm):
     #     self.controls.update_base_controls(self.xx)
 
     def _get_controls(self, optimized_control_parameters: jnp.array) -> dict:
-        """Get the controls dictionary from the optimized control parameters
+        """
+        Get the controls dictionary from the optimized control parameters
 
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
         :return dict: returns a dict that contains the pulses, parameters and timegrid

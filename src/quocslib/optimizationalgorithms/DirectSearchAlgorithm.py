@@ -24,22 +24,29 @@ from scipy.stats import norm
 
 
 class DirectSearchAlgorithm(OptimizationAlgorithm):
-    """ """
+    """
+    This is an implementation of a direct search algorithm. It only performs a direct search based on the specified
+    search method in the dsm_settings of the optimization_dict. The algorithm is stopped when the stopping criteria
+    are met. The algorithm is implemented in the run function. The results are returned in the _get_final_results
+    function.
+    """
 
     initStatus = 0
     terminate_reason = "-1"
 
     def __init__(self, optimization_dict: dict = None, communication_obj=None, **kwargs):
         """
-        :param optimization_dict:
-        :param communication_obj:
+        Constructor for the direct search algorithm. The optimization dictionary is passed to the constructor of the
+        OptimizationAlgorithm class. The direct search method is initialized here.
+        :param optimization_dict: dictionary with the optimization settings
+        :param communication_obj: communication object to communicate with the client
         """
         super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
         # Direct Search method
         ###########################################################################################
         stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
-        # put global time limit into stopping_criteria so we don't have to pass it through functions
+        # put global time limit into stopping_criteria, so we don't have to pass it through functions
         optimization_dict["algorithm_settings"].setdefault("total_time_lim", 10**10)
         stopping_criteria.setdefault("total_time_lim", optimization_dict["algorithm_settings"]["total_time_lim"])
         direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
@@ -106,6 +113,10 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         """
         Wrapper Function for the _routine_call of the OptimizationAlgorithm class.
         Used to perform drift compensation and re-evaluation steps.
+        :param optimized_control_parameters: optimized control parameters
+        :param iterations: number of iterations
+        :param drift_comp_new_val: new FoM value in case a drift compensation happened
+        :return float: FoM
         """
         if drift_comp_new_val is not None:
             mu_1 = drift_comp_new_val
@@ -195,7 +206,13 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         return -1.0 * self.optimization_factor * mu_1
 
     def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
-        """Calculate the average figure of merit and sigma"""
+        """
+        Calculate the average figure of merit and standard deviation based on the passed arrays
+
+        :param mu_sum: Sum of the figure of merit values
+        :param sigma_sum: Sum of the standard deviation values
+        :return float, float: Average figure of merit and standard deviation
+        """
         step_number = self.step_number
         # For the first evaluation and in case no re-evaluation step is needed return directly
         if step_number == 0:
@@ -215,12 +232,12 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         Calculates probability for normal distributed random variable x1 being greater or equal than x2
         x1 usually refers to the test pulse and
         x2 to the current record that is tried to be outperformed
-        ----------------------------------------------------------------------------------------------------------------
+
         :param mu_1: = <x1>
         :param sigma_1: = std(x1)
         :param mu_2:  = <x2>
         :param sigma_2: = std(x2)
-        :return: probability P(x1>=x2)
+        :return float: probability P(x1>=x2)
         """
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
@@ -243,6 +260,8 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
     def _get_response_for_client(self):
         """
         Return useful information for the client interface and print message in the log
+
+        :return dict: Dictionary containing useful information for the client interface
         """
         FoM = self.FoM_dict["FoM"]
         status_code = self.FoM_dict.setdefault("status_code", 0)
@@ -275,20 +294,14 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
 
     def run(self):
         """
-
-        Returns
-        -------
-
+        Runs the optimization algorithm
         """
         # Direct search method
         self._dsm_build()
 
     def _dsm_build(self):
         """
-
-        Returns
-        -------
-
+        Runs the direct search
         """
         start_simplex = simplex_creation(self.controls.get_mean_value(), self.controls.get_sigma_variation())
         # Initial point for the Start Simplex
@@ -307,6 +320,11 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
          self.terminate_reason] = [result_l["F_min_val"], result_l["X_opti_vec"], result_l["terminate_reason"]]
 
     def _get_controls(self, xx):
+        """
+        Returns the controls dictionary for the given input vector
+        :param xx:
+        :return dict: Dictionary containing the controls
+        """
         # pulses_list, time_grids_list, parameters_list
         [], [], parameters_list = self.controls.get_controls_lists(xx)
 
@@ -314,6 +332,11 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         return controls_dict
 
     def _get_final_results(self):
+        """
+        Returns the final results of the optimization
+
+        :return dict: Dictionary containing the final results
+        """
         final_dict = {
             "Figure of merit": self.best_FoM,
             "parameters": self.xx,

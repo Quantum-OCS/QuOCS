@@ -35,7 +35,7 @@ from quocslib.optimizationalgorithms.OptimizationAlgorithm import OptimizationAl
 class ADAlgorithm(OptimizationAlgorithm):
     """
     This is an implementation of the automatic differentiation (AD) algorithm for open-loop optimal control.
-    The three important function are:
+    The important functions are:
     * the constructor with the optimization dictionary and the communication object as parameters
     * run : The main loop for optimal control
     * _get_response_for_client : return info about the goodness of the controls and errors if any
@@ -46,7 +46,11 @@ class ADAlgorithm(OptimizationAlgorithm):
     def __init__(self, optimization_dict: dict = None, communication_obj=None, FoM_object=None, **kwargs):
         """
         This is the implementation of the AD algorithm. All the arguments in the constructor are passed to the
-        OptimizationAlgorithm class except the optimization dictionary where the GRAPE settings and the controls are defined.
+        OptimizationAlgorithm constructor except for the FoM_object, which is used to compute the figure of merit.
+
+        :param optimization_dict: dictionary with the settings for the optimization
+        :param communication_obj: object to communicate with the client
+        :param FoM_object: object to compute the figure of merit
         """
         super().__init__(communication_obj=communication_obj, optimization_dict=optimization_dict)
         ###########################################################################################
@@ -101,7 +105,12 @@ class ADAlgorithm(OptimizationAlgorithm):
         self.iteration_number_list: list = []
     
     def inner_routine_call(self, optimized_control_parameters: jnp.array):
-        """ Function evaluation call for the L-BFGS-B algorithm """
+        """
+        Wrapper function for the _routine_call to make it consistent with the other optimization algorithms.
+
+        :param optimized_control_parameters: array with the optimized control parameters
+        :return float: FoM
+        """
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM
 
@@ -111,11 +120,14 @@ class ADAlgorithm(OptimizationAlgorithm):
         return jax_function
 
     def get_gradient(self, optimized_control_parameters: np.array):
-        """ Calculate the value and the gradient of the specific function """
+        """ Used to calculate the gradient from the FoM object's get_FoM function """
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
-        return -1.0 * self.optimization_factor * self.FoM_object.get_FoM(pulses=pulses, parameters=parameters, timegrids=timegrids)["FoM"]
+        return -1.0 * self.optimization_factor * self.FoM_object.get_FoM(pulses=pulses,
+                                                                         parameters=parameters,
+                                                                         timegrids=timegrids)["FoM"]
 
     def run(self):
+        """ Main loop for the optimization algorithm. It runs the super iterations and the inner iterations. """
         for super_it in range(1, self.max_num_si + 1):
             # Set super iteration number
             self.super_it = super_it
@@ -127,7 +139,7 @@ class ADAlgorithm(OptimizationAlgorithm):
             self.controls.update_base_controls(self.best_xx)
 
     def inner_run(self):
-        """ Inner routine call that returns the FoM to the algorithm """
+        """ Inner routine call that runs the optimization algorithm. """
         heuristic_coeff = 1.0
         random_variation = heuristic_coeff * 2 * (0.5 - self.rng.get_random_numbers(self.controls.get_control_parameters_number()))
         # Scale it according to the amplitude variation
@@ -164,7 +176,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         Get the controls dictionary from the optimized control parameters
 
         :param jnp.array optimized_control_parameters: the array of optimize control parameters
-        :return dict: returns a dict that contains the pulses, parameters and timegrid
+        :return dict: returns a dict that contains the pulses, parameters and timegrids
         """
         # jax.debug.print("_get_controls, optimized_control_parameters: {}", optimized_control_parameters)
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
@@ -185,6 +197,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         return final_dict
 
     def _get_response_for_client(self) -> dict:
+        """ Return a dictionary with the response for the client """
         FoM = self.FoM_dict["FoM"]
         status_code = self.FoM_dict.setdefault("status_code", 0)
         if self.get_is_record(FoM):

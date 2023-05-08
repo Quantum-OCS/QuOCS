@@ -20,15 +20,27 @@ import numpy as np
 
 
 class Rosenbrock(AbstractFoM):
-    """A figure of merit class for optimization of the Rosenbrock function given an arbitrary
-    number of parameters"""
+    """
+    A figure of merit class for optimization of the Rosenbrock function given an arbitrary
+    number of parameters
+    """
     def __init__(self, args_dict: dict = None):
-        """Initialize useful arguments"""
+        """
+        Initialize useful arguments
+        :param args_dict: dictionary of arguments
+        """
         # Noise in the figure of merit
         self.is_noisy = args_dict.setdefault("is_noisy", False)
         self.noise_factor = args_dict.setdefault("noise_factor", 0.05)
 
     def get_FoM(self, pulses: list = [], parameters: list = [], timegrids: list = []) -> dict:
+        """
+        Get the figure of merit from the parameters
+        :param pulses:
+        :param parameters:
+        :param timegrids:
+        :return:
+        """
         FoM = optimize.rosen(np.asarray(parameters))
         std = 0.0
         if self.is_noisy:

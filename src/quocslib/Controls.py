@@ -31,12 +31,13 @@ class Controls:
     def __init__(self, pulses_list, times_list, parameters_list, rng: RandomNumberGenerator = None,
                  is_AD: bool = False):
         """
-        # TODO Update docstrings
         Constructor of the general class containing all the controls used during the optimization
 
         :param pulses_list: List containing the settings for each pulse
         :param times_list: List containing the settings for each time
         :param parameters_list: List containing the setting for each parameter
+        :param rng: Random number generator object (optional)
+        :param is_AD: Boolean flag to activate the automatic differentiation (optional)
         """
         # Map index
         map_index = -1
@@ -93,13 +94,16 @@ class Controls:
             self._buffer_AD_arrays()
 
     def _buffer_AD_arrays(self):
+        """
+        Imports jax.numpy if AD is activated
+        """
         import jax.numpy as jnp
         import jax
         # self.debug_print = jax.debug.print
         self.jnp = jnp
 
     def get_control_parameters_number(self) -> int:
-        """Return the control parameter number"""
+        """Returns the number of control parameters"""
         ###############################################
         # Pulses
         ###############################################
@@ -121,7 +125,7 @@ class Controls:
         return control_parameters_number
 
     def select_basis(self) -> None:
-        """Initialize the superparameter basis"""
+        """Initializes the super parameter basis"""
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
                 pulse.super_parameter_distribution_obj.set_random_super_parameter()
@@ -131,7 +135,7 @@ class Controls:
                 self._update_control_parameter_indexes()
 
     def _update_control_parameter_indexes(self) -> None:
-        """Update the control parameter indexes"""
+        """Updates the control parameter indexes"""
         # Map index
         map_index = -1
         ###############################################
@@ -155,7 +159,11 @@ class Controls:
         # Return the control parameters number
 
     def get_random_super_parameter(self) -> np.array:
-        """Return list with dcrab current super_parameters"""
+        """
+        Returns a list with current super_parameters
+
+        :return np.array: List with current super_parameters
+        """
         super_parameter_list = []
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
@@ -164,9 +172,10 @@ class Controls:
         return super_parameter_array
 
     def get_sigma_variation(self) -> np.array:
-        """Return a numpy array with the maximum sigma in the parameters choice for the start simplex
+        """
+        Returns a numpy array with the maximum sigma in the parameters choice for the start simplex
 
-        :return np.array
+        :return np.array:
         """
         sigma_variation_coefficients = np.zeros(self.get_control_parameters_number(), dtype="float")
         # Pulses
@@ -183,7 +192,8 @@ class Controls:
         return sigma_variation_coefficients
 
     def get_mean_value(self) -> np.array:
-        """Return a numpy array the mean value
+        """
+        Return a numpy array with the mean value of the control parameters
 
         :return np.array:
         """
@@ -199,7 +209,11 @@ class Controls:
         return mean_value_coefficients
 
     def update_base_controls(self, optimized_parameters_vector: np.array) -> None:
-        """Update the base controls. Only pulses is enough"""
+        """
+        Updates the base controls with the optimized parameters.
+
+        :param np.array optimized_parameters_vector: Optimized parameters vector
+        """
         # Set the times
         for time_name in self.times_obj_dictionary:
             time = self.times_obj_dictionary[time_name]
@@ -216,7 +230,7 @@ class Controls:
 
     def _get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
         """
-        Set the optimized control parameters and get the controls
+        Sets the optimized control parameters and get the controls
 
         :param np.array optimized_parameters_vector:
         :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
@@ -245,7 +259,7 @@ class Controls:
 
     def _get_converted_jax_obj(self, optimized_parameters_vector: np.array) -> np.array:
         """
-        Converted the jax controls into numpy controls casting to real
+        Converts the jax controls into numpy controls casting to real
 
         :param np.array optimized_parameters_vector:
         :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
@@ -274,10 +288,10 @@ class Controls:
 
     def _get_controls_jax_obj(self, optimized_parameters_vector: np.array) -> np.array:
         """
-        Set the optimized control parameters and get the controls
+        Sets the optimized control parameters and gets the controls in case of jax (AD) optimization
 
         :param np.array optimized_parameters_vector:
-        :return: The pulses, time grids, and the parameters in three different lists of numpy arrays.
+        :return: The pulses, time grids, and the parameters in three different lists of jax.numpy arrays.
         """
         pulses_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers), dtype=self.jnp.complex64)
         time_grids_array = self.jnp.zeros((len(self.pulse_objs_list), self.max_bin_numbers), dtype=self.jnp.complex64)
@@ -303,10 +317,10 @@ class Controls:
 
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
         """
-        Set the optimized control parameters and get the controls
+        Sets the optimized control parameters and gets the bare controls (without guess and shaping)
 
         :param np.array optimized_parameters_vector:
-        :return: The bare OC pulses (without guess and shaping) ina list of numpy arrays.
+        :return: The bare OC pulses (without guess and shaping) in a list of numpy arrays.
         """
         bare_OC_pulses_list = []
 
