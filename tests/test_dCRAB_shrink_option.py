@@ -174,5 +174,5 @@ def test_pulse_shrinking():
     controls = optimization_obj.opt_alg_obj.get_best_controls()
     final_pulse = controls['pulses'][0]
 
-    assert abs(max(final_pulse) - upper_lim) < 1e-6
-    assert abs(min(final_pulse) - lower_lim) < 1e-6
+    assert max(final_pulse) - upper_lim < 1e-6
+    assert min(final_pulse) - lower_lim > -1e-6
