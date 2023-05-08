@@ -28,6 +28,8 @@ class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
+        elif isinstance(obj, np.float128):
+            return np.float64(obj)
         return json.JSONEncoder.default(self, obj)
 
 
