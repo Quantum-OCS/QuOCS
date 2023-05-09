@@ -22,26 +22,28 @@ import time
 
 
 class FilesUpdateFoM(AbstractFoM):
-    """An evaluation method for the figure of merit via files exchange. The communication object accesses to the
+    """
+    An evaluation method for the figure of merit via files exchange. The communication object accesses the
     get_FoM function.
-    The get_FoM removes the "FoM.txt" file and creates a json, a txt or a npz file in the controls
+    The get_FoM removes the "FoM.txt" file and creates a json, a txt or an npz file in the controls
     folder designed by the user.
     Finally, the read_FoM_values will wait and check for the figure of merit in the folder designed by the user.
-    In case none figure of merit is provided by the user in the limited time defined by the user in the constructor or
-    an error occur during the evaluation an error will set in the
     """
     def __init__(self,
                  controls_folder: str = ".",
-                 is_splitted: bool = False,
+                 is_split: bool = False,
                  file_extension: str = "json",
                  FoM_folder: str = ".",
-                 max_time: float = 60 * 2,
+                 max_time: float = 60,
                  **kwargs) -> None:
         """
+        Constructor of the FilesUpdateFoM class
 
         :param str controls_folder: Path of the controls folder
+        :param bool is_split: If True the controls are split in multiple files (not implemented yet)
+        :param str file_extension: Extension of the controls file
         :param str FoM_folder: Path of the figure of merit folder
-        :param int max_time: Maximum time in arbitrary units. 1 = 0.5 seconds
+        :param int max_time: Maximum time in seconds to wait for the figure of merit evaluation
         :param kwargs: Other parameters
         """
         # Control folder
@@ -50,7 +52,7 @@ class FilesUpdateFoM(AbstractFoM):
         self.file_extension = file_extension
         # Split the controls in multiple files
         # TODO Add this option in a future version
-        self.is_splitted = is_splitted
+        self.is_split = is_split
         # FoM folder
         self.FoM_path = os.path.join(FoM_folder, "FoM.txt")
         # Maximum time in seconds to wait for the figure of merit evaluation
@@ -58,7 +60,12 @@ class FilesUpdateFoM(AbstractFoM):
 
     def get_FoM(self, pulses: list = [], timegrids: list = [], parameters: list = []) -> dict:
         """
-        Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file
+        Write the controls in the controls.npz file, read the figure of merit in the FoM.txt file.
+
+        :param list pulses: List of pulses
+        :param list timegrids: List of timegrids
+        :param list parameters: List of parameters
+        :return dict: The figure of merit dictionary
         """
         print("Removing the previous {0} file if any".format(self.FoM_path))
         # If FoM.txt file exists remove it
@@ -75,12 +82,12 @@ class FilesUpdateFoM(AbstractFoM):
     def read_FoM_values(self) -> dict:
         """
         Read the figure of merit FoM.txt file
-        :return: dict The figure of merit dictionary
+        :return dict: The figure of merit dictionary
         """
         # Read the FoM
         FoM = None
         time_counter = 0
-        time_counter_max = self.max_time * 2
+        time_counter_max = self.max_time
         # Check if figure of merit file exists
         while not os.path.exists(self.FoM_path):
             time_counter += 1
@@ -100,11 +107,11 @@ class FilesUpdateFoM(AbstractFoM):
 
     def put_controls_into_user_path(self, pulses_list: list, time_grids_list: list, parameters_list: list) -> None:
         """
-        Save the controls in the controls.npz file
-        :param list pulses_list: List of np.arrays. One np.array for each pulse
-        :param list time_grids_list: List of np.arrays. One np.array for each time grid
-        :param list parameters_list: List of floats. One float ofr each parameter
-        :return:
+        Save the controls in the controls.npz file.
+
+        :param list pulses_list: List of np.arrays. One numpy array for each pulse
+        :param list time_grids_list: List of np.arrays. One numpy array for each time grid
+        :param list parameters_list: List of floats. One float for each parameter
         """
         # Choose between save as json file or txt file
         file_extension = self.file_extension
@@ -117,8 +124,13 @@ class FilesUpdateFoM(AbstractFoM):
             print("The extension {0} is not recognized".format(file_extension))
 
     def _put_controls_txt(self, pulses_list: list, time_grids_list: list, parameters_list: list):
-        """Ordered the controls like pulse1, time_grid1, pulse2, time_grid2, ... para1, para2 ... and save into a
+        """
+        Orders the controls like pulse1, time_grid1, pulse2, time_grid2, ... para1, para2 ... and saves into a
         txt file.
+
+        :param list pulses_list: List of np.arrays. One numpy array for each pulse
+        :param list time_grids_list: List of np.arrays. One numpy array for each time grid
+        :param list parameters_list: List of floats. One float for each parameter
         """
         with open(self.controls_path, "wb") as controls_file:
             for pulse, time_grid in zip(pulses_list, time_grids_list):
@@ -128,7 +140,13 @@ class FilesUpdateFoM(AbstractFoM):
             np.savetxt(controls_file, parameters_list, fmt="%f")
 
     def _put_controls_json(self, pulses_list: list, time_grids_list: list, parameters_list: list):
-        """Save into a json file"""
+        """
+        Saves the controls into a json file
+
+        :param list pulses_list: List of np.arrays. One numpy array for each pulse
+        :param list time_grids_list: List of np.arrays. One numpy array for each time grid
+        :param list parameters_list: List of floats. One float for each parameter
+        """
         # Save the pulses and the respective timegrids into a dictionary
         controls_dict = {}
         pulse_index = 1

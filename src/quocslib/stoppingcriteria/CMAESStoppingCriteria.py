@@ -20,10 +20,15 @@ from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class CMAESStoppingCriteria(StoppingCriteria):
+    """
+    Class for the CMAES custom stopping criteria. Inherits from the StoppingCriteria class.
+    """
+
     def __init__(self, stopping_criteria: dict):
         """
-        Class for the Nelder Mead custom stopping criteria
-        :param dict stopping_criteria:
+        Constructor of the CMAES stopping criteria class.
+
+        :param dict stopping_criteria: Dictionary of specific stopping criteria
         """
         # Call to the super class constructor
         super().__init__(stopping_criteria)
@@ -34,9 +39,10 @@ class CMAESStoppingCriteria(StoppingCriteria):
 
     def check_stopping_criteria(self, fsim: np.array = None, func_evaluations_single_direct_search: int = None) -> None:
         """
-        :param f_sim:
-        :param func_evaluations_single_direct_search:
-        :return:
+        Method to check the stopping criteria of the CMAES algorithm.
+
+        :param np.array fsim: FoM values in the population of a CMA-ES iteration
+        :param func_evaluations_single_direct_search: Number of function evaluations in a single direct search
         """
         if self.is_converged:
             return

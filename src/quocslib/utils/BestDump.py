@@ -29,16 +29,24 @@ class NumpyEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         elif isinstance(obj, np.float128):
+            # for some reason float128 can lead to the error:
+            # TypeError: Object of type float128 is not JSON serializable
             return np.float64(obj)
         return json.JSONEncoder.default(self, obj)
 
 
 class BestDump(AbstractDump):
+    """
+    Dumping class for controls and other data which should be the most useful option for most users.
+    """
+
     def __init__(self, results_path: str = ".", date_time: str = ".", dump_format: str = "npz", **kwargs):
         """
-        Dumping class for controls and other data which should be the most useful option for most users.
+        Constructor for the BestDump class.
+
         :param str results_path: Path of the folder of the results
         :param str date_time: String containing the identifier in the form of date and time
+        :param str dump_format: Format of the dump, either "npz" or "json"
         """
         self.best_controls_path = results_path
         self.results_path = results_path
@@ -52,7 +60,8 @@ class BestDump(AbstractDump):
                       is_record: bool = False,
                       **kwargs) -> None:
         """
-        Save the controls in the results folder
+        Saves the controls in the results folder.
+
         :param list pulses: the list containing the pulses that were optimized
         :param list timegrids: the list containing the time grids that were used in the optimization
         :param list parameters: the list containing the parameters that were optimized
@@ -115,9 +124,10 @@ class BestDump(AbstractDump):
 
     def other_dumps(self, filename: str = "test.txt", data: np.array = np.array([0.0])):
         """
-        Save other results into a txt numpy file
-        :param str: filename
-        :param np.array: data
+        Saves other results into a txt numpy file.
+
+        :param str filename: name of the file
+        :param np.array data: data to be saved
         """
         # Create the path
         path = os.path.join(self.results_path, filename)
@@ -126,10 +136,10 @@ class BestDump(AbstractDump):
 
     def dump_dict(self, data_file_name: str = "unknown_data_dict", data_dict=None):
         """
-        Save a dictionary to a file
-        :param data_file_name:
-        :param data_dict:
-        :return:
+        Saves a dictionary to a file.
+
+        :param str data_file_name: name of the file
+        :param dict data_dict: dictionary to be saved
         """
         if data_dict is None:
             data_dict = {}

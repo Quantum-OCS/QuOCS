@@ -21,6 +21,10 @@ from quocslib.utils.BestDump import BestDump
 
 
 def test_dump_controls_record():
+    """
+    Test for the dumping of controls. Writes the npz file and checks if the data is correct.
+    Afterwards it removes the file again.
+    """
 
     folder = os.path.dirname(os.path.realpath(__file__))
     dump_obj = BestDump(folder, "000")
@@ -32,7 +36,6 @@ def test_dump_controls_record():
     dump_obj.dump_controls([test_pulse], [test_timegrid], [test_params], True)
 
     outfile_path = os.path.join(dump_obj.best_controls_path, "000_best_controls.npz")
-    controls = np.load(outfile_path)
     # print(controls.files)
     with np.load(outfile_path) as controls:
         assert (controls["pulse_1"] == test_pulse).all()
@@ -42,6 +45,10 @@ def test_dump_controls_record():
 
 
 def test_dump_controls_NO_record():
+    """
+    Test for the dumping of controls if the is_record flag is set to False. Then checks if in that case the file is not
+    written.
+    """
 
     folder = os.path.dirname(os.path.realpath(__file__))
     dump_obj = BestDump(folder, "111")
@@ -58,6 +65,10 @@ def test_dump_controls_NO_record():
 
 
 def test_other_dumps():
+    """
+    Test for the dumping of other data. Writes the txt file and checks if the data is correct. Afterwards it removes
+    the file again.
+    """
 
     folder = os.path.dirname(os.path.realpath(__file__))
     dump_obj = BestDump(folder, "000")

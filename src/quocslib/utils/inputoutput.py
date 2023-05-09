@@ -19,23 +19,21 @@ import numpy as np
 import inspect
 
 
-def readjson(filename: str) -> [int, dict]:
+def readjson(filename: str) -> dict:
     """
-    Read a json file given its filename
+    Reads a json file.
+
     :param str filename: Filename of the json file
-    :return list error_code, user dictionary : The error code is 1 in case an error occurs.
+    :return dict : The read in json file as a dictionary
     """
-    err_stat = 0
     user_data = None
     try:
         with open(filename, "r") as file:
             user_data = json.load(file)
     except json.decoder.JSONDecodeError:
-        err_stat = 1
         print('\n!!! The json file \"' + filename + '\" is not formatted properly.')
     except Exception as ex:
         print(ex)
-        err_stat = 1
         print('\n!!! The json file \"' + filename + '\" was not found\n'
               'or some other error occured while reading the file.')
     finally:
@@ -43,8 +41,14 @@ def readjson(filename: str) -> [int, dict]:
 
 
 class ObjectEncoder(json.JSONEncoder):
-    """Convert numpy array to list"""
+    """
+    Class to encode objects into json format.
+    Converts a numpy array to a list. Converts to None if the object is callable or a class.
+    """
     def default(self, obj):
+        """
+        Default method to encode objects into json format.
+        """
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         if obj is callable:
@@ -55,7 +59,13 @@ class ObjectEncoder(json.JSONEncoder):
 
 
 def writejsonfile(json_file: str, kwargs_bib: dict) -> int:
-    """A wrapper to the json dump file with error code as return"""
+    """
+    A wrapper to the json dump file with error code as return
+
+    :param str json_file: The json file to write
+    :param dict kwargs_bib: The dictionary to write
+    :return int: Error code
+    """
     err_stat = 0
     try:
         with open(json_file, "w") as fp:

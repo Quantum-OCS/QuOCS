@@ -19,10 +19,15 @@ from quocslib.stoppingcriteria.StoppingCriteria import StoppingCriteria
 
 
 class NelderMeadStoppingCriteria(StoppingCriteria):
+    """
+    Class for the Nelder-Mead custom stopping criteria. Inherits from StoppingCriteria.
+    """
+
     def __init__(self, stopping_criteria: dict):
         """
-        Class for the Nelder Mead custom stopping criteria
-        :param dict stopping_criteria: dictionary of specific stopping criteria
+        Constructor of the Nelder-Mead stopping criteria class.
+
+        :param dict stopping_criteria: Dictionary of specific stopping criteria
         """
         # Call to the super class constructor
         super().__init__(stopping_criteria)
@@ -35,26 +40,30 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
                                 fsim: np.array = None,
                                 func_evaluations_single_direct_search: int = None) -> None:
         """
+        Checks the stopping criteria for the Nelder-Mead algorithm.
 
-        :param sim:
-        :param fsim:
-        :param func_evaluations_single_direct_search:
-        :return:
+        :param sim: Nelder-Mead simplex
+        :param fsim: FoM values in the simplex
+        :param func_evaluations_single_direct_search: Number of function evaluations in the direct search
         """
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         # self.is_converged, self.terminate_reason = self.check_func_eval_total(func_evaluations_single_direct_search)
         # if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_func_eval_single_direct_search(
             func_evaluations_single_direct_search)
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         self.is_converged, self.terminate_reason = self.check_simplex_criterion(sim)
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         self.is_converged, self.terminate_reason = self.check_f_size(fsim)
-        if self.is_converged: return
+        if self.is_converged:
+            return
 
         # self.is_converged, self.terminate_reason = self.check_goal_reached(fsim[0])
         # if self.is_converged: return
@@ -63,4 +72,5 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # if self.is_converged: return
 
         self.is_converged, self.terminate_reason = self.check_direct_search_time_out()
-        if self.is_converged: return
+        if self.is_converged:
+            return

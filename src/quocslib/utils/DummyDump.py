@@ -18,6 +18,8 @@ from quocslib.utils.AbstractDump import AbstractDump
 
 
 class DummyDump(AbstractDump):
+    """Dummy class for dumping the controls"""
+
     def __init__(self, results_path: str = ".", date_time: str = ".", dump_format: str = "npz", **kwargs):
         pass
 

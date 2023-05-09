@@ -21,7 +21,16 @@ import time
 
 
 def create_logger(results_path, date_time, create_logfile=True, is_debug=False):
-    """Logger creation for console, log file, and debug log file"""
+    """
+    Create a logger object based on the logging module. >It defines a custom format for the log messages, the date and
+    printed messages and the log file name. The logger object is returned and can be used to log messages in the code.
+
+    :param results_path: Path where the log file will be saved
+    :param date_time: Date and time of the execution (for the log file name)
+    :param create_logfile: Boolean to create the log file or not
+    :param is_debug: Boolean to activate the debug mode
+    :return: logger object
+    """
     log_format = "%(asctime)s.%(msecs)03d - %(name)s - %(levelname)s - %(message)s"
     date_format = "%d/%m/%Y %H:%M:%S"
     print_format = "%(levelname)-8s %(name)-12s %(message)s"

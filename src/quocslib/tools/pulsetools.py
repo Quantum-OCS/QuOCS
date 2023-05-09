@@ -4,33 +4,44 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def visualise_pulse(dt, n_slices, optimised_pulse, n_pulses):
-    # this can only run if we have something in the optimised_pulse really
+def visualise_pulse(dt, optimized_pulse):
+    """
+    Plots the pulses given in the optimized_pulse array.
 
-    tArray = np.array([dt] * n_slices).cumsum() - dt
-
+    :param dt: time step
+    :param optimized_pulse: array of optimized pulses
+    :return: figure with the pulses over time
+    """
+    tArray = np.array([dt] * np.shape(optimized_pulse)[0]).cumsum() - dt
     f, ax = plt.subplots()
-    for i in n_pulses:
-        ax.bar(tArray, optimised_pulse[:, i], label=str(i), width=dt / 2)
+    for i in range(np.shape(optimized_pulse)[1]):
+        ax.bar(tArray, optimized_pulse[:, i], label=str(i), width=dt / 2)
     ax.set_xlabel("Time")
     ax.legend()
     plt.show()
     return f
 
 
-def resample_pulse(dt, n_slices, optimised_pulse, n_pulses, time_axis):
-    # interpolate pulse onto time axis given by
-    ret = np.zeros((len(time_axis), n_pulses))
-    original_time = np.array([dt] * n_slices).cumsum() - dt
-    for i in range(n_pulses):
-        e0 = optimised_pulse[0, i]
-        e1 = optimised_pulse[-1, i]
+def resample_pulse(dt, optimized_pulse, new_time_axis):
+    """
+    Resamples the optimized pulse to a new time axis.
+
+    :param dt: time step
+    :param optimized_pulse: array of optimized pulses
+    :param new_time_axis: new time axis
+    :return: array of resampled pulses
+    """
+    ret = np.zeros((len(new_time_axis), np.shape(optimized_pulse)[1]))
+    original_time = np.array([dt] * np.shape(optimized_pulse)[0]).cumsum() - dt
+    for i in range(np.shape(optimized_pulse)[1]):
+        e0 = optimized_pulse[0, i]
+        e1 = optimized_pulse[-1, i]
         f = interpolate.interp1d(
             original_time,
-            optimised_pulse[:, i],
+            optimized_pulse[:, i],
             kind="nearest",
             fill_value=(e0, e1),
             bounds_error=False,
         )
-        ret[:, i] = f(time_axis)
+        ret[:, i] = f(new_time_axis)
     return ret

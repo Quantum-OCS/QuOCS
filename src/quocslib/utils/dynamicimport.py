@@ -29,7 +29,8 @@ def dynamic_import(attribute=None,
                    name: str = None,
                    class_type: str = None) -> callable:
     """
-    Function for dynamic import.
+    Function for dynamic import of object based on a module name, class name and type.
+
     :param attribute: The attribute of the class you want to use. It is an optional argument.
     :param module_name: Relative import of the module
     :param class_name: Name of the class inside the module

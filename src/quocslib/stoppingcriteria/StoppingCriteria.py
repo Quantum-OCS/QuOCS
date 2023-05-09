@@ -20,9 +20,17 @@ import logging
 
 
 class StoppingCriteria:
+    """
+    Parent class for the stopping criteria. It contains the common attributes and methods for all the stopping
+    criteria.
+    """
+
     def __init__(self, stopping_criteria: dict = None):
         """
-        Parent class for the stopping criteria
+        Constructor of the StoppingCriteria class. Sets the values from the stopping criteria dictionary or the
+        default values if not provided.
+
+        :param dict stopping_criteria: dictionary containing the settings for the stopping criteria
         """
         self.xatol = None
         self.fatol = None
@@ -44,7 +52,7 @@ class StoppingCriteria:
     @abstractmethod
     def check_stopping_criteria(self, **kwargs) -> None:
         """
-        :return:
+        Abstract method for the stopping criteria. It must be implemented in the custom stopping criteria class.
         """
         raise ValueError("Must be implemented in the custom stopping criteria")
 
@@ -55,11 +63,11 @@ class StoppingCriteria:
 
     def check_func_eval_single_direct_search(self, func_evaluations_single_direct_search: int) -> [bool, str]:
         """
-        Check whether the maximum number of function evaluations has been exceeded
+        Checks whether the maximum number of function evaluations has been exceeded
 
         :param float func_evaluations_single_direct_search: number of current function evaluation
         :return bool is_converged: True if the stopping criterion is fulfilled
-        :return str terminate_reason: reason for the terminatiom
+        :return str terminate_reason: reason for the termination
         """
         terminate_reason = "Exceeded number of allowed function evaluations per direct search."
         is_converged = False
@@ -69,7 +77,7 @@ class StoppingCriteria:
 
     def check_simplex_criterion(self, sim: np.array) -> [bool, str]:
         """
-        Check whether the simplex has converged
+        Checks whether the simplex has converged
 
         :param np.array sim: current simplex
         :return bool is_converged: True if the stopping criterion is fulfilled
@@ -83,7 +91,7 @@ class StoppingCriteria:
 
     def check_f_size(self, fsim: np.array) -> [bool, str]:
         """
-        Check whether the FoM has converged inside this simplex
+        Checks whether the FoM has converged inside this simplex
 
         :param np.array fsim: FoM values for current simplex
         :return bool is_converged: True if the stopping criterion is fulfilled
@@ -99,13 +107,13 @@ class StoppingCriteria:
 
     def reset_direct_search_start_time(self) -> None:
         """
-        Reset the direct_search_start_time for a new SI
+        Resets the direct_search_start_time for a new SI
         """
         self.direct_search_start_time = datetime.now()
 
     def check_direct_search_time_out(self) -> [bool, str]:
         """
-        Check whether the optimization in a direct search has been running for too long.
+        Checks whether the optimization in a direct search has been running for too long.
 
         :return bool is_converged: True if the stopping criterion is fulfilled
         :return str terminate_reason: reason for the terminatiom
@@ -120,13 +128,15 @@ class StoppingCriteria:
 
     def reset_curr_FoM_track_for_new_SI(self) -> None:
         """
-        Reset the current FoM track list for a new SI
+        Resets the current FoM track list for a new SI
         """
         self.curr_FoM_track = []
 
     def add_to_FoM_track(self, FoM) -> None:
         """
-        Add new entry to current FoM track list
+        Adds new entry to current FoM track list
+
+        :param float FoM: current FoM
         """
         if self.change_based_stop["cbs_funct_evals"] > 1:
             self.curr_FoM_track.append(FoM)

@@ -19,8 +19,8 @@ def test_CMAES():
 
     settings = {}
     stopping_criteria = {"max_eval": 100, "time_lim": 0.5}
-    optimisation_obj = CMAES(settings, stopping_criteria)
-    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details, ))
+    optimization_obj = CMAES(settings, stopping_criteria)
+    optimization_obj.run_dsm(function, x0, **opt_dict, args=(details, ))
 
 
 def test_NelderMead():
@@ -32,5 +32,5 @@ def test_NelderMead():
 
     settings = {}
     stopping_criteria = {"max_eval": 100, "time_lim": 0.5}
-    optimisation_obj = NelderMead(settings, stopping_criteria)
-    optimisation_obj.run_dsm(function, x0, **opt_dict, args=(details, ))
+    optimization_obj = NelderMead(settings, stopping_criteria)
+    optimization_obj.run_dsm(function, x0, **opt_dict, args=(details, ))

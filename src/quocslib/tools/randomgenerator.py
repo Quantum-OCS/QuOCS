@@ -14,21 +14,29 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import logging
-
 import numpy as np
 from packaging import version
 
 
 class RandomNumberGenerator:
+    """
+    This class is used to generate random numbers using numpy or (if the version of numpy is below 1.16.0) use the
+    randomgen library.
+    """
+
     def __init__(self, seed_number: int = None):
-        """ Add the docstrings here """
+        """
+        Constructor for the RandomNumberGenerator class. If no seed is provided, the random numbers are generated
+        without any seed.
+
+        :param seed_number: Seed number for the random number generator
+        """
         logger = logging.getLogger("oc_logger")
         numpy_version = np.__version__
         self.message = ""
         self.rng = None
         self.type = None
         # If no seed is provided use the random numbers without any seed
-        # TODO Select a seed number randomly and write into the json dictionary or in a file
         if seed_number is None:
             return
         # Check if the rng is provided by the installed numpy version
@@ -52,7 +60,12 @@ class RandomNumberGenerator:
             self.type = "numpy"
 
     def get_random_numbers(self, n: int):
-        """Return an array of random numbers"""
+        """
+        Return an array of random numbers on the half-open interval [0.0, 1.0)
+
+        :param n: Number of random numbers to generate
+        :return: Array of random numbers
+        """
         if self.rng is None:
             return np.random.rand(n)
         else:

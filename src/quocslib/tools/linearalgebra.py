@@ -18,26 +18,23 @@ import numpy as np
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 
-def ptrace(rho, dimensions):
-    """
-    Useful to have this implementation of the partial trace which uses einsums
-
-    TODO implement this in Python again
-    """
-
-    return rho
-
-
 def commutator(A, B):
+    """
+    Computes the commutator of two matrices
+
+    :param A: First matrix
+    :param B: Second matrix
+    :return: Commutator of A and B
+    """
     return A @ B - B @ A
 
 
 def gram_schmidt(A):
     """
-    Orthonormalize a set of linear independent vectors
+    Orthonormalizes a set of linear independent vectors
 
     :param A: Square matrix with linear independent vectors
-    :return A: Square matrix with orthonormalize vectors
+    :return A: Square matrix with orthonormalized vectors
     """
     # Get the number of vectors.
     n = A.shape[1]
@@ -54,9 +51,12 @@ def gram_schmidt(A):
 
 def simplex_creation(mean_value: np.array, sigma_variation: np.array, rng: RandomNumberGenerator = None) -> np.array:
     """
-    Creation of the simplex
+    Creation of a simplex based on the mean value and the variation of the control parameters
 
-    @return:
+    :param mean_value: Mean value of the control parameters
+    :param sigma_variation: Variation of the control parameters
+    :param rng: Random number generator
+    :return: Simplex as a list of control parameters for each simplex point
     """
     ctrl_par_number = mean_value.shape[0]
     ##################
@@ -87,29 +87,29 @@ def simplex_creation(mean_value: np.array, sigma_variation: np.array, rng: Rando
     return StartSimplex
 
 
-if __name__ == "__main__":
-    # TODO Move this main script to a test script
-    Nc = 4
-    ampl_var_1 = 2.0
-    ampl_var_2 = 0.7
-    f_norm = 1 / np.sqrt(2)
-    p_1 = (ampl_var_1 * f_norm) * np.ones(2, )
-    p_2 = (ampl_var_2 * f_norm) * np.ones(2, )
-    sc_vec = np.append(p_1, p_2)
-
-    x0_scale = np.zeros((1, Nc))
-    # Simplex matrix ( without first row )
-    simplex_m = np.diag(sc_vec)
-    # Add random number
-    simplex_m[0, :] += ((sc_vec[0] / 10.0) * (np.random.rand(Nc, ) - 0.5) * 2)
-
-    simplex_m_r = gram_schmidt(simplex_m.T, sc_vec).T
-    # Rescale accordingly to amplitude variation
-    # x_norm = A_norm.dot(np.diag(sc_vec))
-    # Add first row
-    x_t_norm = np.append(x0_scale, simplex_m_r, axis=0)
-
-    print(x_t_norm)
+# if __name__ == "__main__":
+#     # TODO Move this main script to a test script
+#     Nc = 4
+#     ampl_var_1 = 2.0
+#     ampl_var_2 = 0.7
+#     f_norm = 1 / np.sqrt(2)
+#     p_1 = (ampl_var_1 * f_norm) * np.ones(2, )
+#     p_2 = (ampl_var_2 * f_norm) * np.ones(2, )
+#     sc_vec = np.append(p_1, p_2)
+#
+#     x0_scale = np.zeros((1, Nc))
+#     # Simplex matrix ( without first row )
+#     simplex_m = np.diag(sc_vec)
+#     # Add random number
+#     simplex_m[0, :] += ((sc_vec[0] / 10.0) * (np.random.rand(Nc, ) - 0.5) * 2)
+#
+#     simplex_m_r = gram_schmidt(simplex_m.T, sc_vec).T
+#     # Rescale accordingly to amplitude variation
+#     # x_norm = A_norm.dot(np.diag(sc_vec))
+#     # Add first row
+#     x_t_norm = np.append(x0_scale, simplex_m_r, axis=0)
+#
+#     print(x_t_norm)
 
 
 def to_sup_op(H):

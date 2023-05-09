@@ -25,7 +25,7 @@ class AbstractHandleExit(metaclass=ABCMeta):
     @abstractmethod
     def check_communication(self, communication_dict: dict = None) -> None:
         """
-        Update communication status by getting information from the communication dictionary
-        :param dict communication_dict:
-        :return:
+        Updates communication status by getting information from the communication dictionary
+
+        :param communication_dict: dictionary with communication information
         """
