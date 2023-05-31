@@ -109,7 +109,19 @@ You are most welcome to contribute to QuOCS development! You can do it by forkin
 All code contributions are acknowledged in the [contributors]() section in the documentation. Thank you for your cooperation!
 
 ## Citing QuOCS
-If you use QuOCS in your research, please cite the original QuOCS papers that are available [here]().
+If you use QuOCS in your research, please cite our [introductory software paper](https://doi.org/10.1016/j.cpc.2023.108782).
+~~~
+@article{QuocsRossignolo2023,
+     title = {{QuOCS: The Quantum Optimal Control Suite}},
+     journal = {{C}omputer {P}hysics {C}ommunications},
+     pages = {108782},
+     year = {2023},
+     issn = {0010-4655},
+     doi = {https://doi.org/10.1016/j.cpc.2023.108782},
+     url = {https://www.sciencedirect.com/science/article/pii/S0010465523001273},
+     author = {Marco Rossignolo and Thomas Reisser and Alastair Marshall and Phila Rembold and Alice Pagano and Philipp J. Vetter and Ressa S. Said and Matthias M. Müller and Felix Motzoi and Tommaso Calarco and Fedor Jelezko and Simone Montangero}
+}
+~~~
 
 ## Authors and contributors
 * [Marco Rossignolo](https://github.com/marcorossignolo)
