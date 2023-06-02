@@ -36,7 +36,7 @@ class StoppingCriteria:
         self.fatol = None
         self.terminate_reason: str = ""
         self.is_converged = False
-        self.terminate_reason = "terminate_reason is still at default"
+        self.terminate_reason = "Global Stopping Criterion reached."
         self.logger = logging.getLogger("oc_logger")
         self.max_eval = stopping_criteria.setdefault("max_eval", 10**10)
         self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)

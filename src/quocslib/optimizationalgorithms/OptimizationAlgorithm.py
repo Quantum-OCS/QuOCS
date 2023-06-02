@@ -68,24 +68,28 @@ class OptimizationAlgorithm:
         self.max_eval_total = int(alg_parameters.setdefault("max_eval_total", 10**10))
         # Max total time of evaluation
         self.total_time_lim = alg_parameters.setdefault("total_time_lim", 10**10)
-        # Goal FoM
-        self.FoM_goal = alg_parameters.setdefault("FoM_goal", None)
         # initialize the optimizaiton start time
         self.optimization_start_time = None
         # Maximization or minimization
         # optimization_direction
         self.optimization_direction = alg_parameters.setdefault("optimization_direction", "minimization")
         if self.optimization_direction == "minimization":
-            self.optimization_factor = -1.0
+            self.FoM_factor = 1
         elif self.optimization_direction == "maximization":
-            self.optimization_factor = 1.0
+            self.FoM_factor = -1
         else:
             message = "You can choose between maximization/minimization " \
                       "only, but {0} is provided".format(self.optimization_direction)
             self.comm_obj.print_logger(message=message, level=40)
             raise TypeError
-        self.best_FoM = self.FoM_maximum = self.optimization_factor * (-1.0) * INITIAL_FOM
+        self.best_FoM = self.FoM_maximum = INITIAL_FOM
         message = "The optimization direction is {0}".format(self.optimization_direction)
+        # Goal FoM
+        self.FoM_goal = alg_parameters.setdefault("FoM_goal", None)
+        if self.FoM_goal is not None:
+            self.FoM_goal = self.FoM_goal * self.FoM_factor
+        # FoM dictionary
+        self.FoM_dict = {"FoM": INITIAL_FOM, "std": 0.1}
         self.comm_obj.print_logger(message=message, level=20)
         # listener for ctrl + c cancellation
         if threading.current_thread() is threading.main_thread():
@@ -150,16 +154,12 @@ class OptimizationAlgorithm:
 
         # check if FoM_goal has been reached
         if self.FoM_goal is not None:
-            if self.optimization_direction == "maximization":
-                if self.best_FoM >= self.FoM_goal:
-                    self.higher_order_terminate_reason = "Goal FoM reached"
-                    self.dsm_obj.sc_obj.is_converged = True
-                    self.stop_optimization()
-            else:
-                if self.best_FoM <= self.FoM_goal:
-                    self.higher_order_terminate_reason = "Goal FoM reached"
-                    self.dsm_obj.sc_obj.is_converged = True
-                    self.stop_optimization()
+            if self.best_FoM <= self.FoM_goal:
+                print(self.best_FoM)
+                print(self.FoM_goal)
+                self.higher_order_terminate_reason = "Goal FoM reached"
+                self.dsm_obj.sc_obj.is_converged = True
+                self.stop_optimization()
 
         # check total optimization time limit
         if self.total_time_lim < 10**10:
@@ -241,7 +241,7 @@ class OptimizationAlgorithm:
                 self.comm_obj.print_logger(message, level=30)
 
         # Return the figure of merit, i.e. a real number, to the optimal based algorithm
-        return -1.0 * self.optimization_factor * self.FoM_dict["FoM"]
+        return self.FoM_dict["FoM"]
 
     def get_is_record(self, FoM: float) -> bool:
         """
@@ -249,14 +249,8 @@ class OptimizationAlgorithm:
 
         :param: float : figure of merit provided by the user
         """
-        # Minimization
-        if self.optimization_factor < 0.0:
-            if FoM < self.best_FoM:
-                return True
-        else:
-            # Maximization
-            if FoM > self.best_FoM:
-                return True
+        if FoM < self.best_FoM:
+            return True
         return False
 
     @abstractmethod

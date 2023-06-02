@@ -71,6 +71,7 @@ class NelderMeadStoppingCriteria(StoppingCriteria):
         # self.is_converged, self.terminate_reason = self.check_total_time_out()
         # if self.is_converged: return
 
-        self.is_converged, self.terminate_reason = self.check_direct_search_time_out()
+        self.is_converged, terminate_reason = self.check_direct_search_time_out()
         if self.is_converged:
+            self.terminate_reason = terminate_reason
             return

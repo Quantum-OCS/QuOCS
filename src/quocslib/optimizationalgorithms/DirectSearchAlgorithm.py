@@ -122,7 +122,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
             mu_1 = drift_comp_new_val
             self.best_FoM = mu_1
             self.is_record = True
-            message = "New record due to drift compensation. New best FoM: {0}".format(mu_1)
+            message = "New record due to drift compensation. New best FoM: {0}".format(self.FoM_factor*mu_1)
             self.comm_obj.print_logger(message, level=20)
             self.best_xx = self.xx.copy()
             self.comm_obj.update_controls(is_record=True,
@@ -134,11 +134,8 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
             self.is_record = False
             # Initialize step number to 0
             self.step_number = 0
-            FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
-            # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
-            # before the first search iteration has finished
-            if self.optimization_direction == "maximization" and FoM == 1e10:
-                FoM = -FoM
+            FoM = self._routine_call(optimized_control_parameters, iterations)
+
             ################################################################################################################
             # Standard function evaluation - dCRAB without re-evaluation steps
             ################################################################################################################
@@ -177,8 +174,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                     if probability < p_level:
                         return mu_1
                     # else: go on with further re-evaluations
-                    self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
-                        optimized_control_parameters, iterations)
+                    self.FoM_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
                     self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                     # Increase step number after function evaluation
                     self.step_number += 1
@@ -193,7 +189,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                     # We have a new record
                     self.best_sigma, self.best_FoM = sigma_1, mu_1
                     self.is_record = True
-                    message = "New record achieved. New best FoM: {0}, std: {1}".format(mu_1, sigma_1)
+                    message = "New record achieved. New best FoM: {0}, std: {1}".format(self.FoM_factor*mu_1, sigma_1)
                     self.comm_obj.print_logger(message, level=20)
                     self.best_xx = self.xx.copy()
                     self.comm_obj.update_controls(is_record=True,
@@ -203,7 +199,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
                                                   iteration_number=self.iteration_number)
 
         # Return the figure of merit to be minimized by the updating algorithm
-        return -1.0 * self.optimization_factor * mu_1
+        return mu_1
 
     def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
         """
@@ -242,8 +238,6 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
         mu_z = mu_2 - mu_1
-        if self.optimization_direction == "maximization":
-            mu_z = mu_1 - mu_2
         std_comb = np.sqrt(sigma_1**2 + sigma_2**2)
         if np.abs(std_comb) < 10**(-14):
             # Warning message
@@ -269,7 +263,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         if self.re_evaluation_steps is None:
             if self.get_is_record(FoM):
                 message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
-                    FoM=self.best_FoM, best_FoM=FoM)
+                    FoM=self.FoM_factor*self.best_FoM, best_FoM=self.FoM_factor*FoM)
                 self.comm_obj.print_logger(message=message, level=20)
                 self.best_FoM = FoM
                 self.best_xx = self.xx.copy()
@@ -284,11 +278,11 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         if self.re_evaluation_steps is not None:
             FoM, std = self._get_average_FoM_std()
             message = "Function evaluation number: {func_eval}, ".format(func_eval=self.iteration_number)
-            message += "Re-eval. number: {0}, FoM: {1}, std: {2}".format(self.step_number, FoM, std)
+            message += "Re-eval. number: {0}, FoM: {1}, std: {2}".format(self.step_number, self.FoM_factor*FoM, std)
             self.comm_obj.print_logger(message, level=20)
 
         if status_code == 0:
-            self.FoM_list.append(FoM)
+            self.FoM_list.append(self.FoM_factor*FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
@@ -338,7 +332,7 @@ class DirectSearchAlgorithm(OptimizationAlgorithm):
         :return dict: Dictionary containing the final results
         """
         final_dict = {
-            "Figure of merit": self.best_FoM,
+            "Figure of merit": self.FoM_factor * self.best_FoM,
             "parameters": self.xx,
             "terminate_reason": self.terminate_reason
         }
