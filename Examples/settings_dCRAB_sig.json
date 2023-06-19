@@ -13,7 +13,6 @@
             },
             "stopping_criteria": {
                 "xatol": 1e-4,
-                "fatol": 1e-6,
                 "change_based_stop": {
                     "cbs_funct_evals": 200,
                     "cbs_change": 0.005
@@ -30,8 +29,8 @@
             "time_name": "time1",
             "amplitude_variation": 2.0,
             "basis": {
-                "basis_name": "SigmoidTimeDep",
-                "basis_vector_number": 5,
+                "basis_name": "Sigmoid",
+                "basis_vector_number": 3,
                 "sigma": 0.01,
                 "offset": 0.05,
                 "random_super_parameter_distribution": {
