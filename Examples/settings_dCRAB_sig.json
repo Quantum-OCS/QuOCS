@@ -3,7 +3,7 @@
     "create_logfile": true,
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
-        "super_iteration_number": 3,
+        "super_iteration_number": 1,
         "max_eval_total": 3000,
         "optimization_direction": "maximization",
         "dsm_settings": {
@@ -23,11 +23,11 @@
     },
     "pulses": [
         {
-            "pulse_name": "Pulse1",
+            "pulse_name": "Pulse_1",
             "upper_limit": 1000.0,
             "lower_limit": -1000.0,
-            "time_name": "time1",
-            "amplitude_variation": 2.0,
+            "time_name": "time_1",
+            "amplitude_variation": 200.0,
             "basis": {
                 "basis_name": "Sigmoid",
                 "basis_vector_number": 3,
@@ -51,11 +51,8 @@
     ],
     "times": [
         {
-            "time_name": "time1"
+            "time_name": "time_1"
         }
     ],
-    "parameters": [],
-    "communication": {
-        "communication_type": "AllInOneCommunication"
-    }
+    "parameters": []
 }
