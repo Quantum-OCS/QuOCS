@@ -11,7 +11,7 @@ Assuming you define the settings in the form of a .json file, the general struct
 {
     "optimization_client_name": "Name_of_your_Optimization",
     "create_logfile": true,  # determines if you want to save the log-file
-    "console_info": true, # determines if you want the optimization output on the console
+    "console_info": true, # determines if you want the optimization output printed to the console
     "dump_format": "npz",  # format of the results file
     "algorithm_settings": {...},  # settings related to the algorithm
     "pulses": [{...}, {...}, ...],  # list of pulses and their settings
@@ -26,7 +26,7 @@ The `optimization_client_name` determines the name of the folder where the optim
 
 The `create_logfile` key determines if the full output of the Python terminal is saved to a log-file. If you have an optimization with many iterations this can become quite large, so you might want to  disable it once you know your optimizations are running reliably.
 
-The `console_info` key determines if the optimization output is shown in the terminal during the execution of the optimization. Indeed, if you want to run optimization in parallel, the standard output in the terminal can arise problems, so you might want to disable it once you know your optimizations are running reliably.
+The `console_info` key determines if the optimization output is shown in the terminal during the execution of an optimization. Indeed, if you want to run several optimizations in parallel, the standard output in the terminal gets mixed up and is not helpful anymore. In this case you might want to disable it once you know your optimizations are running reliably. The normal log-file is still created with the correct information for that specific run (if not disabled by the `create_logfile` option).
 
 The `dump_format` key specifies the format of the results file (best controls and some meta data). Currently you can choose between "npz" and "json". The default (if you do not give this key) is "npz".
 
