@@ -33,6 +33,7 @@ class AllInOneCommunication:
                  dump_attribute: callable = DummyDump,
                  comm_signals_list: [list, list, list] = None,
                  create_logfile: bool = True,
+                 console_info: bool = True,
                  dump_format: str = "npz",
                  optimization_direction: str = "minimization"):
         """
@@ -46,6 +47,8 @@ class AllInOneCommunication:
         :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the
         communication is finished to communicate with the client interface
         :param [list, list, list] comm_signals_list: List containing the signals to the gui
+        :param create_logfile: Boolean to create the log file or not
+        :param console_info: Boolean to show info in the console or not
         """
         # Communication signals
         if comm_signals_list is None:
@@ -72,7 +75,7 @@ class AllInOneCommunication:
         with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
-        self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile)
+        self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile, console_info=console_info)
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object
