@@ -14,8 +14,9 @@
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import os
-if os.name != 'nt':
+import os, platform
+from packaging import version
+if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.7"):
     from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
 from quocslib.Optimizer import Optimizer
 import pytest
@@ -23,7 +24,7 @@ import numpy as np
 
 
 def test_AD_Ising_Model():
-    if os.name != 'nt':
+    if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.7"):
         optimization_dictionary = {
             "Disclaimer":
             "Do not use this json file for optimization",

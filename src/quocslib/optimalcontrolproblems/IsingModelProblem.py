@@ -147,6 +147,11 @@ class IsingModel(AbstractFoM):
         self.g = args_dict.setdefault("g", 2)
         self.n_slices = args_dict.setdefault("n_slices", 100)
 
+        self.is_maximization = args_dict.setdefault("is_maximization", False)
+        self.FoM_factor = 1
+        if self.is_maximization:
+            self.FoM_factor = -1
+
         self.H_drift = get_static_hamiltonian(self.n_qubits, self.J, self.g)
         self.H_control = get_control_hamiltonian(self.n_qubits)
         self.rho_0 = get_initial_state(self.n_qubits)
@@ -206,5 +211,5 @@ class IsingModel(AbstractFoM):
         # evolve initial state
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
-        fidelity = fidelity_funct(rho_final.T, self.rho_target)
-        return {"FoM": -fidelity}
+        fidelity = -1 * self.FoM_factor * fidelity_funct(rho_final.T, self.rho_target)
+        return {"FoM": fidelity}

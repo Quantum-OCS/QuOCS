@@ -112,16 +112,16 @@ class OneQubit(AbstractFoM):
             # if the include_drift flag is set, add a linear drift to the infidelity
             infidelity += self.linear_drift_val_over_iteration * self.FoM_eval_number
 
-        self.FoM_list.append(np.abs(infidelity))
+        self.FoM_list.append((-1.0) * self.optimization_factor * infidelity)
         self.FoM_eval_number += 1
 
-        return {"FoM": (-1.0) * self.optimization_factor * np.abs(infidelity), "std": std}
+        return {"FoM": (-1.0) * self.optimization_factor * infidelity, "std": std}
 
     @staticmethod
     def _time_evolution(drive, dt, delta1, delta2):
         """
         This function calculates the time evolution operator for the one qubit problem.
-        :param drive: drivin pulse as a list
+        :param drive: driving pulse as a list
         :param dt: time step
         :param delta1: detuning on the energy levels
         :param delta2: detuning on the drive

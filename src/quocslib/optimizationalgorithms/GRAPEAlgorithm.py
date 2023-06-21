@@ -112,8 +112,8 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         FoM = self.FoM_dict["FoM"]
         status_code = self.FoM_dict.setdefault("status_code", 0)
         if self.get_is_record(FoM):
-            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
-                                                                                                   best_FoM=FoM)
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.FoM_factor*self.best_FoM,
+                                                                                                   best_FoM=self.FoM_factor*FoM)
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = FoM
             self.best_xx = self.xx.copy()
@@ -126,7 +126,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         }
         # Load the current figure of merit and iteration number in the summary list of dCRAB
         if status_code == 0:
-            self.FoM_list.append(FoM)
+            self.FoM_list.append(self.FoM_factor*FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
@@ -236,7 +236,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         :return dict: dictionary with final results
         """
         final_dict = {
-            "Figure of merit": self.best_FoM,
+            "Figure of merit": self.FoM_factor * self.best_FoM,
             "nfev": self.iteration_number,
         }
         return final_dict

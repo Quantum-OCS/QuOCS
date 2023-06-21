@@ -36,7 +36,7 @@ class StoppingCriteria:
         self.fatol = None
         self.terminate_reason: str = ""
         self.is_converged = False
-        self.terminate_reason = "terminate_reason is still at default"
+        self.terminate_reason = "Global Stopping Criterion reached."
         self.logger = logging.getLogger("oc_logger")
         self.max_eval = stopping_criteria.setdefault("max_eval", 10**10)
         self.time_lim = stopping_criteria.setdefault("time_lim", 10**10)
@@ -149,10 +149,11 @@ class StoppingCriteria:
         cbs_funct_evals = self.change_based_stop["cbs_funct_evals"]
         cbs_change = self.change_based_stop["cbs_change"]
         if len(self.curr_FoM_track) >= cbs_funct_evals:
-            m, b = np.polyfit(range(cbs_funct_evals), self.curr_FoM_track[-cbs_funct_evals:], 1)
+            last_foms = np.asarray(self.curr_FoM_track[-cbs_funct_evals:], dtype=np.float64)
+            m, b = np.polyfit(range(cbs_funct_evals), last_foms, 1)
             current_change = abs(m * cbs_funct_evals)
             # check if the trend of changes is smaller than defined
-            if (current_change < cbs_change):
+            if current_change < cbs_change:
                 self.is_converged = True
 
     def check_advanced_stopping_criteria(self) -> None:
@@ -162,6 +163,7 @@ class StoppingCriteria:
         try:
             if self.change_based_stop["cbs_funct_evals"] > 1:
                 self._check_cbs_stopping_crit()
-        except:
+        except Exception as e:
+            print(e)
             message = "Checking change-based stop failed! cbs_funct_evals not properly defined!"
             self.logger.error(message)

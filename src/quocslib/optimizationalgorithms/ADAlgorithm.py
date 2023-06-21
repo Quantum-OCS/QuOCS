@@ -122,9 +122,9 @@ class ADAlgorithm(OptimizationAlgorithm):
     def get_gradient(self, optimized_control_parameters: np.array):
         """ Used to calculate the gradient from the FoM object's get_FoM function """
         [pulses, timegrids, parameters] = self.controls.get_controls_lists(optimized_control_parameters)
-        return -1.0 * self.optimization_factor * self.FoM_object.get_FoM(pulses=pulses,
-                                                                         parameters=parameters,
-                                                                         timegrids=timegrids)["FoM"]
+        return self.FoM_factor * self.FoM_object.get_FoM(pulses=pulses,
+                                                         parameters=parameters,
+                                                         timegrids=timegrids)["FoM"]
 
     def run(self):
         """ Main loop for the optimization algorithm. It runs the super iterations and the inner iterations. """
@@ -191,7 +191,7 @@ class ADAlgorithm(OptimizationAlgorithm):
     def _get_final_results(self) -> dict:
         """ Return a dictionary with final results to put into a dictionary """
         final_dict = {
-            "Figure of merit": self.best_FoM,
+            "Figure of merit": self.FoM_factor * self.best_FoM,
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict
@@ -201,8 +201,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         FoM = self.FoM_dict["FoM"]
         status_code = self.FoM_dict.setdefault("status_code", 0)
         if self.get_is_record(FoM):
-            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.best_FoM,
-                                                                                                   best_FoM=FoM)
+            message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(FoM=self.FoM_factor*self.best_FoM,
+                                                                                                   best_FoM=self.FoM_factor*FoM)
             self.comm_obj.print_logger(message=message, level=20)
             self.best_FoM = float(FoM)
             self.best_xx = self.xx.copy()
@@ -215,6 +215,6 @@ class ADAlgorithm(OptimizationAlgorithm):
         }
         # Load the current figure of merit and iteration number in the summary list
         if status_code == 0:
-            self.FoM_list.append(FoM)
+            self.FoM_list.append(self.FoM_factor*FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict

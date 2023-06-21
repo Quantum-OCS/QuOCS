@@ -155,7 +155,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         if self.re_evaluation_steps is None:
             if self.get_is_record(FoM):
                 message = "New record achieved. Previous FoM: {FoM}, new best FoM : {best_FoM}".format(
-                    FoM=self.best_FoM, best_FoM=FoM)
+                    FoM=self.FoM_factor*self.best_FoM, best_FoM=self.FoM_factor*FoM)
                 self.comm_obj.print_logger(message=message, level=20)
                 self.best_FoM = FoM
                 self.best_xx = self.xx.copy()
@@ -178,13 +178,13 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                                            sub_it=self.alg_iteration_number))
         # Data
         if self.re_evaluation_steps is not None:
-            message += ", Re-eval. number: {0}, FoM: {1}, std: {2}".format(self.step_number, FoM, std)
+            message += ", Re-eval. number: {0}, FoM: {1}, std: {2}".format(self.step_number, self.FoM_factor*FoM, std)
         else:
-            message += ", FoM: {0}".format(FoM)
+            message += ", FoM: {0}".format(self.FoM_factor*FoM)
         self.comm_obj.print_logger(message, level=20)
         # Load the current figure of merit and iteration number in the summary list of dCRAB
         if status_code == 0:
-            self.FoM_list.append(FoM)
+            self.FoM_list.append(self.FoM_factor*FoM)
             self.iteration_number_list.append(self.iteration_number)
         return response_dict
 
@@ -229,14 +229,17 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         x0 = self.controls.get_mean_value()
         # Evaluate the FoM with the standard routine call and set the FoM as the current record
         iteration, self.is_record, self.step_number = 0, True, 0
-        self.best_FoM = self._routine_call(x0, iteration)
+        new_FoM = 0
+        for _ in range(self.compensate_drift_num_average):
+            new_FoM += self._routine_call(x0, iteration)
+        self.best_FoM = new_FoM / self.compensate_drift_num_average
         # Info message
-        message = f"Previous best FoM: {previous_best_FoM}, Current best FoM after drift " \
-                  f"compensation ({mode}): {self.best_FoM}"
+        message = f"Previous best FoM: {self.FoM_factor*previous_best_FoM}, Current best FoM after drift " \
+                  f"compensation ({mode}): {self.FoM_factor*self.best_FoM}"
         self.comm_obj.print_logger(message=message, level=20)
         # At this point is not necessary to set again is_record to False since is newly re-define at the beginning of
         # the _inner_routine_call function
-        # TODO: Thinks if makes sense to update the sigma best value here
+        # TODO: Think about if it makes sense to update the sigma best value here
 
     def _update_base_pulses(self) -> None:
         """Update the base dCRAB pulse with the best controls found so far"""
@@ -269,7 +272,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                    "Best FoM: {best_FoM}, Terminate reason: {reason}\n".format(super_it=self.super_it,
                                                                                NfunevalsUsed=NfunevalsUsed,
                                                                                termination_reason=self.terminate_reason,
-                                                                               best_FoM=self.best_FoM,
+                                                                               best_FoM=self.FoM_factor*self.best_FoM,
                                                                                reason=self.terminate_reason))
         self.comm_obj.print_logger(message=message, level=20)
 
@@ -287,7 +290,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             mu_1 = drift_comp_new_val
             self.best_FoM = mu_1
             self.is_record = True
-            message = "New record due to drift compensation. New best FoM: {0}".format(mu_1)
+            message = "New record due to drift compensation. New best FoM: {0}".format(self.FoM_factor*mu_1)
             self.comm_obj.print_logger(message, level=20)
             self.best_xx = self.xx.copy()
             self.comm_obj.update_controls(is_record=True,
@@ -299,20 +302,22 @@ class dCRABAlgorithm(OptimizationAlgorithm):
             self.is_record = False
             # Initialize step number to 0
             self.step_number = 0
-            FoM = -1.0 * self.optimization_factor * self._routine_call(optimized_control_parameters, iterations)
-            # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
-            # before the first search iteration has finished
-            if self.optimization_direction == "maximization" and FoM == 1e10:
-                FoM = -FoM
-            ################################################################################################################
+            FoM = self._routine_call(optimized_control_parameters, iterations)
+            ###########################################################################################################
+            # # ToDo: Check if this needs to be here or not
+            # # This has to be here because it takes the hard-coded initial FoM of 1e10 if the optimization is stopped
+            # # before the first search iteration has finished
+            # if self.optimization_direction == "maximization" and FoM == 1e10:
+            #     FoM = -FoM
+            ###########################################################################################################
             # Standard function evaluation - dCRAB without re-evaluation steps
-            ################################################################################################################
+            ###########################################################################################################
             if self.re_evaluation_steps is None:
                 mu_1 = FoM
             else:
-                ############################################################################################################
+                #######################################################################################################
                 # Implement the re-evaluation step method
-                ############################################################################################################
+                #######################################################################################################
                 # check mu-sig criterion by calculating probability of current pulses being new record
                 # Re evaluation steps initialization e.g. [0.33, 0.5, 0.501, 0.51]
                 re_evaluation_steps = self.re_evaluation_steps
@@ -342,8 +347,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                     if probability < p_level:
                         return mu_1
                     # else: go on with further re-evaluations
-                    self.FoM_test[ii + 1] = -1.0 * self.optimization_factor * self._routine_call(
-                        optimized_control_parameters, iterations)
+                    self.FoM_test[ii + 1] = self._routine_call(optimized_control_parameters, iterations)
                     self.sigma_test[ii + 1] = float(self.FoM_dict.setdefault("std", 1.0))
                     # Increase step number after function evaluation
                     self.step_number += 1
@@ -358,7 +362,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                     # We have a new record
                     self.best_sigma, self.best_FoM = sigma_1, mu_1
                     self.is_record = True
-                    message = "New record achieved. New best FoM: {0}, std: {1}".format(mu_1, sigma_1)
+                    message = "New record achieved. New best FoM: {0}, std: {1}".format(self.FoM_factor*mu_1, sigma_1)
                     self.comm_obj.print_logger(message, level=20)
                     self.best_xx = self.xx.copy()
                     self.comm_obj.update_controls(is_record=True,
@@ -368,7 +372,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
                                                   iteration_number=self.iteration_number)
 
         # Return the figure of merit to be minimized by the updating algorithm
-        return -1.0 * self.optimization_factor * mu_1
+        return mu_1
 
     def _get_average_FoM_std(self, mu_sum: float = None, sigma_sum: float = None) -> np.array:
         """
@@ -407,8 +411,6 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         # Start by defining a new random variable z = x1 - x2
         # if mu_z > 0 the probability is > 0.5 , else: <0.5
         mu_z = mu_2 - mu_1
-        if self.optimization_direction == "maximization":
-            mu_z = mu_1 - mu_2
         std_comb = np.sqrt(sigma_1**2 + sigma_2**2)
         if np.abs(std_comb) < 10**(-14):
             # Warning message
@@ -445,7 +447,7 @@ class dCRABAlgorithm(OptimizationAlgorithm):
         :return dict: dictionary with final results
         """
         final_dict = {
-            "Figure of merit": self.best_FoM,
+            "Figure of merit": self.FoM_factor * self.best_FoM,
             "Std": self.best_sigma,
             "total number of function evaluations": self.iteration_number,
             "dcrab_freq_list": self.dcrab_super_parameter_list,

@@ -33,7 +33,9 @@ class AllInOneCommunication:
                  dump_attribute: callable = DummyDump,
                  comm_signals_list: [list, list, list] = None,
                  create_logfile: bool = True,
-                 dump_format: str = "npz"):
+                 console_info: bool = True,
+                 dump_format: str = "npz",
+                 optimization_direction: str = "minimization"):
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -45,6 +47,8 @@ class AllInOneCommunication:
         :param AbstractHandleExit handle_exit_obj: Collect any error during the optimization and check when the
         communication is finished to communicate with the client interface
         :param [list, list, list] comm_signals_list: List containing the signals to the gui
+        :param create_logfile: Boolean to create the log file or not
+        :param console_info: Boolean to show info in the console or not
         """
         # Communication signals
         if comm_signals_list is None:
@@ -71,7 +75,7 @@ class AllInOneCommunication:
         with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
-        self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile)
+        self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile, console_info=console_info)
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object
@@ -85,6 +89,10 @@ class AllInOneCommunication:
         self.controls_dict = {}
         # Initialize the controls names dictionary
         self.controls_names_dict = {}
+        # multiply by -1 if the optimization is a maximization
+        self.FoM_factor = 1
+        if optimization_direction == "maximization":
+            self.FoM_factor = -1
 
     def print_logger(self, message: str = "", level: int = 20):
         """Print a message in the log"""
@@ -136,6 +144,8 @@ class AllInOneCommunication:
         """
         self.logger.debug("User running: {0}".format(self.he_obj.is_user_running))
         FoM_dict = self.FoM_obj.get_FoM(**self.controls_dict)
+        # multiply by -1 if the optimization is a maximization
+        FoM_dict["FoM"] *= self.FoM_factor
         # set the status of the FoM to 0 if it does not exist already
         status_code = FoM_dict.setdefault("status_code", 0)
         # if the user passes a different status code than zero, stop the optimization
@@ -167,7 +177,7 @@ class AllInOneCommunication:
     def _print_general_log(self, iteration_number: int, FoM: float):
         """Print the general log at each function evaluation"""
         if self.print_general_log:
-            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, FoM))
+            self.logger.info("Function evaluation number: {0}, FoM: {1}".format(iteration_number, self.FoM_factor*FoM))
 
     def update_controls(self, **response_for_client) -> None:
         """External call to update the controls"""

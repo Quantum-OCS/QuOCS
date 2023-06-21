@@ -20,7 +20,7 @@ import sys
 import time
 
 
-def create_logger(results_path, date_time, create_logfile=True, is_debug=False):
+def create_logger(results_path, date_time, create_logfile=True, console_info=True, is_debug=False):
     """
     Create a logger object based on the logging module. >It defines a custom format for the log messages, the date and
     printed messages and the log file name. The logger object is returned and can be used to log messages in the code.
@@ -28,6 +28,7 @@ def create_logger(results_path, date_time, create_logfile=True, is_debug=False):
     :param results_path: Path where the log file will be saved
     :param date_time: Date and time of the execution (for the log file name)
     :param create_logfile: Boolean to create the log file or not
+    :param console_info: Boolean to show info in the console or not
     :param is_debug: Boolean to activate the debug mode
     :return: logger object
     """
@@ -44,7 +45,10 @@ def create_logger(results_path, date_time, create_logfile=True, is_debug=False):
     logger.setLevel(logging.DEBUG)
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(logging.INFO)
+    if console_info:
+        console_handler.setLevel(logging.INFO)
+    else:
+        console_handler.setLevel(logging.ERROR)
     console_handler.setFormatter(logging.Formatter(print_format))
     # Log file handler
     if create_logfile:

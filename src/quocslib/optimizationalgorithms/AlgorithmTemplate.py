@@ -41,7 +41,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
         # Inner free gradient method
         ###########################################################################################
         stopping_criteria = optimization_dict["algorithm_settings"]["dsm_settings"]["stopping_criteria"]
-        # put global time limit into stopping_criteria so we don't have to pass it through functions
+        # put global time limit into stopping_criteria, so we don't have to pass it through functions
         optimization_dict["algorithm_settings"].setdefault("total_time_lim", 10**10)
         stopping_criteria.setdefault("total_time_lim", optimization_dict["algorithm_settings"]["total_time_lim"])
         direct_search_method_settings = optimization_dict["algorithm_settings"]["dsm_settings"]["general_settings"]
@@ -79,7 +79,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
             is_record = True
         response_dict = {
             "is_record": is_record,
-            "FoM": FoM,
+            "FoM": self.FoM_factor * FoM,
             "iteration_number": self.iteration_number,
         }
         return response_dict
@@ -135,7 +135,7 @@ class AlgorithmTemplate(OptimizationAlgorithm):
     def _get_final_results(self) -> dict:
         """Return a dictionary with final results to put into a dictionary"""
         final_dict = {
-            "Figure of merit": self.best_FoM,
+            "Figure of merit": self.FoM_factor * self.best_FoM,
             "total number of function evaluations": self.iteration_number,
         }
         return final_dict
