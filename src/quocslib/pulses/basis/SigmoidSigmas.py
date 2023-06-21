@@ -40,6 +40,7 @@ class SigmoidSigmas(ChoppedBasis):
         # define basis specific stuff
         self.offset = basis_dict.setdefault("offset", 0.1)
         self.sigma = basis_dict.setdefault("sigma", 0.1)
+        self.sigma_var = basis_dict.setdefault("sigma_var", 1.)
         # Number of control parameters to be optimized
         self.control_parameters_number = 2 * self.super_parameter_number + 1
         # Constructor of the parent class Chopped BasisX
@@ -58,11 +59,14 @@ class SigmoidSigmas(ChoppedBasis):
         # sigma = final_time/100  # NEEDS TO BE SET IN CONFIG
         # offset = sigma*(self.amplitude_upper-self.amplitude_lower)/10  # NEEDS TO BE SET IN CONFIG
         # preparing adaption of sigmas
-        kappa = self.offset/self.sigma
+        if self.offset < 10**(-6):
+            kappa = 1
+        else:
+            kappa = self.offset/self.sigma
+
         # Pulse creation
         Aopti = self.optimized_control_parameters[0:int((len(self.optimized_control_parameters)+1)/2)]  # amplitudes
-        del_sig = abs(self.optimized_control_parameters[int((len(self.optimized_control_parameters)+1)/2):])\
-                  * 100 * self.sigma / self.amplitude_variation  # amplitudes
+        del_sig = abs(self.optimized_control_parameters[int((len(self.optimized_control_parameters)+1)/2):]) * self.sigma_var # sigma variations
         taus = self.super_parameter_distribution_obj.w  # times
         sorted_tau = np.sort(taus)
         if sorted_tau[0] < self.offset or sorted_tau[-1] > final_time - self.offset:
@@ -75,7 +79,7 @@ class SigmoidSigmas(ChoppedBasis):
         sigmas = del_sig * 0 + self.sigma  # sigmas
         for i in range(len(sigmas)):
             #sigmas[i] += del_sig[i]
-            del_sigma_max = (final_time/2 - abs(final_time/2-taus[i]))/kappa-self.sigma
+            del_sigma_max = (final_time/2 - abs(final_time/2-taus[i]))/kappa - self.sigma
             #if sigmas[i] > sigma_max:
             sigmas[i] = self.sigma + del_sigma_max*(1-np.cos(np.pi*del_sig[i]))/2
         t = self.time_grid
