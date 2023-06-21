@@ -32,59 +32,64 @@ class SigmoidSigmas(ChoppedBasis):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
-        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw
+        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw.
         """
         basis_dict = pulse_dictionary["basis"]
         # Frequencies number i.e. the basis vector number in the pulse parametrization
         self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
-        # define basis specific stuff
+
+        # offset for sigmoid
+        # (good starting point to set as final_time/100)
         self.offset = basis_dict.setdefault("offset", 0.1)
+
+        # sigma for sigmoid basis
+        # (good starting point to set as
+        # sigma*(self.amplitude_upper-self.amplitude_lower)/10) )
         self.sigma = basis_dict.setdefault("sigma", 0.1)
+
+        # sigma initial variation
         self.sigma_var = basis_dict.setdefault("sigma_var", 1.)
+
         # Number of control parameters to be optimized
         self.control_parameters_number = 2 * self.super_parameter_number + 1
+
         # Constructor of the parent class Chopped BasisX
         super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
+
         # Define scale and offset coefficients
         self.scale_coefficients = self.amplitude_variation * np.ones((self.control_parameters_number, ))
         self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
         """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
-        # Pulse definition
-        pulse = np.zeros(self.bins_number)
-        # Final time definition
-        final_time = self.final_time
-        # basis specific definitions
-        # sigma = final_time/100  # NEEDS TO BE SET IN CONFIG
-        # offset = sigma*(self.amplitude_upper-self.amplitude_lower)/10  # NEEDS TO BE SET IN CONFIG
-        # preparing adaption of sigmas
-        if self.offset < 10**(-6):
-            kappa = 1
-        else:
-            kappa = self.offset/self.sigma
 
-        # Pulse creation
-        Aopti = self.optimized_control_parameters[0:int((len(self.optimized_control_parameters)+1)/2)]  # amplitudes
-        del_sig = abs(self.optimized_control_parameters[int((len(self.optimized_control_parameters)+1)/2):]) * self.sigma_var # sigma variations
-        taus = self.super_parameter_distribution_obj.w  # times
-        sorted_tau = np.sort(taus)
-        if sorted_tau[0] < self.offset or sorted_tau[-1] > final_time - self.offset:
-            if sorted_tau[-1] < final_time - self.offset:
-                sorted_tau[-1] = final_time - self.offset
-            if sorted_tau[0] > self.offset:
-                sorted_tau[0] = self.offset
-            rel_tau = taus - (sorted_tau[-1]-sorted_tau[0])/2 - sorted_tau[0]
-            taus = final_time/2 + rel_tau * 2 * (final_time/2 - self.offset)/(sorted_tau[-1]-sorted_tau[0])
-        sigmas = del_sig * 0 + self.sigma  # sigmas
+        # initilize pulse
+        pulse = np.zeros(self.bins_number)
+        # get final time
+        final_time = self.final_time
+
+        # amplitudes
+        Aopti = self.optimized_control_parameters[0:int((len(self.optimized_control_parameters)+1)/2)]
+        # sigma variation
+        del_sig = abs(self.optimized_control_parameters[int((len(self.optimized_control_parameters)+1)/2):]) * self.sigma_var
+        # times
+        taus = self.super_parameter_distribution_obj.w
+
+        # adjust sigmas
+        if self.offset < 10**(-6):
+            kappa = 10**(6)
+        else:
+            kappa = self.sigma/self.offset
+
+        sigmas = np.zeros_like(del_sig) + self.sigma  # sigmas
         for i in range(len(sigmas)):
-            #sigmas[i] += del_sig[i]
-            del_sigma_max = (final_time/2 - abs(final_time/2-taus[i]))/kappa - self.sigma
-            #if sigmas[i] > sigma_max:
-            sigmas[i] = self.sigma + del_sigma_max*(1-np.cos(np.pi*del_sig[i]))/2
+            sigmas[i] += del_sig[i]
+            del_sigma_max = (final_time/2 - abs(final_time/2-taus[i])) * kappa - self.sigma
+            if sigmas[i] > (self.sigma + del_sigma_max):
+                sigmas[i] = self.sigma + del_sigma_max*(1-np.cos(np.pi*del_sig[i]))/2
+
+        # optimize pulse
         t = self.time_grid
-        #if np.sort(taus)[0] < self.offset or np.sort(taus)[-1] > final_time - self.offset:
-        #    print("error")
         for ii in range(self.super_parameter_number):
             pulse += (Aopti[ii + 1] / 2 * (erf((t - taus[ii]) / (np.sqrt(2) * sigmas[ii])) + 1))
         pulse += Aopti[0] / 2 * (erf((t - self.offset) / (np.sqrt(2) * self.sigma)) + 1)
