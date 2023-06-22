@@ -30,25 +30,21 @@ class SigmoidSigmas(ChoppedBasis):
 
     def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None, is_AD: bool = False):
         """
+        Constructor of the Sigmoid basis class with adjustable sigmas. It calls the constructor of the parent
+        class ChoppedBasis.
 
-        :param int map_index: Index number to use to get the control parameters for the Fourier basis
-        :param dict pulse_dictionary: The dictionary of the pulse defined here. Only the basis dictionary is used btw.
+        :param int map_index: Index number to use to get the control parameter.
+        :param dict pulse_dictionary: The dictionary of the pulse is defined here. Only the basis dictionary is used.
         """
         basis_dict = pulse_dictionary["basis"]
         # Frequencies number i.e. the basis vector number in the pulse parametrization
         self.super_parameter_number = basis_dict.setdefault("basis_vector_number", 1)
 
-        # offset for sigmoid
-        # (good starting point to set as final_time/100)
-        self.offset = basis_dict.setdefault("offset", 0.1)
-
-        # sigma for sigmoid basis
-        # (good starting point to set as
-        # sigma*(self.amplitude_upper-self.amplitude_lower)/10) )
-        self.sigma = basis_dict.setdefault("sigma", 0.1)
-
+        # define offset from side and sigma
+        self.sigma = basis_dict.setdefault("sigma", 10**(-10))
+        self.offset = basis_dict.setdefault("offset", -10*self.sigma)
         # sigma initial variation
-        self.sigma_var = basis_dict.setdefault("sigma_var", 1.)
+        self.sigma_var = basis_dict.setdefault("sigma_variation", 1.0)
 
         # Number of control parameters to be optimized
         self.control_parameters_number = 2 * self.super_parameter_number + 1
@@ -61,7 +57,12 @@ class SigmoidSigmas(ChoppedBasis):
         self.offset_coefficients = np.zeros((self.control_parameters_number, ))
 
     def _get_shaped_pulse(self) -> np.array:
-        """Definition of the pulse parametrization. It is called at every function evaluation to build the pulse"""
+        """
+        Definition of the pulse parametrization. It is called at every function evaluation to build the pulse and
+        return it as an array.
+
+        :return np.array: The pulse as an array.
+        """
 
         # initilize pulse
         pulse = np.zeros(self.bins_number)
@@ -75,17 +76,13 @@ class SigmoidSigmas(ChoppedBasis):
         # times
         taus = self.super_parameter_distribution_obj.w
 
-        # adjust sigmas
-        if self.offset < 10**(-6):
-            kappa = 10**(6)
-        else:
+        sigmas = del_sig + self.sigma
+        # adjusting the sigmas
+        if self.offset >= 10**(-10):
+            # making sure it stays in range if the offset is unequal zero
             kappa = self.sigma/self.offset
-
-        sigmas = np.zeros_like(del_sig) + self.sigma  # sigmas
-        for i in range(len(sigmas)):
-            sigmas[i] += del_sig[i]
-            del_sigma_max = (final_time/2 - abs(final_time/2-taus[i])) * kappa - self.sigma
-            if sigmas[i] > (self.sigma + del_sigma_max):
+            for i in range(len(sigmas)):
+                del_sigma_max = (final_time/2 - abs(final_time/2-taus[i])) * kappa - self.sigma
                 sigmas[i] = self.sigma + del_sigma_max*(1-np.cos(np.pi*del_sig[i]))/2
 
         # optimize pulse

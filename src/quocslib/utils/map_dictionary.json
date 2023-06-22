@@ -40,6 +40,9 @@
               "SigmoidSigmas":
                   {"module_name": "quocslib.pulses.basis.SigmoidSigmas",
                   "class_name": "SigmoidSigmas"},
+              "SigmoidAllParas":
+                  {"module_name": "quocslib.pulses.basis.SigmoidAllParas",
+                  "class_name": "SigmoidAllParas"},
               "Walsh":
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}
