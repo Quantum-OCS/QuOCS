@@ -104,7 +104,8 @@ class SigmoidAllParas(ChoppedBasis):
             # sigma adjustments
             del_sig = np.zeros(tauN)
 
-        taus = self.super_parameter_distribution_obj.w
+        taus = np.zeros(tauN)
+        taus += self.super_parameter_distribution_obj.w
         if self.tau_var > 10**(-10):
             # adjusting the taus
             taus += del_tau
