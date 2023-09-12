@@ -64,11 +64,11 @@ class Sigmoid(ChoppedBasis):
         # Final time definition
         final_time = self.final_time
         # Pulse creation
-        Aopti = self.optimized_control_parameters  # amplitudes
-        taus = self.super_parameter_distribution_obj.w  # times
+        xx = self.optimized_control_parameters  # amplitudes
+        w = self.super_parameter_distribution_obj.w  # times
         t = self.time_grid
         for ii in range(self.super_parameter_number):
-            pulse += (Aopti[ii + 1] / 2 * (erf((t - taus[ii]) / (np.sqrt(2) * self.sigma)) + 1))
-        pulse += Aopti[0] / 2 * (erf((t - self.offset) / (np.sqrt(2) * self.sigma)) + 1)
-        pulse += (-np.sum(Aopti) / 2 * (erf((t - (final_time - self.offset)) / (np.sqrt(2) * self.sigma)) + 1))
+            pulse += (xx[ii + 1] / 2 * (erf((t - w[ii]) / (np.sqrt(2) * self.sigma)) + 1))
+        pulse += xx[0] / 2 * (erf((t - self.offset) / (np.sqrt(2) * self.sigma)) + 1)
+        pulse += (-np.sum(xx) / 2 * (erf((t - (final_time - self.offset)) / (np.sqrt(2) * self.sigma)) + 1))
         return pulse
