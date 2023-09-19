@@ -46,6 +46,9 @@
               "Sinc":
                   {"module_name": "quocslib.pulses.basis.Sinc",
                   "class_name": "Sinc"},
+              "Wave":
+                  {"module_name": "quocslib.pulses.basis.Wave",
+                 "class_name": "Wave"},
               "Walsh":
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}
