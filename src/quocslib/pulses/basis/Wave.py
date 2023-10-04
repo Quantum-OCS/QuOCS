@@ -45,7 +45,7 @@ class Wave(ChoppedBasis):
         self.basis_max = basis_dict.setdefault("basis_max", 1.)
         self.sigma = basis_dict.setdefault("sigma", 1.0)
         # Number of control parameters to be optimized
-        self.control_parameters_number = self.super_parameter_number
+        self.control_parameters_number = 2 * self.super_parameter_number
         # Constructor of the parent class, i.e. Chopped Basis
         super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
         # Define scale and offset coefficients
@@ -67,9 +67,9 @@ class Wave(ChoppedBasis):
         xx = self.optimized_control_parameters
         w = self.super_parameter_distribution_obj.w
         t = self.time_grid
-        omega_max = 2 * np.pi * self.basis_max / final_time
+        #omega_max = 2 * np.pi * self.basis_max / final_time
         for ii in range(self.super_parameter_number):
-            pulse += xx[ii] / (self.sigma * np.sqrt(2 * np.pi)) \
+            pulse += xx[2 * ii] / (self.sigma * np.sqrt(2 * np.pi)) \
                     * np.exp(-1 * (t - w[ii])**2 / (2 * self.sigma**2)) \
-                    * np.cos(omega_max * (t - w[ii]))
+                    * np.cos(xx[2 * ii + 1] * (t - w[ii]))
         return pulse
