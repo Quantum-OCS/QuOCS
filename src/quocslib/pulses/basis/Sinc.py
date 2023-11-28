@@ -71,8 +71,8 @@ class Sinc(ChoppedBasis):
         xx = self.optimized_control_parameters
         w = self.super_parameter_distribution_obj.w
         t = self.time_grid
-        omega_max = 2 * np.pi * self.basis_max / final_time
+        omega_max = self.basis_max
 
         for ii in range(self.super_parameter_number):
-            pulse += xx[ii] * sinc(2 * np.pi * omega_max * (t - w[ii]))
+            pulse += xx[ii] * sinc(2 * np.pi * omega_max * (t - w[ii]) / final_time)
         return pulse
