@@ -58,6 +58,11 @@ class Sinc(ChoppedBasis):
 
         :return np.array: The pulse as an array.
         """
+        def sinc(t):
+            t = np.asanyarray(t)
+            y = np.where(t == 0, 1.0e-20, t)
+            return np.sin(y)/y
+
         # Pulse definition
         pulse = np.zeros(self.bins_number)
         # Final time definition
@@ -69,5 +74,5 @@ class Sinc(ChoppedBasis):
         omega_max = 2 * np.pi * self.basis_max / final_time
 
         for ii in range(self.super_parameter_number):
-            pulse += xx[ii] * np.sinc(omega_max * (t - w[ii]) / np.pi)
+            pulse += xx[ii] * sinc(2 * np.pi * omega_max * (t - w[ii]))
         return pulse
