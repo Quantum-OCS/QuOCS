@@ -34,6 +34,9 @@
               "Sigmoid":
                   {"module_name": "quocslib.pulses.basis.Sigmoid",
                   "class_name": "Sigmoid"},
+              "PolynomialBasis":
+                  {"module_name": "quocslib.pulses.basis.PolynomialBasis",
+                  "class_name": "PolynomialBasis"},
               "Walsh":
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}
