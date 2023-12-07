@@ -15,7 +15,7 @@ Assuming you define the settings in the form of a .json file, the general struct
     "dump_format": "npz",  # format of the results file
     "algorithm_settings": {...},  # settings related to the algorithm
     "pulses": [{...}, {...}, ...],  # list of pulses and their settings
-    "parameters": [{...}, {...}, ...],  # list of parameters and their settings
+    "parameters": [{...}, {...}, ...],  # list of parameters and their settingsRaspberry Pi
     "times": [{...}, {...}, ...]  # list of times and their settings
 }
 ~~~

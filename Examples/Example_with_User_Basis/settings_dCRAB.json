@@ -1,0 +1,61 @@
+{
+    "optimization_client_name": "Optimization_dCRAB_IsingModel",
+    "create_logfile": false,
+    "algorithm_settings": {
+        "algorithm_name": "dCRAB",
+        "super_iteration_number": 3,
+        "max_eval_total": 100,
+        "dsm_settings": {
+            "general_settings": {
+                "dsm_algorithm_name": "NelderMead",
+                "is_adaptive": true
+            },
+            "stopping_criteria": {
+                "xatol": 1e-14,
+                "frtol": 1e-3,
+                "change_based_stop": {
+                    "cbs_funct_evals": 200,
+                    "cbs_change": 0.01
+                },
+                "max_eval": 1000
+            }
+        }
+    },
+    "pulses": [
+        {
+            "pulse_name": "Pulse1",
+            "upper_limit": 1000.0,
+            "lower_limit": -1000.0,
+            "time_name": "time1",
+            "amplitude_variation": 10.0,
+            "basis": {
+                "basis_module": "Some_Folder.Muh",
+                "basis_class": "Muh",
+                "basis_name": "Muh",
+                "basis_vector_number": 5,
+                "random_super_parameter_distribution": {
+                    "distribution_name": "Uniform",
+                    "lower_limit": 0.01,
+                    "upper_limit": 5.0
+                }
+            },
+            "scaling_function": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda t: 1.0 + 0.0*t"
+            },
+            "initial_guess": {
+                "function_type": "lambda_function",
+                "lambda_function": "lambda t: 0.0 + 0.0*t"
+            }
+        }
+    ],
+    "times": [
+        {
+            "time_name": "time1"
+        }
+    ],
+    "parameters": [],
+    "communication": {
+        "communication_type": "AllInOneCommunication"
+    }
+}

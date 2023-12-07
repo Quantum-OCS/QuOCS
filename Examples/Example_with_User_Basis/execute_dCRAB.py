@@ -36,7 +36,7 @@ def plot_FoM(result_path, FoM_filename):
 
     FoM = [line.rstrip('\n') for line in open(file_path)]
     FoM = [float(f) for f in FoM]
-    num_eval = range(1, len(FoM) + 1)
+    iterations = range(1, len(FoM) + 1)
     # print('\nInitial FoM: %.4f' % FoM[0])
     # print('Final FoM: %.4f \n' % FoM[-1])
     min_FoM = min(FoM)
@@ -47,12 +47,12 @@ def plot_FoM(result_path, FoM_filename):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.plot(num_eval, FoM, color='darkblue', linewidth=1.5, zorder=10)
+    plt.plot(iterations, FoM, color='darkblue', linewidth=1.5, zorder=10)
     # plt.scatter(x, y, color='k', s=15)
 
     plt.grid(True, which="both")
     plt.ylim(min_FoM - 0.05 * difference, max_FoM + 0.05 * difference)
-    plt.xlabel('Function Evaluation', fontsize=20)
+    plt.xlabel('Iteration', fontsize=20)
     plt.ylabel('FoM', fontsize=20)
     # plt.savefig(os.path.join(folder, save_name + '.pdf'))
     plt.savefig(os.path.join(result_path, save_name + '.png'))
@@ -77,16 +77,16 @@ def plot_controls(result_path):
     pulse = []
 
     for data_name in controls.files:
-        if "time_grid_for_Pulse_1" in data_name:
+        if "time" in data_name:
             time_grid = controls[data_name]
-        elif "Pulse_1" in data_name:
+        elif "pulse" in data_name:
             pulse = controls[data_name]
 
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.step(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
+    plt.plot(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
     plt.grid(True, which="both")
     plt.xlabel('Time', fontsize=20)
     plt.ylabel('Amplitude', fontsize=20)
@@ -96,14 +96,15 @@ def plot_controls(result_path):
 
 def main(optimization_dictionary: dict):
 
-    args_dict = {"n_qubits": 5, "J": 1, "g": 2, "N_slices": 2000, "T": 1.0,
-                 "g_seed": 123, "g_variation": 0.3, "stdev": 0.001}
+    args_dict = {"n_qubits": 5, "J": 1, "g": 2, "N_slices": 100, "T": 1.0,
+                 "g_seed": 0, "g_variation": 0.1, "stdev": 0.01}
 
     optimization_dictionary["pulses"][0]["bins_number"] = args_dict["N_slices"]
     optimization_dictionary["times"][0]["initial_value"] = args_dict["T"]
 
     if args_dict["g_seed"] != 0:
-        optimization_dictionary["algorithm_settings"]["re_evaluation"] = {"re_evaluation_steps": [0.3, 0.5, 0.501]}
+        optimization_dictionary["algorithm_settings"]["re_evaluation"] = "{}"
+
 
     # Create FoM object
     FoM_object = IsingModel(args_dict=args_dict)
@@ -119,7 +120,9 @@ def main(optimization_dictionary: dict):
 
     optimization_time = t2 - t1
 
-    with open(os.path.join(optimization_obj.results_path, "optimization_time.txt"), "w") as f:
+    with open(
+        os.path.join(optimization_obj.results_path, "optimization_time.txt"), "w"
+    ) as f:
         f.write("# Time for optimization in seconds:\n")
         f.write(str(optimization_time))
 
@@ -128,27 +131,24 @@ def main(optimization_dictionary: dict):
     np.savetxt(os.path.join(optimization_obj.results_path, "fom.txt"), fomlist)
 
     plot_FoM(optimization_obj.results_path, "fom.txt")
-    plot_controls(optimization_obj.results_path)
+    # plot_controls(optimization_obj.results_path)
 
     opt_controls = optimization_obj.opt_alg_obj.get_best_controls()
 
-    if args_dict["g_seed"] != 0:
-        statistics_fom_list = []
-        num_for_average = 50
-        for i in range(num_for_average):
-            statistics_fom_list.append(FoM_object.get_FoM(**opt_controls)["FoM"]*(-1))
+    statistics_fom_list = []
+    num_for_average = 50
+    for i in range(num_for_average):
+        statistics_fom_list.append(FoM_object.get_FoM(**opt_controls)["FoM"]*(-1))
+    
+    mittel = statistics.mean(statistics_fom_list)
+    deviation = statistics.stdev(statistics_fom_list)
 
-        mittel = statistics.mean(statistics_fom_list)
-        deviation = statistics.stdev(statistics_fom_list)
-
-        with open(os.path.join(optimization_obj.results_path, "statistics.txt"), 'w') as f:
-            f.write('averaged over {} evals\n'.format(num_for_average))
-            f.write('mean:{}\n'.format(mittel))
-            f.write('stdev: {}\n'.format(deviation))
-
-    print("\nBest FoM: {}".format(optimization_obj.opt_alg_obj.best_FoM))
-
-print(__name__)
+    with open(os.path.join(optimization_obj.results_path, "statistics.txt"), 'w') as f:
+        f.write('averaged over {} evals\n'.format(num_for_average))
+        f.write('mean:{}\n'.format(mittel))
+        f.write('stdev: {}\n'.format(deviation))
+        
 
 if __name__ == "__main__":
     main(readjson(os.path.join(os.getcwd(), "settings_dCRAB.json")))
+
