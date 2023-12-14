@@ -148,7 +148,7 @@ def main(optimization_dictionary: dict):
 
     print("\nBest FoM: {}".format(optimization_obj.opt_alg_obj.best_FoM))
 
-print(__name__)
+
 
 if __name__ == "__main__":
     main(readjson(os.path.join(os.getcwd(), "settings_dCRAB.json")))

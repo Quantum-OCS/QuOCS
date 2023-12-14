@@ -52,7 +52,8 @@ def create_logger(results_path, date_time, create_logfile=True, console_info=Tru
     console_handler.setFormatter(logging.Formatter(print_format))
     # Log file handler
     if create_logfile:
-        file_handler = logging.FileHandler(log_filename)
+        # file_handler = logging.FileHandler(log_filename)
+        file_handler = logging.FileHandler(log_filename, mode='a')
         file_handler.setLevel(logging.INFO)
         file_handler.setFormatter(logging.Formatter(log_format, date_format))
         # Add handler for logfile to the logger

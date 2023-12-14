@@ -21,6 +21,7 @@ from quocslib.utils.dynamicimport import dynamic_import
 from quocslib.communication.AllInOneCommunication import AllInOneCommunication
 from quocslib.utils.BestDump import BestDump
 from quocslib.utils.AbstractFoM import AbstractFoM
+from quocslib.utils.Import_previous_results import update_opti_dict
 
 
 class Optimizer:
@@ -58,6 +59,8 @@ class Optimizer:
         self.dump_format = optimization_dict.setdefault("dump_format", "npz")
         self.optimization_direction = optimization_dict["algorithm_settings"].setdefault("optimization_direction",
                                                                                          "minimization")
+        self.continuation_datetime = optimization_dict.setdefault("continuation_datetime", "no")
+        
         self.communication_obj = AllInOneCommunication(interface_job_name=self.interface_job_name,
                                                        FoM_obj=FoM_object,
                                                        handle_exit_obj=handle_exit_obj,
@@ -66,7 +69,11 @@ class Optimizer:
                                                        create_logfile=self.create_logfile,
                                                        console_info=self.console_info,
                                                        dump_format=self.dump_format,
-                                                       optimization_direction=self.optimization_direction)
+                                                       optimization_direction=self.optimization_direction,
+                                                       continuation_datetime=self.continuation_datetime)
+        
+        if self.communication_obj.is_continuation:
+            optimization_dict = update_opti_dict(optimization_dict, self.communication_obj)
 
         self.results_path = self.communication_obj.results_path
 
