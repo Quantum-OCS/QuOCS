@@ -16,7 +16,7 @@ Assuming you define the settings in the form of a .json file, the general struct
     "continuation_datetime": "YYYYmmdd_HHMMSS"  # date of optimization to be continued
     "algorithm_settings": {...},  # settings related to the algorithm
     "pulses": [{...}, {...}, ...],  # list of pulses and their settings
-    "parameters": [{...}, {...}, ...],  # list of parameters and their settingsRaspberry Pi
+    "parameters": [{...}, {...}, ...],  # list of parameters and their settings
     "times": [{...}, {...}, ...]  # list of times and their settings
 }
 ~~~
