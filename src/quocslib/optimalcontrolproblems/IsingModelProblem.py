@@ -212,4 +212,5 @@ class IsingModel(AbstractFoM):
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
         fidelity = -1 * self.FoM_factor * fidelity_funct(rho_final.T, self.rho_target)
+        # print("FoM: {}, CheckSum: {}".format(fidelity, np.sum(pulses[0])))
         return {"FoM": fidelity}

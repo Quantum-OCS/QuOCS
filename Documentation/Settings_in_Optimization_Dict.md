@@ -195,7 +195,12 @@ If you only want to optimize parameters and no pulses you can use QuOCS for its 
             "lower_limit": 0.1,
             "upper_limit": 5.0
         }
-    }
+    },
+    "shaping_options": ["add_initial_guess",
+                    	"add_base_pulse",
+                    	"add_new_update_pulse",
+                    	"scale_pulse",
+                    	"limit_pulse"]
 }]
 ~~~
 
@@ -214,9 +219,28 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 |**"shrink_ampl_lim"** *(optional)* |*bool*| If this option is set to *true*, the pulse is shrunk down in such a way to conserve most of its features / shape while obeying the amplitude restrictions. If this is turned off, the amplitudes are cut off at the limits. *(Default: false)* |
 |**"scaling_function"** *(optional)* |*dict*| Scaling of the pulse, i.e. post-processing. Can be used to force a pulse to start and end a 0. The pulse is multiplied by this function before it is fed back to FoM evaluation. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A scaling function can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the scaling function which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: no scaling)* |
 |**"initial_guess"** *(optional)* |*dict*| Initial pulse from where to start the optimization. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A guess pulse can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the guess pulse which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: 0 for all times)* |
+|**"shaping_options"** *(optional)* |*list*| Specify the order in which the pulse is build up. "add_initial_guess" adds the initial guess pulse. "add_base_pulse" adds the update pulse from previous SIs (in the case of dCRAB). "add_new_update_pulse" adds the current update pulse from the algorithm. "scale_pulse" scales the pulse with the given scaling function. "limit_pulse" enforces the pulse limits if necessary. *(Default: ["add_initial_guess", "add_base_pulse", "add_new_update_pulse", "scale_pulse", "limit_pulse"])* |
 
+#### Initial Guess and Scaling with custom Python file
 
+The initial guess, as well as the scaling function can be linked to custom functions stored in a Python file. The entries should look like this:
 
+~~~yaml
+"scaling_function": {
+    "function_type": "python_file",
+    "file_path": "my_file_with_functions",
+    "function_name": "scaling_function",
+    "path_mode": "relative"
+},
+"initial_guess": {
+    "function_type": "python_file",
+    "file_path": "my_file_with_functions",
+    "function_name": "guess_pulse_function",
+    "path_mode": "relative"
+},
+~~~
+
+where the "file_path" option describes the absolute or relative path to the Python file. Wether you want to provide an absolute or relative path can be set with "path_mode". The option "function_name" is for the name of the function inside the Python file. It should (so far) only take the time as a parameter.
 
 ### Basis Settings
 

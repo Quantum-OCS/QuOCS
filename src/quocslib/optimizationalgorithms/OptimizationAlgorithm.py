@@ -50,7 +50,7 @@ class OptimizationAlgorithm:
         self.optimization_dict = optimization_dict
         # get the names of the controls
         self.controls_names = self._get_controls_names()
-        # set the dictionary in the communication onject
+        # set the dictionary in the communication object
         self.comm_obj.set_controls_names(self.controls_names)
         # Print optimization dictionary into a file
         self.comm_obj.print_optimization_dictionary(self.optimization_dict)
