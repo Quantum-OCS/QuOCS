@@ -16,13 +16,15 @@
 
 import os, platform
 from packaging import version
-if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.7"):
+if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.8"):
     from quocslib.optimalcontrolproblems.IsingModelADProblem import IsingModel
 from quocslib.Optimizer import Optimizer
 import pytest
 import numpy as np
+import sys
 
 
+@pytest.mark.skipif(sys.version_info < (3, 8), reason="requires Python 3.8 or higher")
 def test_AD_Ising_Model():
     if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.7"):
         optimization_dictionary = {
