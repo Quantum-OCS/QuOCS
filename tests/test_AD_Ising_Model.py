@@ -26,7 +26,7 @@ import sys
 
 @pytest.mark.skipif(sys.version_info < (3, 8), reason="requires Python 3.8 or higher")
 def test_AD_Ising_Model():
-    if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.7"):
+    if os.name != 'nt' and version.parse(platform.python_version()) >= version.parse("3.8"):
         optimization_dictionary = {
             "Disclaimer":
             "Do not use this json file for optimization",
