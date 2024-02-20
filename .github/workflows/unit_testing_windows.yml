@@ -27,7 +27,8 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install requests pytest numpy scipy matplotlib jax jaxlib
           python -m pip install -e .
-      - name: Prepare Repo
-        uses: actions/checkout@master
-      - name: Run Tests
-        run: python -m pytest
+          python -m pytest
+      # - name: Prepare Repo
+      #   uses: actions/checkout@master
+      # - name: Run Tests
+      #   run: python -m pytest
