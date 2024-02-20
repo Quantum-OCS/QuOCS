@@ -30,4 +30,4 @@ jobs:
       - name: Prepare Repo
         uses: actions/checkout@master
       - name: Run Tests
-        run: python -c "import sys; print(sys.version)"
+        run: python -m pytest
