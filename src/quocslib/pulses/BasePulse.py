@@ -19,6 +19,7 @@ from typing import Callable
 import logging
 import importlib.util
 import numpy as np
+from inspect import signature
 
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
@@ -395,7 +396,7 @@ class BasePulse:
             scaling_function_t = self.scaling_function
         else:
             # TODO Handle here
-            print("Warning: scaling function not good. Do with 1.0")
+            print("Warning: scaling function not good. Pulse not scaled.")
             scaling_function_t = (lambda t: 1.0)(self.time_grid)
         return scaling_function_t
 
@@ -449,7 +450,14 @@ class BasePulse:
         :param pulse: The input pulse
         :return np.ndarray: The input pulse scaled
         """
-        return self._get_scaling_function() * pulse
+        if isinstance(self.scaling_function, Callable):
+            sig = signature(self.scaling_function)
+            if len(sig.parameters) == 2:
+                return self.scaling_function(self.time_grid, pulse)
+            else:
+                return self._get_scaling_function() * pulse
+        else:
+            return self._get_scaling_function() * pulse
 
     def _get_limited_pulse(self, optimal_pulse: np.ndarray):
         """
