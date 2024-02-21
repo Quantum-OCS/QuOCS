@@ -2,8 +2,7 @@ import numpy as np
 
 
 def scaling_function(t):
-	# return np.sin(np.pi * t) + 0.1
-	return -15*(t-0.5)**4+1
+	return -15 * (t - 0.5)**4 + 1
 
 
 def scaling_function_with_pulse(t, pulse):

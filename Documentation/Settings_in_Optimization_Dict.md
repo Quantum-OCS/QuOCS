@@ -240,7 +240,25 @@ The initial guess, as well as the scaling function can be linked to custom funct
 },
 ~~~
 
-where the "file_path" option describes the absolute or relative path to the Python file. Wether you want to provide an absolute or relative path can be set with "path_mode". The option "function_name" is for the name of the function inside the Python file. It should (so far) only take the time as a parameter.
+where the "file_path" option describes the absolute or relative path to the Python file. Wether you want to provide an absolute or relative path can be set with "path_mode". The option "function_name" is for the name of the function inside the Python file. It should either only take the time as a parameter (first argument) or the time and the pulse (in that order).
+
+#### Example:
+
+~~~python
+import numpy as np
+
+
+def scaling_function(t):
+	return -15 * (t - 0.5)**4 + 1
+
+
+def scaling_function_with_pulse(t, pulse):
+	return np.abs(pulse)
+
+
+def guess_pulse_function(t):
+	return np.pi/3.0 + 0.0*t
+~~~
 
 ### Basis Settings
 
