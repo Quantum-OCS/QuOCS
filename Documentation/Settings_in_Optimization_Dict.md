@@ -1,6 +1,6 @@
 # Feature List of the possible Settings in the Optimization Dictionary
 
-The optimizer of QuOCS need the settings for the optimization to be provided in the form of a dictionary. This `optimization_dictionary` can either be defined in the Python code itself or as a JSON file and be read in with the provided `readjson` function. The settings (keys) in that dictionary are listed and explained here.
+The optimizer of QuOCS needs the settings for the optimization to be provided in the form of a dictionary. This `optimization_dictionary` can either be defined in the Python code itself or as a JSON file and be read in with the provided `readjson` function. The settings (keys) in that dictionary are listed and explained here.
 
 
 ## General form of the JSON file
@@ -279,6 +279,12 @@ where the time T should be your own pulse time and the steepness can be adjusted
 <img src="https://github.com/Quantum-OCS/QuOCS/assets/44496709/a8d1bbaf-e805-4e47-b106-726a86a33b3e" width="50%" height="50%">
 
 In this case the pulse will start and end at zero if multiplied with the scaling function and is not changed in between except for the rise and fall time specified by the steepness.
+
+#### Example 3:
+
+Having fixed non-zero start and end points for the pulse.
+
+Please see [this example](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Enforcing_Pulse_Boundaries_at_Beginning_and_End.md)
 
 ### Basis Settings
 
