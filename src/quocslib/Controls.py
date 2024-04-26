@@ -282,8 +282,10 @@ class Controls:
             time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(self.jnp.asarray(pulse.time_grid))
         # Get the parameters
         for index, parameter in enumerate(self.parameter_objs_list):
-            parameters_array[index] = parameter.get_parameter(
-                optimized_parameters_vector[parameter.control_parameters_list])
+            # parameters_array[index] = parameter.get_parameter(
+            #     optimized_parameters_vector[parameter.control_parameters_list])
+            parameters_array = parameters_array.at[index].set(self.jnp.asarray(parameter.get_parameter(
+                optimized_parameters_vector[self.jnp.asarray(parameter.control_parameters_list)]), dtype=self.jnp.complex64))
         return pulses_array, time_grids_array, parameters_array
 
     def _get_controls_jax_obj(self, optimized_parameters_vector: np.array) -> np.array:
