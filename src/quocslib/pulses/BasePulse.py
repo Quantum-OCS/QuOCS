@@ -202,8 +202,23 @@ class BasePulse:
         import jax.numpy as jnp
         self._maximum = jnp.maximum
         self._minimum = jnp.minimum
+        # Array tipe
+        self.array_type = jnp.ndarray
         # Base Pulse
         self.base_pulse = jnp.zeros(self.bins_number)
+        # Convert initial guess pulse to jnp
+        if isinstance(self.initial_guess_pulse, Callable):
+            self.initial_guess_pulse = jax.jit(self.initial_guess_pulse)
+        # Convert numpy initial guess pulse to jnp
+        if isinstance(self.initial_guess_pulse, np.ndarray):
+            self.initial_guess_pulse = jnp.asarray(self.initial_guess_pulse)
+        # Convert scaling function to jnp
+        if isinstance(self.scaling_function, Callable):
+            self.scaling_function = jax.jit(self.scaling_function)
+        # Convert numpy scaling function to jnp
+        if isinstance(self.scaling_function, np.ndarray):
+            self.scaling_function = jnp.asarray(self.scaling_function)
+        
         # Time grid initialization
         self.time_grid = jnp.zeros(self.bins_number)
 
@@ -211,6 +226,8 @@ class BasePulse:
         """ Sets standard numpy functions in case automatic differentiation is not used """
         self._maximum = np.maximum
         self._minimum = np.minimum
+        # Array tipe
+        self.array_type = np.ndarray
         # Base Pulse
         self.base_pulse = np.zeros(self.bins_number)
         # Time grid initialization
@@ -392,7 +409,7 @@ class BasePulse:
         """ Get the array scaling function """
         if isinstance(self.scaling_function, Callable):
             scaling_function_t = self.scaling_function(self.time_grid)
-        elif isinstance(self.scaling_function, np.ndarray):
+        elif isinstance(self.scaling_function, self.array_type):
             scaling_function_t = self.scaling_function
         else:
             # TODO Handle here

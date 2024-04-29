@@ -16,6 +16,7 @@
 
 import os
 import time
+from typing import List
 
 from quocslib.utils.AbstractFoM import AbstractFoM
 from quocslib.utils.DummyDump import DummyDump
@@ -31,7 +32,7 @@ class AllInOneCommunication:
                  FoM_obj: AbstractFoM = None,
                  handle_exit_obj: AbstractHandleExit = None,
                  dump_attribute: callable = DummyDump,
-                 comm_signals_list: [list, list, list] = None,
+                 comm_signals_list: List[List] = None,
                  create_logfile: bool = True,
                  console_info: bool = True,
                  dump_format: str = "npz",
