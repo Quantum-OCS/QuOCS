@@ -15,6 +15,7 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import jax
 import jax.scipy as jsp
+import jax.numpy as jnp
 
 from functools import partial
 
@@ -83,7 +84,7 @@ def pw_evolution_AD(U_store, drive, A, B, n_slices, dt):
 #     return U
 
 
-@partial(jax.jit, static_argnames=["n_slices"])
+@partial(jax.jit, static_argnames=["n_slices", "dt"])
 def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     """
     Computes the piecewise evolution of a system defined by the
@@ -98,9 +99,9 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
     :return np.matrix: The final propagator
     """
     U = U0
-
+    K = len(B)
     def body_fun(i, val):
-        K = len(B)
+        # K = len(B)
         H = A
         for k in range(K):
             H = H + drive[k, i] * B[k]
@@ -108,4 +109,33 @@ def pw_final_evolution_AD(drive, A, B, n_slices, dt, U0):
         return Uint @ val
 
     U = jax.lax.fori_loop(0, n_slices, body_fun, U)
+    return U
+
+@partial(jax.jit, static_argnames=["n_slices", "n_controls"])
+def pw_final_evolution_AD_scan(drive: jnp.ndarray, A: jnp.ndarray, B: jnp.ndarray, n_slices: int, dt: float, U0: jnp.ndarray, n_controls: int):
+    """
+    Computes the piecewise evolution of a system defined by the
+    Hamiltonian H = A + drive * B and concatenate all the propagators
+
+    :param np.array drive: An array of dimension n_controls x n_slices that contains the amplitudes of the pulse
+    :param np.matrix A: The drift Hamiltonian
+    :param List[np.matrix] B: The control Hamiltonians in a list
+    :param int n_slices: Number of slices
+    :param float dt: The duration of each time slice
+    :param np.matrix U0: The initial propagator to start from
+    :return np.matrix: The final propagator
+    """
+    U = U0
+    # K = len(B)
+    # Reshape drive array to have the correct shape for lax.scan
+    H_drive = jnp.asarray([ jnp.asarray([drive[k, i] for k in range(n_controls)])  for i in range(n_slices)])
+    def body_fun(carry, drive_i):
+        val, i = carry
+        H = A
+        for k in range(n_controls):
+            H = H + drive_i[k] * B[k]
+        Uint = jsp.linalg.expm(-1.0j * dt * H)
+        return (Uint @ val, i+1), None
+
+    (U, _), _ = jax.lax.scan(body_fun, init=(U0, 0), xs=H_drive)
     return U
