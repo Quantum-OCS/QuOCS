@@ -42,7 +42,7 @@ def create_logger(results_path, date_time, create_logfile=True, console_info=Tru
     # Remove previous handlers if any
     logger.handlers = []
     # Default level for logger
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     if console_info:

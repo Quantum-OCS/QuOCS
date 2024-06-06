@@ -147,6 +147,8 @@ class IsingModel(AbstractFoM):
         self.g = args_dict.setdefault("g", 2)
         self.n_slices = args_dict.setdefault("n_slices", 100)
 
+        self.FoM_list = []
+
         self.is_maximization = args_dict.setdefault("is_maximization", False)
         self.FoM_factor = 1
         if self.is_maximization:
@@ -212,4 +214,6 @@ class IsingModel(AbstractFoM):
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
         fidelity = -1 * self.FoM_factor * fidelity_funct(rho_final.T, self.rho_target)
+        # print("FoM: {}, CheckSum: {}".format(fidelity, np.sum(pulses[0])))
+        self.FoM_list.append(fidelity)
         return {"FoM": fidelity}

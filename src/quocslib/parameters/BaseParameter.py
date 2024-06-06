@@ -29,6 +29,7 @@ class BaseParameter:
         lower_limit=0.1,
         upper_limit=1.1,
         amplitude_variation=0.1,
+        is_AD: bool = False,
     ):
         """
         Constructor of the BaseParameter class. It is used to define the parameter to be optimized.
@@ -56,6 +57,27 @@ class BaseParameter:
         self.control_parameters_list = [map_index + i + 1 for i in range(self.control_parameters_number)]
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
+        if is_AD:
+            self._set_AD_functions()
+        else:
+            self._set_functions()
+
+    def _set_AD_functions(self):
+        """ Sets jax functions in case automatic differentiation is used """
+        import jax
+        # self.debug_print = jax.debug.print
+        import jax.numpy as jnp
+        self._maximum = jnp.maximum
+        self._minimum = jnp.minimum
+        # Array tipe
+        self.array_type = jnp.ndarray
+
+    def _set_functions(self):
+        """ Sets standard numpy functions in case automatic differentiation is not used """
+        self._maximum = np.maximum
+        self._minimum = np.minimum
+        # Array tipe
+        self.array_type = np.ndarray
 
     def set_control_parameters_list(self, map_index):
         """Updates the control parameters list."""
@@ -97,4 +119,4 @@ class BaseParameter:
         """
         a = self.lower_limit
         b = self.upper_limit
-        return np.minimum(np.maximum(a, parameter), b)
+        return self._minimum(self._maximum(a, parameter), b)

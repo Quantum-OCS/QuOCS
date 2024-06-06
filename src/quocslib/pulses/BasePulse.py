@@ -13,12 +13,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+import os
 from abc import abstractmethod
 from typing import Callable
-# from collections import OrderedDict
-
+import logging
+import importlib.util
 import numpy as np
+from inspect import signature
 
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 
@@ -67,6 +68,7 @@ class BasePulse:
         :param bool is_AD: If True the pulse is used in AD
         :param kwargs: Other arguments
         """
+        self.logger = logging.getLogger("oc_logger")
         # Pulse name
         self.pulse_name = pulse_name
         # Bins number
@@ -90,13 +92,18 @@ class BasePulse:
         # Update the map_index number for the next pulse
         self.last_index = self.control_parameters_list[-1]
         shaping_option_dict = {
-            "add_base_pulse": self.add_base_pulse,
             "add_initial_guess": self.add_initial_guess,
-            "limit_pulse": self.limit_pulse,
-            "scale_pulse": self.scale_pulse
+            "add_base_pulse": self.add_base_pulse,
+            "add_new_update_pulse": self.add_shaped_pulse,
+            "scale_pulse": self.scale_pulse,
+            "limit_pulse": self.limit_pulse
         }
         if shaping_options is None:
-            self.shaping_options = [self.add_base_pulse, self.add_initial_guess, self.scale_pulse, self.limit_pulse]
+            self.shaping_options = [self.add_initial_guess,
+                                    self.add_base_pulse,
+                                    self.add_shaped_pulse,
+                                    self.scale_pulse,
+                                    self.limit_pulse]
         else:
             self.shaping_options = []
             for op_str in shaping_options:
@@ -104,23 +111,77 @@ class BasePulse:
                     self.shaping_options.append(shaping_option_dict[op_str])
                 else:
                     print("Warning: {0} pulse option is not implemented".format(op_str))
+        ############################################################
         # Initial guess function
         function_type = initial_guess["function_type"]
         if function_type == "lambda_function":
             initial_guess_pulse = eval(initial_guess["lambda_function"])
         elif function_type == "list_function":
             initial_guess_pulse = np.asarray(initial_guess["list_function"])
+        elif function_type == "python_file":
+            guess_file_path = initial_guess.setdefault("file_path", "")
+            # check if filename ends with .py and if not, add it
+            guess_file_path = guess_file_path + ".py" if not guess_file_path.endswith(".py") else guess_file_path
+            guess_file_name = os.path.basename(guess_file_path[:-3])
+            guess_funct_name = initial_guess.setdefault("function_name", "")
+            path_mode = initial_guess.setdefault("path_mode", "relative")
+            initial_guess_pulse = lambda t: 0.0 * t
+            if guess_file_path != "":
+                if path_mode == "absolute":
+                    guess_file_path = os.path.abspath(guess_file_path)
+                else:
+                    guess_file_path = os.path.normpath(os.path.join(os.getcwd(), guess_file_path))
+                if os.path.exists(guess_file_path):
+                    if guess_funct_name != "":
+                        # guess_module = import_module(guess_file_path_name)
+                        spec = importlib.util.spec_from_file_location(guess_file_name, guess_file_path)
+                        guess_module = importlib.util.module_from_spec(spec)
+                        spec.loader.exec_module(guess_module)
+                        initial_guess_pulse = getattr(guess_module, guess_funct_name)
+                    else:
+                        self.logger.warning("Guess pulse function name is empty! Using default guess of zero.")
+                else:
+                    self.logger.warning("Guess pulse function file path does not exist! Using default guess of zero.")
+            else:
+                self.logger.warning("Guess pulse function file path is empty! Using default guess of zero.")
         else:
             initial_guess_pulse = lambda t: 0.0 * t
         self.initial_guess_pulse = initial_guess_pulse
+        ############################################################
         # Scaling function
         function_type = scaling_function["function_type"]
         if function_type == "lambda_function":
             scaling_function = eval(scaling_function["lambda_function"])
         elif function_type == "list_function":
             scaling_function = np.asarray(scaling_function["list_function"])
+        elif function_type == "python_file":
+            scaling_file_path = scaling_function.setdefault("file_path", "")
+            # check if filename ends with .py and if not, add it
+            scaling_file_path = scaling_file_path + ".py" if not scaling_file_path.endswith(".py") else scaling_file_path
+            scaling_file_name = os.path.basename(scaling_file_path[:-3])
+            scaling_funct_name = scaling_function.setdefault("function_name", "")
+            path_mode = scaling_function.setdefault("path_mode", "relative")
+            scaling_function = lambda t: 1.0 + 0.0 * t
+            if scaling_file_path != "":
+                if path_mode == "absolute":
+                    scaling_file_path = os.path.abspath(scaling_file_path)
+                else:
+                    scaling_file_path = os.path.normpath(os.path.join(os.getcwd(), scaling_file_path))
+                if os.path.exists(scaling_file_path):
+                    if scaling_funct_name != "":
+                        # scaling_module = import_module(scaling_file_path_name)
+                        spec = importlib.util.spec_from_file_location(scaling_file_name, scaling_file_path)
+                        scaling_module = importlib.util.module_from_spec(spec)
+                        spec.loader.exec_module(scaling_module)
+                        scaling_function = getattr(scaling_module, scaling_funct_name)
+                    else:
+                        self.logger.warning("Scaling function name is empty! Using default scaling function.")
+                else:
+                    self.logger.warning("Scaling function file path does not exist! Using default scaling function.")
+            else:
+                self.logger.warning("Scaling function file path is empty! Using default scaling function.")
         else:
-            scaling_function = lambda t: 1.0 * t
+            scaling_function = lambda t: 1.0 + 0.0 * t
         self.scaling_function = scaling_function
         # Shrink option
         self.shrink_ampl_lim = shrink_ampl_lim
@@ -141,8 +202,23 @@ class BasePulse:
         import jax.numpy as jnp
         self._maximum = jnp.maximum
         self._minimum = jnp.minimum
+        # Array tipe
+        self.array_type = jnp.ndarray
         # Base Pulse
         self.base_pulse = jnp.zeros(self.bins_number)
+        # Convert initial guess pulse to jnp
+        if isinstance(self.initial_guess_pulse, Callable):
+            self.initial_guess_pulse = jax.jit(self.initial_guess_pulse)
+        # Convert numpy initial guess pulse to jnp
+        if isinstance(self.initial_guess_pulse, np.ndarray):
+            self.initial_guess_pulse = jnp.asarray(self.initial_guess_pulse)
+        # Convert scaling function to jnp
+        if isinstance(self.scaling_function, Callable):
+            self.scaling_function = jax.jit(self.scaling_function)
+        # Convert numpy scaling function to jnp
+        if isinstance(self.scaling_function, np.ndarray):
+            self.scaling_function = jnp.asarray(self.scaling_function)
+        
         # Time grid initialization
         self.time_grid = jnp.zeros(self.bins_number)
 
@@ -150,6 +226,8 @@ class BasePulse:
         """ Sets standard numpy functions in case automatic differentiation is not used """
         self._maximum = np.maximum
         self._minimum = np.minimum
+        # Array tipe
+        self.array_type = np.ndarray
         # Base Pulse
         self.base_pulse = np.zeros(self.bins_number)
         # Time grid initialization
@@ -170,14 +248,9 @@ class BasePulse:
 
         :return np.array: The pulse with all the constraints
         """
-        optimal_pulse = self._get_shaped_pulse()
-        # self.debug_print("_get_build_pulse {}", optimal_pulse)
+        optimal_pulse = np.zeros(self.bins_number)
         for op in self.shaping_options:
             optimal_pulse = op(optimal_pulse)
-            # self.debug_print("_get_build_pulse pulse {} ", optimal_pulse)
-        # Pulse operations
-        # Make a loop with all the operation that the users wants to apply to the pulse shaping
-        # optimal_pulse_total = self._get_initial_guess() + self._constrained_pulse(optimal_pulse)
         return optimal_pulse
 
     def _constrained_pulse(self, optimal_pulse: np.ndarray) -> np.ndarray:
@@ -336,11 +409,11 @@ class BasePulse:
         """ Get the array scaling function """
         if isinstance(self.scaling_function, Callable):
             scaling_function_t = self.scaling_function(self.time_grid)
-        elif isinstance(self.scaling_function, np.ndarray):
+        elif isinstance(self.scaling_function, self.array_type):
             scaling_function_t = self.scaling_function
         else:
             # TODO Handle here
-            print("Warning: scaling function not good. Do with 1.0")
+            print("Warning: scaling function not good. Pulse not scaled.")
             scaling_function_t = (lambda t: 1.0)(self.time_grid)
         return scaling_function_t
 
@@ -394,7 +467,14 @@ class BasePulse:
         :param pulse: The input pulse
         :return np.ndarray: The input pulse scaled
         """
-        return self._get_scaling_function() * pulse
+        if isinstance(self.scaling_function, Callable):
+            sig = signature(self.scaling_function)
+            if len(sig.parameters) == 2:
+                return self.scaling_function(self.time_grid, pulse)
+            else:
+                return self._get_scaling_function() * pulse
+        else:
+            return self._get_scaling_function() * pulse
 
     def _get_limited_pulse(self, optimal_pulse: np.ndarray):
         """
@@ -408,6 +488,14 @@ class BasePulse:
             return self._shrink_pulse_2(optimal_pulse)
         else:
             return self._maximum(self._minimum(optimal_pulse, self.amplitude_upper), self.amplitude_lower)
+
+    def add_shaped_pulse(self, pulse: np.ndarray) -> np.ndarray:
+        """
+        Gets the shaped pulse for addition in pulse building
+
+        :return np.ndarray: The shaped pulse
+        """
+        return pulse + self._get_shaped_pulse()
 
     @abstractmethod
     def _get_shaped_pulse(self) -> np.ndarray:

@@ -144,3 +144,4 @@ cython_debug/
 
 src/quocslib/optimizationalgorithms/test.py
 **/QuOCS_Results
+Testing.py

@@ -13,13 +13,11 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-import os, platform
+from quocslib.optimalcontrolproblems.IsingModelProblem import IsingModel
+from quocslib.Optimizer import Optimizer
 import matplotlib.pyplot as plt
 import numpy as np
-from quocslib.optimalcontrolproblems.OneQubitProblem import OneQubit
-from quocslib.Optimizer import Optimizer
-import pytest
+import sys, os, platform
 
 
 def plot_FoM(result_path, FoM_filename):
@@ -34,7 +32,7 @@ def plot_FoM(result_path, FoM_filename):
 
     FoM = [line.rstrip('\n') for line in open(file_path)]
     FoM = [float(f) for f in FoM]
-    iterations = range(1, len(FoM) + 1)
+    num_eval = range(1, len(FoM) + 1)
     # print('\nInitial FoM: %.4f' % FoM[0])
     # print('Final FoM: %.4f \n' % FoM[-1])
     min_FoM = min(FoM)
@@ -45,12 +43,12 @@ def plot_FoM(result_path, FoM_filename):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.plot(iterations, FoM, color='darkblue', linewidth=1.5, zorder=10)
+    plt.plot(num_eval, FoM, color='darkblue', linewidth=1.5, zorder=10)
     # plt.scatter(x, y, color='k', s=15)
 
     plt.grid(True, which="both")
     plt.ylim(min_FoM - 0.05 * difference, max_FoM + 0.05 * difference)
-    plt.xlabel('Iteration', fontsize=20)
+    plt.xlabel('Function Evaluation', fontsize=20)
     plt.ylabel('FoM', fontsize=20)
     # plt.savefig(os.path.join(folder, save_name + '.pdf'))
     plt.savefig(os.path.join(result_path, save_name + '.png'))
@@ -85,7 +83,7 @@ def plot_controls(result_path):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
-    plt.plot(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
+    plt.step(time_grid, pulse, color='darkgreen', linewidth=1.5, zorder=10)
     plt.grid(True, which="both")
     plt.xlabel('Time', fontsize=20)
     plt.ylabel('Amplitude', fontsize=20)
@@ -94,87 +92,101 @@ def plot_controls(result_path):
     plt.close()
 
 
-def test_pulse_shrinking():
-
-    upper_lim = 5.0
-    lower_lim = -5.0
-
+def test_custom_scaling_only_t():
     optimization_dictionary = {
+        "Disclaimer":
+        "Do not use this json file for optimization",
         "optimization_client_name":
-        "Check_pulse_shrinking",
-        "dump_format": "npz",
+        "Optimization_test_custom_scaling_only_t",
         "algorithm_settings": {
             "algorithm_name": "dCRAB",
-            "super_iteration_number": 3,
-            "max_eval_total": 200,
-            "FoM_goal": 0.00001,
+            "super_iteration_number": 2,
+            "max_eval_total": 1000,
+            "optimization_direction": "minimization",
             "dsm_settings": {
                 "general_settings": {
-                    "dsm_algorithm_name": "NelderMead",
-                    "is_adaptive": True
+                    "dsm_algorithm_name": "NelderMead"
                 },
                 "stopping_criteria": {
-                    "max_eval": 100,
+                    "xatol": 1e-4,
+                    "fatol": 1e-6,
+                    "change_based_stop": {
+                        "cbs_funct_evals": 200,
+                        "cbs_change": 0.05
+                    },
+                    "max_eval": 500
                 }
-            },
-            "random_number_generator": {
-                "seed_number": 42
             }
         },
-        "pulses": [{
-            "pulse_name": "Pulse_1",
-            "upper_limit": upper_lim,
-            "lower_limit": lower_lim,
-            "bins_number": 101,
-            "time_name": "time_1",
-            "amplitude_variation": 5.0,
-            "basis": {
-                "basis_name": "Fourier",
-                "basis_vector_number": 2,
-                "random_super_parameter_distribution": {
-                    "distribution_name": "Uniform",
-                    "lower_limit": 0.1,
-                    "upper_limit": 5.0
-                }
-            },
-            "initial_guess": {
-                "function_type": "lambda_function",
-                "lambda_function": "lambda t: np.pi/3.0 + 0.0*t"
-            },
-            "shrink_ampl_lim": True
-        }],
-        "parameters": [],
-        "times": [{
-            "time_name": "time_1",
-            "initial_value": 3.0
-        }]
+        "pulses": [
+            {
+                "pulse_name": "Pulse_1",
+                "bins_number": 2000,
+                "upper_limit": 1000.0,
+                "lower_limit": -1000.0,
+                "time_name": "time_1",
+                "amplitude_variation": 30.0,
+                # "initial_guess": {
+                #     "function_type": "lambda_function",
+                #     "lambda_function": "lambda t: 0.0 * t"
+                # },
+                "initial_guess": {
+                    "function_type": "python_file",
+                    "file_path": "my_file_with_functions",
+                    "function_name": "guess_pulse_function",
+                    "path_mode": "relative"
+                },
+                "scaling_function": {
+                    "function_type": "python_file",
+                    "file_path": "my_file_with_functions",
+                    "function_name": "scaling_function",
+                    "path_mode": "relative"
+                },
+                "basis": {
+                    "basis_name": "Fourier",
+                    "basis_vector_number": 5,
+                    "random_super_parameter_distribution": {
+                        "distribution_name": "Uniform",
+                        "lower_limit": 0.01,
+                        "upper_limit": 10.0
+                    }
+                },
+                "shaping_options": ["add_initial_guess",
+                                    "add_base_pulse",
+                                    "add_new_update_pulse",
+                                    "scale_pulse",
+                                    "limit_pulse"]
+            }
+        ],
+        "times": [
+            {
+                "time_name": "time_1",
+                "initial_value": 1.0
+            }
+        ],
+        "parameters": []
     }
 
     optimization_dictionary.setdefault("optimization_direction", "minimization")
     # define some parameters for the optimization
-    args_dict = {
-        "initial_state": "[1.0 , 0.0]",
-        "target_state": "[1.0/np.sqrt(2), -1j/np.sqrt(2)]",
-        "optimization_factor": -1.0
-    }
+    args_dict = {}
+    main(optimization_dictionary, args_dict)
+
+
+def main(optimization_dictionary: dict, args_dict: dict):
     # Create FoM object
-    FoM_object = OneQubit(args_dict=args_dict)
+    FoM_object = IsingModel(args_dict=args_dict)
 
     # Define Optimizer
     optimization_obj = Optimizer(optimization_dictionary, FoM_object)
-
-    FoM_object.set_save_path(optimization_obj.results_path)
-
     optimization_obj.execute()
 
-    FoM_object.save_FoM()
+    fomlist = [element for element in FoM_object.FoM_list]
+    np.savetxt(os.path.join(optimization_obj.results_path, "fom.txt"), fomlist)
 
-    # Plot the results
-    plot_FoM(FoM_object.save_path, FoM_object.FoM_save_name)
-    plot_controls(FoM_object.save_path)
+    plot_FoM(optimization_obj.results_path, "fom.txt")
+    plot_controls(optimization_obj.results_path)
 
-    controls = optimization_obj.opt_alg_obj.get_best_controls()
-    final_pulse = controls['pulses'][0]
 
-    assert max(final_pulse) - upper_lim < 1e-6
-    assert min(final_pulse) - lower_lim > -1e-6
+if __name__ == "__main__":
+    test_custom_pulse_build_rel_path()

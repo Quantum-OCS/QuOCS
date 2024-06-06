@@ -55,17 +55,12 @@ def test_mean_value(controls_obj):
 def test_controls(controls_obj):
     controls_list = [pulses_list, time_grids_list, parameters_list] = \
                 controls_obj.get_controls_lists(controls_obj.get_mean_value())
-    # I dont know what this does
+    # I don't know what this does
     controls_obj.update_base_controls(controls_obj.get_mean_value())
     # I don't know if it makes sense to compare anything here to some predefines values
-    # let's just return true, so if the code runs without errors we pass the test... is this something
-    # one should do?
-    return True
 
 
 def test_seed_generation(controls_obj):
     rng_list = []
     for pulse in controls_obj.pulse_objs_list:
         rng_list.append(pulse.rng)
-
-    return True
