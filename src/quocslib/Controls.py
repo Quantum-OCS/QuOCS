@@ -21,6 +21,8 @@ from quocslib.parameters.TimeParameter import TimeParameter
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.utils.dynamicimport import dynamic_import
 
+from typing import List, Tuple
+
 
 class Controls:
     """
@@ -158,7 +160,7 @@ class Controls:
         # TODO Implement the time optimization here
         # Return the control parameters number
 
-    def get_random_super_parameter(self) -> list[float]:
+    def get_random_super_parameter(self) -> List[float]:
         """
         Returns a list with current super_parameters
 
@@ -228,7 +230,7 @@ class Controls:
         for parameter in self.parameter_objs_list:
             parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
-    def _get_controls_lists(self, optimized_parameters_vector: np.array) -> list[list[float | np.ndarray]]:
+    def _get_controls_lists(self, optimized_parameters_vector: np.array) -> Tuple[List[float], List[float], List[float]]:
         """
         Sets the optimized control parameters and get the controls
 
