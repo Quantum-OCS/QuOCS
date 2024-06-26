@@ -150,4 +150,4 @@ def main(optimization_dictionary: dict):
 
 
 if __name__ == "__main__":
-    main(readjson(os.path.join(os.getcwd(), "settings_dCRAB_sig.json")))
+    main(readjson(os.path.join(os.getcwd(), "settings_dCRAB.json")))
