@@ -22,7 +22,7 @@ from quocslib.tools.randomgenerator import RandomNumberGenerator
 
 class Sinc(ChoppedBasis):
     """
-    Class for the Fourier basis. It inherits from the ChoppedBasis class.
+    Class for the Sinc basis. It inherits from the ChoppedBasis class.
     """
     amplitude_variation: float
     optimized_control_parameters: np.ndarray
