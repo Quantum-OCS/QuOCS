@@ -28,7 +28,7 @@ class Walsh(ChoppedBasis):
     optimized_super_parameters: np.ndarray
     time_grid: np.ndarray
 
-    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None):
+    def __init__(self, map_index: int, pulse_dictionary: dict, rng: RandomNumberGenerator = None, is_AD: bool = False):
         """
 
         :param int map_index: Index number to use to get the control parameters for the Fourier basis
@@ -47,7 +47,7 @@ class Walsh(ChoppedBasis):
         # distribution of super parameters, etc ...
         ################
         # Constructor of the parent classes, i.e. Base Pulse and Chopped Basis
-        super().__init__(map_index=map_index, **pulse_dictionary)
+        super().__init__(map_index=map_index, rng=rng, is_AD=is_AD, **pulse_dictionary)
         #################
         # Basis dependent settings
         #################

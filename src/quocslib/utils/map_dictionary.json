@@ -34,6 +34,18 @@
               "Sigmoid":
                   {"module_name": "quocslib.pulses.basis.Sigmoid",
                   "class_name": "Sigmoid"},
+              "SigmoidTimeDep":
+                  {"module_name": "quocslib.pulses.basis.SigmoidTimeDep",
+                  "class_name": "SigmoidTimeDep"},
+              "SigmoidSigmas":
+                  {"module_name": "quocslib.pulses.basis.SigmoidSigmas",
+                  "class_name": "SigmoidSigmas"},
+              "SigmoidAllParas":
+                  {"module_name": "quocslib.pulses.basis.SigmoidAllParas",
+                  "class_name": "SigmoidAllParas"},
+              "Sinc":
+                  {"module_name": "quocslib.pulses.basis.Sinc",
+                  "class_name": "Sinc"},
               "Walsh":
                   {"module_name": "quocslib.pulses.basis.Walsh",
                   "class_name": "Walsh"}

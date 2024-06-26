@@ -303,6 +303,8 @@ Please see [this example](https://github.com/Quantum-OCS/QuOCS/blob/develop/Docu
 | Sigmoid | $A_i \frac{1}{2}\left(1+\text{erf}\left(\frac{t-\tau_i}{\sqrt{2}\sigma}\right)\right)$ |<img src="https://user-images.githubusercontent.com/47388967/233591361-058d96b3-9500-4808-a5da-a717cdc36f11.png" width="50%" height="50%"> |
 | Piecewise | $A_i \text{  for  } t_{i-1} < t \le t_i$ |<img src="https://user-images.githubusercontent.com/47388967/233593775-709fcf3a-50d9-48c7-a038-c094126a9ccb.png" width="50%" height="50%">|
 | Chebychev | $A_i \cos{\left(\omega_i \cos^{-1}(-1 + (2 t/t_f))+ B_i\right)}$ |<img src="https://user-images.githubusercontent.com/47388967/233595052-cea0edfb-127c-47bb-9659-6e61b8ceb24d.png" width="50%" height="50%"> <br/>*(image: By Glosser.ca - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=52799132)*|
+| Sinc | $A_i  \text{sinc}(2 \pi \omega_\text{max} \frac{t-t_i}{t_f})= A_i \frac{\sin(2 \pi \omega_\text{max} (t-t_i)/t_f)}{2 \pi \omega_\text{max} (t-t_i)/t_f}$ |<img src="https://github.com/Quantum-OCS/QuOCS/assets/47388967/19369567-e1c2-400d-906b-834c2bc5af78" width="50%" height="50%"> <br/>*(image: By Chou https://www.semanticscholar.org/paper/Orthogonal-Basis-Functions-in-Discrete-Time-and-to-Chou/2a1a70fa3e64f17feabf575ef71dc48caa1081b3)*|
+
 
 ## Parameters
 
