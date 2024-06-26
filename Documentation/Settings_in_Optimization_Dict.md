@@ -1,6 +1,6 @@
 # Feature List of the possible Settings in the Optimization Dictionary
 
-The optimizer of QuOCS need the settings for the optimization to be provided in the form of a dictionary. This `optimization_dictionary` can either be defined in the Python code itself or as a JSON file and be read in with the provided `readjson` function. The settings (keys) in that dictionary are listed and explained here.
+The optimizer of QuOCS needs the settings for the optimization to be provided in the form of a dictionary. This `optimization_dictionary` can either be defined in the Python code itself or as a JSON file and be read in with the provided `readjson` function. The settings (keys) in that dictionary are listed and explained here.
 
 
 ## General form of the JSON file
@@ -195,7 +195,12 @@ If you only want to optimize parameters and no pulses you can use QuOCS for its 
             "lower_limit": 0.1,
             "upper_limit": 5.0
         }
-    }
+    },
+    "shaping_options": ["add_initial_guess",
+                    	"add_base_pulse",
+                    	"add_new_update_pulse",
+                    	"scale_pulse",
+                    	"limit_pulse"]
 }]
 ~~~
 
@@ -214,9 +219,72 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 |**"shrink_ampl_lim"** *(optional)* |*bool*| If this option is set to *true*, the pulse is shrunk down in such a way to conserve most of its features / shape while obeying the amplitude restrictions. If this is turned off, the amplitudes are cut off at the limits. *(Default: false)* |
 |**"scaling_function"** *(optional)* |*dict*| Scaling of the pulse, i.e. post-processing. Can be used to force a pulse to start and end a 0. The pulse is multiplied by this function before it is fed back to FoM evaluation. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A scaling function can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the scaling function which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: no scaling)* |
 |**"initial_guess"** *(optional)* |*dict*| Initial pulse from where to start the optimization. This function can be specified as a Python lambda function ("function_type": "lambda_function"). Then the key "lambda_function" should contain a lambda function depending on t and numpy constants / functions using the shortcut "np.". A guess pulse can also be provided in the form of a list ("function_type": "list_function"). Then a key named "list_function" can contain a list of values that describe the guess pulse which should have the same length as the "bins_number". It is recommended to read in (or create) such a list in the code and add it manually to the optimization_dictionary before the optimization object is created and executed. *(Default: 0 for all times)* |
+|**"shaping_options"** *(optional)* |*list*| Specify the order in which the pulse is build up. "add_initial_guess" adds the initial guess pulse. "add_base_pulse" adds the update pulse from previous SIs (in the case of dCRAB). "add_new_update_pulse" adds the current update pulse from the algorithm. "scale_pulse" scales the pulse with the given scaling function. "limit_pulse" enforces the pulse limits if necessary. *(Default: ["add_initial_guess", "add_base_pulse", "add_new_update_pulse", "scale_pulse", "limit_pulse"])* |
+
+#### Initial Guess and Scaling with custom Python file
+
+The initial guess, as well as the scaling function can be linked to custom functions stored in a Python file. The entries should look like this:
+
+~~~yaml
+"scaling_function": {
+    "function_type": "python_file",
+    "file_path": "my_file_with_functions",
+    "function_name": "scaling_function",
+    "path_mode": "relative"
+},
+"initial_guess": {
+    "function_type": "python_file",
+    "file_path": "my_file_with_functions",
+    "function_name": "guess_pulse_function",
+    "path_mode": "relative"
+},
+~~~
+
+where the "file_path" option describes the absolute or relative path to the Python file. Wether you want to provide an absolute or relative path can be set with "path_mode". The option "function_name" is for the name of the function inside the Python file. It should either only take the time as a parameter (first argument) or the time and the pulse (in that order).
+
+#### Example 1:
+
+~~~python
+import numpy as np
 
 
+def scaling_function(t):
+	return -15 * (t - 0.5)**4 + 1
 
+
+def scaling_function_with_pulse(t, pulse):
+	return np.abs(pulse)
+
+
+def guess_pulse_function(t):
+	return np.pi/3.0 + 0.0*t
+~~~
+
+#### Example 2:
+
+A useful scaling function is the following:
+
+~~~python
+import numpy as np
+
+T = 10
+steepness = 30
+
+def shape_function(t):
+    return np.tanh(np.sin(np.pi*t/(2*T)) * steepness) * np.tanh(-np.sin(np.pi*(t-T)/(2*T)) * steepness)
+~~~
+
+where the time T should be your own pulse time and the steepness can be adjusted to reflect the rise time of the pulse in your experiment. The shape of the example looks like ths:
+
+<img src="https://github.com/Quantum-OCS/QuOCS/assets/44496709/a8d1bbaf-e805-4e47-b106-726a86a33b3e" width="50%" height="50%">
+
+In this case the pulse will start and end at zero if multiplied with the scaling function and is not changed in between except for the rise and fall time specified by the steepness.
+
+#### Example 3:
+
+Having fixed non-zero start and end points for the pulse.
+
+Please see [this example](https://github.com/Quantum-OCS/QuOCS/blob/develop/Documentation/Enforcing_Pulse_Boundaries_at_Beginning_and_End.md)
 
 ### Basis Settings
 
@@ -229,7 +297,7 @@ A pulse in QuOCS is any time-dependent function that you want to vary and optimi
 |**"offset"** *(optional)* |*float*| The Sigmoid basis is designed to keep the pulse spectrum envelope-limited and the pulse zero at beginning and end. The offset determines how far from the edges it will go down. This parameter should depend on sigma and the maximum amplitude. A good point to start is sigma x (upper_limit - loweer_limit)/10. *(Default: 0.1)* |
 
 ## Bases Overview
-| basis name | implementation | visualisation |
+| Basis name | Implementation | Visualization |
 | --- | --- | --- |
 | Fourier | $A_i \sin{(2 \pi \omega_i t/t_f)} + B_i \cos{(2 \pi \omega_i t/t_f)}$ |<img src="https://user-images.githubusercontent.com/47388967/233591288-8bf7a6be-59de-4ea5-b7c6-c7e67e11e1be.png" width="50%" height="50%">|
 | Sigmoid | $A_i \frac{1}{2}\left(1+\text{erf}\left(\frac{t-\tau_i}{\sqrt{2}\sigma}\right)\right)$ |<img src="https://user-images.githubusercontent.com/47388967/233591361-058d96b3-9500-4808-a5da-a717cdc36f11.png" width="50%" height="50%"> |

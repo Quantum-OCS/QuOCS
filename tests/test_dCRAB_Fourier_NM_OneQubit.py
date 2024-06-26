@@ -55,6 +55,7 @@ def plot_FoM(result_path, FoM_filename):
     plt.ylabel('FoM', fontsize=20)
     # plt.savefig(os.path.join(folder, save_name + '.pdf'))
     plt.savefig(os.path.join(result_path, save_name + '.png'))
+    plt.close()
 
 
 def plot_controls(result_path):
@@ -91,6 +92,7 @@ def plot_controls(result_path):
     plt.ylabel('Amplitude', fontsize=20)
     # plt.savefig(os.path.join(folder, save_name + '.pdf'))
     plt.savefig(os.path.join(result_path, save_name + '.png'))
+    plt.close()
 
 
 def main(optimization_dictionary: dict, args_dict: dict):

@@ -21,6 +21,8 @@ from quocslib.parameters.TimeParameter import TimeParameter
 from quocslib.tools.randomgenerator import RandomNumberGenerator
 from quocslib.utils.dynamicimport import dynamic_import
 
+from typing import List, Tuple
+
 
 class Controls:
     """
@@ -66,7 +68,7 @@ class Controls:
         ###############################################
         self.parameters_number = len(parameters_list)
         for parameter in parameters_list:
-            self.parameter_objs_list.append(Parameter(map_index, parameter))
+            self.parameter_objs_list.append(Parameter(map_index, parameter, is_AD=is_AD))
             # Update the map index for the next control
             map_index = self.parameter_objs_list[-1].last_index
         ###############################################
@@ -158,18 +160,18 @@ class Controls:
         # TODO Implement the time optimization here
         # Return the control parameters number
 
-    def get_random_super_parameter(self) -> np.array:
+    def get_random_super_parameter(self) -> List[float]:
         """
         Returns a list with current super_parameters
 
-        :return np.array: List with current super_parameters
+        :return list: List with current super_parameters
         """
         super_parameter_list = []
         for pulse in self.pulse_objs_list:
             if isinstance(pulse, ChoppedBasis):
-                super_parameter_list.append(pulse.super_parameter_distribution_obj.w)
-        super_parameter_array = np.asarray(super_parameter_list)
-        return super_parameter_array
+                super_parameter_list.append(list(pulse.super_parameter_distribution_obj.w))
+        # super_parameter_array = np.asarray(super_parameter_list)
+        return super_parameter_list
 
     def get_sigma_variation(self) -> np.array:
         """
@@ -228,7 +230,7 @@ class Controls:
         for parameter in self.parameter_objs_list:
             parameter.set_parameter(optimized_parameters_vector[parameter.control_parameters_list])
 
-    def _get_controls_lists(self, optimized_parameters_vector: np.array) -> [list, list, list]:
+    def _get_controls_lists(self, optimized_parameters_vector: np.array) -> Tuple[List[float], List[float], List[float]]:
         """
         Sets the optimized control parameters and get the controls
 
@@ -282,8 +284,10 @@ class Controls:
             time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(self.jnp.asarray(pulse.time_grid))
         # Get the parameters
         for index, parameter in enumerate(self.parameter_objs_list):
-            parameters_array[index] = parameter.get_parameter(
-                optimized_parameters_vector[parameter.control_parameters_list])
+            # parameters_array[index] = parameter.get_parameter(
+            #     optimized_parameters_vector[parameter.control_parameters_list])
+            parameters_array = parameters_array.at[index].set(self.jnp.asarray(parameter.get_parameter(
+                optimized_parameters_vector[self.jnp.asarray(parameter.control_parameters_list)]), dtype=self.jnp.complex64))
         return pulses_array, time_grids_array, parameters_array
 
     def _get_controls_jax_obj(self, optimized_parameters_vector: np.array) -> np.array:
@@ -305,14 +309,16 @@ class Controls:
         for index, pulse in enumerate(self.pulse_objs_list):
             time_name = pulse.time_name
             pulse_array = pulse.get_pulse(
-                optimized_parameters_vector[np.asarray(pulse.control_parameters_list)],
+                optimized_parameters_vector[self.jnp.asarray(pulse.control_parameters_list)],
                 final_time=self.times_obj_dictionary[time_name].get_time())
             pulses_array = pulses_array.at[index, :pulse.bins_number].set(self.jnp.asarray(pulse_array, dtype=self.jnp.complex64))
             time_grids_array = time_grids_array.at[index, :pulse.bins_number].set(self.jnp.asarray(pulse.time_grid, dtype=self.jnp.complex64))
         # Get the parameters
         for index, parameter in enumerate(self.parameter_objs_list):
-            parameters_array[index] = parameter.get_parameter(
-                optimized_parameters_vector[parameter.control_parameters_list])
+            # parameters_array[index] = parameter.get_parameter(
+            #     optimized_parameters_vector[parameter.control_parameters_list])
+            parameters_array = parameters_array.at[index].set(self.jnp.asarray(parameter.get_parameter(
+                optimized_parameters_vector[self.jnp.asarray(parameter.control_parameters_list)]), dtype=self.jnp.complex64))
         return pulses_array, time_grids_array, parameters_array
 
     def get_bare_controls_lists(self, optimized_parameters_vector: np.array) -> [list]:
