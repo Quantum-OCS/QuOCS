@@ -295,6 +295,7 @@ Please see [this example](https://github.com/Quantum-OCS/QuOCS/blob/develop/Docu
 |**"random_super_parameter_distribution"** |*dict*| Distribution from which to sample the randomized super-parameter. So far, the only option is "distribution_name": "Uniform" where one can set to upper and lower limits of the parameter. In the case of the Fourier basis, this corresponds to the number of oscillations allowed during the pulse time. Therefore, depending on the length of the pulse, this enforces bandwidth constraints. For more information please contact the developers. |
 |**"sigma"** *(optional)* |*float*| The Sigmoid basis is designed to keep the pulse spectrum envelope-limited. Sigma specifies the steepness of the individual rises, which will in turn reduce high-frequency excitations. A good point to start is final_time/100. *(Default: 0.1)* |
 |**"offset"** *(optional)* |*float*| The Sigmoid basis is designed to keep the pulse spectrum envelope-limited and the pulse zero at beginning and end. The offset determines how far from the edges it will go down. This parameter should depend on sigma and the maximum amplitude. A good point to start is sigma x (upper_limit - loweer_limit)/10. *(Default: 0.1)* |
+| **"basis_max"** *(optional)*              |*float*| The Sinc basis keeps a spectrum of consistent width defined by this parameter. The units are defined in the same way as the Fourier frequencies.  *(Default: 1.)*|
 
 ## Bases Overview
 | Basis name | Implementation | Visualization |
