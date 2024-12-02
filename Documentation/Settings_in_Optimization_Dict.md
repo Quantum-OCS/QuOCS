@@ -13,6 +13,7 @@ Assuming you define the settings in the form of a .json file, the general struct
     "create_logfile": true,  # determines if you want to save the log-file
     "console_info": true, # determines if you want the optimization output printed to the console
     "dump_format": "npz",  # format of the results file
+    "continuation_datetime": "YYYYmmdd_HHMMSS"  # date of optimization to be continued
     "algorithm_settings": {...},  # settings related to the algorithm
     "pulses": [{...}, {...}, ...],  # list of pulses and their settings
     "parameters": [{...}, {...}, ...],  # list of parameters and their settings
@@ -29,6 +30,8 @@ The `create_logfile` key determines if the full output of the Python terminal is
 The `console_info` key determines if the optimization output is shown in the terminal during the execution of an optimization. Indeed, if you want to run several optimizations in parallel, the standard output in the terminal gets mixed up and is not helpful anymore. In this case you might want to disable it once you know your optimizations are running reliably. The normal log-file is still created with the correct information for that specific run (if not disabled by the `create_logfile` option).
 
 The `dump_format` key specifies the format of the results file (best controls and some meta data). Currently you can choose between "npz" and "json". The default (if you do not give this key) is "npz".
+
+The `continuation_datetime` key determines wether an existing optimization job should be continued and the results saved in the corresponding folder. If intended, the corresponding date and time should be provided in the format "YYYYmmdd_HHMMSS" and the corresponding job name speficied in `optimization_client_name`. QuOCS will then try to import the best controls found in the previous run as initial values for the continuation. Here make sure, to use the same names for pulses and parameters in the `optimiaztion_dictionary` as in the previous run. The default of this key is "no" and will create a new folder with a timestamp of the point of creation.
 
 **Tip:** You can also change specific entries in the code after reading in the .json file if you, e.g., want to sweep certain parameters or have the name of the optimization defined on runtime.
 
