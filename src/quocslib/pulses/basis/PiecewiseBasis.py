@@ -22,7 +22,7 @@ from quocslib.pulses.BasePulse import BasePulse
 
 class PiecewiseBasis(BasePulse):
     """
-    General class for piecewise basis. Inheits from the BasePulse class.
+    General class for piecewise basis. Inherits from the BasePulse class.
     """
     amplitude_variation: float
     optimized_control_parameters: np.ndarray

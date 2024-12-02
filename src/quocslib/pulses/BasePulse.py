@@ -75,6 +75,7 @@ class BasePulse:
         self.bins_number = bins_number
         # Time
         self.time_name = time_name
+        self.is_AD = is_AD
         # Initial Guess Pulse
         if initial_guess is None:
             initial_guess = {"function_type": "lambda_function", "lambda_function": "lambda t: 0.0*t"}
@@ -191,18 +192,18 @@ class BasePulse:
         self.rng = rng
         # If AD active switch few functions to jnp function
         if is_AD:
+            global jax, jnp
+            jax = __import__('jax')
+            jnp = jax.numpy
             self._set_AD_functions()
         else:
             self._set_functions()
 
     def _set_AD_functions(self):
         """ Sets jax functions in case automatic differentiation is used """
-        import jax
-        # self.debug_print = jax.debug.print
-        import jax.numpy as jnp
         self._maximum = jnp.maximum
         self._minimum = jnp.minimum
-        # Array tipe
+        # Array type
         self.array_type = jnp.ndarray
         # Base Pulse
         self.base_pulse = jnp.zeros(self.bins_number)
