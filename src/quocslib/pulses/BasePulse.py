@@ -75,6 +75,7 @@ class BasePulse:
         self.bins_number = bins_number
         # Time
         self.time_name = time_name
+        self.is_AD = is_AD
         # Initial Guess Pulse
         if initial_guess is None:
             initial_guess = {"function_type": "lambda_function", "lambda_function": "lambda t: 0.0*t"}
@@ -191,18 +192,18 @@ class BasePulse:
         self.rng = rng
         # If AD active switch few functions to jnp function
         if is_AD:
+            global jax, jnp
+            jax = __import__('jax')
+            jnp = jax.numpy
             self._set_AD_functions()
         else:
             self._set_functions()
 
     def _set_AD_functions(self):
         """ Sets jax functions in case automatic differentiation is used """
-        import jax
-        # self.debug_print = jax.debug.print
-        import jax.numpy as jnp
         self._maximum = jnp.maximum
         self._minimum = jnp.minimum
-        # Array tipe
+        # Array type
         self.array_type = jnp.ndarray
         # Base Pulse
         self.base_pulse = jnp.zeros(self.bins_number)
@@ -413,7 +414,7 @@ class BasePulse:
             scaling_function_t = self.scaling_function
         else:
             # TODO Handle here
-            print("Warning: scaling function not good. Pulse not scaled.")
+            self.logger.warning("Warning: scaling function not good. Pulse not scaled.")
             scaling_function_t = (lambda t: 1.0)(self.time_grid)
         return scaling_function_t
 
@@ -425,11 +426,11 @@ class BasePulse:
         """
         if isinstance(self.initial_guess_pulse, Callable):
             initial_guess_t = self.initial_guess_pulse(self.time_grid)
-        elif isinstance(self.initial_guess_pulse, np.ndarray):
+        elif isinstance(self.initial_guess_pulse, self.array_type):
             initial_guess_t = self.initial_guess_pulse
         else:
             # TODO Handle here
-            print("Warning: initial guess function not good. Do with 0.0")
+            self.logger.warning("Warning: initial guess function not good. Do with 0.0")
             initial_guess_t = (lambda t: 0.0)(self.time_grid)
         return self._get_limited_pulse(initial_guess_t)
 
