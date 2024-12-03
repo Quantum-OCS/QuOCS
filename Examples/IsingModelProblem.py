@@ -109,7 +109,7 @@ class IsingModel(AbstractFoM):
         """
         # Compute the final propagator
         prop_store = self.get_propagator(pulses, timegrids, parameters)
-        U_final = functools.reduce(lambda a, b: a @ b, self.prop_store)
+        U_final = functools.reduce(lambda a, b: b @ a, self.prop_store)
         # evolve initial state
         rho_final = U_final @ self.rho_0 @ U_final.T.conj()
         # Calculate the fidelity
