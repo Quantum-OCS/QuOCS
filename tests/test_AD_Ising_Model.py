@@ -85,6 +85,14 @@ def main(optimization_dictionary: dict, args_dict: dict):
     # using the best controls
     assert (np.abs(FoM - FoM_check) < 5 * 10**(-5))
 
+    # check if saved optimized controls are consistent with the best controls
+    best_pulse = controls["pulses"][0]
+    save_folder_name = optimization_obj.communication_obj.client_job_name
+    save_folder_date = optimization_obj.communication_obj.date_time
+    saved_pulse = np.load(f"QuOCS_Results/{save_folder_name}/{save_folder_date}_best_controls.npz")["Pulse_1"]
+    saved_pulse = np.real(saved_pulse)
+    assert np.allclose(best_pulse, saved_pulse)
+
 
 if __name__ == "__main__":
     test_AD_Ising_Model()
