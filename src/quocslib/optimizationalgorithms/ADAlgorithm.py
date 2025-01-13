@@ -67,6 +67,8 @@ class ADAlgorithm(OptimizationAlgorithm):
         self.gtol = self.stopping_crit.setdefault("gtol", 1e-6)
         self.maxls = self.stopping_crit.setdefault("maxls", 20)  # 20 is default acc. to documentation of scipy
 
+        self.is_record = False
+
         alg_parameters = optimization_dict["algorithm_settings"]
         # Seed for the random number generator
         if "random_number_generator" in alg_parameters:
@@ -111,6 +113,7 @@ class ADAlgorithm(OptimizationAlgorithm):
         :param optimized_control_parameters: array with the optimized control parameters
         :return float: FoM
         """
+        self.is_record = False
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM
 

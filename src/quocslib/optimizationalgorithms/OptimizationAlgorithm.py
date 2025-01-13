@@ -157,8 +157,8 @@ class OptimizationAlgorithm:
         # check if FoM_goal has been reached
         if self.FoM_goal is not None:
             if self.best_FoM <= self.FoM_goal:
-                print(self.best_FoM)
-                print(self.FoM_goal)
+                # print(self.best_FoM)
+                # print(self.FoM_goal)
                 self.higher_order_terminate_reason = "Goal FoM reached"
                 # check if self.dsm_obj exits
                 if hasattr(self, "dsm_obj"):
