@@ -56,6 +56,8 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
         self.FoM_list = []
         self.sys_type = optimization_dict.setdefault("sys_type", "StateTransfer")
 
+        self.is_record = False
+
         # set stopping criteria
         self.stopping_crit = optimization_dict["algorithm_settings"].setdefault("stopping_criteria", {})
         self.max_fun_evals = self.stopping_crit.setdefault("max_eval_total", 10**10)
@@ -183,6 +185,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
 
     def inner_routine_call(self, optimized_control_parameters: np.array):
         """Function evaluation call for the L-BFGS-B algorithm"""
+        self.is_record = False
         grads = self.get_gradient(optimized_control_parameters=optimized_control_parameters)
         FoM = self._routine_call(optimized_control_parameters=optimized_control_parameters, iterations=0)
         return FoM, grads
