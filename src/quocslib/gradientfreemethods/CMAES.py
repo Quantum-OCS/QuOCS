@@ -15,8 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
-from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria, )
+from quocslib.stoppingcriteria.GeneralStoppingCriteria import (
+    GeneralStoppingCriteria, )
 import cma
 from datetime import datetime
 import logging
@@ -38,7 +38,7 @@ class CMAES(DirectSearchMethod):
         self.is_adaptive = settings.setdefault("is_adaptive", False)
         # TODO Create it using dynamical import module
         # Stopping criteria object
-        self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
+        self.sc_obj = GeneralStoppingCriteria(stopping_criteria)
         self.search_start_time = datetime.now()
 
     def run_dsm(self,
@@ -77,8 +77,8 @@ class CMAES(DirectSearchMethod):
             sim = optimisation.ask()
             fsim = [func(x, iterations) for x in sim]
             optimisation.tell(sim, fsim)
-            optimisation.logger.add()  # write data to disc to be plotted
-            optimisation.disp()
+            #optimisation.logger.add()  # write data to disc to be plotted
+            #optimisation.disp()
 
             # some messages for the fans
             logger = logging.getLogger("oc_logger")
@@ -92,9 +92,7 @@ class CMAES(DirectSearchMethod):
                     self.sc_obj.is_converged = True
                     self.sc_obj.terminate_reason = "User stopped the optimization or higher order " \
                                                    "stopping criterion has been reached"
-            self.sc_obj.check_simplex_criterion(sim)
-            self.sc_obj.check_f_size(fsim)
-            self.sc_obj.check_advanced_stopping_criteria()
+            self.sc_obj.check_stopping_criteria(sim, fsim, calls_number[0])
             # Check for error in the communication method
         # END of while loop
         # Fix the iteration number
@@ -102,6 +100,8 @@ class CMAES(DirectSearchMethod):
         # Optimal parameters and value
         x = optimisation.result.xbest
         fval = optimisation.result.fbest
+        # Return the best point
+        print("Best Result: {0} ,  in {1} evaluations.".format(fval, calls_number[0]))
         result_custom = {
             "F_min_val": fval,
             "X_opti_vec": x,
