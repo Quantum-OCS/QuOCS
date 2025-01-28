@@ -1,6 +1,7 @@
 import pytest
 from scipy.optimize import rosen
 import numpy as np
+from quocslib.gradientfreemethods.custom_CMAES import CMAES as custom_CMAES
 from quocslib.gradientfreemethods.CMAES import CMAES
 from quocslib.gradientfreemethods.NevergradOpt import NevergradOpt
 from quocslib.gradientfreemethods.OnePlusOne import OnePlusOne
