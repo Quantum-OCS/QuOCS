@@ -221,6 +221,7 @@ class NelderMead(DirectSearchMethod):
         x = sim[0]
         # fval = np.min(fsim)
         fval = fsim[0]
+        print("Best Result: {0} ,  in {1} evaluations.".format(fval, calls_number[0]))
         result_custom = {
             "F_min_val": fval,
             "X_opti_vec": x,

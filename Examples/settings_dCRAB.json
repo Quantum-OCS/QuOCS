@@ -4,11 +4,11 @@
     "algorithm_settings": {
         "algorithm_name": "dCRAB",
         "super_iteration_number": 3,
-        "max_eval_total": 3000,
+        "max_eval_total": 500,
         "optimization_direction": "minimization",
         "dsm_settings": {
             "general_settings": {
-                "dsm_algorithm_name": "NelderMead"
+                "dsm_algorithm_name": "CMAES"
             },
             "stopping_criteria": {
                 "xatol": 1e-4,

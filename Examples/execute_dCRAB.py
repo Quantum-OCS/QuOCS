@@ -18,6 +18,7 @@ import os, sys, platform
 import matplotlib.pyplot as plt
 from quocslib.utils.inputoutput import readjson
 from quocslib.Optimizer import Optimizer
+#from IsingModelProblem_noise import IsingModel
 from IsingModelProblem import IsingModel
 import numpy as np
 import time
@@ -35,7 +36,8 @@ def plot_FoM(result_path, FoM_filename):
     save_name = "FoM_" + opt_name
 
     FoM = [line.rstrip('\n') for line in open(file_path)]
-    FoM = [float(f) for f in FoM]
+    FoM = [1-float(f) for f in FoM]
+    #FoM = FoM
     num_eval = range(1, len(FoM) + 1)
     # print('\nInitial FoM: %.4f' % FoM[0])
     # print('Final FoM: %.4f \n' % FoM[-1])
@@ -47,10 +49,16 @@ def plot_FoM(result_path, FoM_filename):
     ax = fig.add_subplot(111)
     plt.subplots_adjust(bottom=0.15, top=0.9, right=0.98, left=0.1)
 
+    # Compute cumulative maximum for the overlayed plot
+    best_FoM = np.minimum.accumulate(FoM)
+    # Overlay the cumulative maximum (monotonically increasing) plot
+    plt.plot(num_eval, best_FoM, color='red', linestyle='--', linewidth=1.5, label='Best FoM', zorder=11)
+
     plt.plot(num_eval, FoM, color='darkblue', linewidth=1.5, zorder=10)
     # plt.scatter(x, y, color='k', s=15)
 
     plt.grid(True, which="both")
+    plt.yscale('log')
     plt.ylim(min_FoM - 0.05 * difference, max_FoM + 0.05 * difference)
     plt.xlabel('Function Evaluation', fontsize=20)
     plt.ylabel('FoM', fontsize=20)
@@ -97,7 +105,7 @@ def plot_controls(result_path):
 def main(optimization_dictionary: dict):
 
     args_dict = {"n_qubits": 5, "J": 1, "g": 2, "N_slices": 2000, "T": 1.0,
-                 "g_seed": 123, "g_variation": 0.3, "stdev": 0.001}
+                 "g_seed": 123, "g_variation": 0.3, "stdev": 0.01}
 
     optimization_dictionary["pulses"][0]["bins_number"] = args_dict["N_slices"]
     optimization_dictionary["times"][0]["initial_value"] = args_dict["T"]

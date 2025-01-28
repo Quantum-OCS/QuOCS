@@ -15,8 +15,8 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 import numpy as np
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
-from quocslib.stoppingcriteria.NelderMeadStoppingCriteria import (
-    NelderMeadStoppingCriteria, )
+from quocslib.stoppingcriteria.GeneralStoppingCriteria import (
+    GeneralStoppingCriteria, )
 import nevergrad as ng
 import logging
 
@@ -31,14 +31,12 @@ class TBPSA(DirectSearchMethod):
         :param dict stopping_criteria: dictionary with the stopping criteria
         """
         super().__init__()
-        if callback is not None:
-            self.callback = callback
+        self.callback = callback
         # Active the parallelization for the firsts evaluations
         self.is_parallelized = settings.setdefault("parallelization", False)
         self.is_adaptive = settings.setdefault("is_adaptive", False)
-        # TODO Create it using dynamical import module
         # Stopping criteria object
-        self.sc_obj = NelderMeadStoppingCriteria(stopping_criteria)
+        self.sc_obj = GeneralStoppingCriteria(stopping_criteria)
 
     def run_dsm(self,
                 func,
@@ -103,16 +101,14 @@ class TBPSA(DirectSearchMethod):
             if self.callback is not None and not self.callback():
                 self.sc_obj.is_converged = True
                 self.sc_obj.terminate_reason = "User stopped the optimization or higher-order criterion reached"
-
-            if len(fsim)>1:
-                self.sc_obj.check_simplex_criterion(sim)
-                self.sc_obj.check_f_size(fsim)
-            self.sc_obj.check_advanced_stopping_criteria()
+            self.sc_obj.check_stopping_criteria(sim, fsim, calls_number[0])
 
         # Finalize results
         best_candidate = optimiser.provide_recommendation()
+        fval = func(best_candidate.value*scale_var,1)
+        print("Best Result: {0} ,  in {1} evaluations.".format(fval, calls_number[0]))
         result_custom = {
-            "F_min_val": best_candidate.loss,
+            "F_min_val": fval,
             "X_opti_vec": best_candidate.value,
             "NitUsed": iterations - 1,
             "NfunevalsUsed": calls_number[0],
