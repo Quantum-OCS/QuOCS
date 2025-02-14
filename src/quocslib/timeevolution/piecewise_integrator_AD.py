@@ -126,9 +126,7 @@ def pw_final_evolution_AD_scan(drive: jnp.ndarray, A: jnp.ndarray, B: jnp.ndarra
     :return np.matrix: The final propagator
     """
     U = U0
-    # K = len(B)
-    # Reshape drive array to have the correct shape for lax.scan
-    H_drive = jnp.asarray([ jnp.asarray([drive[k, i] for k in range(n_controls)])  for i in range(n_slices)])
+    H_drive = jnp.transpose(drive)
     def body_fun(carry, drive_i):
         val, i = carry
         H = A
