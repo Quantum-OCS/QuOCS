@@ -73,7 +73,7 @@ class GRAPEAlgorithm(OptimizationAlgorithm):
                 seed_number = alg_parameters["random_number_generator"]["seed_number"]
             except (TypeError, KeyError):
                 seed_number = 2022
-                message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+                message = "Seed number must be an integer value. Set {0} as a seed number for this optimization".format(
                     seed_number)
                 self.comm_obj.print_logger(message, level=30)
         self.rng = RandomNumberGenerator(seed_number=seed_number)
