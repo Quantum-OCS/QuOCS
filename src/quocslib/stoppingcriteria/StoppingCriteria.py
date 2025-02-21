@@ -150,11 +150,12 @@ class StoppingCriteria:
         cbs_change = self.change_based_stop["cbs_change"]
         if len(self.curr_FoM_track) >= cbs_funct_evals:
             last_foms = np.asarray(self.curr_FoM_track[-cbs_funct_evals:], dtype=np.float64)
-            m, b = np.polyfit(range(cbs_funct_evals), last_foms, 1)
-            current_change = abs(m * cbs_funct_evals)
-            # check if the trend of changes is smaller than defined
-            if current_change < cbs_change:
-                self.is_converged = True
+            if np.var(last_foms) < cbs_change**2: # a linear function f(x) = x*cbs_change/cbs_funct_evals has a variance of cbs_change**2/12
+                m, b = np.polyfit(range(cbs_funct_evals), last_foms, 1)
+                current_change = abs(m * cbs_funct_evals)
+                # check if the trend of changes is smaller than defined
+                if current_change < cbs_change:
+                    self.is_converged = True
 
     def check_advanced_stopping_criteria(self) -> None:
         """
