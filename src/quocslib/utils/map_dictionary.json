@@ -17,25 +17,7 @@
                         "class_name": "NelderMead"},
                     "CMAES":
                         {"module_name": "quocslib.gradientfreemethods.CMAES",
-                        "class_name": "CMAES"},
-                    "custom_CMAES":
-                        {"module_name": "quocslib.gradientfreemethods.custom_CMAES",
-                        "class_name": "CMAES"},
-                    "OnePlusOne":
-                        {"module_name": "quocslib.gradientfreemethods.OnePlusOne",
-                        "class_name": "OnePlusOne"},
-                    "TBPSA":
-                        {"module_name": "quocslib.gradientfreemethods.TBPSA",
-                        "class_name": "TBPSA"},
-                    "NevergradOpt":
-                        {"module_name": "quocslib.gradientfreemethods.NevergradOpt",
-                        "class_name": "NevergradOpt"},
-                    "SimulatedAnnealing":
-                        {"module_name": "quocslib.gradientfreemethods.SimulatedAnnealing",
-                        "class_name": "SimulatedAnnealing"},
-                    "SMAC":
-                        {"module_name": "quocslib.gradientfreemethods.SMAC",
-                        "class_name": "SMAC"}
+                        "class_name": "CMAES"}
 },
 "basis_map": {"Chebyshev":
                   {"module_name": "quocslib.pulses.basis.Chebyshev",
