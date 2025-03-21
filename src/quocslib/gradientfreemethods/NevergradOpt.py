@@ -17,18 +17,17 @@ import numpy as np
 from quocslib.gradientfreemethods.DirectSearchMethod import DirectSearchMethod
 from quocslib.stoppingcriteria.GeneralStoppingCriteria import (
     GeneralStoppingCriteria, )
-import cma
-from datetime import datetime
+import nevergrad as ng
 import logging
 
 
-class CMAES(DirectSearchMethod):
+class NevergradOpt(DirectSearchMethod):
     callback: callable
 
     def __init__(self, settings: dict, stopping_criteria: dict, callback: callable = None):
         """
-        Implementation of the Nelder-Mead simplex search algorithm
-        :param dict settings: settings dictionary for the NM algorithm
+        Template for a gradient free optimization algorithm class
+        :param dict settings: settings dictionary for the algorithm
         :param dict stopping_criteria: dictionary with the stopping criteria
         """
         super().__init__()
@@ -39,7 +38,6 @@ class CMAES(DirectSearchMethod):
         # TODO Create it using dynamical import module
         # Stopping criteria object
         self.sc_obj = GeneralStoppingCriteria(stopping_criteria)
-        self.search_start_time = datetime.now()
 
     def run_dsm(self,
                 func,
@@ -50,63 +48,74 @@ class CMAES(DirectSearchMethod):
                 drift_comp_minutes=0.0,
                 drift_comp_num_average=1) -> dict:
         """
-        Function to run the direct search method
-        :param callable func: Function tbe called at every function evaluation
-        :param np.array x0: initial point
-        :param tuple args: Further arguments
-        :param np.array initial_simplex: Starting simplex for the Nelder Mead evaluation
+        Function to run the direct search method using Nevergrad
+        :param callable func: Function to be called at every function evaluation
+        :param np.array x0: Initial point
+        :param tuple args: Additional arguments
+        :param np.array sigma_v: Array controlling mutation scale
         :param float drift_comp_minutes: Compensate for drift after this number of minutes
         :param int drift_comp_num_average: Number of times the measurement for drift compensation is repeated
         :return dict: A dictionary with information about the search run
         """
-        # Creation of the communication function for the OptimizationAlgorithm object
+        # Wrapping the function for additional arguments and logging
         calls_number, func = self._get_wrapper(args, func)
-        # Set to false is_converged
         self.sc_obj.is_converged = False
-        # Initialize the iteration number
         iterations = 0
-        # Initialize hyper-parameters if any
-        sigma = np.mean(sigma_v)/2
 
-        optimisation = cma.CMAEvolutionStrategy(x0, sigma)
-        optimisation.sigma_vec.scaling = sigma_v
+        # scale the variable so we can use the same sigma for all of them
+        scale_var = sigma_v
+        x0_scale = x0/scale_var
 
-        # Start loop for function evaluation
+        # Specify the batch size
+        batch_size = 1 # assuming no parallelisation
+
+        # Initialize optimizer with Nevergrad
+        parametrization = ng.p.Array(init=x0_scale).set_mutation(sigma=1.0)
+        optimiser = ng.optimizers.NgIohTuned(parametrization=parametrization, budget=int(1.1*self.sc_obj.max_eval), num_workers=batch_size)
+
+        # Optimization loop
         while not self.sc_obj.is_converged:
-            #while not optimisation.stop():
-            sim = optimisation.ask()
-            fsim = [func(x, iterations) for x in sim]
-            optimisation.tell(sim, fsim)
-            #optimisation.logger.add()  # write data to disc to be plotted
-            #optimisation.disp()
+            # Generate num_workers candidate_sim
+            candidate_sim = [optimiser.ask() for _ in range(batch_size)]
+            sim = [cand.value * scale_var for cand in candidate_sim]
 
-            # some messages for the fans
+            # Evaluate all candidate_sim in the batch
+            fsim = np.zeros(batch_size)
+            for eval in range(batch_size):
+                result = func(sim[eval], iterations)  # Evaluate the candidate's value
+                fsim[eval] = result  # Store the result
+
+            # Pass the candidate_sim and their evaluations to the optimizer
+            for candidate, value in zip(candidate_sim, fsim):
+                optimiser.tell(candidate, value)
+
+            # Log progress
             logger = logging.getLogger("oc_logger")
-            logger.info("CMA-ES - average FoM: {} / std_dev: {}".format(np.mean(fsim), np.std(fsim)))
-            # Increase the CMAES iteration
+            #fsim = [val[1] for val in candidate_sim]
+            logger.info("Nevergrad's optimised Optimisation - Average FoM: {} / Std Dev: {}".format(np.mean(fsim), np.std(fsim)))
+
             iterations += 1
 
-            # Check stopping criteria
+            # Custom stopping criteria
             if self.callback is not None:
                 if not self.callback():
                     self.sc_obj.is_converged = True
-                    self.sc_obj.terminate_reason = "User stopped the optimization or higher order " \
-                                                   "stopping criterion has been reached"
+                    self.sc_obj.terminate_reason = "User stopped the optimization or higher-order criterion reached"
             self.sc_obj.check_stopping_criteria(sim, fsim, calls_number[0])
-            # Check for error in the communication method
-        # END of while loop
-        # Fix the iteration number
-        iterations = iterations - 1
-        # Optimal parameters and value
-        x = optimisation.result.xbest
-        fval = optimisation.result.fbest
-        # Return the best point
-        print("Best Result: {0} ,  in {1} evaluations.".format(fval, calls_number[0]))
+
+            #self.sc_obj.check_simplex_criterion(sim)
+            #self.sc_obj.check_f_size(fsim)
+            #self.sc_obj.check_advanced_stopping_criteria()
+
+        # Finalize results
+        best_candidate = optimiser.provide_recommendation()
+        print("Best Result: {0} ,  in {1} evaluations.".format(best_candidate.loss, calls_number[0]))
         result_custom = {
-            "F_min_val": fval,
-            "X_opti_vec": x,
-            "NitUsed": iterations,
+            "F_min_val": best_candidate.loss,
+            "X_opti_vec": best_candidate.value,
+            "NitUsed": iterations - 1,
             "NfunevalsUsed": calls_number[0],
             "terminate_reason": self.sc_obj.terminate_reason,
         }
+
         return result_custom
