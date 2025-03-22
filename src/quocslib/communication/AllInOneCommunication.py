@@ -36,7 +36,8 @@ class AllInOneCommunication:
                  create_logfile: bool = True,
                  console_info: bool = True,
                  dump_format: str = "npz",
-                 optimization_direction: str = "minimization"):
+                 optimization_direction: str = "minimization",
+                 continuation_datetime: str = "no"):
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -58,25 +59,43 @@ class AllInOneCommunication:
             (self.message_signal, self.FoM_plot_signal, self.controls_update_signal) = comm_signals_list
         # Pre job name
         pre_job_name = interface_job_name
+        # Optimization folder name
+        optimization_folder = "QuOCS_Results"
         # Datetime for 1-1 association
-        self.date_time = str(time.strftime("%Y%m%d_%H%M%S"))
+        # Check, if optimization is continuation
+        self.is_continuation = False
+        queued_logger_info = None
+        if continuation_datetime == "no": 
+            self.date_time = str(time.strftime("%Y%m%d_%H%M%S"))
+        else:
+            continuation_job_folder = os.path.join(os.getcwd(), optimization_folder, continuation_datetime + "_" + pre_job_name)
+            if not os.path.isdir(continuation_job_folder):
+                queued_logger_info = "Continuation attempt: No Folder " + continuation_job_folder + " found, new folder created"
+                self.date_time = str(time.strftime("%Y%m%d_%H%M%S"))
+            else:
+                self.date_time = continuation_datetime
+                self.is_continuation = True
+                queued_logger_info = "Continue optimization from " + continuation_datetime + "_" + pre_job_name
         # Client job name to send to the Server
         self.client_job_name = self.date_time + "_" + pre_job_name
         ###
         # Logging, Results, Figure of merit evaluation ...
         ###
-        # Optimization folder
-        optimization_folder = "QuOCS_Results"
+        # Optimization folder 
         self.results_path = os.path.join(os.getcwd(), optimization_folder, self.client_job_name)
         if not os.path.isdir(os.path.join(os.getcwd(), optimization_folder)):
             os.makedirs(os.path.join(os.getcwd(), optimization_folder))
         # Create the folder for logging and results
-        os.makedirs(self.results_path)
+        if not os.path.isdir(self.results_path):
+            os.makedirs(self.results_path)
         # Write the current quocs lib version in the file
         with open(os.path.join(self.results_path, "quocs_version.txt"), "w") as version_file:
             version_file.write("QuOCS library version: {0}".format(quocslib_version))
         # Create logging object
         self.logger = create_logger(self.results_path, self.date_time, create_logfile=create_logfile, console_info=console_info)
+        # print queued logger info 
+        if not queued_logger_info == None:
+            self.logger.info(queued_logger_info)
         # Print function evaluation and figure of merit
         self.print_general_log = True
         # Figure of merit object
