@@ -16,6 +16,7 @@
 
 import os
 import time
+import datetime
 from typing import List
 
 from quocslib.utils.AbstractFoM import AbstractFoM
@@ -59,7 +60,7 @@ class AllInOneCommunication:
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
-        self.date_time = str(time.strftime("%Y%m%d_%H%M%S"))
+        self.date_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         # Client job name to send to the Server
         self.client_job_name = self.date_time + "_" + pre_job_name
         ###
@@ -67,9 +68,19 @@ class AllInOneCommunication:
         ###
         # Optimization folder
         optimization_folder = "QuOCS_Results"
-        self.results_path = os.path.join(os.getcwd(), optimization_folder, self.client_job_name)
         if not os.path.isdir(os.path.join(os.getcwd(), optimization_folder)):
             os.makedirs(os.path.join(os.getcwd(), optimization_folder))
+        # Create the folder for logging and results
+        self.results_path = os.path.join(os.getcwd(), optimization_folder, self.client_job_name)
+        # # check if folder already exists
+        # if os.path.isdir(self.results_path):
+        #     # if it exists, include microseconds of time
+        #     self.date_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        #     self.client_job_name = self.date_time + "_" + pre_job_name
+        #     self.results_path = os.path.join(os.getcwd(), optimization_folder, self.client_job_name)
+        # check if it already exists
+        if os.path.isdir(self.results_path):
+            raise FileExistsError("The folder {0} already exists. Please change the job name.".format(self.results_path))
         # Create the folder for logging and results
         os.makedirs(self.results_path)
         # Write the current quocs lib version in the file
@@ -81,7 +92,6 @@ class AllInOneCommunication:
         self.print_general_log = True
         # Figure of merit object
         self.FoM_obj = FoM_obj
-        # TODO Thinks whether it is a good idea dumping the results
         # Dumping data object
         self.dump_obj = dump_attribute(self.results_path, self.date_time, dump_format)
         # Handle exit object

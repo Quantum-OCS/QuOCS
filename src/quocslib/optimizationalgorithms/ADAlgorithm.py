@@ -77,13 +77,13 @@ class ADAlgorithm(OptimizationAlgorithm):
                 self.rng = RandomNumberGenerator(seed_number=seed_number)
             except (TypeError, KeyError):
                 default_seed_number = np.random.randint(0, 10000)
-                message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+                message = "Seed number must be an integer value. Set {0} as a seed number for this optimization".format(
                     default_seed_number)
                 self.rng = RandomNumberGenerator(seed_number=default_seed_number)
                 self.comm_obj.print_logger(message, level=30)
         else:
             default_seed_number = np.random.randint(0, 10000)
-            message = "Seed number must be an integer value. Set {0} as a seed numer for this optimization".format(
+            message = "Seed number must be an integer value. Set {0} as a seed number for this optimization".format(
                 default_seed_number)
             self.rng = RandomNumberGenerator(seed_number=default_seed_number)
             self.comm_obj.print_logger(message, level=30)
