@@ -62,5 +62,5 @@ def test_parameter_optimization():
     t1.start()
     t2.start()
 
-    t1.join()
-    t2.join()
+    t1.join(timeout=10)
+    t2.join(timeout=10)
