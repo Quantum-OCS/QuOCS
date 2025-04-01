@@ -37,7 +37,8 @@ class AllInOneCommunication:
                  create_logfile: bool = True,
                  console_info: bool = True,
                  dump_format: str = "npz",
-                 optimization_direction: str = "minimization"):
+                 optimization_direction: str = "minimization",
+                 use_microsecond_name: bool = False):
         """
         In case the user chooses to run the optimization in his device, this class is used by the OptimizationAlgorithm.
         The objects to dump the results, calculate the figure of merit, and the logger are created here. 
@@ -60,7 +61,9 @@ class AllInOneCommunication:
         # Pre job name
         pre_job_name = interface_job_name
         # Datetime for 1-1 association
-        self.date_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        self.date_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        if use_microsecond_name:
+            self.date_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         # Client job name to send to the Server
         self.client_job_name = self.date_time + "_" + pre_job_name
         ###
