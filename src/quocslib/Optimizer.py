@@ -55,6 +55,7 @@ class Optimizer:
         self.interface_job_name = optimization_dict.setdefault("optimization_client_name", "run")
         self.create_logfile = optimization_dict.setdefault("create_logfile", True)
         self.console_info = optimization_dict.setdefault("console_info", True)
+        self.use_microsecond_name = optimization_dict.setdefault("use_microsecond_name", False)
         self.dump_format = optimization_dict.setdefault("dump_format", "npz")
         self.optimization_direction = optimization_dict["algorithm_settings"].setdefault("optimization_direction",
                                                                                          "minimization")
@@ -66,7 +67,8 @@ class Optimizer:
                                                        create_logfile=self.create_logfile,
                                                        console_info=self.console_info,
                                                        dump_format=self.dump_format,
-                                                       optimization_direction=self.optimization_direction)
+                                                       optimization_direction=self.optimization_direction,
+                                                       use_microsecond_name=self.use_microsecond_name)
 
         self.results_path = self.communication_obj.results_path
 

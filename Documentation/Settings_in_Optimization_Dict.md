@@ -12,6 +12,7 @@ Assuming you define the settings in the form of a .json file, the general struct
     "optimization_client_name": "Name_of_your_Optimization",
     "create_logfile": true,  # determines if you want to save the log-file
     "console_info": true, # determines if you want the optimization output printed to the console
+    "use_microsecond_name": false, # if true uses microseconds in name to avoid duplicates in name (e.g. if executed many times in parallel)
     "dump_format": "npz",  # format of the results file
     "algorithm_settings": {...},  # settings related to the algorithm
     "pulses": [{...}, {...}, ...],  # list of pulses and their settings
