@@ -149,7 +149,9 @@ class ADAlgorithm(OptimizationAlgorithm):
         initial_variation = random_variation * self.controls.get_sigma_variation()
         # Define the initial
         init_xx = self.controls.get_mean_value() + initial_variation
-
+        # Initialize the best xx vector for this SI
+        self.best_xx = self.controls.get_mean_value().copy()
+        
         def get_gradient(x):
             return np.array(jax.jit(jax.grad(self.get_gradient))(x))
 
